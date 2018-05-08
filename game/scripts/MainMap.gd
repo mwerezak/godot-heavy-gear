@@ -5,8 +5,8 @@ onready var camera = $Camera
 onready var world = $WorldMap
 
 var ui_contexts = {
-	DevSpawnUnit = preload("res://scripts/UIContext/SpawnUnitTool.tscn"),
-	DevDeleteUnit = preload("res://scripts/UIContext/DeleteUnitTool.tscn"),
+	dev_spawn_unit = preload("res://scripts/UIContext/SpawnUnitTool.tscn"),
+	dev_delete_unit = preload("res://scripts/UIContext/DeleteUnitTool.tscn"),
 }
 
 func _ready():

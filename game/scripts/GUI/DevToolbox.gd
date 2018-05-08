@@ -3,8 +3,8 @@ extends Control
 onready var ui_context = $"/root/MainMap".find_node("UIContextPanel") #this sucks
 
 var tool_data = [
-	{ name = "Spawn Unit", ui_context = "DevSpawnUnit" },
-	{ name = "Delete Unit", ui_context = "DevDeleteUnit" },
+	{ name = "Spawn Unit", ui_context = "dev_spawn_unit" },
+	{ name = "Delete Unit", ui_context = "dev_delete_unit" },
 ]
 var buttons = {}
 
