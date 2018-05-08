@@ -1,5 +1,63 @@
 rev 0
 
+## House Rules for HGB based games:
+
+### Command Activation Comms Check and Turn Order
+
+#### Command Comms Checks
+
+At the start of each model's activation the player determines if the model is in-command or out-of-command.
+
+For example, if the CGL is a battalion leader:
+
+1. The battalion leader is the Commander for each company leader.
+2. Each company leader is the Commander for each platoon leader.
+3. Each platoon leader is the Commander for each of their subunits.
+
+Any time a model becomes affected by passive ECM when it was not already, it needs to make a Comms check. If it fails, it becomes out-of-command.
+
+Any time an in-command model would start its activation while affected by passive ECM, it needs to make a Comms check. If it fails, the model becomes out-of-command and loses its active command link. This will cause its activation to become deferred (see below).
+
+Additionally, during the action phase, a successful EW Jamming action can force the affected model to become out-of-command (without a Comms check) instead of giving a haywire token.
+
+Any time a model is out-of-command all NON-COMMANDER units under it automatically become out-of-command as well.
+
+Units that are out-of-command may make a Comms check at the beginning of their activation. If they succeed, they return to being in-command.
+
+Any Comms check related to in-command or out-of-command status may be contested with an EW reaction.
+
+Models are considered to have an active command link if they are in-command and all commanders above them up the chain to and including the CGL are also in-command.
+
+Models without an active command link must be activated after all models with an active command link are activated (see next section).
+
+Models that are out-of-command may not reaction fire (i.e. Snap Fire), otherwise going last wouldn't be that different from normal rules. However, models that are in-command but without an active command link go last, but may still reaction fire.
+
+Models that are in formation with the CGL or in formation with a commander that is in formation with the CGL may not become out-of-command, unless the CGL itself is out-of-command.
+
+#### Activation Turn Order
+
+During the Action Phase each player takes turns activating in-command models. The player that won initiative that turn goes first. Each time a player activates, if he/she has more than N times the number of in-command models as all other players, heshe activates up to floor(N) models before the next player goes.
+
+After all in-command models are activated, then out-of-command models may be activated. Apply the same rules as above, but now only for out-of-command models.
+
+#### Cleanup Phase
+
+Resolution of Special Weapon effects, and refreshment of model Actions, Command, and Skill points are not performed in the cleanup phase. Instead, these steps are taken for each model at the beginning of their next activation.
+
+### Optional Infantry Rules
+
+#### Infantry Concealment
+
+At the end of their activation, any non-mounted infantry models are considered in light partial cover (if they do not otherwise benefit from any better source of cover), if they have not moved more than 2" since the start of their activation and are not engaged in melee. 
+
+This benefit continues until the model moves more than 2" during its activation or is engaged in melee.
+
+At the end of their activation, any non-mounted infantry models may take a Hiding Action (7.4) without spending an action point, if they have not moved more than 2" since the start of their activation and are not engaged in melee.
+
+
+
+## House Rules for HGS based games:
+
 ### Command Activation Turn Order
 
 During the Action Phase each player takes turns activating in-command cadres. The player that won initiative that turn goes first. Each time a player activates, if he/she has more than N times the number of in-command cadres as all other players, heshe activates up to floor(N) cadres before the next player goes.
