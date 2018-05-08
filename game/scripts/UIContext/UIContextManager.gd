@@ -1,14 +1,15 @@
-extends Node
+extends Control
+
+onready var container = $VBoxContainer
 
 var ui_contexts = {}
-
 var context_stack = []
 
 func register(ui_context):
 	assert(!ui_contexts.has(ui_context.name))
 	ui_contexts[ui_context.name] = ui_context
 	ui_context.hide()
-	add_child(ui_context)
+	container.add_child(ui_context)
 
 func activate(context_name):
 	if is_active_or_suspended(context_name):

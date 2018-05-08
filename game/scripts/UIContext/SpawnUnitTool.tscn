@@ -2,12 +2,12 @@
 
 [ext_resource path="res://scripts/UIContext/SpawnUnitTool.gd" type="Script" id=1]
 
-[node name="SpawnUnit" type="Control"]
+[node name="SpawnUnit" type="Container" index="0"]
 
 anchor_left = 0.0
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -20,9 +20,12 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 [node name="Label" type="Label" parent="." index="0"]
 
 anchor_left = 0.0
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
+margin_top = -7.0
+margin_right = 71.0
+margin_bottom = 7.0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false

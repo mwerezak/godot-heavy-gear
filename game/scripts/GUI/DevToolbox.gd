@@ -1,6 +1,6 @@
 extends Control
 
-onready var ui_context = $"/root/MainMap".find_node("UIContext") #this sucks
+onready var ui_context = $"/root/MainMap".find_node("UIContextPanel") #this sucks
 
 var tool_data = [
 	{ name = "Spawn Unit", ui_context = "DevSpawnUnit" },
