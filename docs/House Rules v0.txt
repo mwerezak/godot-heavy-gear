@@ -1,0 +1,42 @@
+rev 0
+
+### Command Activation Turn Order
+
+During the Action Phase each player takes turns activating in-command cadres. The player that won initiative that turn goes first. Each time a player activates, if he/she has more than N times the number of in-command cadres as all other players, heshe activates up to floor(N) cadres before the next player goes.
+
+After all in-command cadres are activated, then out-of-command cadres may be activated. Apply the same rules as above, but now only for out-of-command cadres.
+
+If a cadre is out-of-command and needs to appoint a new leader, this is done at the start of that cadre's next activation. Similarly, cadres that become out-of-command due to EW Jamming typically regain command at the start of their next activation.
+
+### Unarmored Unit Hit Boxes
+All unarmored units (infantry, guns, and others) can have up to 3 hit boxes. Failing a save removes a hit box.
+
+Infantry Squad         - 3 hit boxes
+Inf Weapon Team        - 2 hit boxes
+Small/Specialist Team  - 1 hit box
+Small Gun              - 2 hit boxes
+Large Gun              - 3 hit boxes
+Small Vehicle (e.g. Jeep Sized)  - 2 hit boxes
+Large Vehicle (e.g. Truck Sized) - 3 hit boxes
+
+Infantry teams have Action Points equal to the number of hit boxes remaining.
+
+### Infantry and Light Vehicle Firepower Tests
+
+Infantry and Gun teams that are hit make saves as in vanilla HGS.
+
+Light vehicles however roll against the firepower of the attacking weapon, or 9+, whichever is worse for the defender.
+
+Alternative Rule: Light vehicles make firepower tests like regular vehicles, but skip the armor check due to not having armor.
+
+### Armor Conversion from Heavy Gear Blitz
+As a rough rule of thumb, multiply AR by 8/6 to get Front Armor. For some units (e.g. heavy tanks) this may not give a high enough value, so multiply more, potentially up to 2x.
+
+### Fragile/Sturdy
+Units without Fragile or Sturdy have a -1 to all rolls when they have 2 hitboxes remaining, and a -2 when they have 1 hitbox remaining
+
+Units with Sturdy have a -1 when they have 1 hitbox remaining.
+
+Units with Fragile have a -1 when they have 4 or less hitboxes remaing, a -2 when they have 2 hitboxes remaining, and a -4 when they have 1 hitbox remaining.
+
+An important exception to all of the above is that undamaged units do not suffer penalties due to the number of hitboxes remaining.

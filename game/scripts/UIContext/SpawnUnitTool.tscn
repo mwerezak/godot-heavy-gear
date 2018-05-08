@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scripts/UIContext/SpawnUnitTool.gd" type="Script" id=1]
+
+[node name="SpawnUnit" type="Control"]
+
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 1 )
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
+
+[node name="Label" type="Label" parent="." index="0"]
+
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+text = "Spawn Unit"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin" ]
+
+
