@@ -39,7 +39,7 @@ func deactivated(context_manager):
 	selection = null
 	select_button.disabled = true
 
-## if we're hidden, also hide any selections
+## if we're hidden, also hide our selection
 func hide():
 	.hide()
 	if selection:
@@ -51,10 +51,11 @@ func show():
 		selection.show()
 
 func objects_input(map, objects, event):
-	var cur_selected = selection.selected if selection else null
 	if event.is_action_pressed("click_select"):
 		if selection: selection.cleanup()
 		selection = unit_selector.create_selection(objects, selection)
-		unit_selector.highlight_objects(objects, cur_selected)
+		select_button.disabled = false
+		unit_selector.highlight_objects(objects, selection.selected)
 	elif event is InputEventMouseMotion:
+		var cur_selected = selection.selected if selection else null
 		unit_selector.highlight_objects(objects, cur_selected)
