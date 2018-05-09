@@ -2,19 +2,21 @@
 
 extends Control
 
+var context_manager = null 
+
 func _ready():
 	hide()
 
-func activated(context_manager, args):
+func activated(args):
 	show()
 
-func deactivated(context_manager):
+func deactivated():
 	hide()
 
-func resumed(context_manager):
+func resumed():
 	show()
 
-func suspended(context_manager):
+func suspended():
 	hide()
 
 func position_input(map, position, event):

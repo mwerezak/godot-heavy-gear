@@ -4,11 +4,13 @@ onready var ui_context = $HUDLayer/LowerLeftPanel/UIContextPanel
 onready var camera = $Camera
 onready var world = $WorldMap
 
+onready var move_marker = $MoveMarker
+
 var ui_contexts = {
 	dev_spawn_unit = preload("res://scripts/UIContext/SpawnUnitTool.tscn"),
 	dev_delete_unit = preload("res://scripts/UIContext/DeleteUnitTool.tscn"),
-  
-  activate_unit = preload("res://scripts/UIContext/ActivateUnit.tscn"),
+	activate_unit = preload("res://scripts/UIContext/ActivateUnit.tscn"),
+	move_unit = preload("res://scripts/UIContext/MoveUnit.tscn"),
 }
 
 func _ready():

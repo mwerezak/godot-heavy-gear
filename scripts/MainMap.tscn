@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/MainMap.gd" type="Script" id=1]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=3]
-[ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/UIContext/UIContextPanel.tscn" type="PackedScene" id=5]
+[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=4]
+[ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/UIContext/UIContextPanel.tscn" type="PackedScene" id=6]
 
 [node name="MainMap" type="Node"]
 
@@ -40,7 +41,12 @@ editor_draw_drag_margin = true
 script = ExtResource( 3 )
 _sections_unfolded = [ "Editor", "Limit", "Smoothing", "Visibility" ]
 
-[node name="HUDLayer" type="CanvasLayer" parent="." index="2"]
+[node name="MoveMarker" type="Sprite" parent="." index="2"]
+
+visible = false
+texture = ExtResource( 4 )
+
+[node name="HUDLayer" type="CanvasLayer" parent="." index="3"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -48,7 +54,7 @@ rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="DevToolbox" parent="HUDLayer" index="0" instance=ExtResource( 4 )]
+[node name="DevToolbox" parent="HUDLayer" index="0" instance=ExtResource( 5 )]
 
 [node name="LowerLeftPanel" type="VBoxContainer" parent="HUDLayer" index="1"]
 
@@ -68,7 +74,7 @@ size_flags_vertical = 1
 alignment = 2
 _sections_unfolded = [ "Grow Direction" ]
 
-[node name="UIContextPanel" parent="HUDLayer/LowerLeftPanel" index="0" instance=ExtResource( 5 )]
+[node name="UIContextPanel" parent="HUDLayer/LowerLeftPanel" index="0" instance=ExtResource( 6 )]
 
 grow_vertical = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]

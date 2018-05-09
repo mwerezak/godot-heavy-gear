@@ -10,7 +10,7 @@ class OverlayFactory:
 		_modulate_color = modulate_color
 		
 		var overlay_image = Image.new()
-		overlay_image.load("res://icons/cadre_64.png")
+		overlay_image.load("res://icons/selection_marker_16.png")
 		
 		_overlay_texture = ImageTexture.new()
 		_overlay_texture.create_from_image(overlay_image)
@@ -20,24 +20,24 @@ class OverlayFactory:
 		var overlay = Sprite.new()
 		overlay.texture = _overlay_texture
 		overlay.modulate = _modulate_color
-		overlay.scale = Vector2(1,1)*0.25
-		overlay.offset = Vector2(0, -45/0.25)
+		overlay.offset = Vector2(0, -45)
 		return overlay
 
+export(Color) var hover_color = Color(0.7, 0.7, 0.7, 0.5)
+export(Color) var selected_color = Color(0.35, 1.0, 0.35, 1.0)
 
 var unit_selector = UnitSelectorSingle.new(
-	OverlayFactory.new(Color(0.7, 0.7, 0.7)),  #hover
-	OverlayFactory.new(Color(0.35, 1,0, 0.35)) #selected
+	OverlayFactory.new(hover_color),  
+	OverlayFactory.new(selected_color)
 )
 
-var selection = null
+var selection = null setget set_selection
 
-onready var select_button = $MarginContainer/HBoxContainer/Activate
+onready var activate_button = $MarginContainer/HBoxContainer/Activate
 
-func deactivated(context_manager):
-	.deactivated(context_manager)
-	selection = null
-	select_button.disabled = true
+func deactivated():
+	.deactivated()
+	set_selection(null)
 
 ## if we're hidden, also hide our selection
 func hide():
@@ -53,9 +53,22 @@ func show():
 func objects_input(map, objects, event):
 	if event.is_action_pressed("click_select"):
 		if selection: selection.cleanup()
-		selection = unit_selector.create_selection(objects, selection)
-		select_button.disabled = false
-		unit_selector.highlight_objects(objects, selection.selected)
+		var new_selection = unit_selector.create_selection(objects, selection)
+		
+		#var confirm_selection = new_selection.equals(selection)
+		set_selection(new_selection)
+		unit_selector.highlight_objects(objects, new_selection.selected)
+		#if confirm_selection: _activate_button_pressed()
+		
 	elif event is InputEventMouseMotion:
 		var cur_selected = selection.selected if selection else null
 		unit_selector.highlight_objects(objects, cur_selected)
+
+func set_selection(s):
+	selection = s
+	activate_button.disabled = (s == null)
+
+func _activate_button_pressed():
+	var activate_selection = selection
+	set_selection(null)
+	context_manager.activate("move_unit", { selection = activate_selection })

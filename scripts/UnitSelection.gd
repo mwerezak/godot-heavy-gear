@@ -19,9 +19,6 @@ func extend(selection):
 		var overlay = selection._selected_overlays[object]
 		add(object, overlay)
 
-func get_selected():
-	return _selected_overlays.keys()
-
 func hide():
 	for overlay in _selected_overlays.values():
 		overlay.hide()
@@ -33,6 +30,16 @@ func show():
 func cleanup():
 	for overlay in _selected_overlays.values():
 		overlay.queue_free()
+
+func get_selected():
+	return _selected_overlays.keys()
+
+func has_all(other):
+	return _selected_overlays.has_all(other.selected)
+
+func equals(other):
+	if !other: return false
+	return other.has_all(self) && self.has_all(other)
 
 ## Remove all selected overlays when the selection is deleted.
 #func _notification(n):

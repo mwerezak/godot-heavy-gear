@@ -4,6 +4,8 @@ extends Camera2D
 var pan_speed = 400
 var zoom_step = 1.1
 
+## TODO mouse capture panning
+
 func _ready():
 	pass
 
