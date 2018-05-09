@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/UIContext/ActivateUnit.gd" type="Script" id=1]
 
-[node name="ActivateUnit" type="Container"]
+[node name="ActivateUnit" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0

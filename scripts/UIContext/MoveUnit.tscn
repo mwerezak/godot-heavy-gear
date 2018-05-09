@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/UIContext/MoveUnit.gd" type="Script" id=1]
 
-[node name="MoveUnit" type="Container" index="0"]
+[node name="MoveUnit" type="Container"]
 
 anchor_left = 0.0
 anchor_top = 0.0

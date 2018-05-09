@@ -19,11 +19,15 @@ func highlight_objects(hover_objects, exclude = null):
 		if !exclude || !exclude.has(object):
 			_attach_hover_overlay(object)
 
+func get_highlighted_objects():
+	return _hover_overlays.keys()
+
 ## returns a new Selection
 ## should be overriden by subclasses
 ## by default, just select all highlighted objects
 func create_selection(select_objects):
 	return _create_selection(select_objects)
+
 
 func _attach_hover_overlay(object):
 	if !_hover_overlays.has(object):
