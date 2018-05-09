@@ -29,7 +29,7 @@ func _unhandled_input(event):
 		## TODO - terrain events
 		
 		var selected = []
-		for selectable in get_tree().get_nodes_in_group("mouse_selectable"):
+		for selectable in get_tree().get_nodes_in_group("selectable_objects"):
 			if selectable.has_mouse:
 				selected.push_back(selectable)
 		if not selected.empty():
