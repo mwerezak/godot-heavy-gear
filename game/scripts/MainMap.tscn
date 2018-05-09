@@ -70,8 +70,6 @@ _sections_unfolded = [ "Grow Direction" ]
 
 [node name="UIContextPanel" parent="HUDLayer/LowerLeftPanel" index="0" instance=ExtResource( 5 )]
 
-margin_top = 16.0
-margin_bottom = 40.0
 grow_vertical = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 

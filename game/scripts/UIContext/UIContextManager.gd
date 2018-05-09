@@ -5,13 +5,17 @@ onready var container = $VBoxContainer
 var ui_contexts = {}
 var context_stack = []
 
-func register(ui_context):
-	assert(!ui_contexts.has(ui_context.name))
-	ui_contexts[ui_context.name] = ui_context
+func register(ui_context, context_name):
+	assert(!ui_contexts.has(context_name))
+	print(context_name)
+	ui_contexts[context_name] = ui_context
+	ui_context.name = context_name
 	ui_context.hide()
 	container.add_child(ui_context)
 
-func activate(context_name):
+func activate(context_name, activation_args=null):
+	activation_args = activation_args if activation_args else {}
+	
 	if is_active_or_suspended(context_name):
 		return
 	
@@ -21,7 +25,7 @@ func activate(context_name):
 	
 	var next_context = ui_contexts[context_name]
 	context_stack.push_back(next_context)
-	next_context.activated(self)
+	next_context.activated(self, activation_args)
 
 func deactivate(context_name):
 	if !context_name:

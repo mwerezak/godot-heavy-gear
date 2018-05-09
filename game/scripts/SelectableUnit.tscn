@@ -4,7 +4,7 @@
 [ext_resource path="res://icons/icon.png" type="Texture" id=2]
 [ext_resource path="res://icons/cadre_64.png" type="Texture" id=3]
 
-[node name="SelectableUnit" type="Node2D" groups=[
+[node name="SelectableUnit" type="Node2D" index="0" groups=[
 "mouse_selectable",
 ]]
 
@@ -40,7 +40,7 @@ visible = false
 position = Vector2( 0, -45 )
 scale = Vector2( 0.25, 0.25 )
 texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 
 [connection signal="mouse_entered" from="Collider" to="." method="collider_mouse_entered"]
 

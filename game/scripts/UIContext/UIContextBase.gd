@@ -5,7 +5,7 @@ extends Control
 func _ready():
 	hide()
 
-func activated(context_manager):
+func activated(context_manager, args):
 	show()
 
 func deactivated(context_manager):

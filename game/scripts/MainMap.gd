@@ -7,14 +7,18 @@ onready var world = $WorldMap
 var ui_contexts = {
 	dev_spawn_unit = preload("res://scripts/UIContext/SpawnUnitTool.tscn"),
 	dev_delete_unit = preload("res://scripts/UIContext/DeleteUnitTool.tscn"),
+  
+  activate_unit = preload("res://scripts/UIContext/ActivateUnit.tscn"),
 }
 
 func _ready():
 	## load and register UI Contexts
 	for context_name in ui_contexts:
 		var instance = ui_contexts[context_name].instance()
-		instance.name = context_name
-		ui_context.register(instance)
+		ui_context.register(instance, context_name)
+	
+	## load the initial context
+	ui_context.activate("activate_unit")
 
 ## capture any input events related to map objects and forward them to the ui_context
 func _unhandled_input(event):
