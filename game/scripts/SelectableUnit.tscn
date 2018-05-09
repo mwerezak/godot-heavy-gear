@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scripts/SelectableUnit.gd" type="Script" id=1]
 [ext_resource path="res://icons/icon.png" type="Texture" id=2]
-[ext_resource path="res://icons/cadre_64.png" type="Texture" id=3]
 
 [node name="SelectableUnit" type="Node2D" index="0" groups=[
 "selectable_objects",
@@ -33,14 +32,6 @@ _sections_unfolded = [ "Collision", "Pickable" ]
 
 build_mode = 0
 polygon = PoolVector2Array( -26.3511, 32.0606, 25.4142, 32.0606, 29.6202, 30.1194, 31.5614, 26.8841, 31.5614, -25.5284, 29.9437, -28.4402, 25.7378, -31.6755, -26.0276, -31.6755, -28.9394, -29.7343, -31.5277, -26.499, -31.8512, 23.9723, -30.8806, 28.1782 )
-
-[node name="SelectedMarker" type="Sprite" parent="." index="2"]
-
-visible = false
-position = Vector2( 0, -45 )
-scale = Vector2( 0.25, 0.25 )
-texture = ExtResource( 3 )
-_sections_unfolded = [ "Transform", "Visibility" ]
 
 [connection signal="mouse_entered" from="Collider" to="." method="_collider_mouse_entered"]
 

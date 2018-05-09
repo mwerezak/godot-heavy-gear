@@ -1,65 +1,60 @@
 extends "UIContextBase.gd"
 
-const marker_hover_color = Color(1,1,1)
-const marker_selected_color = Color(0.25, 0.8, 0.25)
+const UnitSelectorSingle = preload("res://scripts/UnitSelectorSingle.gd")
+
+class OverlayFactory:
+	var _overlay_texture
+	var _modulate_color
+	
+	func _init(modulate_color):
+		_modulate_color = modulate_color
+		
+		var overlay_image = Image.new()
+		overlay_image.load("res://icons/cadre_64.png")
+		
+		_overlay_texture = ImageTexture.new()
+		_overlay_texture.create_from_image(overlay_image)
+
+	
+	func create_overlay_node(object):
+		var overlay = Sprite.new()
+		overlay.texture = _overlay_texture
+		overlay.modulate = _modulate_color
+		overlay.scale = Vector2(1,1)*0.25
+		overlay.offset = Vector2(0, -45/0.25)
+		return overlay
+
+
+var unit_selector = UnitSelectorSingle.new(
+	OverlayFactory.new(Color(0.7, 0.7, 0.7)),  #hover
+	OverlayFactory.new(Color(0.35, 1,0, 0.35)) #selected
+)
+
+var selection = null
 
 onready var select_button = $MarginContainer/HBoxContainer/Activate
 
-var selected = null setget set_selected, get_selected
-
-func activated(context_manager, args):
-	.activated(context_manager, args)
-	selected = null
+func deactivated(context_manager):
+	.deactivated(context_manager)
+	selection = null
 	select_button.disabled = true
 
-func resumed(context_manager):
-	.resumed(context_manager)
-	select_button.disabled = (get_selected() == null)
+## if we're hidden, also hide any selections
+func hide():
+	.hide()
+	if selection:
+		selection.hide()
+
+func show():
+	.show()
+	if selection:
+		selection.show()
 
 func objects_input(map, objects, event):
-	var selected = get_selected()
+	var cur_selected = selection.selected if selection else null
 	if event.is_action_pressed("click_select"):
-		var idx = -1
-		if selected:
-			idx = objects.find(selected)
-		
-		var next_selected
-		if idx < 0:
-			#start with the first of the highlighed objects
-			set_selected(objects.front())
-		elif objects.size() > 1:
-			#cycle through highlighted objects
-			var next_object = objects[ (idx+1) % objects.size() ]
-			var prev_object = selected
-			set_selected(next_object)
-			highlight_object(prev_object)
-		
-		
+		if selection: selection.cleanup()
+		selection = unit_selector.create_selection(objects, selection)
+		unit_selector.highlight_objects(objects, cur_selected)
 	elif event is InputEventMouseMotion:
-		for object in objects:
-			if object != selected:
-				highlight_object(object)
-
-func set_selected(object):
-	var cur_selected = get_selected()
-	if cur_selected != object:
-		if cur_selected:
-			cur_selected.hide_selected_marker()
-		
-		selected = weakref(object)
-		if object:
-			object.show_selected_marker(marker_selected_color)
-			select_button.disabled = false
-		else:
-			select_button.disabled = true
-
-func get_selected():
-	return selected.get_ref() if selected else null
-
-func highlight_object(object):
-	object.show_selected_marker(marker_hover_color)
-	object.connect("mouse_exited", self, "_on_object_mouse_exited", [object], CONNECT_ONESHOT)
-
-func _on_object_mouse_exited(object):
-	if object != get_selected():
-		object.hide_selected_marker()
+		unit_selector.highlight_objects(objects, cur_selected)
