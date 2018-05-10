@@ -21,6 +21,10 @@ func deactivated():
 		move_marker.hide()
 		move_marker = null
 
+func _become_active():
+	._become_active()
+	move_button.grab_focus()
+
 func position_input(map, position, event):
 	if event.is_action_pressed("click_select"):
 		move_button.disabled = false

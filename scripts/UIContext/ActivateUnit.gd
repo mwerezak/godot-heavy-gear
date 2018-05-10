@@ -54,6 +54,10 @@ func show():
 	if selection:
 		selection.show()
 
+func _become_active():
+	._become_active()
+	activate_button.grab_focus()
+
 func objects_input(map, objects, event):
 	if event.is_action_pressed("click_select"):
 		if selection: selection.cleanup()
