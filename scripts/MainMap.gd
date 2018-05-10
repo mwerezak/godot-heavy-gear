@@ -14,6 +14,10 @@ var ui_contexts = {
 }
 
 func _ready():
+	## set camera limits
+	var map_rect = world.get_bounding_rect()
+	camera.set_limit_rect(map_rect)
+	
 	## load and register UI Contexts
 	for context_name in ui_contexts:
 		var instance = ui_contexts[context_name].instance()
