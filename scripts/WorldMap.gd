@@ -1,6 +1,14 @@
 extends Node2D
 
+const TERRAIN_CELL_SIZE = Vector2(256, 220)
+const UNIT_CELL_SIZE = TERRAIN_CELL_SIZE/4
+
 onready var terrain = $TerrainTiles
+onready var unit_grid = $UnitGrid
+
+func _ready():
+	terrain.cell_size = TERRAIN_CELL_SIZE
+	unit_grid.cell_size = UNIT_CELL_SIZE
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():

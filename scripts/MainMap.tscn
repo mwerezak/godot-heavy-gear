@@ -19,9 +19,13 @@ extends Label
 onready var root = get_tree().get_root().get_node(\"MainMap\")
 
 func _unhandled_input(event):
+	call_deferred(\"_update_text\")
+
+func _update_text():
 	var mouse_pos = root.world.get_global_mouse_position()
 	var hex_pos = root.world.terrain.world_to_map(mouse_pos)
-	var terrain_id = \"\" #root.world.get_terrain_at(mouse_pos).terrain_id
+	var terrain = root.world.get_terrain_at(mouse_pos)
+	var terrain_id = terrain.terrain_id if terrain else \"None\"
 	
 	var zoom = root.camera.zoom.x
 	text = \"%s %s x%.2f\" % [hex_pos, terrain_id, 1/zoom]"
