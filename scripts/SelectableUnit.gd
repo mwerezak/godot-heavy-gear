@@ -37,7 +37,9 @@ func _ready():
 	
 	collider.add_child(collider_region)
 	
+
 	update()
+
 
 ## draw the base footprint
 func _draw():
