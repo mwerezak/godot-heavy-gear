@@ -9,7 +9,6 @@ const TERRAIN_HEIGHT = 74*4 #296
 
 const UNITGRID_WIDTH = 16*4
 const UNITGRID_HEIGHT = 18*4
-const UNITGRID_OFFSET = Vector2(0,-18*2) #so that grid cells are centered in terrain hexes
 
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
@@ -31,8 +30,10 @@ func get_bounding_rect():
 func get_terrain_hex(world_pos):
 	return terrain.world_to_map(world_pos)
 
-## TODO
-## func get_terrain_center(cell_pos):
+## returns the position of the hex centre
+func get_terrain_pos(hex_pos):
+	var hex_origin = terrain.map_to_world(hex_pos)
+	return hex_origin + terrain.cell_size/2
 
 func get_terrain_at(world_pos):
 	var hex_pos = get_terrain_hex(world_pos)
@@ -48,13 +49,12 @@ func point_on_map(world_pos):
 	return tile_id >= 0
 
 func get_grid_cell(world_pos):
-	var cell_pos = unit_grid.world_to_map(world_pos - UNITGRID_OFFSET)
+	var cell_pos = unit_grid.world_to_map(world_pos)
 	return cell_pos
 
+## returns the position of the cell centre
 func get_grid_pos(cell_pos):
-	## grid cells have their origin at their upper-left corner.
-	## but we want to produce a position at the cell center
-	return unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2 + UNITGRID_OFFSET
+	return unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2
 
 func add_object(object, cell_pos):
 	add_child(object)
