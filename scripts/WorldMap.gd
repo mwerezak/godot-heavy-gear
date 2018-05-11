@@ -1,14 +1,16 @@
 extends Node2D
 
-const TERRAIN_CELL_SIZE = Vector2(256, 220)
-const UNIT_CELL_SIZE = TERRAIN_CELL_SIZE/4
+## dimensions of terrain hexes
+## it is important that these are both multiples of 4
+const TERRAIN_WIDTH  = 64*4 #256
+const TERRAIN_HEIGHT = 73*4 #292
 
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 
 func _ready():
-	terrain.cell_size = TERRAIN_CELL_SIZE
-	unit_grid.cell_size = UNIT_CELL_SIZE
+	terrain.cell_size = Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT*3/4)
+	unit_grid.cell_size = terrain.cell_size/4
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
@@ -34,7 +36,7 @@ func add_object(object):
 	assert point_on_map(object.position)
 	
 	#snap to grid
-	var cell_pos = terrain.world_to_map(object.position)
-	object.position = terrain.map_to_world(cell_pos)
+	var cell_pos = unit_grid.world_to_map(object.position)
+	object.position = unit_grid.map_to_world(cell_pos)
 	
 	add_child(object)

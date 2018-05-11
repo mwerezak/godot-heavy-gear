@@ -8,19 +8,22 @@ var TERRAIN_INFO = {
 		tile_id = 1,
 		name = "Grassland",
 		height = 0, #height of the terrain above elevation - e.g. forests
-		difficult = false,
+		difficult = false, #if true, certain types of movement through this terrain are more costly
+		dangerous = false, #if true, moving through this terrain may cause damage and immobilize the unit
 	},
 	sparse_forest = {
 		tile_id = 2,
 		name = "Sparse Forest",
-		height = 2,
+		height = 1.67,
 		difficult = false,
+		dangerous = false,
 	},
 	dense_forest = {
 		tile_id = 3,
 		name = "Dense Forest",
-		height = 2,
+		height = 2.5, #taller trees than sparse forest
 		difficult = true,
+		dangerous = false,
 	},
 }
 
