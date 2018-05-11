@@ -7,10 +7,10 @@ path="res://.import/terrain.svg-9d72706ca144de56377078ee9f621f94.stex"
 [deps]
 
 source_file="res://icons/terrain/terrain.svg"
-source_md5="b325132dd0c566eae8aa38a2c74f5670"
+source_md5="34f529dc75af3d27aaddb3f97677d43e"
 
 dest_files=[ "res://.import/terrain.svg-9d72706ca144de56377078ee9f621f94.stex" ]
-dest_md5="b7cef2cd8fe1b9908e702aaf2d516096"
+dest_md5="6babb1698341f8732fa6b42ecc9190cb"
 
 [params]
 

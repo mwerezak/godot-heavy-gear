@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dense_forest0.png-f69604f85a60870f86c6ad2e7609092f.stex"
+path="res://.import/grassland2.png-567b3119d465154ef3cb938604e96d29.stex"
 
 [deps]
 
-source_file="res://icons/terrain/dense_forest0.png"
-source_md5="db68c1f64e3aaea185414cb3a94b167d"
+source_file="res://icons/terrain/grassland2.png"
+source_md5="5928bd0055c8967bbf8e5b40738186e7"
 
-dest_files=[ "res://.import/dense_forest0.png-f69604f85a60870f86c6ad2e7609092f.stex" ]
-dest_md5="8972096d5bc9c628f2c48ce3e711a955"
+dest_files=[ "res://.import/grassland2.png-567b3119d465154ef3cb938604e96d29.stex" ]
+dest_md5="15a33ced96041a864cce768ab8f138c5"
 
 [params]
 
