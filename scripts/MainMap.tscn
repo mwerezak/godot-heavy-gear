@@ -1,14 +1,16 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://scripts/MainMap.gd" type="Script" id=1]
 [ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/UIContext/UIContextPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=4]
-[ext_resource path="res://icons/terrain/empty.png" type="Texture" id=5]
-[ext_resource path="res://scripts/HexCursor.gd" type="Script" id=6]
-[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://scripts/Camera.gd" type="Script" id=8]
-[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=9]
+[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=5]
+[ext_resource path="res://scripts/UnitCursor.gd" type="Script" id=6]
+[ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=7]
+[ext_resource path="res://scripts/TerrainCursor.gd" type="Script" id=8]
+[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://scripts/Camera.gd" type="Script" id=10]
+[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=11]
 
 [sub_resource type="GDScript" id=1]
 
@@ -63,10 +65,10 @@ anti_aliasing_size = 1
 size = 24
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 7 )
+font_data = ExtResource( 9 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node"]
+[node name="MainMap" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -129,16 +131,25 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
 [node name="WorldMap" parent="." index="1" instance=ExtResource( 4 )]
 
-[node name="HexCursor" type="Sprite" parent="WorldMap" index="1"]
+[node name="UnitCursor" type="Sprite" parent="WorldMap" index="1"]
 
-modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
+modulate = Color( 0.566406, 0.566406, 0.566406, 0.77349 )
 z_index = 1
 texture = ExtResource( 5 )
 centered = false
 script = ExtResource( 6 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
-[node name="Transparent" type="PanelContainer" parent="WorldMap/HexCursor" index="0"]
+[node name="TerrainCursor" type="Sprite" parent="WorldMap" index="2"]
+
+modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
+z_index = 1
+texture = ExtResource( 7 )
+centered = false
+script = ExtResource( 8 )
+_sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
+
+[node name="Transparent" type="PanelContainer" parent="WorldMap/TerrainCursor" index="0"]
 
 anchor_left = 0.5
 anchor_top = 0.0
@@ -157,7 +168,7 @@ size_flags_vertical = 1
 custom_styles/panel = SubResource( 2 )
 _sections_unfolded = [ "Margin", "Mouse", "Rect", "Size Flags", "custom_styles" ]
 
-[node name="LocLabel" type="Label" parent="WorldMap/HexCursor/Transparent" index="0"]
+[node name="LocLabel" type="Label" parent="WorldMap/TerrainCursor/Transparent" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -204,12 +215,12 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-script = ExtResource( 8 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
 
 [node name="MoveMarker" type="Sprite" parent="." index="3"]
 
 visible = false
-texture = ExtResource( 9 )
+texture = ExtResource( 11 )
 
 
