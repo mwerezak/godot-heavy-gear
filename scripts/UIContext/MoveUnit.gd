@@ -4,18 +4,19 @@ onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 
 var move_marker = null
 
-var selection = null
+var selected_markers = null
 var move_unit = null
 var move_pos = null
 
 func activated(args):
 	.activated(args)
-	selection = args.selection
-	move_unit = selection.selected.front()
+	selected_markers = args.selected_markers
+	var move_marker = selected_markers.selected.front()
+	move_unit = move_marker.get_parent()
 
 func deactivated():
 	.deactivated()
-	selection.cleanup()
+	selected_markers.cleanup()
 	move_button.disabled = true
 	if move_marker:
 		move_marker.hide()
@@ -25,18 +26,18 @@ func _become_active():
 	._become_active()
 	move_button.grab_focus()
 
-func position_input(map, position, event):
+func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		move_button.disabled = false
 		if !move_marker: 
 			move_marker = map.move_marker
 			move_marker.show()
-		move_marker.global_position = position
+		move_marker.position = map.world.get_grid_pos(cell_pos)
 		
 		#var confirm_move = (move_pos - position).length() < 16 if move_pos else false
-		move_pos = position
+		move_pos = cell_pos
 		#if confirm_move: _move_button_pressed()
 
 func _move_button_pressed():
-	move_unit.global_position = move_pos
+	move_unit.cell_position = move_pos
 	context_manager.deactivate()

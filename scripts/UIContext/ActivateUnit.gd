@@ -61,12 +61,12 @@ func _become_active():
 	._become_active()
 	activate_button.grab_focus()
 
-func objects_input(map, objects, event):
+func map_markers_input(map, map_markers, event):
 	if event.is_action_pressed("click_select"):
 		if selection: selection.cleanup()
 		
-		var new_selection = unit_selector.create_selection(objects, selection)
-		unit_selector.highlight_objects(objects, new_selection.selected)
+		var new_selection = unit_selector.create_selection(map_markers, selection)
+		unit_selector.highlight_objects(map_markers, new_selection.selected)
 		
 		var confirm_selection = new_selection.equals(selection)
 		set_selection(new_selection)
@@ -74,7 +74,7 @@ func objects_input(map, objects, event):
 		
 	elif event is InputEventMouseMotion:
 		var cur_selected = selection.selected if selection else null
-		unit_selector.highlight_objects(objects, cur_selected)
+		unit_selector.highlight_objects(map_markers, cur_selected)
 
 func set_selection(s):
 	selection = s
@@ -88,4 +88,4 @@ func set_selection(s):
 func _activate_button_pressed():
 	var activate_selection = selection
 	set_selection(null)
-	context_manager.activate("move_unit", { selection = activate_selection })
+	context_manager.activate("move_unit", { selected_markers = activate_selection })

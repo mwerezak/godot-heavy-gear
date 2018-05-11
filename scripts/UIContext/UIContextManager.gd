@@ -64,12 +64,12 @@ func is_active(context_name):
 func get_active_context():
 	return context_stack.back() if context_stack.size() > 0 else null
 
-func position_input_event(map, position, event):
+func unit_cell_input_event(map, cell_pos, event):
 	var active_context = get_active_context()
 	if active_context:
-		active_context.position_input(map, position, event)
+		active_context.unit_cell_input(map, cell_pos, event)
 
-func objects_input_event(map, objects, event):
+func map_markers_input_event(map, map_markers, event):
 	var active_context = get_active_context()
 	if active_context:
-		active_context.objects_input(map, objects, event)
+		active_context.map_markers_input(map, map_markers, event)

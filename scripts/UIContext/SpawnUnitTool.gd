@@ -1,9 +1,8 @@
 extends "UIContextBase.gd"
 
-const SelectableUnit = preload("res://scripts/SelectableUnit.tscn")
+const Unit = preload("res://scripts/Units/Unit.tscn")
 
-func position_input(map, position, event):
+func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		var spawn_unit = SelectableUnit.instance()
-		spawn_unit.position = position
-		map.world.add_object(spawn_unit)
+		var spawn_unit = Unit.instance()
+		map.world.add_object(spawn_unit, cell_pos)

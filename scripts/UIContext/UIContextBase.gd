@@ -27,8 +27,8 @@ func _become_active():
 func _become_inactive():
 	hide()
 
-func position_input(map, position, event):
+func unit_cell_input(map, cell_pos, event):
 	pass
 
-func objects_input(map, objects, event):
+func map_markers_input(map, map_markers, event):
 	pass

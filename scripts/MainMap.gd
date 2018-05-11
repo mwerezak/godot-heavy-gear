@@ -29,14 +29,18 @@ func _ready():
 ## capture any input events related to map objects and forward them to the context_panel
 func _unhandled_input(event):
 	if event is InputEventMouse:
+		## unit grid position events
 		var mouse_pos = world.get_global_mouse_position()
-		context_panel.position_input_event(self, mouse_pos, event)
+		if world.point_on_map(mouse_pos):
+			var cell_pos = world.get_grid_cell(mouse_pos)
+			context_panel.unit_cell_input_event(self, cell_pos, event)
 		
 		## TODO - terrain events
 		
-		var selected = []
-		for selectable in get_tree().get_nodes_in_group("selectable_objects"):
-			if selectable.has_mouse:
-				selected.push_back(selectable)
-		if not selected.empty():
-			context_panel.objects_input_event(self, selected, event)
+		## map marker events
+		var map_markers = []
+		for marker_obj in get_tree().get_nodes_in_group("map_markers"):
+			if marker_obj.has_mouse:
+				map_markers.push_back(marker_obj)
+		if !map_markers.empty():
+			context_panel.map_markers_input_event(self, map_markers, event)

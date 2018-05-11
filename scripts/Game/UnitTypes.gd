@@ -2,7 +2,7 @@ extends Node
 
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
 
-const UNIT_INFO = {
+const INFO = {
 	dummy = {
 		name = "Dummy Unit",
 		movement = {
@@ -10,3 +10,4 @@ const UNIT_INFO = {
 		}
 	}
 }
+

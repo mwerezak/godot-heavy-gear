@@ -50,11 +50,6 @@ func get_grid_pos(cell_pos):
 	## but we want to produce a position at the cell center
 	return unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2 + UNITGRID_OFFSET
 
-func add_object(object):
-	assert point_on_map(object.position)
-	
-	#snap to grid
-	var cell_pos = get_grid_cell(object.position)
-	object.position = get_grid_pos(cell_pos)
-	
+func add_object(object, cell_pos):
 	add_child(object)
+	object.cell_position = cell_pos
