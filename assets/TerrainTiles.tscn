@@ -10,18 +10,25 @@
 [node name="Empty" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 1 )
+offset = Vector2( -128, -110 )
 _sections_unfolded = [ "Offset" ]
 
 [node name="Grass" type="Sprite" parent="." index="1"]
 
 texture = ExtResource( 2 )
+offset = Vector2( -128, -110 )
+_sections_unfolded = [ "Offset" ]
 
 [node name="SparseForest" type="Sprite" parent="." index="2"]
 
 texture = ExtResource( 3 )
+offset = Vector2( -128, -110 )
+_sections_unfolded = [ "Offset" ]
 
 [node name="DenseForest" type="Sprite" parent="." index="3"]
 
 texture = ExtResource( 4 )
+offset = Vector2( -128, -110 )
+_sections_unfolded = [ "Offset" ]
 
 

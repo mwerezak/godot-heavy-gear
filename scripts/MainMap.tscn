@@ -1,15 +1,35 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/MainMap.gd" type="Script" id=1]
 [ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/UIContext/UIContextPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/Camera.gd" type="Script" id=5]
-[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=6]
-[ext_resource path="res://icons/hex/empty.png" type="Texture" id=7]
-[ext_resource path="res://scripts/HexCursor.gd" type="Script" id=8]
+[ext_resource path="res://icons/hex/empty.png" type="Texture" id=5]
+[ext_resource path="res://scripts/HexCursor.gd" type="Script" id=6]
+[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://scripts/Camera.gd" type="Script" id=8]
+[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=9]
 
-[node name="MainMap" type="Node"]
+[sub_resource type="GDScript" id=2]
+
+script/source = "extends Label
+
+onready var root = get_tree().get_root().get_node(\"MainMap\")
+
+func _unhandled_input(event):
+	if event is InputEventMouseMotion:
+		var mouse_pos = root.world.get_global_mouse_position()
+		text = \"%s\" % root.world.terrain.world_to_map(mouse_pos)"
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 24
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 7 )
+_sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
+
+[node name="MainMap" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -22,9 +42,31 @@ rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="DevToolbox" parent="HUDLayer" index="0" instance=ExtResource( 2 )]
+[node name="LocLabel" type="Label" parent="HUDLayer" index="0"]
 
-[node name="LowerLeftPanel" type="VBoxContainer" parent="HUDLayer" index="1"]
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -40.0
+margin_bottom = 14.0
+grow_horizontal = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+script = SubResource( 2 )
+_sections_unfolded = [ "Grow Direction" ]
+
+[node name="DevToolbox" parent="HUDLayer" index="1" instance=ExtResource( 2 )]
+
+[node name="LowerLeftPanel" type="VBoxContainer" parent="HUDLayer" index="2"]
 
 anchor_left = 0.0
 anchor_top = 1.0
@@ -48,6 +90,39 @@ grow_vertical = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
 [node name="WorldMap" parent="." index="1" instance=ExtResource( 4 )]
+
+[node name="HexCursor" type="Sprite" parent="WorldMap" index="1"]
+
+modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
+texture = ExtResource( 5 )
+centered = false
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset", "Visibility" ]
+
+[node name="LocLabel" type="Label" parent="WorldMap/HexCursor" index="0"]
+
+anchor_left = 0.5
+anchor_top = 0.0
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -39.0
+margin_top = 30.0
+margin_right = 37.0
+margin_bottom = 67.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+text = "XXXX"
+align = 1
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "Size Flags", "custom_fonts" ]
 
 [node name="Camera" type="Camera2D" parent="." index="2"]
 
@@ -73,20 +148,12 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-script = ExtResource( 5 )
+script = ExtResource( 8 )
 _sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
 
 [node name="MoveMarker" type="Sprite" parent="." index="3"]
 
 visible = false
-texture = ExtResource( 6 )
-
-[node name="HexCursor" type="Sprite" parent="." index="4"]
-
-modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
-texture = ExtResource( 7 )
-centered = false
-script = ExtResource( 8 )
-_sections_unfolded = [ "Offset", "Visibility" ]
+texture = ExtResource( 9 )
 
 
