@@ -1,9 +1,15 @@
 extends Sprite
 
+const Constants = preload("res://scripts/Constants.gd")
+
 onready var world = $".."
 onready var loc_label = $Transparent/LocLabel
 
 var hex_position setget set_hex_position, get_hex_position
+
+func _ready():
+	z_as_relative = false
+	z_index = Constants.HUD_ZLAYER
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:

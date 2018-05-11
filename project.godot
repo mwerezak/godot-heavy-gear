@@ -17,8 +17,6 @@ config/icon="res://icons/terrain/sparse_forest4.png"
 [autoload]
 
 TerrainTypes="*res://scripts/Game/TerrainTypes.gd"
-Constants="*res://scripts/Constants.gd"
-Distance="*res://scripts/Game/Distance.gd"
 
 [input]
 

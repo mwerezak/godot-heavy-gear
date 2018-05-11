@@ -1,5 +1,7 @@
 extends Node2D
 
+const Constants = preload("res://scripts/Constants.gd")
+
 ## dimensions of terrain hexes
 ## it is important that these are both multiples of 4
 const TERRAIN_WIDTH  = 64*4 #256
@@ -15,6 +17,9 @@ onready var unit_grid = $UnitGrid
 func _ready():
 	terrain.cell_size = Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT*3/4)
 	unit_grid.cell_size = Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT*3/4)
+	
+	terrain.z_as_relative = false
+	terrain.z_index = Constants.TERRAIN_ZLAYER
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
