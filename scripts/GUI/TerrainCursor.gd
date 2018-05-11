@@ -9,6 +9,10 @@ func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var mouse_pos = world.get_global_mouse_position()
 		
+		## the actual terrain cell is a box that covers the upper 3/4 of the hex
+		## but we want the cursor to highlight a hex when the mouse is in the center
+		mouse_pos.y -= world.TERRAIN_HEIGHT/8
+		
 		## don't snap to blank hexes
 		if world.point_on_map(mouse_pos):
 			var hex_pos = world.terrain.world_to_map(mouse_pos)
