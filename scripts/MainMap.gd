@@ -29,13 +29,17 @@ func _ready():
 ## capture any input events related to map objects and forward them to the context_panel
 func _unhandled_input(event):
 	if event is InputEventMouse:
-		## unit grid position events
+		## unit cell position events
 		var mouse_pos = world.get_global_mouse_position()
 		if world.point_on_map(mouse_pos):
 			var cell_pos = world.get_grid_cell(mouse_pos)
 			context_panel.unit_cell_input_event(self, cell_pos, event)
 		
-		## TODO - terrain events
+		## terrain hex events
+		var hex_pos = world.get_terrain_hex(mouse_pos)
+		var terrain = world.get_terrain_at_hex(hex_pos)
+		if terrain:
+			context_panel.terrain_input_event(self, hex_pos, terrain, event)
 		
 		## map marker events
 		var map_markers = []

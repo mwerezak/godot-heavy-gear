@@ -28,12 +28,18 @@ func get_bounding_rect():
 	var cell_to_pixel = Transform2D(Vector2(cell_size.x, 0), Vector2(0, cell_size.y), Vector2())
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
 
-func get_terrain_at(world_pos):
-	var cell_pos = terrain.world_to_map(world_pos)
-	return get_terrain_at_cell(cell_pos)
+func get_terrain_hex(world_pos):
+	return terrain.world_to_map(world_pos)
 
-func get_terrain_at_cell(cell_pos):
-	var tile_id = terrain.get_cellv(cell_pos)
+## TODO
+## func get_terrain_center(cell_pos):
+
+func get_terrain_at(world_pos):
+	var hex_pos = get_terrain_hex(world_pos)
+	return get_terrain_at_hex(hex_pos)
+
+func get_terrain_at_hex(hex_pos):
+	var tile_id = terrain.get_cellv(hex_pos)
 	return TerrainTypes.get_tile_terrain_info(tile_id)
 
 func point_on_map(world_pos):

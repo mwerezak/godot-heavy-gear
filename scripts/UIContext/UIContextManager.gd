@@ -69,6 +69,11 @@ func unit_cell_input_event(map, cell_pos, event):
 	if active_context:
 		active_context.unit_cell_input(map, cell_pos, event)
 
+func terrain_input_event(map, hex_pos, terrain, event):
+	var active_context = get_active_context()
+	if active_context:
+		active_context.terrain_input(map, hex_pos, terrain, event)
+
 func map_markers_input_event(map, map_markers, event):
 	var active_context = get_active_context()
 	if active_context:
