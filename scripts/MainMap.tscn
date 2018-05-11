@@ -68,7 +68,7 @@ use_filter = true
 font_data = ExtResource( 9 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node"]
+[node name="MainMap" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -146,6 +146,7 @@ position = Vector2( 1, 1 )
 z_index = 1
 texture = ExtResource( 7 )
 centered = false
+offset = Vector2( 0, -37 )
 script = ExtResource( 8 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 

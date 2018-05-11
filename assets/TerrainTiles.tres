@@ -20,7 +20,7 @@
 
 0/name = "Grass"
 0/texture = ExtResource( 1 )
-0/tex_offset = Vector2( 0, 0 )
+0/tex_offset = Vector2( 0, -37 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 258, 298 )
 0/is_autotile = false
@@ -29,7 +29,7 @@
 0/shapes = [  ]
 1/name = "SparseForest"
 1/texture = ExtResource( 2 )
-1/tex_offset = Vector2( 0, 0 )
+1/tex_offset = Vector2( 0, -37 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 0, 258, 298 )
 1/is_autotile = false
@@ -38,7 +38,7 @@
 1/shapes = [  ]
 2/name = "DenseForest"
 2/texture = ExtResource( 8 )
-2/tex_offset = Vector2( 0, 0 )
+2/tex_offset = Vector2( 0, -37 )
 2/modulate = Color( 1, 1, 1, 1 )
 2/region = Rect2( 0, 0, 258, 298 )
 2/is_autotile = false
@@ -47,34 +47,34 @@
 2/shapes = [  ]
 3/name = "Grass1"
 3/texture = ExtResource( 9 )
-3/tex_offset = Vector2( 0, 0 )
+3/tex_offset = Vector2( 0, -37 )
 3/modulate = Color( 1, 1, 1, 1 )
-3/region = Rect2( 0, 0, 265, 304 )
+3/region = Rect2( 0, 0, 258, 298 )
 3/is_autotile = false
 3/occluder_offset = Vector2( 0, 0 )
 3/navigation_offset = Vector2( 0, 0 )
 3/shapes = [  ]
 4/name = "Grass2"
 4/texture = ExtResource( 10 )
-4/tex_offset = Vector2( 0, 0 )
+4/tex_offset = Vector2( 0, -37 )
 4/modulate = Color( 1, 1, 1, 1 )
-4/region = Rect2( 0, 0, 265, 304 )
+4/region = Rect2( 0, 0, 258, 298 )
 4/is_autotile = false
 4/occluder_offset = Vector2( 0, 0 )
 4/navigation_offset = Vector2( 0, 0 )
 4/shapes = [  ]
 5/name = "Grass3"
 5/texture = ExtResource( 11 )
-5/tex_offset = Vector2( 0, 0 )
+5/tex_offset = Vector2( 0, -37 )
 5/modulate = Color( 1, 1, 1, 1 )
-5/region = Rect2( 0, 0, 265, 304 )
+5/region = Rect2( 0, 0, 258, 298 )
 5/is_autotile = false
 5/occluder_offset = Vector2( 0, 0 )
 5/navigation_offset = Vector2( 0, 0 )
 5/shapes = [  ]
 6/name = "Grass4"
 6/texture = ExtResource( 12 )
-6/tex_offset = Vector2( 0, 0 )
+6/tex_offset = Vector2( 0, -37 )
 6/modulate = Color( 1, 1, 1, 1 )
 6/region = Rect2( 0, 0, 258, 298 )
 6/is_autotile = false
@@ -83,7 +83,7 @@
 6/shapes = [  ]
 7/name = "Grass5"
 7/texture = ExtResource( 13 )
-7/tex_offset = Vector2( 0, 0 )
+7/tex_offset = Vector2( 0, -37 )
 7/modulate = Color( 1, 1, 1, 1 )
 7/region = Rect2( 0, 0, 258, 298 )
 7/is_autotile = false
@@ -92,7 +92,7 @@
 7/shapes = [  ]
 8/name = "Grass6"
 8/texture = ExtResource( 14 )
-8/tex_offset = Vector2( 0, 0 )
+8/tex_offset = Vector2( 0, -37 )
 8/modulate = Color( 1, 1, 1, 1 )
 8/region = Rect2( 0, 0, 258, 298 )
 8/is_autotile = false
@@ -101,7 +101,7 @@
 8/shapes = [  ]
 9/name = "SparseForest1"
 9/texture = ExtResource( 15 )
-9/tex_offset = Vector2( 0, 0 )
+9/tex_offset = Vector2( 0, -37 )
 9/modulate = Color( 1, 1, 1, 1 )
 9/region = Rect2( 0, 0, 258, 298 )
 9/is_autotile = false
@@ -110,7 +110,7 @@
 9/shapes = [  ]
 10/name = "SparseForest2"
 10/texture = ExtResource( 3 )
-10/tex_offset = Vector2( 0, 0 )
+10/tex_offset = Vector2( 0, -37 )
 10/modulate = Color( 1, 1, 1, 1 )
 10/region = Rect2( 0, 0, 258, 298 )
 10/is_autotile = false
@@ -119,7 +119,7 @@
 10/shapes = [  ]
 11/name = "SparseForest3"
 11/texture = ExtResource( 4 )
-11/tex_offset = Vector2( 0, 0 )
+11/tex_offset = Vector2( 0, -37 )
 11/modulate = Color( 1, 1, 1, 1 )
 11/region = Rect2( 0, 0, 258, 298 )
 11/is_autotile = false
@@ -128,7 +128,7 @@
 11/shapes = [  ]
 12/name = "SparseForest4"
 12/texture = ExtResource( 5 )
-12/tex_offset = Vector2( 0, 0 )
+12/tex_offset = Vector2( 0, -37 )
 12/modulate = Color( 1, 1, 1, 1 )
 12/region = Rect2( 0, 0, 258, 298 )
 12/is_autotile = false
@@ -137,7 +137,7 @@
 12/shapes = [  ]
 13/name = "DenseForest1"
 13/texture = ExtResource( 6 )
-13/tex_offset = Vector2( 0, 0 )
+13/tex_offset = Vector2( 0, -37 )
 13/modulate = Color( 1, 1, 1, 1 )
 13/region = Rect2( 0, 0, 258, 298 )
 13/is_autotile = false
@@ -146,11 +146,12 @@
 13/shapes = [  ]
 14/name = "DenseForest2"
 14/texture = ExtResource( 7 )
-14/tex_offset = Vector2( 0, 0 )
+14/tex_offset = Vector2( 0, -37 )
 14/modulate = Color( 1, 1, 1, 1 )
 14/region = Rect2( 0, 0, 258, 298 )
 14/is_autotile = false
 14/occluder_offset = Vector2( 0, 0 )
 14/navigation_offset = Vector2( 0, 0 )
 14/shapes = [  ]
+_sections_unfolded = [ "0" ]
 
