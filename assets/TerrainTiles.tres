@@ -9,7 +9,7 @@
 
 0/name = "Empty"
 0/texture = ExtResource( 1 )
-0/tex_offset = Vector2( -128, -110 )
+0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 256, 296 )
 0/is_autotile = false
@@ -18,7 +18,7 @@
 0/shapes = [  ]
 1/name = "Grass"
 1/texture = ExtResource( 2 )
-1/tex_offset = Vector2( -128, -110 )
+1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 0, 256, 296 )
 1/is_autotile = false
@@ -27,7 +27,7 @@
 1/shapes = [  ]
 2/name = "SparseForest"
 2/texture = ExtResource( 3 )
-2/tex_offset = Vector2( -128, -110 )
+2/tex_offset = Vector2( 0, 0 )
 2/modulate = Color( 1, 1, 1, 1 )
 2/region = Rect2( 0, 0, 256, 296 )
 2/is_autotile = false
@@ -36,7 +36,7 @@
 2/shapes = [  ]
 3/name = "DenseForest"
 3/texture = ExtResource( 4 )
-3/tex_offset = Vector2( -128, -110 )
+3/tex_offset = Vector2( 0, 0 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 0, 0, 256, 296 )
 3/is_autotile = false

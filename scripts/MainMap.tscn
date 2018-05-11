@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/MainMap.gd" type="Script" id=1]
 [ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=2]
@@ -10,26 +10,58 @@
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=8]
 [ext_resource path="res://icons/move_marker_32.png" type="Texture" id=9]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 
-script/source = "extends Label
+script/source = "## Developer info label
+
+extends Label
 
 onready var root = get_tree().get_root().get_node(\"MainMap\")
 
 func _unhandled_input(event):
-	if event is InputEventMouseMotion:
-		var mouse_pos = root.world.get_global_mouse_position()
-		text = \"%s\" % root.world.terrain.world_to_map(mouse_pos)"
+	var mouse_pos = root.world.get_global_mouse_position()
+	var hex_pos = root.world.terrain.world_to_map(mouse_pos)
+	
+	var zoom = root.camera.zoom.x
+	text = \"%s x%.2f\" % [hex_pos, 1/zoom]"
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="StyleBoxFlat" id=3]
+
+content_margin_left = -1.0
+content_margin_right = -1.0
+content_margin_top = -1.0
+content_margin_bottom = -1.0
+bg_color = Color( 1, 0.784314, 0.584314, 0.392157 )
+draw_center = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
+border_blend = false
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 0
+corner_radius_bottom_left = 0
+corner_detail = 8
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
+
+[sub_resource type="DynamicFont" id=2]
 
 size = 24
 use_mipmaps = false
-use_filter = false
+use_filter = true
 font_data = ExtResource( 7 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node" index="0"]
+[node name="MainMap" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -57,11 +89,12 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
+text = "XXXX"
 align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script = SubResource( 2 )
+script = SubResource( 1 )
 _sections_unfolded = [ "Grow Direction" ]
 
 [node name="DevToolbox" parent="HUDLayer" index="1" instance=ExtResource( 2 )]
@@ -84,7 +117,7 @@ size_flags_vertical = 1
 alignment = 2
 _sections_unfolded = [ "Grow Direction" ]
 
-[node name="UIContextPanel" parent="HUDLayer/LowerLeftPanel" index="0" instance=ExtResource( 3 )]
+[node name="ContextPanel" parent="HUDLayer/LowerLeftPanel" index="0" instance=ExtResource( 3 )]
 
 grow_vertical = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
@@ -94,35 +127,53 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 [node name="HexCursor" type="Sprite" parent="WorldMap" index="1"]
 
 modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
+z_index = 1
 texture = ExtResource( 5 )
 centered = false
 script = ExtResource( 6 )
-_sections_unfolded = [ "Offset", "Visibility" ]
+_sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
-[node name="LocLabel" type="Label" parent="WorldMap/HexCursor" index="0"]
+[node name="Transparent" type="PanelContainer" parent="WorldMap/HexCursor" index="0"]
 
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 0.0
-margin_left = -39.0
-margin_top = 30.0
-margin_right = 37.0
-margin_bottom = 67.0
+margin_left = -28.0
+margin_top = 36.0
+margin_right = 28.0
+margin_bottom = 64.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+custom_styles/panel = SubResource( 3 )
+_sections_unfolded = [ "Margin", "Mouse", "Rect", "Size Flags", "custom_styles" ]
+
+[node name="LocLabel" type="Label" parent="WorldMap/HexCursor/Transparent" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 56.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 1 )
-text = "XXXX"
+custom_fonts/font = SubResource( 2 )
+text = "----"
 align = 1
 uppercase = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin", "Size Flags", "custom_fonts" ]
+_sections_unfolded = [ "Anchor", "Margin", "Size Flags", "Visibility", "custom_fonts" ]
 
 [node name="Camera" type="Camera2D" parent="." index="2"]
 

@@ -1,17 +1,17 @@
 extends Sprite
 
 onready var world = $".."
-onready var loc_label = $LocLabel
+onready var loc_label = $Transparent/LocLabel
 
 var hex_position setget set_hex_position, get_hex_position
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
 		var mouse_pos = world.get_global_mouse_position()
-		var hex_pos = world.terrain.world_to_map(mouse_pos)
 		
 		## don't snap to blank hexes
-		if world.terrain.get_cellv(hex_pos) >= 0:
+		if world.point_on_map(mouse_pos):
+			var hex_pos = world.terrain.world_to_map(mouse_pos)
 			set_hex_position(hex_pos)
 			loc_label.text = _format_hexloc(hex_pos)
 
