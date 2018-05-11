@@ -10,20 +10,23 @@ func get_bounding_rect():
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
 
 func get_terrain_at(world_pos):
-	var hex_pos = terrain.world_to_map(world_pos)
-	var tile_id = terrain.get_cellv(hex_pos)
+	var cell_pos = terrain.world_to_map(world_pos)
+	return get_terrain_at_cell(cell_pos)
+
+func get_terrain_at_cell(cell_pos):
+	var tile_id = terrain.get_cellv(cell_pos)
 	return TerrainTypes.get_tile_terrain_info(tile_id)
 
 func point_on_map(world_pos):
-	var hex_pos = terrain.world_to_map(world_pos)
-	var tile_id = terrain.get_cellv(hex_pos)
+	var cell_pos = terrain.world_to_map(world_pos)
+	var tile_id = terrain.get_cellv(cell_pos)
 	return tile_id >= 0
 
 func add_object(object):
 	assert point_on_map(object.position)
 	
 	#snap to grid
-	var hex_pos = terrain.world_to_map(object.position)
-	object.position = terrain.map_to_world(hex_pos)
+	var cell_pos = terrain.world_to_map(object.position)
+	object.position = terrain.map_to_world(cell_pos)
 	
 	add_child(object)

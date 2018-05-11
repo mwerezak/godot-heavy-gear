@@ -21,9 +21,10 @@ onready var root = get_tree().get_root().get_node(\"MainMap\")
 func _unhandled_input(event):
 	var mouse_pos = root.world.get_global_mouse_position()
 	var hex_pos = root.world.terrain.world_to_map(mouse_pos)
+	var terrain_id = \"\" #root.world.get_terrain_at(mouse_pos).terrain_id
 	
 	var zoom = root.camera.zoom.x
-	text = \"%s x%.2f\" % [hex_pos, 1/zoom]"
+	text = \"%s %s x%.2f\" % [hex_pos, terrain_id, 1/zoom]"
 
 [sub_resource type="StyleBoxFlat" id=3]
 
@@ -61,7 +62,7 @@ use_filter = true
 font_data = ExtResource( 7 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node"]
+[node name="MainMap" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -74,7 +75,7 @@ rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="LocLabel" type="Label" parent="HUDLayer" index="0"]
+[node name="DevInfoLabel" type="Label" parent="HUDLayer" index="0"]
 
 anchor_left = 1.0
 anchor_top = 0.0

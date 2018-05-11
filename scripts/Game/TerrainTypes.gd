@@ -1,4 +1,4 @@
-extends Object
+extends Node
 
 ## maps tile ID to terrain ID, populated by _init()
 var TILE_IDS = {}
@@ -27,6 +27,7 @@ var TERRAIN_INFO = {
 func _init():
 	for terrain_id in TERRAIN_INFO:
 		var terrain_info = TERRAIN_INFO[terrain_id]
+		terrain_info.terrain_id = terrain_id
 		TILE_IDS[terrain_info.tile_id] = terrain_id
 
 func get_tile_terrain_info(tile_id):
