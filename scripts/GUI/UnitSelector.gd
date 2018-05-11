@@ -51,10 +51,3 @@ func _create_selection(objects):
 		object.add_child(selected_overlay)
 		selection.add(object, selected_overlay)
 	return selection
-
-#let hover overlays remove themselves on mouse_exited?
-#func free():
-#	for object in _hover_overlays:
-#		var overlay = _hover_overlays[object]
-#		overlay.queue_free()
-#	.free()
