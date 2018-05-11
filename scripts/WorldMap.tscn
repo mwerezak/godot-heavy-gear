@@ -32,10 +32,9 @@ _sections_unfolded = [ "Cell", "Z Index" ]
 
 [node name="UnitGrid" type="TileMap" parent="." index="1"]
 
-position = Vector2( -32, -37 )
 mode = 0
 tile_set = null
-cell_size = Vector2( 64, 73 )
+cell_size = Vector2( 64, 74 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 0
