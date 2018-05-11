@@ -68,7 +68,7 @@ use_filter = true
 font_data = ExtResource( 9 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node" index="0"]
+[node name="MainMap" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -136,13 +136,13 @@ _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 modulate = Color( 0.566406, 0.566406, 0.566406, 0.77349 )
 z_index = 1
 texture = ExtResource( 5 )
-centered = false
 script = ExtResource( 6 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
 [node name="TerrainCursor" type="Sprite" parent="WorldMap" index="2"]
 
 modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
+position = Vector2( 1, 1 )
 z_index = 1
 texture = ExtResource( 7 )
 centered = false

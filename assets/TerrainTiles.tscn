@@ -9,16 +9,19 @@
 [node name="Grass" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 1 )
+centered = false
 _sections_unfolded = [ "Offset" ]
 
 [node name="SparseForest" type="Sprite" parent="." index="1"]
 
 texture = ExtResource( 2 )
+centered = false
 _sections_unfolded = [ "Offset" ]
 
 [node name="DenseForest" type="Sprite" parent="." index="2"]
 
 texture = ExtResource( 3 )
+centered = false
 _sections_unfolded = [ "Offset" ]
 
 

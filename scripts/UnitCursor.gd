@@ -10,12 +10,12 @@ func _unhandled_input(event):
 		
 		## don't snap to blank hexes
 		if world.point_on_map(mouse_pos):
-			var grid_pos = world.unit_grid.world_to_map(mouse_pos)
+			var grid_pos = world.get_grid_cell(mouse_pos)
 			set_grid_position(grid_pos)
 
 func set_grid_position(cell):
 	grid_position = cell
-	global_position = world.unit_grid.map_to_world(cell)
+	global_position = world.get_grid_pos(cell)
 
 func get_grid_position():
 	return grid_position

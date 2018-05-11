@@ -13,7 +13,7 @@ script = ExtResource( 1 )
 
 texture = ExtResource( 2 )
 region_rect = Rect2( 16, 16, 32, 32 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Collider" type="Area2D" parent="." index="1"]
 
