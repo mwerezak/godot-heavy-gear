@@ -1,6 +1,6 @@
 extends "UIContextBase.gd"
 
-const UnitSelectorSingle = preload("res://scripts/UnitSelectorSingle.gd")
+const UnitSelectorSingle = preload("res://scripts/GUI/UnitSelectorSingle.gd")
 
 class OverlayFactory:
 	var _overlay_texture

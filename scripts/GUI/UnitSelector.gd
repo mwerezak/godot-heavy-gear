@@ -1,6 +1,6 @@
 extends Reference
 
-const UnitSelection = preload("res://scripts/UnitSelection.gd")
+const UnitSelection = preload("UnitSelection.gd")
 
 ## Note: any created overlays are transient, and can be deleted at any time.
 ## we don't need to use weak references here since we track overlays using a Dictionary
