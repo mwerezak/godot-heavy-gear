@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/UIContext/UIContextPanel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=4]
-[ext_resource path="res://icons/hex/empty.png" type="Texture" id=5]
+[ext_resource path="res://icons/terrain/empty.png" type="Texture" id=5]
 [ext_resource path="res://scripts/HexCursor.gd" type="Script" id=6]
 [ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://scripts/Camera.gd" type="Script" id=8]
@@ -30,7 +30,7 @@ func _update_text():
 	var zoom = root.camera.zoom.x
 	text = \"%s %s x%.2f\" % [hex_pos, terrain_id, 1/zoom]"
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=2]
 
 content_margin_left = -1.0
 content_margin_right = -1.0
@@ -58,7 +58,7 @@ shadow_size = 0
 anti_aliasing = true
 anti_aliasing_size = 1
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=3]
 
 size = 24
 use_mipmaps = false
@@ -154,7 +154,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 2 )
 _sections_unfolded = [ "Margin", "Mouse", "Rect", "Size Flags", "custom_styles" ]
 
 [node name="LocLabel" type="Label" parent="WorldMap/HexCursor/Transparent" index="0"]
@@ -171,7 +171,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "----"
 align = 1
 uppercase = true

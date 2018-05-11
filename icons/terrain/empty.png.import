@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/terrain.svg-69a5ea93f5aa450cd97f24b54b230c72.stex"
+path="res://.import/empty.png-4d798b0866a3b290101ed6931c3d0f0c.stex"
 
 [deps]
 
-source_file="res://icons/hex/terrain.svg"
-source_md5="667679b1eae1c15d6efec126fa49db80"
+source_file="res://icons/terrain/empty.png"
+source_md5="e0e9c1b77f8370a0cf188207a9fa2aaf"
 
-dest_files=[ "res://.import/terrain.svg-69a5ea93f5aa450cd97f24b54b230c72.stex" ]
-dest_md5="110b158c5df7841acd9ba1b69665f742"
+dest_files=[ "res://.import/empty.png-4d798b0866a3b290101ed6931c3d0f0c.stex" ]
+dest_md5="7540c8e0999688a3cd0d40788fb7a342"
 
 [params]
 

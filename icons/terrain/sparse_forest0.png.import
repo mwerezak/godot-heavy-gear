@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/grassland0.png-54699af929d1a4a1f2c99f85ac1dc047.stex"
+path="res://.import/sparse_forest0.png-8d419cede82d0c563c0101d4022cdd4d.stex"
 
 [deps]
 
-source_file="res://icons/hex/grassland0.png"
-source_md5="421ca7b01ab11836b2ef8559dd4e0616"
+source_file="res://icons/terrain/sparse_forest0.png"
+source_md5="9737e5135f4e32fb376559d42dd127e1"
 
-dest_files=[ "res://.import/grassland0.png-54699af929d1a4a1f2c99f85ac1dc047.stex" ]
-dest_md5="3a706b98f1bece9f980772082bed9c48"
+dest_files=[ "res://.import/sparse_forest0.png-8d419cede82d0c563c0101d4022cdd4d.stex" ]
+dest_md5="7f392515f884a2adee49060d2beca5ff"
 
 [params]
 

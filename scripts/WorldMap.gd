@@ -3,7 +3,7 @@ extends Node2D
 ## dimensions of terrain hexes
 ## it is important that these are both multiples of 4
 const TERRAIN_WIDTH  = 64*4 #256
-const TERRAIN_HEIGHT = 73*4 #292
+const TERRAIN_HEIGHT = 74*4 #296
 
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
