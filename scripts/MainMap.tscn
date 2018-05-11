@@ -12,8 +12,6 @@
 [ext_resource path="res://scripts/GUI/Camera.gd" type="Script" id=10]
 [ext_resource path="res://icons/move_marker_32.png" type="Texture" id=11]
 
-
-
 [sub_resource type="GDScript" id=1]
 
 script/source = "## Developer info label
