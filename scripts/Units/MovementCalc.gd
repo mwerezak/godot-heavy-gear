@@ -32,7 +32,7 @@ func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_di
 	var unit_info = unit.unit_info
 	var move_type_info = MovementTypes.INFO[movement_type]
 	
-	_track_turns = (move_type_info.turn_rate != null && unit.has_facing())
+	_track_turns = (move_type_info.turn_rate != null && unit.has_facing()) #TODO get this from the unit somehow
 	_movement_rate = unit_info.movement[movement_type]
 	_turning_rate = move_type_info.turn_rate
 	
@@ -145,10 +145,11 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			if _movement_rate + move_remaining >= move_cost && (!_track_turns || _turning_rate + turn_remaining >= turn_cost):
 				var next_state = _init_move_state(move_count + 1, move_dir)
 				
-				## carry over remaining turns and movement
+				## carry over remaining movement
 				next_state.move_remaining += move_remaining - move_cost
 				if _track_turns:
-					next_state.turn_remaining += turn_remaining - turn_cost
+					## turns don't carry over. however we can use the remaining turns to pay off any remaining cost.
+					next_state.turn_remaining += min(turn_remaining - turn_cost, 0)
 				next_state.hazard = hazard || _is_dangerous(next_pos)
 				
 				next_move[next_pos] = next_state
@@ -171,3 +172,6 @@ func _move_cost(from_pos, to_pos):
 ## If entering a given cell will trigger a dangerous terrain check
 func _is_dangerous(cell_pos):
 	return false #TODO
+
+func free_rotate():
+	return !_track_turns
