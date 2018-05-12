@@ -50,6 +50,7 @@ func show_movement(movement):
 func place_move_marker(movement, move_pos):
 	if !movement.possible_moves.has(move_pos):
 		move_marker.hide()
+		move_path.hide()
 		return
 	
 	var move_info = movement.possible_moves[move_pos]

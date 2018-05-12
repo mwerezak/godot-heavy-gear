@@ -163,7 +163,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 
 ## Figure out if the unit can enter the given cell position
 func _can_enter(cell_pos):
-	return true #TODO
+	return world_map.point_on_map(world_map.get_grid_pos(cell_pos)) #TODO
 
 ## we may be able to enter but not finish our movement in certain cells
 func _can_stop(cell_pos):

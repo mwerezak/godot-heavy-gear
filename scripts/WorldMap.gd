@@ -28,6 +28,8 @@ func get_bounding_rect():
 	var cell_to_pixel = Transform2D(Vector2(cell_size.x, 0), Vector2(0, cell_size.y), Vector2())
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
 
+## Terrain Hexes
+
 func get_terrain_hex(world_pos):
 	return terrain.world_to_map(world_pos)
 
@@ -49,6 +51,8 @@ func point_on_map(world_pos):
 	var tile_id = terrain.get_cellv(cell_pos)
 	return tile_id >= 0
 
+## Unit Grid Cells
+
 func get_grid_cell(world_pos):
 	var cell_pos = unit_grid.world_to_map(world_pos)
 	return cell_pos
@@ -57,6 +61,7 @@ func get_grid_cell(world_pos):
 func get_grid_pos(cell_pos):
 	return unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2
 
+## can add any node that has a cell_position property
 func add_object(object, cell_pos):
 	add_child(object)
 	object.cell_position = cell_pos
