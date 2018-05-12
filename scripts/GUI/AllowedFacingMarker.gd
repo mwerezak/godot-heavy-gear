@@ -16,7 +16,6 @@ func _ready():
 			facing_marker.rotation = HexUtils.UNIT_ARC*arc*i
 			facing_markers[arc].append(facing_marker)
 			add_child(facing_marker)
-
 	hide_facing_arc()
 
 func show_facing_arc(facing, turn_arc):

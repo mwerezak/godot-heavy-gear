@@ -9,7 +9,9 @@ const TILE_YELLOW = 1
 const TILE_RED = 2
 
 onready var move_marker = $MoveMarker
+onready var facing_marker = $MoveMarker/AllowedFacing
 onready var movement_tiles = $MovementTiles
+onready var move_path = $MovementPath
 
 onready var world_map = get_parent()
 
@@ -23,6 +25,9 @@ func _deferred_ready():
 func setup(move_unit):
 	var movement_type = move_unit.unit_info.movement.keys()[0]
 	var movement = MovementCalc.new(world_map, move_unit, movement_type)
+	
+	move_marker.hide()
+	move_path.hide()
 	show_movement(movement)
 	
 	return movement
@@ -45,13 +50,22 @@ func show_movement(movement):
 func place_move_marker(movement, move_pos):
 	if !movement.possible_moves.has(move_pos):
 		move_marker.hide()
+		return
+	
+	var move_info = movement.possible_moves[move_pos]
+
+	move_marker.show()
+	move_marker.position = world_map.get_grid_pos(move_pos)
+	
+	## facing
+	if movement.free_rotate():
+		facing_marker.hide_facing_arc()
 	else:
-		move_marker.show()
-		move_marker.position = world_map.get_grid_pos(move_pos)
-		
-		if movement.free_rotate():
-			move_marker.hide_facing_arc()
-		else:
-			var move_info = movement.possible_moves[move_pos]
-			move_marker.show_facing_arc(move_info.facing, move_info.turn_remaining)
-		
+		facing_marker.show_facing_arc(move_info.facing, move_info.turn_remaining)
+
+	## move path
+	var path_points = PoolVector2Array()
+	for grid_cell in move_info.path:
+		path_points.push_back(world_map.get_grid_pos(grid_cell))
+	move_path.points = path_points
+	move_path.show()

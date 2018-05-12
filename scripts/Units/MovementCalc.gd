@@ -4,6 +4,7 @@ extends Reference
 
 const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
+#const PriorityQueue = preload("res://scripts/Game/DataStructures/PriorityQueue.gd")
 
 var unit #the unit whose movement we are considering
 var world_map #reference to the world map the unit is located on
@@ -42,9 +43,20 @@ func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_di
 			possible_moves[cell_pos] = visited[cell_pos]
 
 
+## setups a movement state for the beginning of a move action
+func _init_move_state(move_count, facing, move_path):
+	return {
+		move_count = move_count,
+		facing = facing,
+		move_remaining = _movement_rate,
+		turn_remaining = _turning_rate,
+		hazard = false,
+		path = move_path,
+	}
+
 func _search_possible_moves(start_loc, start_dir, max_moves):
 	var move_queue = [ start_loc ]
-	var visited = { start_loc : _init_move_state(1, start_dir) }
+	var visited = { start_loc : _init_move_state(1, start_dir, [ start_loc ]) }
 	var next_move = {}
 	
 	for move_count in range(max_moves - 1):
@@ -60,17 +72,6 @@ func _search_possible_moves(start_loc, start_dir, max_moves):
 	_search_move_action(move_queue, visited, next_move)
 	
 	return visited
-
-
-## gets the movement state at the beginning of a move action
-func _init_move_state(move_count, facing):
-	return {
-		move_count = move_count,
-		facing = facing,
-		move_remaining = _movement_rate,
-		turn_remaining = _turning_rate,
-		hazard = false,
-	}
 
 ## Starting at the unit's current position, we want to search through all possible connecting hexes that we can move to.
 ## We want to perform a breadth first search, and vist each new grid position only once.
@@ -100,7 +101,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		## get the destination pos
 		var move_step = HexUtils.HEX_CONN[parity][move_dir]
 		var next_pos = cur_pos + move_step
-		
+
 		if visited.has(next_pos):
 			continue ## already visited
 		
@@ -127,6 +128,8 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			extra_move = true
 		
 		#print("%s: %s[%s] -> %s[%s] : turn %s/%s, move %s/%s : %s" % [move_count, cur_pos, facing, next_pos, move_dir, turn_cost, turn_remaining, move_cost, move_remaining, !extra_move])
+		var next_path = cur_state.path.duplicate()
+		next_path.push_back(next_pos)		
 		
 		## visit the next_pos
 		if !extra_move:
@@ -138,12 +141,13 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			if _track_turns:
 				next_state.turn_remaining -= turn_cost
 			next_state.hazard = hazard || _is_dangerous(next_pos)
-			
+			next_state.path = next_path
+		
 			next_visited[next_pos] = next_state
 		else:
 			## even if we take a whole new move action, we still may not be able to reach the next_pos, so check that
 			if _movement_rate + move_remaining >= move_cost && (!_track_turns || _turning_rate + turn_remaining >= turn_cost):
-				var next_state = _init_move_state(move_count + 1, move_dir)
+				var next_state = _init_move_state(move_count + 1, move_dir, next_path)
 				
 				## carry over remaining movement
 				next_state.move_remaining += move_remaining - move_cost
