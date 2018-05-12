@@ -19,8 +19,7 @@ const INFO = {
 		
 		use_facing = true, #if units should track their facing and direction
 		movement = {
-			MovementTypes.TYPE_WALKER: 5.0,
+			MovementTypes.TYPE_GROUND: 5.0,
 		},
 	}
 }
-

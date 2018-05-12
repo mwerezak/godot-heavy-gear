@@ -83,7 +83,7 @@ func set_selection(s):
 	if s && unit_selector.get_highlighted_objects().size() == 0:
 		label.text = "Select a unit to activate (or click again to confirm)."
 	else:
-		label.text = "Select a unit to activate."	
+		label.text = "Select a unit to activate."
 	
 
 func _activate_button_pressed():

@@ -18,6 +18,7 @@ const INFO = {
 		height = 0, #height of the terrain above elevation - e.g. for forests, how tall are the trees?
 		difficult = {}, #limits movement on this terrain for certain movement types
 		dangerous = {}, #moving through this terrain using certain movement types may cause damage and immobilize the unit
+		impassible = {}, #cannot be entered using these movement types
 	},
 	sparse_forest = {
 		tile_ids = [1, 9, 10, 11, 12],
@@ -25,6 +26,7 @@ const INFO = {
 		height = 1.67,
 		difficult = {},
 		dangerous = {},
+		impassible = {}, #cannot be entered using these movement types
 	},
 	dense_forest = {
 		tile_ids = [2, 13, 14],
@@ -32,6 +34,7 @@ const INFO = {
 		height = 2.5, #taller trees than sparse forest
 		difficult = DEFAULT_DIFFICULT_TERRAIN,
 		dangerous = {},
+		impassible = {}, #cannot be entered using these movement types
 	},
 }
 

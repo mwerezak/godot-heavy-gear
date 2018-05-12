@@ -3,14 +3,14 @@
 [ext_resource path="res://scripts/MainMap.gd" type="Script" id=1]
 [ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/UIContext/UIContextPanel.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=4]
-[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=5]
-[ext_resource path="res://scripts/GUI/UnitCursor.gd" type="Script" id=6]
-[ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=7]
-[ext_resource path="res://scripts/GUI/TerrainCursor.gd" type="Script" id=8]
-[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=9]
-[ext_resource path="res://scripts/GUI/Camera.gd" type="Script" id=10]
-[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=11]
+[ext_resource path="res://scripts/GUI/Camera.gd" type="Script" id=4]
+[ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/MovementDisplay.tscn" type="PackedScene" id=6]
+[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=7]
+[ext_resource path="res://scripts/GUI/UnitCursor.gd" type="Script" id=8]
+[ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=9]
+[ext_resource path="res://scripts/GUI/TerrainCursor.gd" type="Script" id=10]
+[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=11]
 
 [sub_resource type="GDScript" id=1]
 
@@ -25,12 +25,14 @@ func _unhandled_input(event):
 
 func _update_text():
 	var mouse_pos = root.world.get_global_mouse_position()
-	var hex_pos = root.world.terrain.world_to_map(mouse_pos)
-	var terrain = root.world.get_terrain_at(mouse_pos)
+	var hex_pos = root.world.get_terrain_hex(mouse_pos)
+	var terrain = root.world.get_terrain_at_hex(hex_pos)
 	var terrain_id = terrain.terrain_id if terrain else \"None\"
 	
+	var cell_pos = root.world.get_grid_cell(mouse_pos)
+	
 	var zoom = root.camera.zoom.x
-	text = \"%s %s x%.2f\" % [hex_pos, terrain_id, 1/zoom]"
+	text = \"%s %s %s x%.2f\" % [cell_pos, hex_pos, terrain_id, 1/zoom]"
 
 [sub_resource type="StyleBoxFlat" id=2]
 
@@ -65,7 +67,7 @@ anti_aliasing_size = 1
 size = 24
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 9 )
+font_data = ExtResource( 11 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [node name="MainMap" type="Node"]
@@ -129,25 +131,54 @@ _sections_unfolded = [ "Grow Direction" ]
 grow_vertical = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="WorldMap" parent="." index="1" instance=ExtResource( 4 )]
+[node name="Camera" type="Camera2D" parent="." index="1"]
 
-[node name="UnitCursor" type="Sprite" parent="WorldMap" index="1"]
+anchor_mode = 1
+rotating = false
+current = true
+zoom = Vector2( 1, 1 )
+limit_left = -10000000
+limit_top = -10000000
+limit_right = 10000000
+limit_bottom = 10000000
+limit_smoothed = false
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
+smoothing_enabled = false
+smoothing_speed = 5.0
+offset_v = 0.0
+offset_h = 0.0
+drag_margin_left = 0.2
+drag_margin_top = 0.2
+drag_margin_right = 0.2
+drag_margin_bottom = 0.2
+editor_draw_screen = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+script = ExtResource( 4 )
+_sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
+
+[node name="WorldMap" parent="." index="2" instance=ExtResource( 5 )]
+
+[node name="MovementDisplay" parent="WorldMap" index="1" instance=ExtResource( 6 )]
+
+[node name="UnitCursor" type="Sprite" parent="WorldMap" index="2"]
 
 modulate = Color( 0.566406, 0.566406, 0.566406, 0.77349 )
 z_index = 1
-texture = ExtResource( 5 )
-script = ExtResource( 6 )
+texture = ExtResource( 7 )
+script = ExtResource( 8 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
-[node name="TerrainCursor" type="Sprite" parent="WorldMap" index="2"]
+[node name="TerrainCursor" type="Sprite" parent="WorldMap" index="3"]
 
 modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
 position = Vector2( 1, 1 )
 z_index = 1
-texture = ExtResource( 7 )
+texture = ExtResource( 9 )
 centered = false
 offset = Vector2( 0, -37 )
-script = ExtResource( 8 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
 [node name="Transparent" type="PanelContainer" parent="WorldMap/TerrainCursor" index="0"]
@@ -190,37 +221,5 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Anchor", "Margin", "Size Flags", "Visibility", "custom_fonts" ]
-
-[node name="Camera" type="Camera2D" parent="." index="2"]
-
-anchor_mode = 1
-rotating = false
-current = true
-zoom = Vector2( 1, 1 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
-drag_margin_h_enabled = false
-drag_margin_v_enabled = false
-smoothing_enabled = false
-smoothing_speed = 5.0
-offset_v = 0.0
-offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
-editor_draw_screen = true
-editor_draw_limits = true
-editor_draw_drag_margin = true
-script = ExtResource( 10 )
-_sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
-
-[node name="MoveMarker" type="Sprite" parent="." index="3"]
-
-visible = false
-texture = ExtResource( 11 )
 
 

@@ -25,4 +25,10 @@ static func rotate_step(dir, rot):
 	return normalize(dir + rot)
 
 static func dir2rad(dir):
-	return dir*UNIT_ARC
+	return normalize(dir)*UNIT_ARC
+
+## gets the magnitude and direction of the shortest turn starting at from_dir and ending at to_dir
+## returns the number of rotate steps in the range of [-6, +6] for CCW and CW turns, respectively
+static func get_shortest_turn(from_dir, to_dir):
+	var diff = normalize(to_dir - from_dir + 6) - 6
+	return diff + 12 if diff < -6 else diff

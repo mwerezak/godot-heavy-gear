@@ -50,6 +50,6 @@ collision_mask = 1
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Cell", "Transform" ]
 
 

@@ -32,7 +32,7 @@ func has_facing():
 	return unit_info.use_facing
 
 func set_facing(dir):
-	facing = dir
+	facing = Direction.normalize(dir)
 	if map_marker:
 		map_marker.set_facing(Direction.dir2rad(dir))
 
