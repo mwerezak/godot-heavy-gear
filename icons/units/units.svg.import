@@ -7,10 +7,10 @@ path="res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex"
 [deps]
 
 source_file="res://icons/units/units.svg"
-source_md5="375244e83b2b023de25a3597a5e26c76"
+source_md5="8f0cde0c2ed8f0d35e0463b22197ed33"
 
 dest_files=[ "res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex" ]
-dest_md5="681dcf77f8b4bbd39d9c664fff2a5cfc"
+dest_md5="fe2489a155bd9a82bccb9a2ab8931a1b"
 
 [params]
 
