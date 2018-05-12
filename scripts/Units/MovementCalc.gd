@@ -2,50 +2,8 @@
 
 extends Reference
 
+const HexGrid = preload("res://scripts/HexGrid.gd")
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
-const Distance = preload("res://scripts/Game/Distance.gd")
-const Direction = preload("res://scripts/Game/Direction.gd")
-
-## all the possible move directions. try to order them in a way that wont make the search too lopsided
-const MOVE_DIRECTIONS = {
-	0:   [0, 2, 10, 4, 8, 6],
-	1:   [2, 0, 4, 10, 6, 8],
-	2:   [2, 4, 0, 6, 10, 8],
-	3:   [4, 2, 6, 0, 8, 10],
-	4:   [4, 6, 2, 8, 0, 10],
-	5:   [6, 4, 8, 2, 10, 0],
-	6:   [6, 8, 4, 10, 2, 0],
-	7:   [8, 6, 10, 4, 0, 2],
-	8:   [8, 10, 6, 0, 4, 2],
-	9:   [10, 8, 0, 6, 2, 4],
-	10:  [10, 0, 8, 2, 6, 4],
-	11:  [0, 10, 2, 8, 4, 6],
-}
-
-## gets the step vector to adjacent grid positions for even and odd row hexes
-const HEX_CONN_EVEN = {
-	0 : Vector2(1, 0),
-	2 : Vector2(0, 1),
-	4 : Vector2(-1, 1),
-	6 : Vector2(-1, 0),
-	8 : Vector2(-1, -1),
-	10: Vector2(0, -1),
-}
-
-const HEX_CONN_ODD = {
-	0 : Vector2(1, 0),
-	2 : Vector2(1, 1),
-	4 : Vector2(0, 1),
-	6 : Vector2(-1, 0),
-	8 : Vector2(0, -1),
-	10: Vector2(1, -1),
-}
-
-## map hex row parity to connection table
-const HEX_CONN = {
-	0 : HEX_CONN_EVEN,
-	1 : HEX_CONN_ODD,
-}
 
 var unit #the unit whose movement we are considering
 var world_map #reference to the world map the unit is located on
@@ -69,7 +27,7 @@ func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_di
 	start_loc = start_loc if start_loc else unit.cell_position
 	start_dir = start_dir if start_dir else unit.facing
 	
-	_grid_spacing = Distance.pixels2units(world_map.UNITGRID_WIDTH)
+	_grid_spacing = HexGrid.pixels2units(world_map.UNITGRID_WIDTH)
 	
 	var unit_info = unit.unit_info
 	var move_type_info = MovementTypes.INFO[movement_type]
@@ -134,13 +92,13 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 	var move_count = cur_state.move_count
 	var hazard = cur_state.hazard
 	
-	for move_dir in MOVE_DIRECTIONS[facing]:
+	for move_dir in HexGrid.MOVE_DIRECTIONS[facing]:
 		## unpack the current state
 		var move_remaining = cur_state.move_remaining
 		var turn_remaining = cur_state.turn_remaining
 		
 		## get the destination pos
-		var move_step = HEX_CONN[parity][move_dir]
+		var move_step = HexGrid.HEX_CONN[parity][move_dir]
 		var next_pos = cur_pos + move_step
 		
 		if visited.has(next_pos):
@@ -154,7 +112,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		## handle turning costs
 		var turn_cost = 0
 		if _track_turns:
-			turn_cost = abs(Direction.get_shortest_turn(facing, move_dir))
+			turn_cost = abs(HexGrid.get_shortest_turn(facing, move_dir))
 			
 			## do we need to start a new move to face this direction?
 			if turn_remaining < turn_cost:

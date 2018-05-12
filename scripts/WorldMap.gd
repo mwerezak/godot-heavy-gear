@@ -1,8 +1,7 @@
 extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
-const Direction = preload("res://scripts/Game/Direction.gd")
-const Distance = preload("res://scripts/Game/Distance.gd")
+const HexGrid = preload("res://scripts/HexGrid.gd")
 
 ## dimensions of terrain hexes
 ## it is important that these are both multiples of 4
@@ -67,11 +66,11 @@ func get_nearest_dir(cell_from, cell_to):
 	var from_pos = get_grid_pos(cell_from)
 	var to_pos = get_grid_pos(cell_to)
 	var total_displacement = to_pos - from_pos
-	return Direction.nearest_dir(total_displacement.angle())
+	return HexGrid.nearest_dir(total_displacement.angle())
 
 ## returns the distance betwen the centres of two cells, in distance units
 func grid_distance(cell1, cell2):
 	var pos1 = get_grid_pos(cell1)
 	var pos2 = get_grid_pos(cell2)
 	var pixel_dist = (pos1 - pos2).length()
-	return Distance.pixels2units(pixel_dist)
+	return HexGrid.pixels2units(pixel_dist)
