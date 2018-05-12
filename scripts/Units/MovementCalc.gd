@@ -48,6 +48,7 @@ func _init_move_state(move_count, facing, move_path):
 	return {
 		move_count = move_count,
 		facing = facing,
+		prev_facing = null,
 		move_remaining = _movement_rate,
 		turn_remaining = _turning_rate,
 		hazard = false,
@@ -90,6 +91,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 	
 	var cur_state = visited[cur_pos]
 	var facing = cur_state.facing
+	var prev_facing = cur_state.prev_facing
 	var move_count = cur_state.move_count
 	var hazard = cur_state.hazard
 	
@@ -115,6 +117,12 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		if _track_turns:
 			turn_cost = abs(HexUtils.get_shortest_turn(facing, move_dir))
 			
+			## if we return to our previous facing we get refunded the turn cost
+			## this allows "straight line" zig-zagging, which hopefully lessens 
+			## the distortion on movement caused by using a hex grid
+			if move_dir == prev_facing:
+				turn_cost *= -1
+			
 			## do we need to start a new move to face this direction?
 			if turn_remaining < turn_cost:
 				extra_move = true
@@ -137,6 +145,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			var next_state = cur_state.duplicate()
 			
 			next_state.facing = move_dir
+			next_state.prev_facing = facing
 			next_state.move_remaining -= move_cost
 			if _track_turns:
 				next_state.turn_remaining -= turn_cost
@@ -147,6 +156,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		else:
 			## even if we take a whole new move action, we still may not be able to reach the next_pos, so check that
 			if _movement_rate + move_remaining >= move_cost && (!_track_turns || _turning_rate + turn_remaining >= turn_cost):
+				## by taking a new move we refresh our turns remaining, so make sure prev_facing gets cleared
 				var next_state = _init_move_state(move_count + 1, move_dir, next_path)
 				
 				## carry over remaining movement
