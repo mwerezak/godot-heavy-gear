@@ -52,22 +52,8 @@ static func get_shortest_turn(from_dir, to_dir):
 
 ##### HEX GRID PATHING #####
 
-## maps hex facing to an array of all possible move directions, ordered in a way
-## that movement path searching should have consistent results
-const MOVE_DIRECTIONS = {
-	0:   [0, 2, 10, 4, 8, 6],
-	1:   [2, 0, 4, 10, 6, 8],
-	2:   [2, 4, 0, 6, 10, 8],
-	3:   [4, 2, 6, 0, 8, 10],
-	4:   [4, 6, 2, 8, 0, 10],
-	5:   [6, 4, 8, 2, 10, 0],
-	6:   [6, 8, 4, 10, 2, 0],
-	7:   [8, 6, 10, 4, 0, 2],
-	8:   [8, 10, 6, 0, 4, 2],
-	9:   [10, 8, 0, 6, 2, 4],
-	10:  [10, 0, 8, 2, 6, 4],
-	11:  [0, 10, 2, 8, 4, 6],
-}
+## an array of all possible move directions
+const MOVE_DIRECTIONS = [0, 2, 4, 6, 8, 10]
 
 ## gets the step vector to adjacent grid positions for even and odd row hexes
 const HEX_CONN_EVEN = {
@@ -93,3 +79,11 @@ const HEX_CONN = {
 	0 : HEX_CONN_EVEN,
 	1 : HEX_CONN_ODD,
 }
+
+static func get_step(cell_pos, dir):
+	if !MOVE_DIRECTIONS.has(dir): 
+		return cell_pos
+	
+	var parity = int(cell_pos.y) & 1
+	return cell_pos + HEX_CONN[parity][dir]
+

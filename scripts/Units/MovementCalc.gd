@@ -4,7 +4,7 @@ extends Reference
 
 const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
-#const PriorityQueue = preload("res://scripts/Game/DataStructures/PriorityQueue.gd")
+const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 
 var unit #the unit whose movement we are considering
 var world_map #reference to the world map the unit is located on
@@ -55,21 +55,28 @@ func _init_move_state(move_count, facing, move_path):
 		path = move_path,
 	}
 
+## lower priority moves are explored first
+func _move_priority(move_state):
+	return -(move_state.turn_remaining * move_state.move_remaining) + (0 if !move_state.hazard else 10000)
+
 func _search_possible_moves(start_loc, start_dir, max_moves):
-	var move_queue = [ start_loc ]
 	var visited = { start_loc : _init_move_state(1, start_dir, [ start_loc ]) }
 	var next_move = {}
+	
+	var move_queue = PriorityQueue.new()
+	move_queue.add(start_loc, _move_priority(visited[start_loc]))
 	
 	for move_count in range(max_moves - 1):
 		_search_move_action(move_queue, visited, next_move)
 		
+		## add the next move start positions to the queue
+		assert(move_queue.size() == 0)
 		for next_pos in next_move:
 			if !visited.has(next_pos):
 				visited[next_pos] = next_move[next_pos]
-		
-		move_queue = next_move.keys()
+			move_queue.add(next_pos, _move_priority(visited[next_pos]))
 	
-	## don't copy next_move->visited on the final move
+	## don't use any of the positions in next_move on the final move
 	_search_move_action(move_queue, visited, next_move)
 	
 	return visited
@@ -78,31 +85,28 @@ func _search_possible_moves(start_loc, start_dir, max_moves):
 ## We want to perform a breadth first search, and vist each new grid position only once.
 func _search_move_action(move_queue, visited, next_move):
 	while !move_queue.empty():
-		var cur_pos = move_queue.pop_front()
+		var cur_pos = move_queue.pop_min()
 		var neighbors = _visit_cell_neighbors(cur_pos, visited, next_move)
 		for next_pos in neighbors:
 			visited[next_pos] = neighbors[next_pos]
-			move_queue.push_back(next_pos)
+			move_queue.add(next_pos, _move_priority(neighbors[next_pos]))
 
 func _visit_cell_neighbors(cur_pos, visited, next_move):
 	var next_visited = {}
 	
-	var parity = int(cur_pos.y) & 1
-	
+	## unpack current state
 	var cur_state = visited[cur_pos]
 	var facing = cur_state.facing
 	var prev_facing = cur_state.prev_facing
 	var move_count = cur_state.move_count
 	var hazard = cur_state.hazard
 	
-	for move_dir in HexUtils.MOVE_DIRECTIONS[facing]:
-		## unpack the current state
+	for move_dir in HexUtils.MOVE_DIRECTIONS:
 		var move_remaining = cur_state.move_remaining
 		var turn_remaining = cur_state.turn_remaining
 		
 		## get the destination pos
-		var move_step = HexUtils.HEX_CONN[parity][move_dir]
-		var next_pos = cur_pos + move_step
+		var next_pos = HexUtils.get_step(cur_pos, move_dir)
 
 		if visited.has(next_pos):
 			continue ## already visited
@@ -117,8 +121,8 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		if _track_turns:
 			turn_cost = abs(HexUtils.get_shortest_turn(facing, move_dir))
 			
-			## if we return to our previous facing we get refunded the turn cost
-			## this allows "straight line" zig-zagging, which hopefully lessens 
+			## if we return to our previous facing, refund the turn cost
+			## this allows "straight" zig-zagging, which hopefully lessens 
 			## the distortion on movement caused by using a hex grid
 			if move_dir == prev_facing:
 				turn_cost *= -1
@@ -156,7 +160,8 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		else:
 			## even if we take a whole new move action, we still may not be able to reach the next_pos, so check that
 			if _movement_rate + move_remaining >= move_cost && (!_track_turns || _turning_rate + turn_remaining >= turn_cost):
-				## by taking a new move we refresh our turns remaining, so make sure prev_facing gets cleared
+				## it's important that prev_facing is cleared when we reset turns_remaining
+				## that way on the next iteration we can't be refunded turns we haven't spent.
 				var next_state = _init_move_state(move_count + 1, move_dir, next_path)
 				
 				## carry over remaining movement
@@ -164,6 +169,8 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 				if _track_turns:
 					## turns don't carry over. however we can use the remaining turns to pay off any remaining cost.
 					next_state.turn_remaining += min(turn_remaining - turn_cost, 0)
+				
+				## carry over hazard flag
 				next_state.hazard = hazard || _is_dangerous(next_pos)
 				
 				next_move[next_pos] = next_state
