@@ -1,6 +1,6 @@
 extends Node
 
-const HexGrid = preload("res://scripts/HexGrid.gd")
+const HexUtils = preload("res://scripts/HexUtils.gd")
 
 ## the grid cell that the unit is located in
 export(Vector2) var cell_position = Vector2() setget set_cell_position
@@ -17,7 +17,7 @@ func _init():
 
 func _ready():
 	var base_size = get_base_size()
-	var pixel_radius = HexGrid.units2pixels(base_size/2)
+	var pixel_radius = HexUtils.units2pixels(base_size/2)
 	map_marker.set_footprint_radius(pixel_radius)
 	map_marker.set_facing_marker_visible(has_facing())
 
@@ -31,9 +31,9 @@ func has_facing():
 	return unit_info.use_facing
 
 func set_facing(dir):
-	facing = HexGrid.normalize(dir)
+	facing = HexUtils.normalize(dir)
 	if map_marker:
-		map_marker.set_facing(HexGrid.dir2rad(dir))
+		map_marker.set_facing(HexUtils.dir2rad(dir))
 
 func get_facing():
 	if !has_facing(): return null

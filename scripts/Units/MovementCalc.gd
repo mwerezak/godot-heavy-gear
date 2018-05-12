@@ -2,7 +2,7 @@
 
 extends Reference
 
-const HexGrid = preload("res://scripts/HexGrid.gd")
+const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
 
 var unit #the unit whose movement we are considering
@@ -27,7 +27,7 @@ func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_di
 	start_loc = start_loc if start_loc else unit.cell_position
 	start_dir = start_dir if start_dir else unit.facing
 	
-	_grid_spacing = HexGrid.pixels2units(world_map.UNITGRID_WIDTH)
+	_grid_spacing = HexUtils.pixels2units(world_map.UNITGRID_WIDTH)
 	
 	var unit_info = unit.unit_info
 	var move_type_info = MovementTypes.INFO[movement_type]
@@ -92,13 +92,13 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 	var move_count = cur_state.move_count
 	var hazard = cur_state.hazard
 	
-	for move_dir in HexGrid.MOVE_DIRECTIONS[facing]:
+	for move_dir in HexUtils.MOVE_DIRECTIONS[facing]:
 		## unpack the current state
 		var move_remaining = cur_state.move_remaining
 		var turn_remaining = cur_state.turn_remaining
 		
 		## get the destination pos
-		var move_step = HexGrid.HEX_CONN[parity][move_dir]
+		var move_step = HexUtils.HEX_CONN[parity][move_dir]
 		var next_pos = cur_pos + move_step
 		
 		if visited.has(next_pos):
@@ -112,7 +112,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		## handle turning costs
 		var turn_cost = 0
 		if _track_turns:
-			turn_cost = abs(HexGrid.get_shortest_turn(facing, move_dir))
+			turn_cost = abs(HexUtils.get_shortest_turn(facing, move_dir))
 			
 			## do we need to start a new move to face this direction?
 			if turn_remaining < turn_cost:

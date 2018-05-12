@@ -9,7 +9,7 @@
 
 script/source = "extends Sprite
 
-const HexGrid = preload(\"res://scripts/HexGrid.gd\")
+const HexUtils = preload(\"res://scripts/HexUtils.gd\")
 
 onready var facing_marker0 = $Facing0
 onready var facing_markers = { 0: [ facing_marker0 ] }
@@ -19,7 +19,7 @@ func _ready():
 		facing_markers[arc] = []
 		for i in [-1, 1]:
 			var facing_marker = facing_marker0.duplicate(0)
-			facing_marker.rotation = HexGrid.UNIT_ARC*arc*i
+			facing_marker.rotation = HexUtils.UNIT_ARC*arc*i
 			facing_markers[arc].append(facing_marker)
 			add_child(facing_marker)
 	
@@ -30,7 +30,7 @@ func show_facing_arc(facing, turn_arc):
 		rotation = 0
 		hide_facing_arc()
 	else:
-		rotation = HexGrid.dir2rad(facing)
+		rotation = HexUtils.dir2rad(facing)
 		for arc in facing_markers:
 			for facing_marker in facing_markers[arc]:
 				if arc <= turn_arc:
