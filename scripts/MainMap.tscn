@@ -70,7 +70,7 @@ use_filter = true
 font_data = ExtResource( 11 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node"]
+[node name="MainMap" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -161,6 +161,8 @@ _sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibilit
 [node name="WorldMap" parent="." index="2" instance=ExtResource( 5 )]
 
 [node name="MovementDisplay" parent="WorldMap" index="1" instance=ExtResource( 6 )]
+
+visible = false
 
 [node name="UnitCursor" type="Sprite" parent="WorldMap" index="2"]
 

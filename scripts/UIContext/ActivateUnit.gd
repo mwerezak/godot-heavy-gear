@@ -47,20 +47,14 @@ func deactivated():
 	.deactivated()
 	set_selection(null)
 
-## if we're hidden, also hide our selection
-func hide():
-	.hide()
-	if selection:
-		selection.hide()
-
-func show():
-	.show()
-	if selection:
-		selection.show()
-
 func _become_active():
 	._become_active()
 	activate_button.grab_focus()
+	if selection: selection.show()
+
+func _become_inactive():
+	._become_inactive()
+	if selection: selection.hide()
 
 func map_markers_input(map, map_markers, event):
 	if event.is_action_pressed("click_select"):

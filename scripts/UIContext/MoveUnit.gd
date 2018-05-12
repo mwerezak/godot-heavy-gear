@@ -25,6 +25,11 @@ func deactivated():
 func _become_active():
 	._become_active()
 	move_button.grab_focus()
+	move_display.show()
+
+func _become_inactive():
+	._become_inactive()
+	move_display.hide()
 
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
