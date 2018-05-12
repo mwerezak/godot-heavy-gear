@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="64"
+   height="64"
+   viewBox="0 0 64 64.000002"
+   id="svg7056"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="move_arc.svg"
+   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/facing_marker_32.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs7058" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#677f99"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.919596"
+     inkscape:cx="-11.336218"
+     inkscape:cy="25.933426"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1680"
+     inkscape:window-height="974"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7061">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Guide"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-988.3622)"
+     style="display:none">
+    <g
+       id="g4159"
+       transform="translate(-63.928569,-31.890319)">
+      <ellipse
+         ry="28.233496"
+         rx="28.233498"
+         cy="1052.1836"
+         cx="64.10714"
+         id="path3336"
+         style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:4.821208;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+      <ellipse
+         ry="16.030718"
+         rx="16.03072"
+         cy="1052.2728"
+         cx="63.943886"
+         id="path3336-3"
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Facing Arc">
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:6.9000001;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path3336-5"
+       sodipodi:type="arc"
+       sodipodi:cx="0.47673291"
+       sodipodi:cy="31.832979"
+       sodipodi:rx="40.408287"
+       sodipodi:ry="40.408283"
+       sodipodi:start="5.9777527"
+       sodipodi:end="0.30543262"
+       d="m 39.014801,19.681975 a 40.408287,40.408283 0 0 1 0,24.302009"
+       sodipodi:open="true" />
+  </g>
+</svg>

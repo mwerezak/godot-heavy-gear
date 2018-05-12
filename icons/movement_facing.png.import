@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/facing_marker_flat.svg-062a51e43c2c715dcbb84d5f7ddfabf5.stex"
+path="res://.import/movement_facing.png-2da2c5048c8af9985b991f6109e8b104.stex"
 
 [deps]
 
-source_file="res://icons/facing_marker_flat.svg"
-source_md5="0bf63314f6a94f71dc88aeb1ad1b619b"
+source_file="res://icons/movement_facing.png"
+source_md5="087233398eb9a99178c1a78cb5c8ffee"
 
-dest_files=[ "res://.import/facing_marker_flat.svg-062a51e43c2c715dcbb84d5f7ddfabf5.stex" ]
-dest_md5="6b711aecc23090cbf596217835c174cf"
+dest_files=[ "res://.import/movement_facing.png-2da2c5048c8af9985b991f6109e8b104.stex" ]
+dest_md5="edd472c489c49ecdf05bb27ed7e4029d"
 
 [params]
 
