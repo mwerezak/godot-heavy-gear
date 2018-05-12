@@ -27,10 +27,12 @@ func set_cell_position(cell_pos):
 
 ## not all units use facing. infantry, for example
 func has_facing():
-	return facing == null
+	return facing != null
 
 func set_facing(dir):
 	facing = dir
+	if has_facing():
+		pass
 
 ## the diameter of the circle the unit is assumed to occupy, in distance units
 func get_base_size():

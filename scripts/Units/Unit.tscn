@@ -35,7 +35,7 @@ func _draw_circle(center, radius, color, numpts=32):
 custom_solver_bias = 0.0
 radius = 32.0
 
-[node name="Unit" type="Node" index="0"]
+[node name="Unit" type="Node"]
 
 script = ExtResource( 1 )
 cell_position = Vector2( 0, 0 )
@@ -63,14 +63,13 @@ _sections_unfolded = [ "Offset", "Transform" ]
 
 [node name="Facing" type="Sprite" parent="MapMarker" index="2"]
 
-visible = false
-modulate = Color( 1, 0.109375, 0.109375, 1 )
-scale = Vector2( 0.5, 0.5 )
+modulate = Color( 0.792969, 0.173462, 0.173462, 0.862745 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="MouseCatcher" type="Area2D" parent="MapMarker" index="3"]
 
+visible = false
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
