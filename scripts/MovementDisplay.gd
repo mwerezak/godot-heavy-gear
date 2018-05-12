@@ -6,6 +6,7 @@ const TILE_BLUE = 0
 const TILE_YELLOW = 1
 const TILE_RED = 2
 
+onready var move_marker = $MoveMarker
 onready var movement_tiles = $MovementTiles
 
 onready var world_map = get_parent()
@@ -22,21 +23,13 @@ func show_movement(movement):
 	
 	for move_cell in movement.possible_moves:
 		var move_info = movement.possible_moves[move_cell]
-		if move_info.move_count <= 1:
-			movement_tiles.set_cellv(move_cell, TILE_BLUE)
+		
+		var cell
+		if move_info.hazard:
+			cell = TILE_RED
+		elif move_info.move_count > 1:
+			cell = TILE_YELLOW
 		else:
-			movement_tiles.set_cellv(move_cell, TILE_YELLOW)
-	
+			cell = TILE_BLUE
+		movement_tiles.set_cellv(move_cell, cell)
 
-## Produces an AStar reference that can be used to path the given unit
-## this is a rather complex problem that needs to take into account not
-## only valid locations the unit can move and movement costs but also 
-## the unit's current facing and its ability to turn.
-#func generate_pathing(move_unit):
-#	var pathing = AStar.new()
-#
-#func setup_movement(move_unit, pathing, destination):
-#	pass
-#
-#func finalize_movement():
-#	pass
