@@ -2,11 +2,6 @@ extends Node
 
 const Distances = preload("res://scripts/Game/Distances.gd")
 
-## the diameter of the circle the unit is assumed to occupy, and
-## the height of the unit - i.e. its silhouette for targeting purposes (probably more important once elevation is added)
-export(float) var base_size = 1.8
-export(float) var height = 0.5 
-
 ## the grid cell that the unit is located in
 export(Vector2) var cell_position = Vector2() setget set_cell_position
 export(int) var facing = 0 setget set_facing
@@ -21,6 +16,7 @@ func _init():
 	unit_info = UnitTypes.INFO[unit_type]
 
 func _ready():
+	var base_size = get_base_size()
 	var pixel_radius = Distances.units2pixels(base_size/2)
 	map_marker.set_footprint_radius(pixel_radius)
 
@@ -35,3 +31,11 @@ func has_facing():
 
 func set_facing(dir):
 	facing = dir
+
+## the diameter of the circle the unit is assumed to occupy, in distance units
+func get_base_size():
+	return unit_info.base_size
+
+## the height of the unit - i.e. its silhouette for targeting purposes (probably more important once elevation is added)
+func get_height():
+	return unit_info.height

@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/WorldMap.gd" type="Script" id=1]
 [ext_resource path="res://assets/TerrainTiles.tres" type="TileSet" id=2]
 
-[node name="WorldMap" type="Node2D" index="0"]
+[node name="WorldMap" type="Node2D"]
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )

@@ -6,6 +6,7 @@ signal mouse_exited
 var has_mouse = false
 
 onready var mouse_catcher = $MouseCatcher/CollisionShape2D
+onready var base_footprint = $BaseFootprint
 
 func _on_mouse_entered():
 	has_mouse = true
@@ -18,3 +19,4 @@ func _on_mouse_exited():
 ## sets the size of the map marker in pixels
 func set_footprint_radius(pixels):
 	mouse_catcher.shape.radius = pixels
+	base_footprint.radius = pixels

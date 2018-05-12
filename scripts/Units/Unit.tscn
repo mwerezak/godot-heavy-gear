@@ -35,11 +35,9 @@ func _draw_circle(center, radius, color, numpts=32):
 custom_solver_bias = 0.0
 radius = 32.0
 
-[node name="Unit" type="Node"]
+[node name="Unit" type="Node" index="0"]
 
 script = ExtResource( 1 )
-base_size = 1.8
-height = 0.5
 cell_position = Vector2( 0, 0 )
 facing = 0
 unit_type = "dummy"
