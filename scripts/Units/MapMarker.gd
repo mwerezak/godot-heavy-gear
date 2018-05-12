@@ -31,3 +31,13 @@ func icon_radius():
 	var size = icon_sprite.texture.get_size()
 	size = icon_sprite.transform.basis_xform(size)/2
 	return size.length()
+
+## sets the direction of the facing marker
+func set_facing(radians):
+	facing_marker.rotation = radians
+
+func set_facing_marker_visible(show_marker):
+	if show_marker:
+		facing_marker.show()
+	else:
+		facing_marker.hide()

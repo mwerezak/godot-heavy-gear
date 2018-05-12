@@ -39,5 +39,7 @@ func unit_cell_input(map, cell_pos, event):
 		#if confirm_move: _move_button_pressed()
 
 func _move_button_pressed():
+	var new_facing = move_unit.get_parent().get_nearest_dir(move_unit.cell_position, move_pos)
+	move_unit.set_facing(new_facing)
 	move_unit.cell_position = move_pos
 	context_manager.deactivate()

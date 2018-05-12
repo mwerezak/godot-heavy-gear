@@ -1,6 +1,7 @@
 extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
+const Directions = preload("res://scripts/Game/Directions.gd")
 
 ## dimensions of terrain hexes
 ## it is important that these are both multiples of 4
@@ -59,3 +60,10 @@ func get_grid_pos(cell_pos):
 func add_object(object, cell_pos):
 	add_child(object)
 	object.cell_position = cell_pos
+
+## gets the closest direction to get from one cell to another
+func get_nearest_dir(cell_from, cell_to):
+	var from_pos = get_grid_pos(cell_from)
+	var to_pos = get_grid_pos(cell_to)
+	return Directions.nearest_dir( (to_pos - from_pos).angle() )
+	

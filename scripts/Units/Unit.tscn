@@ -5,7 +5,7 @@
 [ext_resource path="res://icons/icon.png" type="Texture" id=3]
 [ext_resource path="res://icons/facing_marker_16.png" type="Texture" id=4]
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 
 script/source = "extends Node2D
 
@@ -30,12 +30,12 @@ func _draw_circle(center, radius, color, numpts=32):
 		points.push_back(point)
 	draw_colored_polygon(points, color, PoolVector2Array(), null, null, true)"
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=2]
 
 custom_solver_bias = 0.0
 radius = 32.0
 
-[node name="Unit" type="Node"]
+[node name="Unit" type="Node" index="0"]
 
 script = ExtResource( 1 )
 cell_position = Vector2( 0, 0 )
@@ -51,7 +51,7 @@ script = ExtResource( 2 )
 [node name="BaseFootprint" type="Node2D" parent="MapMarker" index="0"]
 
 modulate = Color( 0.282353, 0.282353, 0.282353, 0.501961 )
-script = SubResource( 2 )
+script = SubResource( 1 )
 _sections_unfolded = [ "Visibility" ]
 
 [node name="Icon" type="Sprite" parent="MapMarker" index="1"]
@@ -69,7 +69,6 @@ _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="MouseCatcher" type="Area2D" parent="MapMarker" index="3"]
 
-visible = false
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
 gravity = 98.0
@@ -83,7 +82,7 @@ _sections_unfolded = [ "Collision", "Pickable" ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MapMarker/MouseCatcher" index="0"]
 
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [connection signal="mouse_entered" from="MapMarker/MouseCatcher" to="MapMarker" method="_on_mouse_entered"]
 

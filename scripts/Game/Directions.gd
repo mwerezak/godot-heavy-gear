@@ -14,7 +14,7 @@ const DIR_MIN = 0
 const DIR_MAX = 11
 
 static func normalize(dir):
-	return wrapi(dir, DIR_MIN, DIR_MAX)
+	return wrapi(dir, DIR_MIN, DIR_MAX + 1)
 
 static func nearest_dir(radians):
 	var dir = round(radians/UNIT_ARC)

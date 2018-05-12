@@ -13,11 +13,14 @@ const BASE_SIZE_STRIDER = 1.5
 const INFO = {
 	dummy = {
 		name = "Dummy Unit",
+		
 		base_size = 1.0,
 		height = 0.5,
+		
+		use_facing = true, #if units should track their facing and direction
 		movement = {
 			MovementTypes.TYPE_WALKER: 5.0,
-		}
+		},
 	}
 }
 

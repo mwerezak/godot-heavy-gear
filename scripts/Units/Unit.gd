@@ -1,10 +1,11 @@
 extends Node
 
 const Distances = preload("res://scripts/Game/Distances.gd")
+const Directions = preload("res://scripts/Game/Directions.gd")
 
 ## the grid cell that the unit is located in
 export(Vector2) var cell_position = Vector2() setget set_cell_position
-export(int) var facing = 0 setget set_facing
+export(int) var facing = 0 setget set_facing, get_facing
 
 export(String) var unit_type = "dummy" #reference a unit type in UnitModels.gd
 var unit_info
@@ -19,6 +20,7 @@ func _ready():
 	var base_size = get_base_size()
 	var pixel_radius = Distances.units2pixels(base_size/2)
 	map_marker.set_footprint_radius(pixel_radius)
+	map_marker.set_facing_marker_visible(has_facing())
 
 func set_cell_position(cell_pos):
 	if world_map:
@@ -27,12 +29,16 @@ func set_cell_position(cell_pos):
 
 ## not all units use facing. infantry, for example
 func has_facing():
-	return facing != null
+	return unit_info.use_facing
 
 func set_facing(dir):
 	facing = dir
-	if has_facing():
-		pass
+	if map_marker:
+		map_marker.set_facing(Directions.dir2rad(dir))
+
+func get_facing():
+	if !has_facing(): return null
+	return facing
 
 ## the diameter of the circle the unit is assumed to occupy, in distance units
 func get_base_size():
