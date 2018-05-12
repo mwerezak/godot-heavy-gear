@@ -11,7 +11,7 @@ const INFO = {
 	TYPE_WALKER : {
 		name = "Walker",   #display name
 		road_bonus = 1.0,  #bonus movement when on roads
-		turn_rate = null,  #the max direction steps the unit can turn in a single move action, or null for unlimited (see Directions.gd)
+		turn_rate = null,  #the max direction steps the unit can turn in a single move action, or null for unlimited (see Direction.gd)
 	},
 	TYPE_GROUND : {
 		name = "Ground",

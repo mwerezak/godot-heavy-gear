@@ -1,7 +1,7 @@
 extends Node
 
-const Distances = preload("res://scripts/Game/Distances.gd")
-const Directions = preload("res://scripts/Game/Directions.gd")
+const Distance = preload("res://scripts/Game/Distance.gd")
+const Direction = preload("res://scripts/Game/Direction.gd")
 
 ## the grid cell that the unit is located in
 export(Vector2) var cell_position = Vector2() setget set_cell_position
@@ -18,7 +18,7 @@ func _init():
 
 func _ready():
 	var base_size = get_base_size()
-	var pixel_radius = Distances.units2pixels(base_size/2)
+	var pixel_radius = Distance.units2pixels(base_size/2)
 	map_marker.set_footprint_radius(pixel_radius)
 	map_marker.set_facing_marker_visible(has_facing())
 
@@ -34,7 +34,7 @@ func has_facing():
 func set_facing(dir):
 	facing = dir
 	if map_marker:
-		map_marker.set_facing(Directions.dir2rad(dir))
+		map_marker.set_facing(Direction.dir2rad(dir))
 
 func get_facing():
 	if !has_facing(): return null

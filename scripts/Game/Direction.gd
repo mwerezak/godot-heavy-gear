@@ -12,9 +12,10 @@ extends Node
 const UNIT_ARC = deg2rad(30)
 const DIR_MIN = 0
 const DIR_MAX = 11
+const DIR_WRAP = 12
 
 static func normalize(dir):
-	return wrapi(dir, DIR_MIN, DIR_MAX + 1)
+	return wrapi(dir, DIR_MIN, DIR_WRAP)
 
 static func nearest_dir(radians):
 	var dir = round(radians/UNIT_ARC)
