@@ -3,6 +3,7 @@ extends "UIContextBase.gd"
 const UnitSelectorSingle = preload("res://scripts/GUI/UnitSelectorSingle.gd")
 const Constants = preload("res://scripts/Constants.gd")
 
+## TODO split to another file
 class OverlayFactory:
 	var _overlay_texture
 	var _modulate_color
@@ -17,11 +18,11 @@ class OverlayFactory:
 		_overlay_texture.create_from_image(overlay_image)
 
 	
-	func create_overlay_node(object):
+	func create_overlay_node(map_marker):
 		var overlay = Sprite.new()
 		overlay.texture = _overlay_texture
 		overlay.modulate = _modulate_color
-		overlay.offset = Vector2(0, -45)
+		overlay.offset = Vector2(0, -12 - map_marker.get_footprint_radius())
 		overlay.z_as_relative = false
 		overlay.z_index = Constants.HUD_ZLAYER
 		return overlay

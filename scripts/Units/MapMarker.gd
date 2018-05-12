@@ -4,6 +4,7 @@ signal mouse_entered
 signal mouse_exited
 
 var has_mouse = false
+var footprint setget set_footprint_radius, get_footprint_radius
 
 onready var mouse_catcher = $MouseCatcher/CollisionShape2D
 onready var base_footprint = $BaseFootprint
@@ -25,6 +26,9 @@ func set_footprint_radius(pixels):
 	
 	var icon_radius = icon_radius()
 	facing_marker.offset.x = max(pixels, icon_radius) + 8
+
+func get_footprint_radius():
+	return base_footprint.radius
 
 ## tries to get the radius of the smallest circle enclosing the icon sprite
 func icon_radius():
