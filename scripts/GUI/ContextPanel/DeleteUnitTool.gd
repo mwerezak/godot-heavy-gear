@@ -1,4 +1,4 @@
-extends "UIContextBase.gd"
+extends "ContextBase.gd"
 
 func map_markers_input(map, map_markers, event):
 	if event.is_action_pressed("click_select"):

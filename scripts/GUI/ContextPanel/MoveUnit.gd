@@ -1,4 +1,4 @@
-extends "UIContextBase.gd"
+extends "ContextBase.gd"
 
 onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 onready var move_display = get_tree().get_root().find_node("MovementDisplay", true, false)

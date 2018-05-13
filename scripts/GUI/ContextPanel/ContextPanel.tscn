@@ -1,6 +1,11 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scripts/UIContext/UIContextManager.gd" type="Script" id=1]
+[ext_resource path="res://scripts/GUI/ContextPanel/ContextPanel.gd" type="Script" id=1]
+
+
+
+
+
 
 [node name="UIContextPanel" type="PanelContainer"]
 

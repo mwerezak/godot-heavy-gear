@@ -1,4 +1,4 @@
-extends "UIContextBase.gd"
+extends "ContextBase.gd"
 
 const UnitSelectorSingle = preload("res://scripts/GUI/UnitSelectorSingle.gd")
 const Constants = preload("res://scripts/Constants.gd")

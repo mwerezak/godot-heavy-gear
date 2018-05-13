@@ -7,10 +7,10 @@ onready var world = $WorldMap
 onready var move_marker = $MoveMarker
 
 var ui_contexts = {
-	dev_spawn_unit = preload("res://scripts/UIContext/SpawnUnitTool.tscn"),
-	dev_delete_unit = preload("res://scripts/UIContext/DeleteUnitTool.tscn"),
-	activate_unit = preload("res://scripts/UIContext/ActivateUnit.tscn"),
-	move_unit = preload("res://scripts/UIContext/MoveUnit.tscn"),
+	dev_spawn_unit = preload("res://scripts/GUI/ContextPanel/SpawnUnitTool.tscn"),
+	dev_delete_unit = preload("res://scripts/GUI/ContextPanel/DeleteUnitTool.tscn"),
+	activate_unit = preload("res://scripts/GUI/ContextPanel/ActivateUnit.tscn"),
+	move_unit = preload("res://scripts/GUI/ContextPanel/MoveUnit.tscn"),
 }
 
 func _ready():

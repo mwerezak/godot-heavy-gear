@@ -1,4 +1,4 @@
-extends "UIContextBase.gd"
+extends "ContextBase.gd"
 
 const Unit = preload("res://scripts/Units/Unit.tscn")
 
