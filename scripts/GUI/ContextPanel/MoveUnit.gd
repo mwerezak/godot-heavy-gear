@@ -1,13 +1,13 @@
 extends "ContextBase.gd"
 
 onready var move_button = $MarginContainer/HBoxContainer/MoveButton
+onready var label = $MarginContainer/HBoxContainer/Label
 onready var move_display = get_tree().get_root().find_node("MovementDisplay", true, false)
-
-#var move_marker = null
 
 var selected_markers = null
 var move_unit = null
 var move_pos = null
+var move_info = null
 var movement_calc = null
 
 func activated(args):
@@ -16,6 +16,7 @@ func activated(args):
 	var move_marker = selected_markers.selected.front()
 	move_unit = move_marker.get_parent()
 	movement_calc = move_display.setup(move_unit)
+	label.text = "Select a location to move to."
 
 func deactivated():
 	.deactivated()
@@ -33,15 +34,26 @@ func _become_inactive():
 
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		move_button.disabled = false
-		move_display.place_move_marker(movement_calc, cell_pos)
-		
-		#var confirm_move = (move_pos - position).length() < 16 if move_pos else false
-		move_pos = cell_pos
-		#if confirm_move: _move_button_pressed()
+		if !movement_calc.possible_moves.has(cell_pos):
+			move_button.disabled = true
+			move_display.clear_move_marker()
+			move_pos = null
+			label.text = "Select a location to move to."
+		else:
+			if move_pos == cell_pos:
+				_move_button_pressed()
+			else:
+				move_button.disabled = false
+				move_display.place_move_marker(movement_calc, cell_pos)
+				move_pos = cell_pos
+				move_info = movement_calc.possible_moves[move_pos]
+				label.text = "Select a location to move to (or click again to confirm)."
 
 func _move_button_pressed():
-	var new_facing = move_unit.get_parent().get_nearest_dir(move_unit.cell_position, move_pos)
-	move_unit.set_facing(new_facing)
 	move_unit.cell_position = move_pos
+	if move_info.facing != null:
+		move_unit.set_facing(move_info.facing)
 	context_manager.deactivate()
+	
+	if move_unit.has_facing() && move_info.turn_remaining:
+		context_manager.activate("select_facing", { rotate_unit = move_unit, max_turns = move_info.turn_remaining })

@@ -2,13 +2,11 @@ extends Node
 
 onready var context_panel = $HUDLayer/LowerLeftPanel/ContextPanel
 onready var camera = $Camera
-onready var world = $WorldMap
-
-onready var move_marker = $MoveMarker
+onready var world_map = $WorldMap
 
 func _ready():
 	## set camera limits
-	var map_rect = world.get_bounding_rect()
+	var map_rect = world_map.get_bounding_rect()
 	camera.set_limit_rect(map_rect)
 	
 	## register Context Panel items
@@ -25,16 +23,16 @@ func _ready():
 func _unhandled_input(event):
 	if event is InputEventMouse:
 		## unit cell position events
-		var mouse_pos = world.get_global_mouse_position()
-		if world.point_on_map(mouse_pos):
-			var cell_pos = world.get_grid_cell(mouse_pos)
-			context_panel.unit_cell_input_event(self, cell_pos, event)
+		var mouse_pos = world_map.get_global_mouse_position()
+		if world_map.point_on_map(mouse_pos):
+			var cell_pos = world_map.get_grid_cell(mouse_pos)
+			context_panel.unit_cell_input_event(world_map, cell_pos, event)
 		
 		## terrain hex events
-		var hex_pos = world.get_terrain_hex(mouse_pos)
-		var terrain = world.get_terrain_at_hex(hex_pos)
+		var hex_pos = world_map.get_terrain_hex(mouse_pos)
+		var terrain = world_map.get_terrain_at_hex(hex_pos)
 		if terrain:
-			context_panel.terrain_input_event(self, hex_pos, terrain, event)
+			context_panel.terrain_input_event(world_map, hex_pos, terrain, event)
 		
 		## map marker events
 		var map_markers = []
@@ -42,4 +40,4 @@ func _unhandled_input(event):
 			if marker_obj.has_mouse:
 				map_markers.push_back(marker_obj)
 		if !map_markers.empty():
-			context_panel.map_markers_input_event(self, map_markers, event)
+			context_panel.map_markers_input_event(world_map, map_markers, event)

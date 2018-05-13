@@ -2,6 +2,7 @@
 
 extends Node
 
+const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementCalc = preload("res://scripts/Units/MovementCalc.gd")
 
 const TILE_BLUE = 0
@@ -26,8 +27,7 @@ func setup(move_unit):
 	var movement_type = move_unit.unit_info.movement.keys()[0]
 	var movement = MovementCalc.new(world_map, move_unit, movement_type)
 	
-	move_marker.hide()
-	move_path.hide()
+	clear_move_marker()
 	show_movement(movement)
 	
 	return movement
@@ -49,8 +49,6 @@ func show_movement(movement):
 
 func place_move_marker(movement, move_pos):
 	if !movement.possible_moves.has(move_pos):
-		move_marker.hide()
-		move_path.hide()
 		return
 	
 	var move_info = movement.possible_moves[move_pos]
@@ -60,10 +58,10 @@ func place_move_marker(movement, move_pos):
 	
 	## facing
 	facing_marker.clear()
-	if !movement.free_rotate() && move_info.turn_remaining < 6:
-		var left_turn = move_info.facing - move_info.turn_remaining
-		var right_turn = move_info.facing + move_info.turn_remaining
-		facing_marker.set_arc(left_turn, right_turn, true)
+	if !movement.free_rotate() && move_info.turn_remaining < HexUtils.DIR_WRAP/2:
+		var min_turn = move_info.facing - move_info.turn_remaining
+		var max_turn = move_info.facing + move_info.turn_remaining
+		facing_marker.set_arc(min_turn, max_turn, true)
 
 	## move path
 	var path_points = PoolVector2Array()
@@ -71,3 +69,7 @@ func place_move_marker(movement, move_pos):
 		path_points.push_back(world_map.get_grid_pos(grid_cell))
 	move_path.points = path_points
 	move_path.show()
+
+func clear_move_marker():
+	move_marker.hide()
+	move_path.hide()

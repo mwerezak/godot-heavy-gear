@@ -10,7 +10,6 @@ onready var mouse_catcher = $MouseCatcher/CollisionShape2D
 onready var base_footprint = $BaseFootprint
 onready var facing_marker = $Facing
 onready var icon_sprite = $Icon
-onready var direction_arcs = $DirectionArcs
 
 func _on_mouse_entered():
 	has_mouse = true

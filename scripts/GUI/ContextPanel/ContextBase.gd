@@ -2,7 +2,7 @@
 
 extends Control
 
-var context_manager = null 
+var context_manager
 
 func _ready():
 	hide()
