@@ -59,10 +59,11 @@ func place_move_marker(movement, move_pos):
 	move_marker.position = world_map.get_grid_pos(move_pos)
 	
 	## facing
-	if movement.free_rotate():
-		facing_marker.hide_facing_arc()
-	else:
-		facing_marker.show_facing_arc(move_info.facing, move_info.turn_remaining)
+	facing_marker.clear()
+	if !movement.free_rotate() && move_info.turn_remaining < 6:
+		var left_turn = move_info.facing - move_info.turn_remaining
+		var right_turn = move_info.facing + move_info.turn_remaining
+		facing_marker.set_arc(left_turn, right_turn, true)
 
 	## move path
 	var path_points = PoolVector2Array()

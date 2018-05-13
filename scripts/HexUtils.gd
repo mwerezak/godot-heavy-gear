@@ -50,6 +50,18 @@ static func get_shortest_turn(from_dir, to_dir):
 	var diff = normalize(to_dir - from_dir + 6) - 6
 	return diff + 12 if diff < -6 else diff
 
+## returns an array of all dirs in the arc
+static func arc_dirs(start_dir, end_dir):
+	start_dir = normalize(start_dir)
+	end_dir = normalize(end_dir)
+	
+	var arc = [ start_dir ]
+	while start_dir != end_dir:
+		start_dir = rotate_step(start_dir, 1)
+		arc.push_back(start_dir)
+	
+	return arc
+
 ##### HEX GRID PATHING #####
 
 ## an array of all possible move directions

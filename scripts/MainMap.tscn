@@ -10,7 +10,7 @@
 [ext_resource path="res://scripts/GUI/ContextPanel/SelectFacing.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scripts/GUI/Camera.gd" type="Script" id=9]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scripts/MovementDisplay.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scripts/GUI/MovementDisplay.tscn" type="PackedScene" id=11]
 [ext_resource path="res://icons/unit_cursor.png" type="Texture" id=12]
 [ext_resource path="res://scripts/GUI/UnitCursor.gd" type="Script" id=13]
 [ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=14]
@@ -75,7 +75,7 @@ use_filter = true
 font_data = ExtResource( 16 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node" index="0"]
+[node name="MainMap" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]

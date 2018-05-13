@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/GUI/DirectionArc.gd" type="Script" id=1]
+[ext_resource path="res://icons/movement_facing.png" type="Texture" id=2]
+
+[node name="DirectionArcs" type="Node2D"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="Dir0" type="Sprite" parent="." index="0"]
+
+texture = ExtResource( 2 )
+offset = Vector2( 16, 0 )
+_sections_unfolded = [ "Offset" ]
+
+
