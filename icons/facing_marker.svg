@@ -16,9 +16,9 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="facing_marker.svg"
-   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/facing_marker_32.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/facing_marker_16.png"
+   inkscape:export-xdpi="45"
+   inkscape:export-ydpi="45">
   <defs
      id="defs7058" />
   <sodipodi:namedview
@@ -29,8 +29,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="-3.0773238"
-     inkscape:cy="25.131126"
+     inkscape:cx="0.7774384"
+     inkscape:cy="4.0598389"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -48,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -59,7 +59,7 @@
      transform="translate(0,-1020.3622)">
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#dedede;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 2.6897067,1021.5697 0,29.6206 18.5938003,-14.4907 z"
+       d="m 2.6897067,1021.5697 0,29.6206 18.4152293,-14.4014 z"
        id="path7604"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />

@@ -7,10 +7,10 @@ path="res://.import/facing_marker.svg-6753e5f4d2320c340b1f93b56d0d0e43.stex"
 [deps]
 
 source_file="res://icons/facing_marker.svg"
-source_md5="5258f6ffa28c3eaab749d0c2255f44f4"
+source_md5="da04cf99144d525e17a05344f5c51fcd"
 
 dest_files=[ "res://.import/facing_marker.svg-6753e5f4d2320c340b1f93b56d0d0e43.stex" ]
-dest_md5="637c5fab58c4cf69524c74c55453ff7c"
+dest_md5="3a63dddc194789726f50698079d789bd"
 
 [params]
 
