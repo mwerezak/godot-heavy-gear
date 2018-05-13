@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scripts/GUI/ContextPanel/MoveUnit.gd" type="Script" id=1]
+[ext_resource path="res://scripts/GUI/ContextPanel/SelectFacing.gd" type="Script" id=1]
 
-[node name="MoveUnit" type="Container"]
+[node name="SelectFacing" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -59,7 +59,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 5.0
-margin_right = 312.0
+margin_right = 313.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -67,19 +67,19 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 4
-text = "Select a location to move to."
+text = "Select direction to rotate unit."
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="MoveButton" type="Button" parent="MarginContainer/HBoxContainer" index="1"]
+[node name="DoneButton" type="Button" parent="MarginContainer/HBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 316.0
+margin_left = 317.0
 margin_right = 363.0
 margin_bottom = 25.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -94,10 +94,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Move"
+text = "Done"
 flat = false
 align = 1
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/MoveButton" to="." method="_move_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/DoneButton" to="." method="_move_button_pressed"]
 
 

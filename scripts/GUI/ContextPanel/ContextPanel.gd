@@ -5,7 +5,7 @@ onready var container = $VBoxContainer
 var ui_contexts = {}
 var context_stack = []
 
-func register(ui_context, context_name):
+func register(context_name, ui_context):
 	assert(!ui_contexts.has(context_name))
 	
 	ui_contexts[context_name] = ui_context

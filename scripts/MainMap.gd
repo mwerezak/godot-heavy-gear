@@ -6,22 +6,17 @@ onready var world = $WorldMap
 
 onready var move_marker = $MoveMarker
 
-var ui_contexts = {
-	dev_spawn_unit = preload("res://scripts/GUI/ContextPanel/SpawnUnitTool.tscn"),
-	dev_delete_unit = preload("res://scripts/GUI/ContextPanel/DeleteUnitTool.tscn"),
-	activate_unit = preload("res://scripts/GUI/ContextPanel/ActivateUnit.tscn"),
-	move_unit = preload("res://scripts/GUI/ContextPanel/MoveUnit.tscn"),
-}
-
 func _ready():
 	## set camera limits
 	var map_rect = world.get_bounding_rect()
 	camera.set_limit_rect(map_rect)
 	
-	## load and register UI Contexts
-	for context_name in ui_contexts:
-		var instance = ui_contexts[context_name].instance()
-		context_panel.register(instance, context_name)
+	## register Context Panel items
+	context_panel.register("dev_spawn_unit", context_panel.get_node("SpawnUnit"))
+	context_panel.register("dev_delete_unit", context_panel.get_node("DeleteUnit"))
+	context_panel.register("activate_unit", context_panel.get_node("ActivateUnit"))
+	context_panel.register("move_unit", context_panel.get_node("MoveUnit"))
+	context_panel.register("select_facing", context_panel.get_node("SelectFacing"))
 	
 	## load the initial context
 	context_panel.activate("activate_unit")
