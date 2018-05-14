@@ -1,6 +1,6 @@
 extends Node
 
-onready var context_panel = $HUDLayer/LowerLeftPanel/ContextPanel
+onready var context_panel = $GUILayer/LowerLeftPanel/ContextPanel
 onready var camera = $Camera
 onready var world_map = $WorldMap
 

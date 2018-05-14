@@ -80,7 +80,7 @@ _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
 
-[node name="HUDLayer" type="CanvasLayer" parent="." index="0"]
+[node name="GUILayer" type="CanvasLayer" parent="." index="0"]
 
 layer = 1
 offset = Vector2( 0, 0 )
@@ -88,7 +88,7 @@ rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="DevInfoLabel" type="Label" parent="HUDLayer" index="0"]
+[node name="DevInfoLabel" type="Label" parent="GUILayer" index="0"]
 
 anchor_left = 1.0
 anchor_top = 0.0
@@ -111,9 +111,9 @@ max_lines_visible = -1
 script = SubResource( 1 )
 _sections_unfolded = [ "Grow Direction" ]
 
-[node name="DevToolbox" parent="HUDLayer" index="1" instance=ExtResource( 2 )]
+[node name="DevToolbox" parent="GUILayer" index="1" instance=ExtResource( 2 )]
 
-[node name="LowerLeftPanel" type="VBoxContainer" parent="HUDLayer" index="2"]
+[node name="LowerLeftPanel" type="VBoxContainer" parent="GUILayer" index="2"]
 
 anchor_left = 0.0
 anchor_top = 1.0
@@ -131,13 +131,12 @@ size_flags_vertical = 1
 alignment = 2
 _sections_unfolded = [ "Grow Direction" ]
 
-[node name="ContextPanel" parent="HUDLayer/LowerLeftPanel" index="0" instance=ExtResource( 3 )]
+[node name="ContextPanel" parent="GUILayer/LowerLeftPanel" index="0" instance=ExtResource( 3 )]
 
-editor/display_folded = true
 grow_vertical = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="SpawnUnit" parent="HUDLayer/LowerLeftPanel/ContextPanel" index="1" instance=ExtResource( 4 )]
+[node name="SpawnUnit" parent="GUILayer/LowerLeftPanel/ContextPanel" index="1" instance=ExtResource( 4 )]
 
 visible = false
 margin_left = 7.0
@@ -145,7 +144,7 @@ margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="DeleteUnit" parent="HUDLayer/LowerLeftPanel/ContextPanel" index="2" instance=ExtResource( 5 )]
+[node name="DeleteUnit" parent="GUILayer/LowerLeftPanel/ContextPanel" index="2" instance=ExtResource( 5 )]
 
 visible = false
 margin_left = 7.0
@@ -153,7 +152,7 @@ margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="ActivateUnit" parent="HUDLayer/LowerLeftPanel/ContextPanel" index="3" instance=ExtResource( 6 )]
+[node name="ActivateUnit" parent="GUILayer/LowerLeftPanel/ContextPanel" index="3" instance=ExtResource( 6 )]
 
 visible = false
 margin_left = 7.0
@@ -161,7 +160,7 @@ margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="MoveUnit" parent="HUDLayer/LowerLeftPanel/ContextPanel" index="4" instance=ExtResource( 7 )]
+[node name="MoveUnit" parent="GUILayer/LowerLeftPanel/ContextPanel" index="4" instance=ExtResource( 7 )]
 
 visible = false
 margin_left = 7.0
@@ -169,7 +168,7 @@ margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="SelectFacing" parent="HUDLayer/LowerLeftPanel/ContextPanel" index="5" instance=ExtResource( 8 )]
+[node name="SelectFacing" parent="GUILayer/LowerLeftPanel/ContextPanel" index="5" instance=ExtResource( 8 )]
 
 visible = false
 margin_left = 7.0
