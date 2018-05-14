@@ -24,7 +24,7 @@ func _deferred_ready():
 	movement_tiles.cell_size = world_map.unit_grid.cell_size
 
 func setup(move_unit):
-	var movement_type = move_unit.unit_info.movement.keys()[0]
+	var movement_type = move_unit.unit_info.get_movement_modes().front() #temporary
 	var movement = MovementCalc.new(world_map, move_unit, movement_type)
 	
 	clear_move_marker()

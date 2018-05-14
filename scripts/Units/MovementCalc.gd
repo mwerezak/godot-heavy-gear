@@ -9,7 +9,7 @@ const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 var unit #the unit whose movement we are considering
 var world_map #reference to the world map the unit is located on
 var movement_type #movement type to use, since units may have more than one
-var _track_turns
+var _track_turns #flag if we should track facing and turn rate
 
 ## a dictionary of the grid positions this unit can reach from the start_loc
 ## each position is mapped to a dictionary of information (e.g. movement costs, facing at that hex, turning angle used)
@@ -31,11 +31,10 @@ func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_di
 	_grid_spacing = HexUtils.pixels2units(world_map.UNITGRID_WIDTH)
 	
 	var unit_info = unit.unit_info
-	var move_type_info = MovementTypes.INFO[movement_type]
 	
-	_track_turns = (move_type_info.turn_rate != null && unit.has_facing()) #TODO get this from the unit somehow
-	_movement_rate = unit_info.movement[movement_type]
-	_turning_rate = move_type_info.turn_rate
+	_movement_rate = unit_info.get_move_speed(movement_type)
+	_turning_rate = unit_info.get_turn_rate(movement_type)
+	_track_turns = unit_info.use_facing() && _turning_rate != null
 	
 	var visited = _search_possible_moves(start_loc, start_dir, max_moves)
 	for cell_pos in visited:

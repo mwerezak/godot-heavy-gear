@@ -13,7 +13,7 @@ onready var world_map = get_parent()
 onready var map_marker = $MapMarker
 
 func _init():
-	unit_info = UnitTypes.INFO[unit_type]
+	unit_info = UnitTypes.get_info(unit_type)
 
 func _ready():
 	var base_size = get_base_size()
@@ -28,7 +28,7 @@ func set_cell_position(cell_pos):
 
 ## not all units use facing. infantry, for example
 func has_facing():
-	return unit_info.use_facing
+	return unit_info.use_facing()
 
 func set_facing(dir):
 	facing = HexUtils.normalize(dir)
@@ -41,8 +41,8 @@ func get_facing():
 
 ## the diameter of the circle the unit is assumed to occupy, in distance units
 func get_base_size():
-	return unit_info.base_size
+	return unit_info.get_base_size()
 
 ## the height of the unit - i.e. its silhouette for targeting purposes (probably more important once elevation is added)
 func get_height():
-	return unit_info.height
+	return unit_info.get_height()
