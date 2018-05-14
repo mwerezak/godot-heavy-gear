@@ -1,3 +1,5 @@
+## Randomizes the terrain tile appearances when run on a WorldMap scene
+
 tool
 extends EditorScript
 
