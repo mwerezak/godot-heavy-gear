@@ -13,7 +13,9 @@ onready var world_map = get_parent()
 onready var map_marker = $MapMarker
 
 func _ready():
-	map_marker.color = Color("#355570") 
+	var primary_color = Color("#355570") 
+	var secondary_color = Color("#FFC300")
+	map_marker.set_colors(primary_color, secondary_color)
 
 func _update_marker():
 	if map_marker:

@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="nato_counters.svg"
-   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/units/nato/wheeled_apc.png"
+   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/units/nato/gear.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,11 +28,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.613506"
-     inkscape:cx="-7.4258475"
-     inkscape:cy="27.125122"
+     inkscape:zoom="10.767123"
+     inkscape:cx="-4.1262419"
+     inkscape:cy="11.683698"
      inkscape:document-units="px"
-     inkscape:current-layer="layer8"
+     inkscape:current-layer="layer9"
      showgrid="false"
      units="px"
      inkscape:window-width="1680"
@@ -85,9 +85,31 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="layer9"
+     inkscape:label="Counter Bottom"
+     style="display:none">
+    <path
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#c8c8c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 41.753427,31.187305 0,6.620914 c 0,2.185644 -1.759562,3.945206 -3.945206,3.945206 l -27.61644,0 c -2.185644,0 -3.9452056,-1.759562 -3.9452056,-3.945206 l 2e-7,-6.620914"
+       id="rect4248"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="Counter Top"
+     id="g4246"
+     inkscape:groupmode="layer">
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#c8c8c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 6.2465756,31.187305 -2e-7,-20.995526 c 0,-2.1856439 1.7595616,-3.9452056 3.9452056,-3.9452056 l 0,0 27.61644,0 c 2.185644,0 3.945206,1.7595617 3.945206,3.9452056 l 0,20.995526"
+       id="path4256"
+       inkscape:connector-curvature="0" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Frame"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.89815938;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -101,7 +123,7 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Infantry"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.88854963;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -118,7 +140,7 @@
      inkscape:groupmode="layer"
      id="layer6"
      inkscape:label="Armour"
-     style="display:inline"
+     style="display:none"
      sodipodi:insensitive="true">
     <ellipse
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.87461668;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -132,7 +154,8 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="Wheels"
-     style="display:none">
+     style="display:none"
+     sodipodi:insensitive="true">
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4797"
@@ -156,7 +179,8 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="Heavy"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <rect
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.81802833;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4148"
@@ -169,7 +193,8 @@
      inkscape:groupmode="layer"
      id="layer8"
      inkscape:label="Walker"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 22.92461,23.421967 0,1.72391"

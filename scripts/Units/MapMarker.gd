@@ -5,8 +5,6 @@ const FOOTPRINT_RADIUS = 24 #pixels
 signal mouse_entered
 signal mouse_exited
 
-var color setget set_color
-
 var has_mouse = false
 
 onready var mouse_catcher = $MouseCatcher/CollisionShape2D
@@ -26,9 +24,15 @@ func _on_mouse_exited():
 	has_mouse = false
 	emit_signal("mouse_exited")
 
-func set_color(c):
-	color = c
-	nato_counter.color = c
+func set_colors(primary_color, secondary_color=null):
+	nato_counter.primary_color = primary_color
+	nato_counter.secondary_color = secondary_color
+
+func get_primary_color():
+	return nato_counter.primary_color
+
+func get_secondary_color():
+	return nato_counter.secondary_color
 
 func set_nato_symbol(sym_id):
 	nato_counter.symbol = sym_id
