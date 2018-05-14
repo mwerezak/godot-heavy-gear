@@ -6,7 +6,7 @@ const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 
-var unit #the unit whose movement we are considering
+var unit_info #the unit whose movement we are considering
 var world_map #reference to the world map the unit is located on
 var movement_type #movement type to use, since units may have more than one
 var _track_turns #flag if we should track facing and turn rate
@@ -21,16 +21,14 @@ var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
 func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_dir=null):
+	self.unit_info = unit.unit_info
 	self.world_map = world_map
-	self.unit = unit
 	self.movement_type = movement_type
 	
 	start_loc = start_loc if start_loc else unit.cell_position
 	start_dir = start_dir if start_dir else unit.facing
 	
 	_grid_spacing = HexUtils.pixels2units(world_map.UNITGRID_WIDTH)
-	
-	var unit_info = unit.unit_info
 	
 	_movement_rate = unit_info.get_move_speed(movement_type)
 	_turning_rate = unit_info.get_turn_rate(movement_type)
@@ -186,8 +184,10 @@ func _can_stop(cell_pos):
 	return true #TODO
 
 ## How much movement must we expend to move from a cell in a given direction?
-func _move_cost(from_pos, to_pos):
-	return _grid_spacing #TODO
+func _move_cost(from_cell, to_cell):
+	var midpoint = 0.5*(world_map.get_grid_pos(from_cell) + world_map.get_grid_pos(to_cell))
+	var terrain_info = world_map.get_terrain_at(midpoint)
+	return _grid_spacing * unit_info.get_move_cost_on_terrain(movement_type, terrain_info)
 
 ## If entering a given cell will trigger a dangerous terrain check
 func _is_dangerous(cell_pos):

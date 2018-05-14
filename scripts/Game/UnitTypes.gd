@@ -45,6 +45,14 @@ class UnitInfo:
 		return _info.movement[move_mode]
 	func get_turn_rate(move_mode):
 		return MovementTypes.INFO[move_mode].turn_rate if use_facing() else null
+	
+	## returns a multiplier that is applied to the distance moved to get the cost.
+	func get_move_cost_on_terrain(move_mode, terrain_info):
+		if !terrain_info.difficult.has(move_mode):
+			return 1.0
+		var base_speed = get_move_speed(move_mode)
+		var speed_limit = min(base_speed, terrain_info.difficult[move_mode]) #difficult terrain cannot make us move /faster/
+		return base_speed/speed_limit
 
 static func get_info(model_id):
 	return UnitInfo.new(INFO[model_id])

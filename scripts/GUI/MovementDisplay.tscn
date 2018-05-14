@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/LocationMarkerTexture.tres" type="Texture" id=3]
 [ext_resource path="res://scripts/GUI/DirectionArc.tscn" type="PackedScene" id=4]
 
-[node name="MovementDisplay" type="Node2D"]
+[node name="MovementDisplay" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -44,6 +44,7 @@ _sections_unfolded = [ "Border", "Capping", "Fill", "Material", "Transform", "Vi
 [node name="MoveMarker" type="Sprite" parent="." index="2"]
 
 texture = ExtResource( 3 )
+_sections_unfolded = [ "Visibility" ]
 
 [node name="AllowedFacing" parent="MoveMarker" index="0" instance=ExtResource( 4 )]
 
