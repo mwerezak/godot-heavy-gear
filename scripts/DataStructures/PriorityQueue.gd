@@ -1,67 +1,79 @@
 extends Node
 
 ## Priority Queue implementation with binary heap
-## Implementation courtesy of rileyphone
-## Modified by harpyeagle
+## Adapted from implementation courtesy of rileyphone
+## Modified by mwerezak
 
-var _heap
+var _value_heap
+var _priority_heap
 
-func _init(from_arr=null):
-	_heap = [[0]]
+func _init():
+	clear()
 
 func clear():
-	_heap = [[0]]
+	_priority_heap = [ 0 ]
+	_value_heap = [ null ]
 
 func add(value, priority):
-	_insert([priority, value])
+	_value_heap.push_back(value)
+	_priority_heap.push_back(priority)
+	_perc_up(size())
 
 func empty():
 	return size() == 0 
 
 func size():
-	return _heap.size() - 1
+	return _priority_heap.size() - 1
 
 func pop_min():
-	var retval = _heap[1]
-	_heap[1] = _heap[size()]
-	_heap.pop_back()
+	var retval = _value_heap[1]
+	
+	_value_heap[1] = _value_heap[size()]
+	_priority_heap[1] = _priority_heap[size()]
+	
+	_priority_heap.pop_back()
+	_value_heap.pop_back()
+	
 	_perc_down(1)
-	return retval[1]
+	return retval
 
 func peek_min():
-	return _heap[1][1]
+	return _value_heap[1]
 
 func duplicate():
-	var new_queue = new()
-	for pair in _heap:
-		new_queue.push_back(pair.duplicate())
+	var copy = new()
+	copy._value_heap = _value_heap.duplicate()
+	copy._priority_heap = _priority_heap.duplicate()
+	return copy
 
-func _insert(k):
-	_heap.append(k)
-	_perc_up(size())
+func _swap(i, j):
+	var tmp_priority = _priority_heap[i]
+	var tmp_value = _value_heap[i]
+	_priority_heap[i] = _priority_heap[j]
+	_value_heap[i] = _value_heap[j]
+	_priority_heap[j] = tmp_priority
+	_value_heap[j] = tmp_value
 
 func _perc_up(i):
-	while floor(i / 2) > 0:
-		if _heap[i][0] < _heap[floor(i / 2)][0]:
-			var tmp = _heap[floor(i / 2)]
-			_heap[floor(i / 2)] = _heap[i]
-			_heap[i] = tmp
-		i = floor(i / 2)
+	var pivot = floor(i / 2)
+	while pivot > 0:
+		if _priority_heap[i] < _priority_heap[pivot]:
+			_swap(pivot, i)
+		i = pivot
+		pivot = floor(i / 2)
 
 func _perc_down(i):
 	while (i * 2) <= size():
 		var mc = _min_child(i)
-		if _heap[i][0] > _heap[mc][0]:
-			var tmp = _heap[i]
-			_heap[i] = _heap[mc]
-			_heap[mc] = tmp
+		if _priority_heap[i] > _priority_heap[mc]:
+			_swap(i, mc)
 		i = mc
 
 func _min_child(i):
 	if i * 2 + 1 > size():
 		return i * 2
 	
-	if _heap[i*2][0] < _heap[i*2+1][0]:
+	if _priority_heap[i*2] < _priority_heap[i*2+1]:
 		return i * 2
 	
 	return i * 2 + 1
