@@ -2,7 +2,9 @@ extends Sprite
 
 const SYMBOLS = {
 	infantry = preload("res://icons/units/nato/infantry.png"),
-	wheeled_apc = preload("res://icons/units/nato/wheeled_apc.png")
+	wheeled_apc = preload("res://icons/units/nato/wheeled_apc.png"),
+	tank = preload("res://icons/units/nato/tank.png"),
+	gear = preload("res://icons/units/nato/gear.png"),
 }
 
 var color setget set_color, get_color

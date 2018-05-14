@@ -7,10 +7,10 @@ path="res://.import/gear.png-6c76e38aeeda29df8d2827f0877f1d67.stex"
 [deps]
 
 source_file="res://icons/units/nato/gear.png"
-source_md5="0ae48ec4831279750c31b28140e36f35"
+source_md5="175229ba7238d8c0213dad64b9c20155"
 
 dest_files=[ "res://.import/gear.png-6c76e38aeeda29df8d2827f0877f1d67.stex" ]
-dest_md5="6e5d1e536bfbbb66589b293e86d32919"
+dest_md5="40a9cbf77a4adb3e2d7938364212b7ef"
 
 [params]
 

@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="nato_counters.svg"
-   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/units/nato/gear.png"
+   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/units/nato/wheeled_apc.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -29,10 +29,10 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="7.613506"
-     inkscape:cx="-1.8424684"
-     inkscape:cy="29.748548"
+     inkscape:cx="-7.4258475"
+     inkscape:cy="27.125122"
      inkscape:document-units="px"
-     inkscape:current-layer="layer7"
+     inkscape:current-layer="layer8"
      showgrid="false"
      units="px"
      inkscape:window-width="1680"
@@ -132,7 +132,7 @@
      inkscape:groupmode="layer"
      id="layer7"
      inkscape:label="Wheels"
-     style="display:inline">
+     style="display:none">
     <circle
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="path4797"
@@ -156,7 +156,7 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="Heavy"
-     style="display:none">
+     style="display:inline">
     <rect
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.81802833;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4148"
@@ -168,6 +168,17 @@
   <g
      inkscape:groupmode="layer"
      id="layer8"
-     inkscape:label="Gear"
-     style="display:none" />
+     inkscape:label="Walker"
+     style="display:inline">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 22.92461,23.421967 0,1.72391"
+       id="path4220"
+       inkscape:connector-curvature="0" />
+    <path
+       style="display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 25.07539,23.446595 0,1.72391"
+       id="path4220-3"
+       inkscape:connector-curvature="0" />
+  </g>
 </svg>

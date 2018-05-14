@@ -25,6 +25,16 @@ const INFO = {
 		movement = {
 			MovementTypes.TYPE_INFANTRY: 3.0,
 		},
+	},
+	dummy_gear = {
+		name = "Dummy Gear",
+		nato_symbol = "gear",
+		unit_type = TYPE_VEHICLE,
+		
+		height = 1.0,
+		movement = {
+			MovementTypes.TYPE_WALKER: 5.0,
+		},
 	}
 }
 
