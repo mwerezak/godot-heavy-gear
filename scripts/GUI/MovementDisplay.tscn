@@ -2,10 +2,10 @@
 
 [ext_resource path="res://scripts/GUI/MovementDisplay.gd" type="Script" id=1]
 [ext_resource path="res://assets/MovementTiles.tres" type="TileSet" id=2]
-[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=3]
+[ext_resource path="res://assets/LocationMarkerTexture.tres" type="Texture" id=3]
 [ext_resource path="res://scripts/GUI/DirectionArc.tscn" type="PackedScene" id=4]
 
-[node name="MovementDisplay" type="Node2D"]
+[node name="MovementDisplay" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -46,7 +46,5 @@ _sections_unfolded = [ "Border", "Capping", "Fill", "Material", "Transform", "Vi
 texture = ExtResource( 3 )
 
 [node name="AllowedFacing" parent="MoveMarker" index="0" instance=ExtResource( 4 )]
-
-visible = true
 
 

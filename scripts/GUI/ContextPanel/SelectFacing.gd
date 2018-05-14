@@ -4,7 +4,11 @@ const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/HexUtils.gd")
 const DirectionArc = preload("res://scripts/GUI/DirectionArc.tscn")
 
-onready var direction_marker
+const MARKER_COLOR = Color(0.4, 0.9, 0.3, 0.8)
+const TARGET_MARKER_TEX = preload("res://assets/LocationMarkerTexture.tres")
+
+onready var direction_marker #starget_markerhows available directions the unit can face
+onready var target_marker #shows the location the unit is facing towards
 onready var done_button = $MarginContainer/HBoxContainer/DoneButton
 onready var label = $MarginContainer/HBoxContainer/Label
 
@@ -16,7 +20,16 @@ var last_clicked
 func _ready():
 	var world_map = get_tree().get_root().find_node("WorldMap", true, false)
 	
+	target_marker = Sprite.new()
+	target_marker.texture = TARGET_MARKER_TEX
+	target_marker.modulate = MARKER_COLOR
+	target_marker.z_as_relative = false
+	target_marker.z_index = Constants.HUD_ZLAYER
+	target_marker.hide()
+	world_map.add_child(target_marker)
+	
 	direction_marker = DirectionArc.instance()
+	direction_marker.modulate = MARKER_COLOR
 	direction_marker.z_as_relative = false
 	direction_marker.z_index = Constants.HUD_ZLAYER
 	world_map.add_child(direction_marker)
@@ -37,14 +50,22 @@ func activated(args):
 			direction_marker.set_dir(dir, true)
 		direction_marker.show()
 
+func resumed():
+	.resumed()
+	target_marker.show()
+
 func deactivated():
 	.deactivated()
 	rotate_unit = null
 	allowed_dirs = null
 	
 	last_clicked = null
-	direction_marker.hide()
 	add_child(direction_marker)
+
+func _become_inactive():
+	._become_inactive()
+	direction_marker.hide()
+	target_marker.hide()
 
 func unit_cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
@@ -60,6 +81,8 @@ func unit_cell_input(world_map, cell_pos, event):
 			rotate_unit.facing = dir
 			last_clicked = cell_pos
 			label.text = "Select direction to rotate unit (or click again to confirm)."
+			target_marker.position = world_map.get_grid_pos(cell_pos)
+			target_marker.show()
 
 func _get_closest_dir(dir):
 	var best_dir
