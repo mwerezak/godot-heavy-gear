@@ -55,5 +55,5 @@ func _move_button_pressed():
 		move_unit.set_facing(move_info.facing)
 	context_manager.deactivate()
 	
-	if move_unit.has_facing() && move_info.turn_remaining:
+	if move_unit.has_facing() && (!move_info.turn_remaining || move_info.turn_remaining > 0):
 		context_manager.activate("select_facing", { rotate_unit = move_unit, max_turns = move_info.turn_remaining })
