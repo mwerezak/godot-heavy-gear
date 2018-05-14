@@ -7,7 +7,8 @@ const BASE_SIZE_GEAR = 1.0
 const BASE_SIZE_GEAR_LARGE = 1.5
 const BASE_SIZE_INFANTRY = 1.5
 const BASE_SIZE_VEHICLE = 1.5
-const BASE_SIZE_VEHICLE_LARGE = 3.0
+const BASE_SIZE_VEHICLE_LARGE = 1.8
+const BASE_SIZE_VEHICLE_HUGE = 3.0
 const BASE_SIZE_STRIDER = 1.5
 
 const TYPE_VEHICLE = "vehicle"
@@ -18,10 +19,10 @@ const INFO = {
 		name = "Dummy Unit",
 		unit_type = TYPE_VEHICLE,
 		
-		base_size = 1.0,
-		height = 0.5,
+		base_size = BASE_SIZE_VEHICLE_LARGE,
+		height = 1.0,
 		movement = {
-			MovementTypes.TYPE_GROUND: 5.0,
+			MovementTypes.TYPE_GROUND: 7.0,
 		},
 	}
 }

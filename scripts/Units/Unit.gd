@@ -3,7 +3,7 @@ extends Node
 const HexUtils = preload("res://scripts/HexUtils.gd")
 
 ## the grid cell that the unit is located in
-export(Vector2) var cell_position = Vector2() setget set_cell_position
+export(Vector2) var cell_position = Vector2() setget set_cell_position, get_cell_position
 export(int) var facing = 0 setget set_facing, get_facing
 
 export(String) var unit_type = "dummy" #reference a unit type in UnitModels.gd
@@ -20,6 +20,9 @@ func _ready():
 	var pixel_radius = HexUtils.units2pixels(base_size/2)
 	map_marker.set_footprint_radius(pixel_radius)
 	map_marker.set_facing_marker_visible(has_facing())
+
+func get_cell_position():
+	return cell_position
 
 func set_cell_position(cell_pos):
 	if world_map:
@@ -46,3 +49,10 @@ func get_base_size():
 ## the height of the unit - i.e. its silhouette for targeting purposes (probably more important once elevation is added)
 func get_height():
 	return unit_info.get_height()
+
+## return true if the other unit can pass through this one
+func can_pass(other):
+	return unit_info.is_infantry()
+
+func can_stack(other):
+	return false ## currently units are never allowed to stack

@@ -28,6 +28,7 @@ func get_bounding_rect():
 	var cell_to_pixel = Transform2D(Vector2(cell_size.x, 0), Vector2(0, cell_size.y), Vector2())
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
 
+
 ## Terrain Hexes
 
 func get_terrain_hex(world_pos):
@@ -47,9 +48,10 @@ func get_terrain_at_hex(hex_pos):
 	return TerrainTypes.get_tile_terrain_info(tile_id)
 
 func point_on_map(world_pos):
-	var cell_pos = terrain.world_to_map(world_pos)
-	var tile_id = terrain.get_cellv(cell_pos)
+	var hex_pos = get_terrain_hex(world_pos)
+	var tile_id = terrain.get_cellv(hex_pos)
 	return tile_id >= 0
+
 
 ## Unit Grid Cells
 
@@ -60,11 +62,6 @@ func get_grid_cell(world_pos):
 ## returns the position of the cell centre
 func get_grid_pos(cell_pos):
 	return unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2
-
-## can add any node that has a cell_position property
-func add_object(object, cell_pos):
-	add_child(object)
-	object.cell_position = cell_pos
 
 ## gets the closest direction to get from one cell to another
 func get_nearest_dir(cell_from, cell_to):
@@ -79,3 +76,65 @@ func grid_distance(cell1, cell2):
 	var pos2 = get_grid_pos(cell2)
 	var pixel_dist = (pos1 - pos2).length()
 	return HexUtils.pixels2units(pixel_dist)
+
+func grid_cell_on_map(cell_pos):
+	return point_on_map(get_grid_pos(cell_pos))
+
+func get_neighbors(cell_pos):
+	var neighbors = []
+	for other_pos in HexUtils.get_neighbors(cell_pos).values():
+		if grid_cell_on_map(other_pos):
+			neighbors.push_back(other_pos)
+	return neighbors
+
+## Objects
+
+func add_object(object, cell_pos):
+	add_child(object)
+	object.set_cell_position(cell_pos)
+
+func get_objects_in_cells(cells):
+	var rval = {}
+	for child in get_children():
+		if child.has_method("get_cell_position"):
+			var child_cell = child.get_cell_position()
+			if cells.has(child_cell):
+				rval[child] = child_cell
+	return rval
+
+## return true if a unit can pass from a given cell into another
+func unit_can_pass(unit, from_cell, to_cell):
+	## check that to_cell is actually on the map
+	var to_pos = get_grid_pos(to_cell)
+	var from_pos = get_grid_pos(from_cell)
+	var midpoint = 0.5*(to_pos + from_pos)
+	if !point_on_map(to_pos) || !point_on_map(midpoint):
+		return false
+	
+	## make sure there are no units in the destination cell or its neighbors that could block us
+	var check_cells = [ to_cell ]
+	check_cells += HexUtils.get_neighbors(to_cell).values()
+	for object in get_objects_in_cells(check_cells):
+		if object != unit && !object.can_pass(unit):
+			var spacing = grid_distance(to_cell, object.get_cell_position())
+			if spacing < (object.get_base_size() + unit.get_base_size())/2:
+				return false
+	
+	return true
+
+## return true if a unit can stop (i.e. finish movement) in a given cell
+func unit_can_place(unit, grid_cell):
+	## check that grid_cell is actually on the map
+	if !grid_cell_on_map(grid_cell):
+		return false
+	
+	## make sure there are no units in the destination cell or its neighbors that could block us
+	var check_cells = [ grid_cell ]
+	check_cells += HexUtils.get_neighbors(grid_cell).values()
+	for object in get_objects_in_cells(check_cells):
+		if object != unit && !object.can_pass(unit):
+			var spacing = grid_distance(grid_cell, object.get_cell_position())
+			if spacing < (object.get_base_size() + unit.get_base_size())/2:
+				return false
+	
+	return true

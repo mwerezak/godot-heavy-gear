@@ -6,9 +6,11 @@ const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 
-var unit_info #the unit whose movement we are considering
+var move_unit #the unit whose movement we are considering
+var unit_info
 var world_map #reference to the world map the unit is located on
 var movement_type #movement type to use, since units may have more than one
+
 var _track_turns #flag if we should track facing and turn rate
 
 ## a dictionary of the grid positions this unit can reach from the start_loc
@@ -21,6 +23,7 @@ var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
 func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_dir=null):
+	self.move_unit = unit
 	self.unit_info = unit.unit_info
 	self.world_map = world_map
 	self.movement_type = movement_type
@@ -54,7 +57,7 @@ func _init_move_state(move_count, facing, move_path):
 
 ## lower priority moves are explored first
 func _move_priority(move_state):
-	return -(move_state.turn_remaining * move_state.move_remaining) + (0 if !move_state.hazard else 10000)
+	return -(move_state.turn_remaining * 10*move_state.move_remaining) + (0 if !move_state.hazard else 10000)
 
 func _search_possible_moves(start_loc, start_dir, max_moves):
 	var visited = { start_loc : _init_move_state(1, start_dir, [ start_loc ]) }
@@ -98,17 +101,16 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 	var move_count = cur_state.move_count
 	var hazard = cur_state.hazard
 	
-	for move_dir in HexUtils.MOVE_DIRECTIONS:
+	var neighbors = HexUtils.get_neighbors(cur_pos)
+	for move_dir in neighbors:
+		var next_pos = neighbors[move_dir]
 		var move_remaining = cur_state.move_remaining
 		var turn_remaining = cur_state.turn_remaining
 		
-		## get the destination pos
-		var next_pos = HexUtils.get_step(cur_pos, move_dir)
-
 		if visited.has(next_pos):
 			continue ## already visited
 		
-		if not _can_enter(next_pos):
+		if not _can_enter(cur_pos, next_pos):
 			continue ## can't go this direction, period
 		
 		var extra_move = false #if we need to start a new move action to visit the next_pos
@@ -176,12 +178,12 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 
 
 ## Figure out if the unit can enter the given cell position
-func _can_enter(cell_pos):
-	return world_map.point_on_map(world_map.get_grid_pos(cell_pos)) #TODO
+func _can_enter(from_cell, to_cell):
+	return world_map.unit_can_pass(move_unit, from_cell, to_cell)
 
 ## we may be able to enter but not finish our movement in certain cells
 func _can_stop(cell_pos):
-	return true #TODO
+	return world_map.unit_can_place(move_unit, cell_pos)
 
 ## How much movement must we expend to move from a cell in a given direction?
 func _move_cost(from_cell, to_cell):

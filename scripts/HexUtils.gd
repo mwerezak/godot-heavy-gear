@@ -99,3 +99,11 @@ static func get_step(cell_pos, dir):
 	var parity = int(cell_pos.y) & 1
 	return cell_pos + HEX_CONN[parity][dir]
 
+static func get_neighbors(cell_pos):
+	var parity = int(cell_pos.y) & 1
+	var rval = {}
+	
+	for dir in MOVE_DIRECTIONS:
+		rval[dir] = cell_pos + HEX_CONN[parity][dir]
+	return rval
+	
