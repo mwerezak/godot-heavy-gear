@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/LocationMarkerTexture.tres" type="Texture" id=3]
 [ext_resource path="res://scripts/GUI/DirectionArc.tscn" type="PackedScene" id=4]
 
-[node name="MovementDisplay" type="Node2D"]
+[node name="MovementDisplay" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 

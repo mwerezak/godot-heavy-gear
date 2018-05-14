@@ -2,15 +2,6 @@ extends Node
 
 const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
 
-## default base sizes
-const BASE_SIZE_GEAR = 1.0
-const BASE_SIZE_GEAR_LARGE = 1.5
-const BASE_SIZE_INFANTRY = 1.5
-const BASE_SIZE_VEHICLE = 1.5
-const BASE_SIZE_VEHICLE_LARGE = 1.8
-const BASE_SIZE_VEHICLE_HUGE = 3.0
-const BASE_SIZE_STRIDER = 1.5
-
 const TYPE_VEHICLE = "vehicle"
 const TYPE_INFANTRY = "infantry"
 
@@ -19,7 +10,7 @@ const INFO = {
 		name = "Dummy Unit",
 		unit_type = TYPE_VEHICLE,
 		
-		base_size = BASE_SIZE_VEHICLE_LARGE,
+		#base_size = BASE_SIZE_VEHICLE_LARGE, #not used anymore
 		height = 1.0,
 		movement = {
 			MovementTypes.TYPE_GROUND: 7.0,
@@ -34,7 +25,7 @@ class UnitInfo:
 		_info = info
 	
 	func get_name(): return _info.name
-	func get_base_size(): return _info.base_size
+	#func get_base_size(): return _info.base_size
 	func use_facing(): return !is_infantry()
 	
 	func is_vehicle(): return _info.unit_type == TYPE_VEHICLE

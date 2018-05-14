@@ -50,6 +50,7 @@ script = ExtResource( 2 )
 
 [node name="BaseFootprint" type="Node2D" parent="MapMarker" index="0"]
 
+visible = false
 modulate = Color( 0.282353, 0.282353, 0.282353, 0.501961 )
 script = SubResource( 1 )
 _sections_unfolded = [ "Visibility" ]

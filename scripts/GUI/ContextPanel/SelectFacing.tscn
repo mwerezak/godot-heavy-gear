@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/GUI/ContextPanel/SelectFacing.gd" type="Script" id=1]
 [ext_resource path="res://icons/move_marker_16.png" type="Texture" id=2]
 
-[node name="SelectFacing" type="Container" index="0"]
+[node name="SelectFacing" type="Container"]
 
 anchor_left = 0.0
 anchor_top = 0.0

@@ -87,6 +87,7 @@ func get_neighbors(cell_pos):
 			neighbors.push_back(other_pos)
 	return neighbors
 
+
 ## Objects
 
 func add_object(object, cell_pos):
@@ -112,29 +113,25 @@ func unit_can_pass(unit, from_cell, to_cell):
 		return false
 	
 	## make sure there are no units in the destination cell or its neighbors that could block us
-	var check_cells = [ to_cell ]
-	check_cells += HexUtils.get_neighbors(to_cell).values()
-	for object in get_objects_in_cells(check_cells):
+#	var check_cells = [ to_cell ] + get_neighbors(to_cell)
+#	for object in get_objects_in_cells(check_cells):
+#		if object != unit && !object.can_pass(unit):
+#			return false
+	for object in get_objects_in_cells([ to_cell ]):
 		if object != unit && !object.can_pass(unit):
-			var spacing = grid_distance(to_cell, object.get_cell_position())
-			if spacing < (object.get_base_size() + unit.get_base_size())/2:
-				return false
-	
+			return false
+
 	return true
 
 ## return true if a unit can stop (i.e. finish movement) in a given cell
-func unit_can_place(unit, grid_cell):
-	## check that grid_cell is actually on the map
-	if !grid_cell_on_map(grid_cell):
+func unit_can_place(unit, to_cell):
+	## check that to_cell is actually on the map
+	if !grid_cell_on_map(to_cell):
 		return false
 	
 	## make sure there are no units in the destination cell or its neighbors that could block us
-	var check_cells = [ grid_cell ]
-	check_cells += HexUtils.get_neighbors(grid_cell).values()
-	for object in get_objects_in_cells(check_cells):
-		if object != unit && !object.can_pass(unit):
-			var spacing = grid_distance(grid_cell, object.get_cell_position())
-			if spacing < (object.get_base_size() + unit.get_base_size())/2:
-				return false
+	for object in get_objects_in_cells([ to_cell ]):
+		if object != unit && !object.can_stack(unit):
+			return false
 	
 	return true
