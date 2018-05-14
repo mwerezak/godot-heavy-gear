@@ -42,10 +42,13 @@ func activated(args):
 	label.text = "Select direction to rotate unit (or double-click on unit to leave as is)."
 	
 	rotate_unit = args.rotate_unit
-	if rotate_unit.has_facing() && args.max_turns && args.max_turns < HexUtils.DIR_WRAP/2:
-		var min_turn = rotate_unit.facing - args.max_turns
-		var max_turn = rotate_unit.facing + args.max_turns
-		allowed_dirs = HexUtils.arc_dirs(min_turn, max_turn)
+	if rotate_unit.has_facing():
+		if args.max_turns && args.max_turns < HexUtils.DIR_WRAP/2:
+			var min_turn = rotate_unit.facing - args.max_turns
+			var max_turn = rotate_unit.facing + args.max_turns
+			allowed_dirs = HexUtils.arc_dirs(min_turn, max_turn)
+		else:
+			allowed_dirs = range(HexUtils.DIR_MIN, HexUtils.DIR_MAX+1) #can turn any direction
 		
 		direction_marker.global_position = rotate_unit.map_marker.global_position
 		direction_marker.clear()
