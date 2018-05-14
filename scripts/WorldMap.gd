@@ -112,11 +112,7 @@ func unit_can_pass(unit, from_cell, to_cell):
 	if !point_on_map(to_pos) || !point_on_map(midpoint):
 		return false
 	
-	## make sure there are no units in the destination cell or its neighbors that could block us
-#	var check_cells = [ to_cell ] + get_neighbors(to_cell)
-#	for object in get_objects_in_cells(check_cells):
-#		if object != unit && !object.can_pass(unit):
-#			return false
+	## make sure there are no objects that could block us
 	for object in get_objects_in_cells([ to_cell ]):
 		if object != unit && !object.can_pass(unit):
 			return false
@@ -129,7 +125,7 @@ func unit_can_place(unit, to_cell):
 	if !grid_cell_on_map(to_cell):
 		return false
 	
-	## make sure there are no units in the destination cell or its neighbors that could block us
+	## make sure there are no objects that could block us
 	for object in get_objects_in_cells([ to_cell ]):
 		if object != unit && !object.can_stack(unit):
 			return false

@@ -2,6 +2,8 @@ extends Node
 
 const HexUtils = preload("res://scripts/HexUtils.gd")
 
+const MARKER_RADIUS = 16 #pixels
+
 ## the grid cell that the unit is located in
 export(Vector2) var cell_position = Vector2() setget set_cell_position, get_cell_position
 export(int) var facing = 0 setget set_facing, get_facing
@@ -16,9 +18,7 @@ func _init():
 	unit_info = UnitTypes.get_info(unit_type)
 
 func _ready():
-	#var base_size = get_base_size()
-	#var pixel_radius = HexUtils.units2pixels(base_size/2)
-	map_marker.set_footprint_radius(16)
+	map_marker.set_footprint_radius(MARKER_RADIUS)
 	map_marker.set_facing_marker_visible(has_facing())
 
 func get_cell_position():
@@ -41,10 +41,6 @@ func set_facing(dir):
 func get_facing():
 	if !has_facing(): return null
 	return facing
-
-## the diameter of the circle the unit is assumed to occupy, in distance units
-#func get_base_size():
-#	return unit_info.get_base_size()
 
 ## the height of the unit - i.e. its silhouette for targeting purposes (probably more important once elevation is added)
 func get_height():
