@@ -4,13 +4,14 @@ const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/HexUtils.gd")
 const DirectionArc = preload("res://scripts/GUI/DirectionArc.tscn")
 
-const MARKER_COLOR = Color(0.4, 0.9, 0.3, 0.8)
+const MARKER_COLOR = Color(0.4, 0.9, 0.3)
 const TARGET_MARKER_TEX = preload("res://assets/LocationMarkerTexture.tres")
 
 onready var direction_marker #starget_markerhows available directions the unit can face
 onready var target_marker #shows the location the unit is facing towards
 onready var done_button = $MarginContainer/HBoxContainer/DoneButton
 onready var label = $MarginContainer/HBoxContainer/Label
+onready var action_icon = $MarginContainer/HBoxContainer/ActionIcon
 
 var rotate_unit
 var allowed_dirs #if set, limit rotation to the specified dirs
@@ -18,6 +19,8 @@ var allowed_dirs #if set, limit rotation to the specified dirs
 var last_clicked
 
 func _ready():
+	action_icon.modulate = MARKER_COLOR
+	
 	var world_map = get_tree().get_root().find_node("WorldMap", true, false)
 	
 	target_marker = Sprite.new()
@@ -36,7 +39,7 @@ func _ready():
 
 func activated(args):
 	.activated(args)
-	label.text = "Select direction to rotate unit."
+	label.text = "Select direction to rotate unit (or double-click on unit to leave as is)."
 	
 	rotate_unit = args.rotate_unit
 	if rotate_unit.has_facing() && args.max_turns && args.max_turns < HexUtils.DIR_WRAP/2:
@@ -71,7 +74,9 @@ func unit_cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if cell_pos == last_clicked:
 			_done_button_pressed()
-		elif cell_pos != rotate_unit.cell_position:
+		elif cell_pos == rotate_unit.cell_position:
+			last_clicked = cell_pos #allow double-clicking on unit to leave facing as is
+		else:
 			var arm = world_map.get_grid_pos(cell_pos) - world_map.get_grid_pos(rotate_unit.cell_position)
 			var dir = HexUtils.nearest_dir(arm.angle())
 			
