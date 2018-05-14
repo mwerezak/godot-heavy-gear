@@ -57,7 +57,10 @@ func _init_move_state(move_count, facing, move_path):
 
 ## lower priority moves are explored first
 func _move_priority(move_state):
-	return -(move_state.turn_remaining * 10*move_state.move_remaining) + (0 if !move_state.hazard else 10000)
+	var turns = move_state.turn_remaining if move_state.turn_remaining else 0
+	var moves = move_state.move_remaining
+	var hazard = 10000 if move_state.hazard else 0
+	return -(turns * 10*moves) + hazard
 
 func _search_possible_moves(start_loc, start_dir, max_moves):
 	var visited = { start_loc : _init_move_state(1, start_dir, [ start_loc ]) }

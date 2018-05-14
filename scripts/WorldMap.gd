@@ -4,12 +4,13 @@ const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/HexUtils.gd")
 
 ## dimensions of terrain hexes
-## it is important that these are both multiples of 4
+## it is important that these are all multiples of 4, due to the geometry of hex grids
+## also, note that for regular hexagons, w = sqrt(3)/2 * h
 const TERRAIN_WIDTH  = 64*4 #256
 const TERRAIN_HEIGHT = 74*4 #296
 
-const UNITGRID_WIDTH = 16*4
-const UNITGRID_HEIGHT = 18*4
+const UNITGRID_WIDTH = 16*4 #64
+const UNITGRID_HEIGHT = 18*4 #72
 
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
@@ -94,12 +95,12 @@ func add_object(object, cell_pos):
 	add_child(object)
 	object.set_cell_position(cell_pos)
 
-func get_objects_in_cells(cells):
+func get_objects_in_cells(grid_cells):
 	var rval = {}
 	for child in get_children():
 		if child.has_method("get_cell_position"):
 			var child_cell = child.get_cell_position()
-			if cells.has(child_cell):
+			if grid_cells.has(child_cell):
 				rval[child] = child_cell
 	return rval
 

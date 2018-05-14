@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex"
+path="res://.import/wheeled_apc.png-2d2857176942b3d4758bb95aaaa4f3d0.stex"
 
 [deps]
 
-source_file="res://icons/units/units.svg"
-source_md5="e46862efafdfe155625749b965ae4dfe"
+source_file="res://icons/units/nato/wheeled_apc.png"
+source_md5="14435d7252986adca45a871e2e1e42c9"
 
-dest_files=[ "res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex" ]
-dest_md5="0a22d2952e52be63a568c1ef8dfb8b9f"
+dest_files=[ "res://.import/wheeled_apc.png-2d2857176942b3d4758bb95aaaa4f3d0.stex" ]
+dest_md5="522ae6555c8df3872295a579d3c1ba25"
 
 [params]
 

@@ -5,18 +5,11 @@ const Constants = preload("res://scripts/Constants.gd")
 
 ## TODO split to another file
 class OverlayFactory:
-	var _overlay_texture
+	const _overlay_texture = preload("res://icons/selection_marker_16.png")
 	var _modulate_color
 	
 	func _init(modulate_color):
 		_modulate_color = modulate_color
-		
-		var overlay_image = Image.new()
-		overlay_image.load("res://icons/selection_marker_16.png")
-		
-		_overlay_texture = ImageTexture.new()
-		_overlay_texture.create_from_image(overlay_image)
-
 	
 	func create_overlay_node(map_marker):
 		var overlay = Sprite.new()

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex"
+path="res://.import/infantry.png-3346b9aff2cc75c75a389621705fb107.stex"
 
 [deps]
 
-source_file="res://icons/units/units.svg"
-source_md5="e46862efafdfe155625749b965ae4dfe"
+source_file="res://icons/units/nato/infantry.png"
+source_md5="ee0ef94b5f24b35f5c478c43806cf00e"
 
-dest_files=[ "res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex" ]
-dest_md5="0a22d2952e52be63a568c1ef8dfb8b9f"
+dest_files=[ "res://.import/infantry.png-3346b9aff2cc75c75a389621705fb107.stex" ]
+dest_md5="f0da8abc189ca9a664827c4f6d84d7f0"
 
 [params]
 

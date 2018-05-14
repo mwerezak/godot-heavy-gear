@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex"
+path="res://.import/gear.png-6c76e38aeeda29df8d2827f0877f1d67.stex"
 
 [deps]
 
-source_file="res://icons/units/units.svg"
-source_md5="e46862efafdfe155625749b965ae4dfe"
+source_file="res://icons/units/nato/gear.png"
+source_md5="0ae48ec4831279750c31b28140e36f35"
 
-dest_files=[ "res://.import/units.svg-f383560c58c9d08e825485dbb93172c1.stex" ]
-dest_md5="0a22d2952e52be63a568c1ef8dfb8b9f"
+dest_files=[ "res://.import/gear.png-6c76e38aeeda29df8d2827f0877f1d67.stex" ]
+dest_md5="6e5d1e536bfbbb66589b293e86d32919"
 
 [params]
 

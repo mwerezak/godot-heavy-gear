@@ -2,24 +2,28 @@ extends Node
 
 const HexUtils = preload("res://scripts/HexUtils.gd")
 
-const MARKER_RADIUS = 16 #pixels
-
 ## the grid cell that the unit is located in
 export(Vector2) var cell_position = Vector2() setget set_cell_position, get_cell_position
 export(int) var facing = 0 setget set_facing, get_facing
 
-export(String) var unit_type = "dummy" #reference a unit type in UnitModels.gd
+export(String) var unit_type = "dummy_infantry" setget set_unit_type #reference a unit type in UnitModels.gd
 var unit_info
 
 onready var world_map = get_parent()
 onready var map_marker = $MapMarker
 
-func _init():
-	unit_info = UnitTypes.get_info(unit_type)
-
 func _ready():
-	map_marker.set_footprint_radius(MARKER_RADIUS)
-	map_marker.set_facing_marker_visible(has_facing())
+	map_marker.color = Color("#355570") 
+
+func _update_marker():
+	if map_marker:
+		map_marker.set_nato_symbol(unit_info.get_symbol())
+		map_marker.set_facing_marker_visible(has_facing())
+
+func set_unit_type(model_id):
+	unit_info = UnitTypes.get_info(model_id)
+	unit_type = model_id
+	call_deferred("_update_marker")
 
 func get_cell_position():
 	return cell_position
@@ -48,7 +52,7 @@ func get_height():
 
 ## return true if the other unit can pass through this one
 func can_pass(other):
-	return unit_info.is_infantry()
+	return unit_info.is_infantry() || other.unit_info.is_infantry()
 
 func can_stack(other):
 	return false ## currently units are never allowed to stack

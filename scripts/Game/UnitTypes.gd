@@ -6,14 +6,24 @@ const TYPE_VEHICLE = "vehicle"
 const TYPE_INFANTRY = "infantry"
 
 const INFO = {
-	dummy = {
-		name = "Dummy Unit",
+	dummy_vehicle = {
+		name = "Dummy Vehicle",
+		nato_symbol = "wheeled_apc",
 		unit_type = TYPE_VEHICLE,
 		
-		#base_size = BASE_SIZE_VEHICLE_LARGE, #not used anymore
 		height = 1.0,
 		movement = {
 			MovementTypes.TYPE_GROUND: 7.0,
+		},
+	},
+	dummy_infantry = {
+		name = "Dummy Infantry",
+		nato_symbol = "infantry",
+		unit_type = TYPE_INFANTRY,
+		
+		height = 0.5,
+		movement = {
+			MovementTypes.TYPE_INFANTRY: 3.0,
 		},
 	}
 }
@@ -25,7 +35,7 @@ class UnitInfo:
 		_info = info
 	
 	func get_name(): return _info.name
-	#func get_base_size(): return _info.base_size
+	func get_symbol(): return _info.nato_symbol
 	func use_facing(): return !is_infantry()
 	
 	func is_vehicle(): return _info.unit_type == TYPE_VEHICLE
@@ -46,5 +56,11 @@ class UnitInfo:
 		var speed_limit = min(base_speed, terrain_info.difficult[move_mode]) #difficult terrain cannot make us move /faster/
 		return base_speed/speed_limit
 
-static func get_info(model_id):
-	return UnitInfo.new(INFO[model_id])
+var _CACHE = {}
+
+func _init():
+	for model_id in INFO:
+		_CACHE[model_id] = UnitInfo.new(INFO[model_id])
+
+func get_info(model_id):
+	return _CACHE[model_id]
