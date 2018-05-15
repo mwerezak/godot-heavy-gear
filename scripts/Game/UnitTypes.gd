@@ -13,7 +13,7 @@ const INFO = {
 		
 		height = 1.0,
 		movement = [
-			[MovementModes.GROUND, 7.0],
+			{ mode = MovementModes.GROUND, speed = 7.0, reverse = 3.0 },
 		],
 	},
 	dummy_infantry = {
@@ -23,7 +23,7 @@ const INFO = {
 		
 		height = 0.5,
 		movement = [
-			[MovementModes.INFANTRY, 3.0],
+			{ mode = MovementModes.INFANTRY, speed = 3.0 },
 		],
 	},
 	dummy_gear = {
@@ -34,8 +34,8 @@ const INFO = {
 		height = 1.0,
 		movement = [
 			## order determines movement priority
-			[MovementModes.WALKER, 5.0],
-			[MovementModes.GROUND, 6.0],
+			{ mode = MovementModes.WALKER, speed = 5.0 },
+			{ mode = MovementModes.GROUND, speed = 6.0 },
 		],
 	}
 }
@@ -43,15 +43,31 @@ const INFO = {
 class UnitInfo:
 	var _info
 	var _movement_modes = []
-	var _movement_speeds = {}
 	
 	func _init(info):
 		_info = info
 		
-		for item in _info.movement:
-			var movement_mode = item[0]
-			_movement_modes.push_back(movement_mode)
-			_movement_speeds[movement_mode] = item[1]
+		## setup movement mode data
+		for item in info.movement:
+			var mode = item.mode
+			var mode_info = MovementModes.get_info(mode)
+			
+			var mode_data = {
+				mode_id = mode,
+				name = mode_info.name,
+				speed = item.speed,
+				turn_rate = mode_info.turn_rate,
+				free_rotate = (mode_info.turn_rate == null),
+				reversed = false,
+			}
+			_movement_modes.push_back(mode_data)
+			
+			if item.has("reverse"):
+				var reverse_data = mode_data.duplicate()
+				reverse_data.name += " (Reverse)"
+				reverse_data.reversed = true
+				reverse_data.speed = item.reverse
+				_movement_modes.push_back(reverse_data)
 	
 	func get_name(): return _info.name
 	func get_symbol(): return _info.nato_symbol
@@ -62,28 +78,14 @@ class UnitInfo:
 	
 	func get_movement_modes(): 
 		return _movement_modes
-
-	func get_move_speed(move_mode): 
-		return _movement_speeds[move_mode]
-
-	func get_reverse_speed(move_mode):
-		if !use_facing(): 
-			return null
-		var info = MovementModes.get_info(move_mode)
-		if !info.reverse:
-			return null
-		return get_move_speed(move_mode) * info.reverse
-
-	func get_turn_rate(move_mode):
-		if !use_facing(): return null
-		return MovementModes.get_info(move_mode).turn_rate
 	
 	## returns a multiplier that is applied to the distance moved to get the cost.
 	func get_move_cost_on_terrain(move_mode, terrain_info):
-		if !terrain_info.difficult.has(move_mode):
+		var mode_id = move_mode.mode_id
+		if !terrain_info.difficult.has(mode_id):
 			return 1.0
-		var base_speed = get_move_speed(move_mode)
-		var speed_limit = min(base_speed, terrain_info.difficult[move_mode]) #difficult terrain cannot make us move /faster/
+		var base_speed = move_mode.speed
+		var speed_limit = min(base_speed, terrain_info.difficult[mode_id]) #difficult terrain cannot make us move /faster/
 		return base_speed/speed_limit
 
 var _CACHE = {}

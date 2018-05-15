@@ -57,19 +57,17 @@ func place_move_marker(possible_moves, move_pos):
 		return
 	
 	var move_info = possible_moves[move_pos]
+	var movement_mode = move_info.movement_mode
 
 	move_marker.show()
 	move_marker.position = world_map.get_grid_pos(move_pos)
-	mode_label.text = MovementModes.get_info(move_info.movement_mode).name
-	if move_info.reverse:
-		mode_label.text += " (Reverse)"
-	var label_rect = mode_label.get_rect()
+	mode_label.text = movement_mode.name
 	
 	## facing
 	facing_marker.clear()
-	if move_info.turn_remaining != null && move_info.turn_remaining < HexUtils.DIR_WRAP/2:
-		var min_turn = move_info.facing - move_info.turn_remaining
-		var max_turn = move_info.facing + move_info.turn_remaining
+	if move_info.turns_remaining != null && move_info.turns_remaining < HexUtils.DIR_WRAP/2:
+		var min_turn = move_info.facing - move_info.turns_remaining
+		var max_turn = move_info.facing + move_info.turns_remaining
 		facing_marker.set_arc(min_turn, max_turn, true)
 
 	## move path

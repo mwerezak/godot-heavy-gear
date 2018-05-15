@@ -8,33 +8,15 @@ const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 
-static func calculate_movement(world_map, move_unit, max_moves=2, start_loc=null, start_dir=null):
-	start_loc = start_loc if start_loc else move_unit.cell_position
-	start_dir = start_dir if start_dir else move_unit.facing
-	
+static func calculate_movement(world_map, move_unit):
 	var unit_info = move_unit.unit_info
-	
-	var movement_modes = []
-	for mode in unit_info.get_movement_modes():
-		movement_modes.push_back([mode, false])
-		if unit_info.get_reverse_speed(mode):
-			movement_modes.push_back([mode, true])
 	
 	## calculate pathing for each movement mode and then merge the results
 	var possible_moves = {}
-	for item in movement_modes:
-		var movement_mode = item[0]
-		var reverse = item[1]
-		
-		var movement = new(world_map, move_unit, movement_mode, max_moves, reverse, start_loc, start_dir)
+	for movement_mode in unit_info.get_movement_modes():
+		var movement = new(world_map, move_unit, movement_mode)
 		for cell_pos in movement.possible_moves:
 			var move_info = movement.possible_moves[cell_pos]
-			
-			## hack in some additional info
-			move_info.movement_mode = movement_mode
-			if move_info.reverse:
-				move_info.facing = HexUtils.reverse_dir(move_info.facing)
-			
 			if !possible_moves.has(cell_pos) || _prefer_move(possible_moves[cell_pos], move_info):
 				possible_moves[cell_pos] = move_info
 	return possible_moves
@@ -42,17 +24,21 @@ static func calculate_movement(world_map, move_unit, max_moves=2, start_loc=null
 static func _prefer_move(old_move, new_move):
 	if old_move.hazard != new_move.hazard:
 		return old_move.hazard && !new_move.hazard #always pick non-hazardous moves over hazardous ones
-	if !old_move.free_rotate && new_move.free_rotate:
-		return true
-	if old_move.reverse != new_move.reverse && new_move.path.size() > 2:
-		return old_move.reverse && !new_move.reverse ## prefer non-reverse moves unless we are moving to an adjacent hex
-	if old_move.turn_remaining != new_move.move_remaining:
-		var old_turn = old_move.turn_remaining if old_move.turn_remaining != null else 1000
-		var new_turn = new_move.turn_remaining if new_move.turn_remaining != null else 1000
-		return old_turn < new_turn
+
+	var old_mode = old_move.movement_mode
+	var new_mode = new_move.movement_mode
+	if old_mode.free_rotate != new_mode.free_rotate:
+		return !old_mode.free_rotate && new_mode.free_rotate
+
 	if old_move.move_count != new_move.move_count:
 		return old_move.move_count > new_move.move_count
-	return old_move.move_remaining < new_move.move_remaining
+
+	if old_move.turns_remaining != new_move.moves_remaining:
+		var old_turn = old_move.turns_remaining if old_move.turns_remaining != null else 1000
+		var new_turn = new_move.turns_remaining if new_move.turns_remaining != null else 1000
+		return old_turn < new_turn
+
+	return old_move.moves_remaining < new_move.moves_remaining
 
 
 ##### Movement Pathing #####
@@ -60,9 +46,8 @@ static func _prefer_move(old_move, new_move):
 var move_unit #the unit whose movement we are considering
 var unit_info
 var world_map #reference to the world map the unit is located on
-var movement_type #movement type to use, since units may have more than one
+var movement_mode
 
-var reverse
 var _track_turns #flag if we should track facing and turn rate
 
 ## a dictionary of the grid positions this unit can reach from the start_loc
@@ -74,27 +59,32 @@ var _grid_spacing
 var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
-func _init(world_map, unit, movement_type, max_moves, reverse, start_loc, start_dir):
-	self.move_unit = unit
-	self.unit_info = unit.unit_info
+func _init(world_map, move_unit, movement_mode):
+	self.move_unit = move_unit
+	self.unit_info = move_unit.unit_info
 	self.world_map = world_map
-	self.movement_type = movement_type
-	self.reverse = reverse
+	self.movement_mode = movement_mode
 	
 	_grid_spacing = HexUtils.pixels2units(world_map.UNITGRID_WIDTH)
 	
-	_movement_rate = unit_info.get_move_speed(movement_type)
-	_turning_rate = unit_info.get_turn_rate(movement_type)
-	_track_turns = unit_info.use_facing() && _turning_rate != null
+	_movement_rate = movement_mode.speed
+	_turning_rate = movement_mode.turn_rate
+	_track_turns = unit_info.use_facing() && !movement_mode.free_rotate
 	
-	if reverse:
+	var max_moves = 2
+	var start_loc = move_unit.cell_position
+	var start_dir = move_unit.facing
+	if movement_mode.reversed:
 		start_dir = HexUtils.reverse_dir(start_dir)
-		_movement_rate = unit_info.get_reverse_speed(movement_type)
 	
 	var visited = _search_possible_moves(start_loc, start_dir, max_moves)
 	for cell_pos in visited:
 		if cell_pos != start_loc && _can_stop(cell_pos):
-			possible_moves[cell_pos] = visited[cell_pos]
+			var move_info = visited[cell_pos]
+			move_info.movement_mode = movement_mode
+			if movement_mode.reversed:
+				move_info.facing = HexUtils.reverse_dir(move_info.facing)
+			possible_moves[cell_pos] = move_info
 
 
 ## setups a movement state for the beginning of a move action
@@ -103,18 +93,16 @@ func _init_move_state(move_count, facing, move_path):
 		move_count = move_count,
 		facing = facing,
 		prev_facing = null,
-		free_rotate = !_track_turns,
-		reverse = reverse,
-		move_remaining = _movement_rate,
-		turn_remaining = _turning_rate,
+		moves_remaining = _movement_rate,
+		turns_remaining = _turning_rate,
 		hazard = false,
 		path = move_path,
 	}
 
 ## lower priority moves are explored first
 func _move_priority(move_state):
-	var turns = move_state.turn_remaining if move_state.turn_remaining else 0
-	var moves = move_state.move_remaining
+	var turns = move_state.turns_remaining if move_state.turns_remaining else 0
+	var moves = move_state.moves_remaining
 	var hazard = 10000 if move_state.hazard else 0
 	return -(turns * 10*moves) + hazard
 
@@ -163,8 +151,8 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 	var neighbors = HexUtils.get_neighbors(cur_pos)
 	for move_dir in neighbors:
 		var next_pos = neighbors[move_dir]
-		var move_remaining = cur_state.move_remaining
-		var turn_remaining = cur_state.turn_remaining
+		var moves_remaining = cur_state.moves_remaining
+		var turns_remaining = cur_state.turns_remaining
 		
 		if visited.has(next_pos):
 			continue ## already visited
@@ -186,18 +174,17 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 				turn_cost *= -1
 			
 			## do we need to start a new move to face this direction?
-			if turn_remaining < turn_cost:
+			if turns_remaining < turn_cost:
 				extra_move = true
-				move_remaining = 0 #movement only carries over if we are able to make the turn
+				moves_remaining = 0 #movement only carries over if we are able to make the turn
 		
 		## handle movement costs
 		var move_cost = _move_cost(cur_pos, next_pos)
 		
 		## do we need to start a new move to make it to the next_pos?
-		if move_remaining < move_cost && cur_state.path.size() > 1: #always allow at least one move
+		if moves_remaining < move_cost: #&& cur_state.path.size() > 1: #always allow at least one move
 			extra_move = true
 		
-		#print("%s: %s[%s] -> %s[%s] : turn %s/%s, move %s/%s : %s" % [move_count, cur_pos, facing, next_pos, move_dir, turn_cost, turn_remaining, move_cost, move_remaining, !extra_move])
 		var next_path = cur_state.path.duplicate()
 		next_path.push_back(next_pos)		
 		
@@ -208,25 +195,25 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			
 			next_state.facing = move_dir
 			next_state.prev_facing = facing
-			next_state.move_remaining -= move_cost
+			next_state.moves_remaining -= move_cost
 			if _track_turns:
-				next_state.turn_remaining -= turn_cost
+				next_state.turns_remaining -= turn_cost
 			next_state.hazard = hazard || _is_dangerous(next_pos)
 			next_state.path = next_path
 		
 			next_visited[next_pos] = next_state
 		else:
 			## even if we take a whole new move action, we still may not be able to reach the next_pos, so check that
-			if _movement_rate + move_remaining >= move_cost && (!_track_turns || _turning_rate + turn_remaining >= turn_cost):
+			if _movement_rate + moves_remaining >= move_cost && (!_track_turns || _turning_rate + turns_remaining >= turn_cost):
 				## it's important that prev_facing is cleared when we reset turns_remaining
 				## that way on the next iteration we can't be refunded turns we haven't spent.
 				var next_state = _init_move_state(move_count + 1, move_dir, next_path)
 				
 				## carry over remaining movement
-				next_state.move_remaining += move_remaining - move_cost
+				next_state.moves_remaining += moves_remaining - move_cost
 				if _track_turns:
 					## turns don't carry over. however we can use the remaining turns to pay off any remaining cost.
-					next_state.turn_remaining += min(turn_remaining - turn_cost, 0)
+					next_state.turns_remaining += min(turns_remaining - turn_cost, 0)
 				
 				## carry over hazard flag
 				next_state.hazard = hazard || _is_dangerous(next_pos)
@@ -248,7 +235,7 @@ func _can_stop(cell_pos):
 func _move_cost(from_cell, to_cell):
 	var midpoint = 0.5*(world_map.get_grid_pos(from_cell) + world_map.get_grid_pos(to_cell))
 	var terrain_info = world_map.get_terrain_at(midpoint)
-	return _grid_spacing * unit_info.get_move_cost_on_terrain(movement_type, terrain_info)
+	return _grid_spacing * unit_info.get_move_cost_on_terrain(movement_mode, terrain_info)
 
 ## If entering a given cell will trigger a dangerous terrain check
 func _is_dangerous(cell_pos):
