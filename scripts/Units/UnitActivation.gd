@@ -3,6 +3,8 @@
 
 extends Reference
 
+const WorldMap = preload("res://scripts/WorldMap.gd")
+
 var active_unit
 
 var action_points
@@ -33,3 +35,11 @@ func move_unit(move_pos, move_info):
 	
 	movement_mode = move_info.movement_mode
 	distance_moved += active_unit.world_map.path_distance(move_info.path)
+
+## any moves left?
+func can_move():
+	return move_actions + floor(partial_moves/WorldMap.UNITGRID_SIZE) > 0
+
+## any turns left?
+func can_rotate():
+	return active_unit.has_facing() && move_actions + partial_turns > 0

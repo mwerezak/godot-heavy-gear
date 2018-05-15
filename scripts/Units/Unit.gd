@@ -13,6 +13,8 @@ var unit_info
 onready var world_map = get_parent()
 onready var map_marker = $MapMarker
 
+var current_activation = null
+
 func _ready():
 	var primary_color = Color("#355570") 
 	var secondary_color = Color("#FFC300")

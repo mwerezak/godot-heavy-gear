@@ -8,10 +8,10 @@ const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 
-static func calculate_movement(world_map, move_unit, current_activation):
+static func calculate_movement(world_map, move_unit):
 	var unit_info = move_unit.unit_info
 	
-	var current_mode = current_activation.movement_mode
+	var current_mode = move_unit.current_activation.movement_mode
 	
 	## calculate pathing for each movement mode and then merge the results
 	var possible_moves = {}
@@ -20,7 +20,7 @@ static func calculate_movement(world_map, move_unit, current_activation):
 		if current_mode && current_mode.mode_id != movement_mode.mode_id:
 			continue
 		
-		var movement = new(world_map, move_unit, movement_mode, current_activation)
+		var movement = new(world_map, move_unit, movement_mode)
 		for cell_pos in movement.possible_moves:
 			var move_info = movement.possible_moves[cell_pos]
 			if !possible_moves.has(cell_pos) || _prefer_move(possible_moves[cell_pos], move_info):
@@ -65,7 +65,7 @@ var _grid_spacing
 var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
-func _init(world_map, move_unit, movement_mode, current_activation):
+func _init(world_map, move_unit, movement_mode):
 	self.move_unit = move_unit
 	self.unit_info = move_unit.unit_info
 	self.world_map = world_map
@@ -82,7 +82,7 @@ func _init(world_map, move_unit, movement_mode, current_activation):
 	if movement_mode.reversed:
 		start_dir = HexUtils.reverse_dir(start_dir)
 	
-	var visited = _search_possible_moves(start_loc, start_dir, current_activation)
+	var visited = _search_possible_moves(start_loc, start_dir)
 	for cell_pos in visited:
 		if cell_pos != start_loc && _can_stop(cell_pos):
 			var move_info = visited[cell_pos]
@@ -111,10 +111,11 @@ func _move_priority(move_state):
 	var hazard = 10000 if move_state.hazard else 0
 	return -(turns * 10*moves) + hazard
 
-func _search_possible_moves(start_loc, start_dir, current_activation):
-	var max_moves = current_activation.move_actions
-	var init_moves = current_activation.partial_moves
-	var init_turns = current_activation.partial_turns
+func _search_possible_moves(start_loc, start_dir):
+	var cur_activation = move_unit.current_activation
+	var max_moves = cur_activation.move_actions
+	var init_moves = cur_activation.partial_moves
+	var init_turns = cur_activation.partial_turns
 	var initial_state = _init_move_state(0, start_dir, [ start_loc ], init_moves, init_turns)
 	
 	var visited = { start_loc: initial_state }
