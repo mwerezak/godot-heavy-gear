@@ -1,5 +1,7 @@
 extends Node
 
+const HexUtils = preload("res://scripts/HexUtils.gd")
+
 ## enumerate movement type IDs
 const WALKER = "walker"
 const GROUND = "ground"
@@ -16,7 +18,7 @@ const INFO = {
 	GROUND : {
 		name = "Ground",
 		road_bonus = 2.0,
-		turn_rate = 3,
+		turn_rate = HexUtils.TURN_90DEG,
 	},
 	INFANTRY : {
 		name = "Foot",

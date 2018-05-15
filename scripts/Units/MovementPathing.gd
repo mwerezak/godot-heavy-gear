@@ -2,11 +2,11 @@
 
 extends Reference
 
-const WorldMap = preload("res://scripts/WorldMap.gd")
-
 const HexUtils = preload("res://scripts/HexUtils.gd")
-const MovementModes = preload("res://scripts/Game/MovementModes.gd")
+const SortingUtils = preload("res://scripts/SortingUtils.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
+const MovementModes = preload("res://scripts/Game/MovementModes.gd")
+
 
 static func calculate_movement(world_map, move_unit):
 	var unit_info = move_unit.unit_info
@@ -20,32 +20,30 @@ static func calculate_movement(world_map, move_unit):
 		if current_mode && current_mode.mode_id != movement_mode.mode_id:
 			continue
 		
+		#don't use reverse movement on units that don't have a facing
+		if !move_unit.has_facing() && movement_mode.reversed:
+			continue
+		
 		var movement = new(world_map, move_unit, movement_mode)
 		for cell_pos in movement.possible_moves:
 			var move_info = movement.possible_moves[cell_pos]
-			if !possible_moves.has(cell_pos) || _prefer_move(possible_moves[cell_pos], move_info):
+			
+			if !possible_moves.has(cell_pos) || _move_priority_compare(possible_moves[cell_pos], move_info):
 				possible_moves[cell_pos] = move_info
 	return possible_moves
 
-static func _prefer_move(old_move, new_move):
-	if old_move.hazard != new_move.hazard:
-		return old_move.hazard && !new_move.hazard #always pick non-hazardous moves over hazardous ones
+static func _move_priority_compare(left, right):
+	return SortingUtils.lexical_sort(_move_priority_lexical(left), _move_priority_lexical(right))
 
-	var old_mode = old_move.movement_mode
-	var new_mode = new_move.movement_mode
-	if old_mode.free_rotate != new_mode.free_rotate:
-		return !old_mode.free_rotate && new_mode.free_rotate
-
-	if old_move.move_count != new_move.move_count:
-		return old_move.move_count > new_move.move_count
-
-	if old_move.turns_remaining != new_move.moves_remaining:
-		var old_turn = old_move.turns_remaining if old_move.turns_remaining != null else 1000
-		var new_turn = new_move.turns_remaining if new_move.turns_remaining != null else 1000
-		return old_turn < new_turn
-
-	return old_move.moves_remaining < new_move.moves_remaining
-
+static func _move_priority_lexical(move_info):
+	return [
+		1 if !move_info.hazard else -1, #non-hazardous over hazardous moves
+		1 if move_info.movement_mode.free_rotate else -1, #prefer free rotations
+		-move_info.move_count, #prefer less movement actions used
+		move_info.turns_remaining if move_info.turns_remaining else 1000, #prefer more turns remaining
+		move_info.moves_remaining, #prefer more moves remaining
+		hash(move_info), #lastly, sort by hash to ensure determinism
+	]
 
 ##### Movement Pathing #####
 
@@ -80,22 +78,24 @@ func _init(world_map, move_unit, movement_mode):
 	var start_loc = move_unit.cell_position
 	var start_dir = move_unit.facing
 	if movement_mode.reversed:
-		start_dir = HexUtils.reverse_dir(start_dir)
+		start_dir = HexUtils.reverse_dir(start_dir) ## reverse the facing
 	
 	var visited = _search_possible_moves(start_loc, start_dir)
 	for cell_pos in visited:
 		if cell_pos != start_loc && _can_stop(cell_pos):
 			var move_info = visited[cell_pos]
-			move_info.movement_mode = movement_mode
+			
 			if movement_mode.reversed:
-				move_info.facing = HexUtils.reverse_dir(move_info.facing)
+				move_info.facing = HexUtils.reverse_dir(move_info.facing) ## un-reverse the facing
+			
 			possible_moves[cell_pos] = move_info
 
 
 ## setups a movement state for the beginning of a move action
-func _init_move_state(move_count, facing, move_path, init_moves=null, init_turns=null):
+func _init_move_info(move_count, facing, move_path, init_moves=null, init_turns=null):
 	return {
 		move_count = move_count, #the number of move actions used
+		movement_mode = movement_mode,
 		facing = facing,
 		prev_facing = null,
 		moves_remaining = init_moves if init_moves != null else _movement_rate,
@@ -116,7 +116,7 @@ func _search_possible_moves(start_loc, start_dir):
 	var max_moves = cur_activation.move_actions
 	var init_moves = cur_activation.partial_moves
 	var init_turns = cur_activation.partial_turns
-	var initial_state = _init_move_state(0, start_dir, [ start_loc ], init_moves, init_turns)
+	var initial_state = _init_move_info(0, start_dir, [ start_loc ], init_moves, init_turns)
 	
 	var visited = { start_loc: initial_state }
 	var next_move = {}
@@ -218,7 +218,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			if _movement_rate + moves_remaining >= move_cost && (!_track_turns || _turning_rate + turns_remaining >= turn_cost):
 				## it's important that prev_facing is cleared when we reset turns_remaining
 				## that way on the next iteration we can't be refunded turns we haven't spent.
-				var next_state = _init_move_state(move_count + 1, move_dir, next_path)
+				var next_state = _init_move_info(move_count + 1, move_dir, next_path)
 				
 				## carry over remaining movement
 				next_state.moves_remaining += moves_remaining - move_cost

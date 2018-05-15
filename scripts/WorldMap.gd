@@ -66,12 +66,14 @@ func get_grid_cell(world_pos):
 func get_grid_pos(cell_pos):
 	return unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2
 
-## gets the closest direction to get from one cell to another
-func get_nearest_dir(cell_from, cell_to):
+func get_angle_to(cell_from, cell_to):
 	var from_pos = get_grid_pos(cell_from)
 	var to_pos = get_grid_pos(cell_to)
-	var total_displacement = to_pos - from_pos
-	return HexUtils.nearest_dir(total_displacement.angle())
+	return (to_pos - from_pos).angle()
+
+## gets the closest direction to get from one cell to another
+func get_dir_to(cell_from, cell_to):
+	return HexUtils.nearest_dir(get_angle_to(cell_from, cell_to))
 
 ## returns the distance betwen the centres of two cells, in distance units
 func grid_distance(cell1, cell2):

@@ -31,6 +31,14 @@ const DIR_MIN = 0
 const DIR_MAX = 11
 const DIR_WRAP = 12
 
+## some constants for readability instead of magic numbers
+const TURN_30DEG = 1
+const TURN_60DEG = 2
+const TURN_90DEG = 3
+const TURN_120DEG = 4
+const TURN_150DEG = 5
+const TURN_180DEG = 6
+
 static func normalize(dir):
 	return wrapi(dir, DIR_MIN, DIR_WRAP)
 
