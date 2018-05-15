@@ -16,8 +16,9 @@ static func calculate_movement(world_map, move_unit):
 	## calculate pathing for each movement mode and then merge the results
 	var possible_moves = {}
 	for movement_mode in unit_info.get_movement_modes():
-		#once we start using a movement mode, we need to continue using it for the rest of the turn
-		if current_mode && current_mode.mode_id != movement_mode.mode_id:
+		#once we start using a movement mode, we can only use movement modes that
+		#share the same movement type for the rest of the turn
+		if current_mode && current_mode.type_id != movement_mode.type_id:
 			continue
 		
 		#don't use reverse movement on units that don't have a facing

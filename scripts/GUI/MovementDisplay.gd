@@ -28,7 +28,9 @@ func _deferred_ready():
 	## align the movement tiles with the unit grid
 	movement_tiles.cell_size = world_map.unit_grid.cell_size
 
-func show_movement(possible_moves, move_actions):
+func show_movement(possible_moves, current_activation):
+	var move_actions = current_activation.move_actions
+	
 	clear_move_marker()
 	movement_tiles.clear()
 	
@@ -38,7 +40,7 @@ func show_movement(possible_moves, move_actions):
 		var cell
 		if move_info.hazard:
 			cell = TILE_RED
-		elif move_actions - move_info.move_count < 1:
+		elif move_actions - move_info.move_count < current_activation.EXTENDED_MOVE:
 			cell = TILE_YELLOW
 		else:
 			cell = TILE_BLUE

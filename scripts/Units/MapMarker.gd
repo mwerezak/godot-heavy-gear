@@ -6,10 +6,13 @@ signal mouse_entered
 signal mouse_exited
 
 var has_mouse = false
+var facing_marker_visible = false setget set_facing_marker_visible
+var temp_facing_enabled = false setget set_temp_facing_enabled
 
 onready var mouse_catcher = $MouseCatcher/CollisionShape2D
 onready var base_footprint = $BaseFootprint
 onready var facing_marker = $Facing
+onready var temp_facing = $TempFacing
 
 onready var nato_counter = $NatoCounter
 
@@ -44,6 +47,7 @@ func set_footprint_radius(pixels):
 	
 	#var icon_radius = icon_radius()
 	facing_marker.offset.x = pixels + 8
+	temp_facing.offset = facing_marker.offset
 
 func get_footprint_radius():
 	return base_footprint.radius
@@ -56,10 +60,22 @@ func get_footprint_radius():
 
 ## sets the direction of the facing marker
 func set_facing(radians):
+	temp_facing.rotation = radians
 	facing_marker.rotation = radians
 
 func set_facing_marker_visible(show_marker):
+	facing_marker_visible = show_marker
 	if show_marker:
 		facing_marker.show()
 	else:
 		facing_marker.hide()
+
+func set_temp_facing(radians):
+	temp_facing.rotation = radians
+
+func set_temp_facing_enabled(enabled):
+	temp_facing_enabled = enabled
+	if enabled:
+		temp_facing.show()
+	else:
+		temp_facing.hide()

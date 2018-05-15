@@ -17,7 +17,7 @@ func activated(args):
 	var world_map = move_unit.get_parent()
 	possible_moves = MovementPathing.calculate_movement(world_map, move_unit)
 	
-	move_display.show_movement(possible_moves, move_unit.current_activation.move_actions)
+	move_display.show_movement(possible_moves, move_unit.current_activation)
 	label.text = "Select a location to move to."
 
 func deactivated():
@@ -36,10 +36,10 @@ func _become_inactive():
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if !possible_moves.has(cell_pos):
-			_cancel_button_pressed() #double click outside possible moves to cancel
+			cancel_move() #double click outside possible moves to cancel
 		else:
 			if move_pos == cell_pos:
-				_move_button_pressed()
+				finalize_move() #double click on the same cell to confirm
 			else:
 				move_button.disabled = false
 				move_display.place_move_marker(possible_moves, cell_pos)
@@ -51,17 +51,20 @@ func _reset():
 	move_display.clear_move_marker()
 	label.text = "Select a location to move to."
 
-func _move_button_pressed():
+func finalize_move():
 	var move_info = possible_moves[move_pos]
+	move_unit.current_activation.move(move_pos, move_info)
 	
-	move_unit.current_activation.move_unit(move_pos, move_info)
-	
-	if move_info.facing != null:
-		move_unit.set_facing(move_info.facing)
 	context_manager.deactivate()
-	
-	#if move_unit.has_facing() && (move_info.movement_mode.free_rotate || move_info.turns_remaining > 0):
-	#	context_manager.activate("select_facing", { rotate_unit = move_unit, max_turns = move_info.turns_remaining })
+	if move_unit.current_activation.can_rotate():
+		context_manager.activate("select_facing", { unit = move_unit })
 
-func _cancel_button_pressed():
+func cancel_move():
 	context_manager.deactivate()
+	if move_unit.current_activation.can_rotate():
+		context_manager.activate("select_facing", { unit = move_unit })
+
+func _move_button_pressed(): finalize_move()
+
+func _cancel_button_pressed(): cancel_move()
+

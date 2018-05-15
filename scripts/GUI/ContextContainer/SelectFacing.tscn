@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/GUI/ContextContainer/SelectFacing.gd" type="Script" id=1]
 [ext_resource path="res://icons/move_marker_16.png" type="Texture" id=2]
 
-[node name="SelectFacing" type="PanelContainer"]
+[node name="SelectFacing" type="PanelContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -83,7 +83,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 20.0
 margin_top = 3.0
-margin_right = 339.0
+margin_right = 281.0
 margin_bottom = 17.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -103,8 +103,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 343.0
-margin_right = 389.0
+margin_left = 285.0
+margin_right = 331.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -121,6 +121,32 @@ text = "Done"
 flat = false
 align = 1
 
+[node name="CancelButton" type="Button" parent="MarginContainer/HBoxContainer" index="3"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 335.0
+margin_right = 389.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Cancel"
+flat = false
+align = 1
+
 [connection signal="pressed" from="MarginContainer/HBoxContainer/DoneButton" to="." method="_done_button_pressed"]
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/CancelButton" to="." method="_cancel_button_pressed"]
 
 

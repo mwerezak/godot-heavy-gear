@@ -1,37 +1,34 @@
 extends Reference
 
-const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const UnitTypes = preload("res://scripts/Game/UnitTypes.gd")
+const MovementModes = preload("res://scripts/Game/MovementModes.gd")
+const SortingUtils = preload("res://scripts/SortingUtils.gd")
 
 const MAX_MOVE_ACTIONS = 2
 
 var _info
 var _movement_modes = []
+var _default_rotation #the movement mode used by default for rotations
 
 func _init(info):
 	_info = info
 	
 	## setup movement mode data
-	for item in info.movement:
-		var mode = item.mode
-		var mode_info = MovementModes.get_info(mode)
+	for move_spec in info.movement:
+		var move_mode = MovementModes.create(move_spec, move_spec.mode)
+		_movement_modes.push_back(move_mode)
 		
-		var mode_data = {
-			mode_id = mode,
-			name = mode_info.name,
-			speed = item.speed,
-			turn_rate = mode_info.turn_rate,
-			free_rotate = (mode_info.turn_rate == null),
-			reversed = false,
-		}
-		_movement_modes.push_back(mode_data)
-		
-		if item.has("reverse"):
-			var reverse_data = mode_data.duplicate()
-			reverse_data.name += " (Reverse)"
-			reverse_data.reversed = true
-			reverse_data.speed = item.reverse
-			_movement_modes.push_back(reverse_data)
+		if move_spec.has("reverse"):
+			var reversed_mode = MovementModes.create_reversed(move_spec, move_spec.mode)
+			_movement_modes.push_back(reversed_mode)
+	
+	_default_rotation = SortingUtils.get_max_item(_movement_modes, self, "_compare_default_rotation")
+
+func _compare_default_rotation(left, right):
+	return SortingUtils.lexical_sort(
+		MovementModes.default_rotation_lexical(left), 
+		MovementModes.default_rotation_lexical(right)
+	)
 
 func get_name(): return _info.name
 func get_symbol(): return _info.nato_symbol
@@ -45,12 +42,15 @@ func max_move_actions(): return MAX_MOVE_ACTIONS
 
 func get_movement_modes(): 
 	return _movement_modes
+func get_default_rotation():
+	return _default_rotation
 
 ## returns a multiplier that is applied to the distance moved to get the cost.
 func get_move_cost_on_terrain(move_mode, terrain_info):
-	var mode_id = move_mode.mode_id
-	if !terrain_info.difficult.has(mode_id):
+	var type_id = move_mode.type_id
+	if !terrain_info.difficult.has(type_id):
 		return 1.0
 	var base_speed = move_mode.speed
-	var speed_limit = min(base_speed, terrain_info.difficult[mode_id]) #difficult terrain cannot make us move /faster/
+	var speed_limit = min(base_speed, terrain_info.difficult[type_id]) #difficult terrain cannot make us move /faster/
 	return base_speed/speed_limit
+

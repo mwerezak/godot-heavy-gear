@@ -40,11 +40,11 @@ func _can_rotate(): return active_unit.current_activation.can_rotate()
 func _is_turn_over():
 	return !(_can_move() || _can_rotate() || active_unit.current_activation.action_points > 0)
 
-func _rotate_button_pressed():
-	pass # replace with function body
-
 func _move_button_pressed():
 	context_manager.activate("move_unit", { unit = active_unit })
+
+func _rotate_button_pressed():
+	context_manager.activate("select_facing", { unit = active_unit })
 
 func _done_button_pressed():
 	context_manager.deactivate()
