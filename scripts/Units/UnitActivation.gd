@@ -3,7 +3,7 @@
 
 extends Reference
 
-const HexUtils = preload("res://scripts/HexUtils.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
 const WorldMap = preload("res://scripts/WorldMap.gd")
 
 ## units with less than this many movement points left are consided

@@ -2,7 +2,7 @@ extends Reference
 
 const UnitTypes = preload("res://scripts/Game/UnitTypes.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
-const SortingUtils = preload("res://scripts/SortingUtils.gd")
+const SortingUtils = preload("res://scripts/Helpers/SortingUtils.gd")
 
 const MAX_MOVE_ACTIONS = 2
 

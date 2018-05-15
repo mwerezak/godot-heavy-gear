@@ -1,7 +1,7 @@
 extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
-const HexUtils = preload("res://scripts/HexUtils.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
 
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids

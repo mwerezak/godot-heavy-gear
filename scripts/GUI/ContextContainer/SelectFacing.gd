@@ -1,8 +1,8 @@
 extends "ContextBase.gd"
 
 const Constants = preload("res://scripts/Constants.gd")
-const HexUtils = preload("res://scripts/HexUtils.gd")
-const SortingUtils = preload("res://scripts/SortingUtils.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
+const SortingUtils = preload("res://scripts/Helpers/SortingUtils.gd")
 const DirectionArc = preload("res://scripts/GUI/DirectionArc.tscn")
 
 const MARKER_COLOR = Color(0.4, 0.9, 0.3)

@@ -1,6 +1,6 @@
 extends Node
 
-const HexUtils = preload("res://scripts/HexUtils.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
 
 ## the grid cell that the unit is located in
 export(Vector2) var cell_position = Vector2() setget set_cell_position, get_cell_position

@@ -3,7 +3,7 @@
 extends Node
 
 const Constants = preload("res://scripts/Constants.gd")
-const HexUtils = preload("res://scripts/HexUtils.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 
 const TILE_BLUE = 0

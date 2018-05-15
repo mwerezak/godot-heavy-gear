@@ -1,6 +1,6 @@
 extends Node
 
-const HexUtils = preload("res://scripts/HexUtils.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
 
 ## enumerate movement type IDs
 const WALKER = "walker"

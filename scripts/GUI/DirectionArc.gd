@@ -2,7 +2,7 @@
 
 extends Node2D
 
-const HexUtils = preload("res://scripts/HexUtils.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
 
 onready var dir_marker0 = $Dir0
 onready var direction_markers = [ dir_marker0 ]

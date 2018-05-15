@@ -2,9 +2,9 @@
 
 extends Reference
 
-const HexUtils = preload("res://scripts/HexUtils.gd")
-const SortingUtils = preload("res://scripts/SortingUtils.gd")
-const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
+const HexUtils = preload("res://scripts/Helpers/HexUtils.gd")
+const SortingUtils = preload("res://scripts/Helpers/SortingUtils.gd")
+const PriorityQueue = preload("res://scripts/Helpers/PriorityQueue.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 
 
