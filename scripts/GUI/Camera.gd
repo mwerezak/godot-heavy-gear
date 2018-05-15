@@ -24,14 +24,11 @@ func _input(event):
 	
 	if event.is_action_pressed("view_pan_mouse"):
 		mouse_captured = true
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	elif event.is_action_released("view_pan_mouse"):
 		mouse_captured = false
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 	if mouse_captured && event is InputEventMouseMotion:
-		position += event.relative * zoom
-		Input.warp_mouse_position(event.global_position - event.relative) #keep the mouse fixed when panning
+		position -= event.relative * zoom #like we're grabbing the map
 
 # use _process for smoother scrolling
 func _process(delta):
