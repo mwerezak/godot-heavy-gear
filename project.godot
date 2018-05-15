@@ -11,7 +11,7 @@ config_version=3
 [application]
 
 config/name="Heavy Gear"
-run/main_scene="res://scripts/MainMap.tscn"
+run/main_scene="res://scripts/Main.tscn"
 config/icon="res://icons/terrain/sparse_forest4.png"
 
 [autoload]
