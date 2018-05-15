@@ -29,5 +29,5 @@ const INFO = {
 	## TODO hover and flying movement types - probably need to sort out terrain elevation first
 }
 
-static func get_movement_mode(move_type_id):
+static func get_info(move_type_id):
 	return INFO[move_type_id]

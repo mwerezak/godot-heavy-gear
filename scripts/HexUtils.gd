@@ -41,6 +41,9 @@ static func nearest_dir(radians):
 static func rotate_step(dir, rot):
 	return normalize(dir + rot)
 
+static func reverse_dir(dir):
+	return rotate_step(dir, 6)
+
 static func dir2rad(dir):
 	return normalize(dir)*UNIT_ARC
 

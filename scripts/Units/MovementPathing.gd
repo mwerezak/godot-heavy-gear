@@ -5,20 +5,36 @@ extends Reference
 const WorldMap = preload("res://scripts/WorldMap.gd")
 
 const HexUtils = preload("res://scripts/HexUtils.gd")
-#const MovementModes = preload("res://scripts/Game/MovementModes.gd")
+const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 
 static func calculate_movement(world_map, move_unit, max_moves=2, start_loc=null, start_dir=null):
 	start_loc = start_loc if start_loc else move_unit.cell_position
 	start_dir = start_dir if start_dir else move_unit.facing
 	
+	var unit_info = move_unit.unit_info
+	
+	var movement_modes = []
+	for mode in unit_info.get_movement_modes():
+		movement_modes.push_back([mode, false])
+		if unit_info.get_reverse_speed(mode):
+			movement_modes.push_back([mode, true])
+	
 	## calculate pathing for each movement mode and then merge the results
 	var possible_moves = {}
-	for movement_mode in move_unit.unit_info.get_movement_modes():
-		var movement = new(world_map, move_unit, movement_mode, max_moves, start_loc, start_dir)
+	for item in movement_modes:
+		var movement_mode = item[0]
+		var reverse = item[1]
+		
+		var movement = new(world_map, move_unit, movement_mode, max_moves, reverse, start_loc, start_dir)
 		for cell_pos in movement.possible_moves:
 			var move_info = movement.possible_moves[cell_pos]
+			
+			## hack in some additional info
 			move_info.movement_mode = movement_mode
+			if move_info.reverse:
+				move_info.facing = HexUtils.reverse_dir(move_info.facing)
+			
 			if !possible_moves.has(cell_pos) || _prefer_move(possible_moves[cell_pos], move_info):
 				possible_moves[cell_pos] = move_info
 	return possible_moves
@@ -41,6 +57,7 @@ var unit_info
 var world_map #reference to the world map the unit is located on
 var movement_type #movement type to use, since units may have more than one
 
+var reverse
 var _track_turns #flag if we should track facing and turn rate
 
 ## a dictionary of the grid positions this unit can reach from the start_loc
@@ -52,17 +69,22 @@ var _grid_spacing
 var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
-func _init(world_map, unit, movement_type, max_moves, start_loc, start_dir):
+func _init(world_map, unit, movement_type, max_moves, reverse, start_loc, start_dir):
 	self.move_unit = unit
 	self.unit_info = unit.unit_info
 	self.world_map = world_map
 	self.movement_type = movement_type
+	self.reverse = reverse
 	
 	_grid_spacing = HexUtils.pixels2units(world_map.UNITGRID_WIDTH)
 	
 	_movement_rate = unit_info.get_move_speed(movement_type)
 	_turning_rate = unit_info.get_turn_rate(movement_type)
 	_track_turns = unit_info.use_facing() && _turning_rate != null
+	
+	if reverse:
+		start_dir = HexUtils.reverse_dir(start_dir)
+		_movement_rate = unit_info.get_reverse_speed(movement_type)
 	
 	var visited = _search_possible_moves(start_loc, start_dir, max_moves)
 	for cell_pos in visited:
@@ -77,6 +99,7 @@ func _init_move_state(move_count, facing, move_path):
 		facing = facing,
 		prev_facing = null,
 		free_rotate = !_track_turns,
+		reverse = reverse,
 		move_remaining = _movement_rate,
 		turn_remaining = _turning_rate,
 		hazard = false,

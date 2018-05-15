@@ -62,11 +62,21 @@ class UnitInfo:
 	
 	func get_movement_modes(): 
 		return _movement_modes
+
 	func get_move_speed(move_mode): 
 		return _movement_speeds[move_mode]
+
+	func get_reverse_speed(move_mode):
+		if !use_facing(): 
+			return null
+		var info = MovementModes.get_info(move_mode)
+		if !info.reverse:
+			return null
+		return get_move_speed(move_mode) * info.reverse
+
 	func get_turn_rate(move_mode):
 		if !use_facing(): return null
-		return MovementModes.get_movement_mode(move_mode).turn_rate
+		return MovementModes.get_info(move_mode).turn_rate
 	
 	## returns a multiplier that is applied to the distance moved to get the cost.
 	func get_move_cost_on_terrain(move_mode, terrain_info):
