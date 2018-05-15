@@ -7,10 +7,10 @@ path="res://.import/tank.png-be53d7ea4e684bc2f0f16a5b58e2763d.stex"
 [deps]
 
 source_file="res://icons/units/nato/tank.png"
-source_md5="4b59a4faedf02efc8a5ed7a7cf948956"
+source_md5="a053ed59f53639527ba8b504871a3d88"
 
 dest_files=[ "res://.import/tank.png-be53d7ea4e684bc2f0f16a5b58e2763d.stex" ]
-dest_md5="8f9521dad537660b71406d7e66378124"
+dest_md5="ba885ec364e60de319715700350cd8a5"
 
 [params]
 

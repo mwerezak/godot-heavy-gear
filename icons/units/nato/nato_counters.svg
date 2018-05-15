@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="nato_counters.svg"
-   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/units/nato/gear.png"
+   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/units/nato/counter_stripe.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -87,7 +87,8 @@
      inkscape:groupmode="layer"
      id="layer9"
      inkscape:label="Counter Bottom"
-     style="display:none">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#c8c8c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 41.753427,31.187305 0,6.620914 c 0,2.185644 -1.759562,3.945206 -3.945206,3.945206 l -27.61644,0 c -2.185644,0 -3.9452056,-1.759562 -3.9452056,-3.945206 l 2e-7,-6.620914"
@@ -95,10 +96,11 @@
        inkscape:connector-curvature="0" />
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="Counter Top"
      id="g4246"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#c8c8c8;stroke-width:2;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="m 6.2465756,31.187305 -2e-7,-20.995526 c 0,-2.1856439 1.7595616,-3.9452056 3.9452056,-3.9452056 l 0,0 27.61644,0 c 2.185644,0 3.945206,1.7595617 3.945206,3.9452056 l 0,20.995526"

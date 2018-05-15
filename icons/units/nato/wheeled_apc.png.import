@@ -7,10 +7,10 @@ path="res://.import/wheeled_apc.png-2d2857176942b3d4758bb95aaaa4f3d0.stex"
 [deps]
 
 source_file="res://icons/units/nato/wheeled_apc.png"
-source_md5="14435d7252986adca45a871e2e1e42c9"
+source_md5="eeb6db6a19493e892b9b1ad8ee806db6"
 
 dest_files=[ "res://.import/wheeled_apc.png-2d2857176942b3d4758bb95aaaa4f3d0.stex" ]
-dest_md5="522ae6555c8df3872295a579d3c1ba25"
+dest_md5="285304b1aa07f2654b9b2c0d63c42e6c"
 
 [params]
 

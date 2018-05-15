@@ -7,10 +7,10 @@ path="res://.import/infantry.png-3346b9aff2cc75c75a389621705fb107.stex"
 [deps]
 
 source_file="res://icons/units/nato/infantry.png"
-source_md5="ee0ef94b5f24b35f5c478c43806cf00e"
+source_md5="603541feff36f631c8ca69bc227afdac"
 
 dest_files=[ "res://.import/infantry.png-3346b9aff2cc75c75a389621705fb107.stex" ]
-dest_md5="f0da8abc189ca9a664827c4f6d84d7f0"
+dest_md5="608bb28eb12e0c4a468bb69bc1403df4"
 
 [params]
 
