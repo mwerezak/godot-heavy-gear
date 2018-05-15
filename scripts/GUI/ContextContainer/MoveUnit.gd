@@ -35,10 +35,13 @@ func _become_inactive():
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if !possible_moves.has(cell_pos):
-			move_button.disabled = true
-			move_display.clear_move_marker()
-			move_pos = null
-			label.text = "Select a location to move to."
+			if move_pos == cell_pos:
+				_cancel_button_pressed() #double click outside possible moves to cancel
+			else:
+				move_button.disabled = true
+				move_display.clear_move_marker()
+				move_pos = cell_pos
+				label.text = "Select a location to move to."
 		else:
 			if move_pos == cell_pos:
 				_move_button_pressed()
@@ -57,3 +60,6 @@ func _move_button_pressed():
 	
 	if move_unit.has_facing() && (move_info.movement_mode.free_rotate || move_info.turns_remaining > 0):
 		context_manager.activate("select_facing", { rotate_unit = move_unit, max_turns = move_info.turns_remaining })
+
+func _cancel_button_pressed():
+	context_manager.deactivate()
