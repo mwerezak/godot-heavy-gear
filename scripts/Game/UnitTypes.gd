@@ -34,6 +34,7 @@ const INFO = {
 		height = 1.0,
 		movement = {
 			MovementTypes.TYPE_WALKER: 5.0,
+			MovementTypes.TYPE_GROUND: 6.0,
 		},
 	}
 }

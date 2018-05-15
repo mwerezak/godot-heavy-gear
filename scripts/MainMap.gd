@@ -1,6 +1,7 @@
 extends Node
 
 onready var context_panel = $GUILayer/LowerLeftPanel/ContextContainer
+onready var unit_info_panel = $GUILayer/UnitInfoPanel
 onready var camera = $Camera
 onready var world_map = $WorldMap
 
@@ -41,3 +42,10 @@ func _unhandled_input(event):
 				map_markers.push_back(marker_obj)
 		if !map_markers.empty():
 			context_panel.map_markers_input_event(world_map, map_markers, event)
+			_update_unit_info_panel(map_markers, event)
+
+func _update_unit_info_panel(map_markers, event):
+	if event.is_action_pressed("click_select"):
+		unit_info_panel.select_markers(map_markers)
+	elif event is InputEventMouseMotion:
+		unit_info_panel.hover_markers(map_markers)

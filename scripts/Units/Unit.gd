@@ -6,6 +6,7 @@ const HexUtils = preload("res://scripts/HexUtils.gd")
 export(Vector2) var cell_position = Vector2() setget set_cell_position, get_cell_position
 export(int) var facing = 0 setget set_facing, get_facing
 
+export(String) var display_name
 export(String) var unit_type = "dummy_infantry" setget set_unit_type #reference a unit type in UnitModels.gd
 var unit_info
 
@@ -25,6 +26,9 @@ func _update_marker():
 func set_unit_type(model_id):
 	unit_info = UnitTypes.get_info(model_id)
 	unit_type = model_id
+	
+	display_name = unit_info.get_name()
+	
 	call_deferred("_update_marker")
 
 func get_cell_position():
