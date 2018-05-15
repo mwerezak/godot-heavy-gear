@@ -1,9 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scripts/GUI/ContextPanel/MoveUnit.gd" type="Script" id=1]
+[ext_resource path="res://scripts/GUI/ContextContainer/MoveUnit.gd" type="Script" id=1]
 [ext_resource path="res://icons/move_marker_16.png" type="Texture" id=2]
 
-[node name="MoveUnit" type="Container"]
+
+[node name="MoveUnit" type="PanelContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -25,9 +26,12 @@ _sections_unfolded = [ "Anchor", "Rect", "Size Flags" ]
 
 anchor_left = 0.0
 anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -40.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 404.0
+margin_bottom = 27.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 0
@@ -43,8 +47,8 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 8.0
-margin_right = 371.0
-margin_bottom = 25.0
+margin_right = 397.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -59,9 +63,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 4.0
+margin_top = 2.0
 margin_right = 16.0
-margin_bottom = 20.0
+margin_bottom = 18.0
 rect_min_size = Vector2( 8, 8 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -80,9 +84,9 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 20.0
-margin_top = 5.0
-margin_right = 312.0
-margin_bottom = 19.0
+margin_top = 3.0
+margin_right = 338.0
+margin_bottom = 17.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -101,9 +105,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 316.0
-margin_right = 363.0
-margin_bottom = 25.0
+margin_left = 342.0
+margin_right = 389.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 focus_mode = 2

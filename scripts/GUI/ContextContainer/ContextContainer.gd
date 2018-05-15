@@ -1,4 +1,4 @@
-extends Control
+extends Container
 
 onready var container = $VBoxContainer
 onready var world_map = get_tree().get_root().find_node("WorldMap", true, false)
