@@ -31,6 +31,7 @@ const MOVEMENT_TYPES = {
 static func get_move_type(move_type_id):
 	return MOVEMENT_TYPES[move_type_id]
 
+## creating new movement modes from a move_spec (see UnitTypes.gd) and a movement type
 static func create(move_spec, move_type_id):
 	var mode_info = get_move_type(move_type_id)
 	return {

@@ -11,8 +11,9 @@ const INFO = {
 		name = "Dummy Vehicle",
 		nato_symbol = "wheeled_apc",
 		unit_type = TYPE_VEHICLE,
-		
 		height = 1.0,
+		
+		## a array list of movement specs. These are used to create the unit's movement modes (see MovementModes.gd)
 		movement = [
 			{ mode = MovementModes.GROUND, speed = 7.0, reverse = 3.0 },
 		],
@@ -38,7 +39,6 @@ const INFO = {
 		
 		height = 1.0,
 		movement = [
-			## order determines movement priority
 			{ mode = MovementModes.WALKER, speed = 5.0 },
 			{ mode = MovementModes.GROUND, speed = 6.0 },
 		],
