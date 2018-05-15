@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scripts/MainMap.gd" type="Script" id=1]
 [ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=2]
@@ -8,15 +8,16 @@
 [ext_resource path="res://scripts/GUI/ContextContainer/ActivateUnit.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scripts/GUI/ContextContainer/MoveUnit.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/GUI/ContextContainer/SelectFacing.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scripts/GUI/UnitInfoPanel.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scripts/GUI/Camera.gd" type="Script" id=10]
-[ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scripts/GUI/MovementDisplay.tscn" type="PackedScene" id=12]
-[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=13]
-[ext_resource path="res://scripts/GUI/UnitCursor.gd" type="Script" id=14]
-[ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=15]
-[ext_resource path="res://scripts/GUI/TerrainCursor.gd" type="Script" id=16]
-[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://scripts/GUI/ContextContainer/UnitActions.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/GUI/UnitInfoPanel.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scripts/GUI/Camera.gd" type="Script" id=11]
+[ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scripts/GUI/MovementDisplay.tscn" type="PackedScene" id=13]
+[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=14]
+[ext_resource path="res://scripts/GUI/UnitCursor.gd" type="Script" id=15]
+[ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=16]
+[ext_resource path="res://scripts/GUI/TerrainCursor.gd" type="Script" id=17]
+[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=18]
 
 [sub_resource type="GDScript" id=1]
 
@@ -73,7 +74,7 @@ anti_aliasing_size = 1
 size = 24
 use_mipmaps = false
 use_filter = true
-font_data = ExtResource( 17 )
+font_data = ExtResource( 18 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
 [node name="MainMap" type="Node"]
@@ -116,7 +117,6 @@ _sections_unfolded = [ "Grow Direction" ]
 
 [node name="LowerLeftPanel" type="VBoxContainer" parent="GUILayer" index="2"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 0.0
@@ -178,7 +178,11 @@ margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="UnitInfoPanel" parent="GUILayer" index="3" instance=ExtResource( 9 )]
+[node name="UnitActions" parent="GUILayer/LowerLeftPanel/ContextContainer" index="6" instance=ExtResource( 9 )]
+
+visible = false
+
+[node name="UnitInfoPanel" parent="GUILayer" index="3" instance=ExtResource( 10 )]
 
 anchor_left = 1.0
 anchor_top = 1.0
@@ -217,12 +221,12 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-script = ExtResource( 10 )
+script = ExtResource( 11 )
 _sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
 
-[node name="WorldMap" parent="." index="2" instance=ExtResource( 11 )]
+[node name="WorldMap" parent="." index="2" instance=ExtResource( 12 )]
 
-[node name="MovementDisplay" parent="WorldMap" index="1" instance=ExtResource( 12 )]
+[node name="MovementDisplay" parent="WorldMap" index="1" instance=ExtResource( 13 )]
 
 visible = false
 
@@ -230,8 +234,8 @@ visible = false
 
 modulate = Color( 0.566406, 0.566406, 0.566406, 0.77349 )
 z_index = 1
-texture = ExtResource( 13 )
-script = ExtResource( 14 )
+texture = ExtResource( 14 )
+script = ExtResource( 15 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
 [node name="TerrainCursor" type="Sprite" parent="WorldMap" index="3"]
@@ -241,10 +245,10 @@ visible = false
 modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
 position = Vector2( 1, 1 )
 z_index = 1
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 centered = false
 offset = Vector2( 0, -37 )
-script = ExtResource( 16 )
+script = ExtResource( 17 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
 [node name="Transparent" type="PanelContainer" parent="WorldMap/TerrainCursor" index="0"]

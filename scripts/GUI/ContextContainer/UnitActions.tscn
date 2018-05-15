@@ -1,9 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scripts/GUI/ContextContainer/MoveUnit.gd" type="Script" id=1]
-[ext_resource path="res://icons/move_marker_16.png" type="Texture" id=2]
+[ext_resource path="res://scripts/GUI/ContextContainer/UnitActions.gd" type="Script" id=1]
 
-[node name="MoveUnit" type="PanelContainer"]
+[node name="UnitActions" type="PanelContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -11,6 +10,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 411.0
 margin_bottom = 34.0
+grow_vertical = 0
 rect_min_size = Vector2( 300, 25 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -19,7 +19,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 script = ExtResource( 1 )
-_sections_unfolded = [ "Anchor", "Rect", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Rect", "Size Flags" ]
 
 [node name="MarginContainer" type="MarginContainer" parent="." index="0"]
 
@@ -56,56 +56,13 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="ActionIcon" type="TextureRect" parent="MarginContainer/HBoxContainer" index="0"]
+[node name="MoveButton" type="Button" parent="MarginContainer/HBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 2.0
-margin_right = 16.0
-margin_bottom = 18.0
-rect_min_size = Vector2( 8, 8 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-texture = ExtResource( 2 )
-stretch_mode = 0
-_sections_unfolded = [ "Rect", "Size Flags" ]
-
-[node name="Label" type="Label" parent="MarginContainer/HBoxContainer" index="1"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 20.0
-margin_top = 3.0
-margin_right = 280.0
-margin_bottom = 17.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 3
-size_flags_vertical = 4
-text = "Select a location to move to."
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Size Flags" ]
-
-[node name="MoveButton" type="Button" parent="MarginContainer/HBoxContainer" index="2"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 284.0
-margin_right = 331.0
+margin_right = 47.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -114,7 +71,6 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-disabled = true
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -123,14 +79,14 @@ text = "Move"
 flat = false
 align = 1
 
-[node name="CancelButton" type="Button" parent="MarginContainer/HBoxContainer" index="3"]
+[node name="RotateButton" type="Button" parent="MarginContainer/HBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 335.0
-margin_right = 389.0
+margin_left = 51.0
+margin_right = 104.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -143,12 +99,57 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Cancel"
+text = "Rotate"
 flat = false
 align = 1
 
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 108.0
+margin_right = 389.0
+margin_bottom = 20.0
+grow_horizontal = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+_sections_unfolded = [ "Grow Direction", "Size Flags" ]
+
+[node name="DoneButton" type="Button" parent="MarginContainer/HBoxContainer/MarginContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 235.0
+margin_right = 281.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Done"
+flat = false
+align = 1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Size Flags" ]
+
 [connection signal="pressed" from="MarginContainer/HBoxContainer/MoveButton" to="." method="_move_button_pressed"]
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/CancelButton" to="." method="_cancel_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/RotateButton" to="." method="_rotate_button_pressed"]
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/MarginContainer/DoneButton" to="." method="_done_button_pressed"]
 
 

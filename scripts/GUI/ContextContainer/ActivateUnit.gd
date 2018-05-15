@@ -42,12 +42,10 @@ func deactivated():
 
 func _become_active():
 	._become_active()
+	if selection:
+		selection.cleanup()
+		set_selection(null)
 	activate_button.grab_focus()
-	if selection: selection.show()
-
-func _become_inactive():
-	._become_inactive()
-	if selection: selection.hide()
 
 func map_markers_input(map, map_markers, event):
 	if event.is_action_pressed("click_select"):
@@ -74,6 +72,7 @@ func set_selection(s):
 	
 
 func _activate_button_pressed():
-	var activate_selection = selection
-	set_selection(null)
-	context_manager.activate("move_unit", { selected_markers = activate_selection })
+	var selected_marker = selection.selected.front()
+	var selected_unit = selected_marker.get_parent()
+	
+	context_manager.activate("unit_actions", { unit = selected_unit })

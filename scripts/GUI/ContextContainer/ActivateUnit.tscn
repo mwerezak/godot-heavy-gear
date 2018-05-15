@@ -2,7 +2,6 @@
 
 [ext_resource path="res://scripts/GUI/ContextContainer/ActivateUnit.gd" type="Script" id=1]
 
-
 [node name="ActivateUnit" type="PanelContainer"]
 
 anchor_left = 0.0
@@ -10,7 +9,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 431.0
-margin_bottom = 25.0
+margin_bottom = 34.0
 rect_min_size = Vector2( 300, 25 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false

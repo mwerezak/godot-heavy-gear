@@ -16,6 +16,8 @@ const INFO = {
 		movement = [
 			{ mode = MovementModes.GROUND, speed = 7.0, reverse = 3.0 },
 		],
+		
+		action_points = 1,
 	},
 	dummy_infantry = {
 		name = "Dummy Infantry",
@@ -26,6 +28,8 @@ const INFO = {
 		movement = [
 			{ mode = MovementModes.INFANTRY, speed = 3.0 },
 		],
+		
+		action_points = 1,
 	},
 	dummy_gear = {
 		name = "Dummy Gear",
@@ -38,6 +42,8 @@ const INFO = {
 			{ mode = MovementModes.WALKER, speed = 5.0 },
 			{ mode = MovementModes.GROUND, speed = 6.0 },
 		],
+		
+		action_points = 1,
 	}
 }
 

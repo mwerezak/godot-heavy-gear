@@ -5,7 +5,7 @@
 [ext_resource path="res://assets/LocationMarkerTexture.tres" type="Texture" id=3]
 [ext_resource path="res://scripts/GUI/DirectionArc.tscn" type="PackedScene" id=4]
 
-[node name="MovementDisplay" type="Node2D"]
+[node name="MovementDisplay" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material" ]
@@ -36,7 +36,7 @@ _sections_unfolded = [ "Cell", "Transform" ]
 
 points = PoolVector2Array( 17.7739, 8.31161 )
 width = 3.0
-default_color = Color( 1, 1, 1, 0.784314 )
+default_color = Color( 1, 1, 1, 0.501961 )
 texture_mode = 166228480
 sharp_limit = 2.0
 round_precision = 8

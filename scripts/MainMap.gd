@@ -14,6 +14,7 @@ func _ready():
 	context_panel.register("dev_spawn_unit", context_panel.get_node("SpawnUnit"))
 	context_panel.register("dev_delete_unit", context_panel.get_node("DeleteUnit"))
 	context_panel.register("activate_unit", context_panel.get_node("ActivateUnit"))
+	context_panel.register("unit_actions", context_panel.get_node("UnitActions"))
 	context_panel.register("move_unit", context_panel.get_node("MoveUnit"))
 	context_panel.register("select_facing", context_panel.get_node("SelectFacing"))
 	

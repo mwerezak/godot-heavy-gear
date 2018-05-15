@@ -5,7 +5,6 @@ extends Node
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
-const MovementPathing = preload("res://scripts/Units/MovementPathing.gd")
 
 const TILE_BLUE = 0
 const TILE_YELLOW = 1
@@ -29,15 +28,8 @@ func _deferred_ready():
 	## align the movement tiles with the unit grid
 	movement_tiles.cell_size = world_map.unit_grid.cell_size
 
-func setup(move_unit):
-	var possible_moves = MovementPathing.calculate_movement(world_map, move_unit)
-	
+func show_movement(possible_moves, move_actions):
 	clear_move_marker()
-	show_movement(possible_moves)
-	
-	return possible_moves
-
-func show_movement(possible_moves):
 	movement_tiles.clear()
 	
 	for move_cell in possible_moves:
@@ -46,7 +38,7 @@ func show_movement(possible_moves):
 		var cell
 		if move_info.hazard:
 			cell = TILE_RED
-		elif move_info.move_count > 1:
+		elif move_actions - move_info.move_count < 1:
 			cell = TILE_YELLOW
 		else:
 			cell = TILE_BLUE
@@ -65,7 +57,7 @@ func place_move_marker(possible_moves, move_pos):
 	
 	## facing
 	facing_marker.clear()
-	if move_info.turns_remaining != null && move_info.turns_remaining < HexUtils.DIR_WRAP/2:
+	if !move_info.movement_mode.free_rotate && move_info.turns_remaining < HexUtils.DIR_WRAP/2:
 		var min_turn = move_info.facing - move_info.turns_remaining
 		var max_turn = move_info.facing + move_info.turns_remaining
 		facing_marker.set_arc(min_turn, max_turn, true)

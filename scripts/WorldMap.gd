@@ -12,6 +12,8 @@ const TERRAIN_HEIGHT = 74*4 #296
 const UNITGRID_WIDTH = 16*4 #64
 const UNITGRID_HEIGHT = 18*4 #72
 
+const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in distance units
+
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 
@@ -77,6 +79,15 @@ func grid_distance(cell1, cell2):
 	var pos2 = get_grid_pos(cell2)
 	var pixel_dist = (pos1 - pos2).length()
 	return HexUtils.pixels2units(pixel_dist)
+
+func path_distance(cell_path):
+	var distance = 0
+	var last_cell = null
+	for next_cell in cell_path:
+		if last_cell:
+			distance += grid_distance(last_cell, next_cell)
+		last_cell = next_cell
+	return distance
 
 func grid_cell_on_map(cell_pos):
 	return point_on_map(get_grid_pos(cell_pos))

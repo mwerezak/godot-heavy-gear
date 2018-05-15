@@ -3,6 +3,8 @@ extends Reference
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const UnitTypes = preload("res://scripts/Game/UnitTypes.gd")
 
+const MAX_MOVE_ACTIONS = 2
+
 var _info
 var _movement_modes = []
 
@@ -37,6 +39,9 @@ func use_facing(): return !is_infantry()
 
 func is_vehicle(): return _info.unit_type == UnitTypes.TYPE_VEHICLE
 func is_infantry(): return _info.unit_type == UnitTypes.TYPE_INFANTRY
+
+func max_action_points(): return _info.action_points
+func max_move_actions(): return MAX_MOVE_ACTIONS
 
 func get_movement_modes(): 
 	return _movement_modes

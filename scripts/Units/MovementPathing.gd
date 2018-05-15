@@ -8,13 +8,19 @@ const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
 
-static func calculate_movement(world_map, move_unit):
+static func calculate_movement(world_map, move_unit, current_activation):
 	var unit_info = move_unit.unit_info
+	
+	var current_mode = current_activation.movement_mode
 	
 	## calculate pathing for each movement mode and then merge the results
 	var possible_moves = {}
 	for movement_mode in unit_info.get_movement_modes():
-		var movement = new(world_map, move_unit, movement_mode)
+		#once we start using a movement mode, we need to continue using it for the rest of the turn
+		if current_mode && current_mode.mode_id != movement_mode.mode_id:
+			continue
+		
+		var movement = new(world_map, move_unit, movement_mode, current_activation)
 		for cell_pos in movement.possible_moves:
 			var move_info = movement.possible_moves[cell_pos]
 			if !possible_moves.has(cell_pos) || _prefer_move(possible_moves[cell_pos], move_info):
@@ -59,7 +65,7 @@ var _grid_spacing
 var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
-func _init(world_map, move_unit, movement_mode):
+func _init(world_map, move_unit, movement_mode, current_activation):
 	self.move_unit = move_unit
 	self.unit_info = move_unit.unit_info
 	self.world_map = world_map
@@ -71,13 +77,12 @@ func _init(world_map, move_unit, movement_mode):
 	_turning_rate = movement_mode.turn_rate
 	_track_turns = unit_info.use_facing() && !movement_mode.free_rotate
 	
-	var max_moves = 2
 	var start_loc = move_unit.cell_position
 	var start_dir = move_unit.facing
 	if movement_mode.reversed:
 		start_dir = HexUtils.reverse_dir(start_dir)
 	
-	var visited = _search_possible_moves(start_loc, start_dir, max_moves)
+	var visited = _search_possible_moves(start_loc, start_dir, current_activation)
 	for cell_pos in visited:
 		if cell_pos != start_loc && _can_stop(cell_pos):
 			var move_info = visited[cell_pos]
@@ -88,13 +93,13 @@ func _init(world_map, move_unit, movement_mode):
 
 
 ## setups a movement state for the beginning of a move action
-func _init_move_state(move_count, facing, move_path):
+func _init_move_state(move_count, facing, move_path, init_moves=null, init_turns=null):
 	return {
-		move_count = move_count,
+		move_count = move_count, #the number of move actions used
 		facing = facing,
 		prev_facing = null,
-		moves_remaining = _movement_rate,
-		turns_remaining = _turning_rate,
+		moves_remaining = init_moves if init_moves != null else _movement_rate,
+		turns_remaining = init_turns if init_turns != null else _turning_rate,
 		hazard = false,
 		path = move_path,
 	}
@@ -106,14 +111,19 @@ func _move_priority(move_state):
 	var hazard = 10000 if move_state.hazard else 0
 	return -(turns * 10*moves) + hazard
 
-func _search_possible_moves(start_loc, start_dir, max_moves):
-	var visited = { start_loc : _init_move_state(1, start_dir, [ start_loc ]) }
+func _search_possible_moves(start_loc, start_dir, current_activation):
+	var max_moves = current_activation.move_actions
+	var init_moves = current_activation.partial_moves
+	var init_turns = current_activation.partial_turns
+	var initial_state = _init_move_state(0, start_dir, [ start_loc ], init_moves, init_turns)
+	
+	var visited = { start_loc: initial_state }
 	var next_move = {}
 	
 	var move_queue = PriorityQueue.new()
 	move_queue.add(start_loc, _move_priority(visited[start_loc]))
 	
-	for move_count in range(max_moves - 1):
+	for move_count in range(max_moves):
 		_search_move_action(move_queue, visited, next_move)
 		
 		## add the next move start positions to the queue
@@ -182,7 +192,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		var move_cost = _move_cost(cur_pos, next_pos)
 		
 		## do we need to start a new move to make it to the next_pos?
-		if moves_remaining < move_cost: #&& cur_state.path.size() > 1: #always allow at least one move
+		if moves_remaining < move_cost:
 			extra_move = true
 		
 		var next_path = cur_state.path.duplicate()
