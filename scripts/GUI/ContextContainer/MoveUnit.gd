@@ -8,14 +8,14 @@ var selected_markers = null
 var move_unit = null
 var move_pos = null
 var move_info = null
-var movement_calc = null
+var possible_moves = null
 
 func activated(args):
 	.activated(args)
 	selected_markers = args.selected_markers
 	var move_marker = selected_markers.selected.front()
 	move_unit = move_marker.get_parent()
-	movement_calc = move_display.setup(move_unit)
+	possible_moves = move_display.setup(move_unit)
 	label.text = "Select a location to move to."
 
 func deactivated():
@@ -34,7 +34,7 @@ func _become_inactive():
 
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		if !movement_calc.possible_moves.has(cell_pos):
+		if !possible_moves.has(cell_pos):
 			move_button.disabled = true
 			move_display.clear_move_marker()
 			move_pos = null
@@ -44,9 +44,9 @@ func unit_cell_input(map, cell_pos, event):
 				_move_button_pressed()
 			else:
 				move_button.disabled = false
-				move_display.place_move_marker(movement_calc, cell_pos)
+				move_display.place_move_marker(possible_moves, cell_pos)
 				move_pos = cell_pos
-				move_info = movement_calc.possible_moves[move_pos]
+				move_info = possible_moves[move_pos]
 				label.text = "Select a location to move to (or click again to confirm)."
 
 func _move_button_pressed():

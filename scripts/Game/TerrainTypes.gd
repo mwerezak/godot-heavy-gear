@@ -1,6 +1,6 @@
 extends Node
 
-const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
+const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 
 ## TODO terrain elevation?
 
@@ -8,7 +8,7 @@ const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
 var TILE_IDS = {}
 
 const DEFAULT_DIFFICULT_TERRAIN = {  
-	MovementTypes.TYPE_GROUND: 2.0,
+	MovementModes.GROUND: 2.0,
 }
 
 const INFO = {

@@ -1,6 +1,6 @@
 extends Node
 
-const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
+const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 
 const TYPE_VEHICLE = "vehicle"
 const TYPE_INFANTRY = "infantry"
@@ -12,9 +12,9 @@ const INFO = {
 		unit_type = TYPE_VEHICLE,
 		
 		height = 1.0,
-		movement = {
-			MovementTypes.TYPE_GROUND: 7.0,
-		},
+		movement = [
+			[MovementModes.GROUND, 7.0],
+		],
 	},
 	dummy_infantry = {
 		name = "Dummy Infantry",
@@ -22,9 +22,9 @@ const INFO = {
 		unit_type = TYPE_INFANTRY,
 		
 		height = 0.5,
-		movement = {
-			MovementTypes.TYPE_INFANTRY: 3.0,
-		},
+		movement = [
+			[MovementModes.INFANTRY, 3.0],
+		],
 	},
 	dummy_gear = {
 		name = "Dummy Gear",
@@ -32,18 +32,26 @@ const INFO = {
 		unit_type = TYPE_VEHICLE,
 		
 		height = 1.0,
-		movement = {
-			MovementTypes.TYPE_WALKER: 5.0,
-			MovementTypes.TYPE_GROUND: 6.0,
-		},
+		movement = [
+			## order determines movement priority
+			[MovementModes.WALKER, 5.0],
+			[MovementModes.GROUND, 6.0],
+		],
 	}
 }
 
 class UnitInfo:
 	var _info
+	var _movement_modes = []
+	var _movement_speeds = {}
 	
 	func _init(info):
 		_info = info
+		
+		for item in _info.movement:
+			var movement_mode = item[0]
+			_movement_modes.push_back(movement_mode)
+			_movement_speeds[movement_mode] = item[1]
 	
 	func get_name(): return _info.name
 	func get_symbol(): return _info.nato_symbol
@@ -53,11 +61,12 @@ class UnitInfo:
 	func is_infantry(): return _info.unit_type == TYPE_INFANTRY
 	
 	func get_movement_modes(): 
-		return _info.movement.keys()
+		return _movement_modes
 	func get_move_speed(move_mode): 
-		return _info.movement[move_mode]
+		return _movement_speeds[move_mode]
 	func get_turn_rate(move_mode):
-		return MovementTypes.INFO[move_mode].turn_rate if use_facing() else null
+		if !use_facing(): return null
+		return MovementModes.get_movement_mode(move_mode).turn_rate
 	
 	## returns a multiplier that is applied to the distance moved to get the cost.
 	func get_move_cost_on_terrain(move_mode, terrain_info):

@@ -2,9 +2,39 @@
 
 extends Reference
 
+const WorldMap = preload("res://scripts/WorldMap.gd")
+
 const HexUtils = preload("res://scripts/HexUtils.gd")
-const MovementTypes = preload("res://scripts/Game/MovementTypes.gd")
+#const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const PriorityQueue = preload("res://scripts/DataStructures/PriorityQueue.gd")
+
+static func calculate_movement(world_map, move_unit, max_moves=2, start_loc=null, start_dir=null):
+	start_loc = start_loc if start_loc else move_unit.cell_position
+	start_dir = start_dir if start_dir else move_unit.facing
+	
+	## calculate pathing for each movement mode and then merge the results
+	var possible_moves = {}
+	for movement_mode in move_unit.unit_info.get_movement_modes():
+		var movement = new(world_map, move_unit, movement_mode, max_moves, start_loc, start_dir)
+		for cell_pos in movement.possible_moves:
+			var move_info = movement.possible_moves[cell_pos]
+			move_info.movement_mode = movement_mode
+			if !possible_moves.has(cell_pos) || _prefer_move(possible_moves[cell_pos], move_info):
+				possible_moves[cell_pos] = move_info
+	return possible_moves
+
+static func _prefer_move(old_move, new_move):
+	if old_move.hazard && !new_move.hazard:
+		return true #always pick non-hazardous moves over hazardous ones
+	if !old_move.free_rotate && new_move.free_rotate:
+		return true
+	if old_move.turn_remaining != new_move.move_remaining:
+		var old_turn = old_move.turn_remaining if old_move.turn_remaining != null else 1000
+		var new_turn = new_move.turn_remaining if new_move.turn_remaining != null else 1000
+		return old_turn < new_turn
+	if old_move.move_count != new_move.move_count:
+		return old_move.move_count > new_move.move_count
+	return old_move.move_remaining < new_move.move_remaining
 
 var move_unit #the unit whose movement we are considering
 var unit_info
@@ -22,14 +52,11 @@ var _grid_spacing
 var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
-func _init(world_map, unit, movement_type, max_moves=2, start_loc=null, start_dir=null):
+func _init(world_map, unit, movement_type, max_moves, start_loc, start_dir):
 	self.move_unit = unit
 	self.unit_info = unit.unit_info
 	self.world_map = world_map
 	self.movement_type = movement_type
-	
-	start_loc = start_loc if start_loc else unit.cell_position
-	start_dir = start_dir if start_dir else unit.facing
 	
 	_grid_spacing = HexUtils.pixels2units(world_map.UNITGRID_WIDTH)
 	
@@ -49,6 +76,7 @@ func _init_move_state(move_count, facing, move_path):
 		move_count = move_count,
 		facing = facing,
 		prev_facing = null,
+		free_rotate = !_track_turns,
 		move_remaining = _movement_rate,
 		turn_remaining = _turning_rate,
 		hazard = false,
@@ -197,6 +225,3 @@ func _move_cost(from_cell, to_cell):
 ## If entering a given cell will trigger a dangerous terrain check
 func _is_dangerous(cell_pos):
 	return false #TODO
-
-func free_rotate():
-	return !_track_turns

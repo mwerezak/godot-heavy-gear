@@ -3,13 +3,15 @@
 extends Node
 
 const HexUtils = preload("res://scripts/HexUtils.gd")
-const MovementCalc = preload("res://scripts/Units/MovementCalc.gd")
+const MovementModes = preload("res://scripts/Game/MovementModes.gd")
+const MovementPathing = preload("res://scripts/Units/MovementPathing.gd")
 
 const TILE_BLUE = 0
 const TILE_YELLOW = 1
 const TILE_RED = 2
 
 onready var move_marker = $MoveMarker
+onready var mode_label = $MoveMarker/ModeLabel
 onready var facing_marker = $MoveMarker/AllowedFacing
 onready var movement_tiles = $MovementTiles
 onready var move_path = $MovementPath
@@ -24,19 +26,18 @@ func _deferred_ready():
 	movement_tiles.cell_size = world_map.unit_grid.cell_size
 
 func setup(move_unit):
-	var movement_type = move_unit.unit_info.get_movement_modes().front() #temporary
-	var movement = MovementCalc.new(world_map, move_unit, movement_type)
+	var possible_moves = MovementPathing.calculate_movement(world_map, move_unit)
 	
 	clear_move_marker()
-	show_movement(movement)
+	show_movement(possible_moves)
 	
-	return movement
+	return possible_moves
 
-func show_movement(movement):
+func show_movement(possible_moves):
 	movement_tiles.clear()
 	
-	for move_cell in movement.possible_moves:
-		var move_info = movement.possible_moves[move_cell]
+	for move_cell in possible_moves:
+		var move_info = possible_moves[move_cell]
 		
 		var cell
 		if move_info.hazard:
@@ -47,18 +48,19 @@ func show_movement(movement):
 			cell = TILE_BLUE
 		movement_tiles.set_cellv(move_cell, cell)
 
-func place_move_marker(movement, move_pos):
-	if !movement.possible_moves.has(move_pos):
+func place_move_marker(possible_moves, move_pos):
+	if !possible_moves.has(move_pos):
 		return
 	
-	var move_info = movement.possible_moves[move_pos]
+	var move_info = possible_moves[move_pos]
 
 	move_marker.show()
 	move_marker.position = world_map.get_grid_pos(move_pos)
+	mode_label.text = MovementModes.get_movement_mode(move_info.movement_mode).name
 	
 	## facing
 	facing_marker.clear()
-	if !movement.free_rotate() && move_info.turn_remaining < HexUtils.DIR_WRAP/2:
+	if move_info.turn_remaining != null && move_info.turn_remaining < HexUtils.DIR_WRAP/2:
 		var min_turn = move_info.facing - move_info.turn_remaining
 		var max_turn = move_info.facing + move_info.turn_remaining
 		facing_marker.set_arc(min_turn, max_turn, true)
