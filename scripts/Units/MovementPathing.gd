@@ -40,10 +40,12 @@ static func calculate_movement(world_map, move_unit, max_moves=2, start_loc=null
 	return possible_moves
 
 static func _prefer_move(old_move, new_move):
-	if old_move.hazard && !new_move.hazard:
-		return true #always pick non-hazardous moves over hazardous ones
+	if old_move.hazard != new_move.hazard:
+		return old_move.hazard && !new_move.hazard #always pick non-hazardous moves over hazardous ones
 	if !old_move.free_rotate && new_move.free_rotate:
 		return true
+	if old_move.reverse != new_move.reverse && new_move.path.size() > 2:
+		return old_move.reverse && !new_move.reverse ## prefer non-reverse moves unless we are moving to an adjacent hex
 	if old_move.turn_remaining != new_move.move_remaining:
 		var old_turn = old_move.turn_remaining if old_move.turn_remaining != null else 1000
 		var new_turn = new_move.turn_remaining if new_move.turn_remaining != null else 1000
@@ -51,6 +53,9 @@ static func _prefer_move(old_move, new_move):
 	if old_move.move_count != new_move.move_count:
 		return old_move.move_count > new_move.move_count
 	return old_move.move_remaining < new_move.move_remaining
+
+
+##### Movement Pathing #####
 
 var move_unit #the unit whose movement we are considering
 var unit_info
@@ -189,7 +194,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 		var move_cost = _move_cost(cur_pos, next_pos)
 		
 		## do we need to start a new move to make it to the next_pos?
-		if move_remaining < move_cost:
+		if move_remaining < move_cost && cur_state.path.size() > 1: #always allow at least one move
 			extra_move = true
 		
 		#print("%s: %s[%s] -> %s[%s] : turn %s/%s, move %s/%s : %s" % [move_count, cur_pos, facing, next_pos, move_dir, turn_cost, turn_remaining, move_cost, move_remaining, !extra_move])

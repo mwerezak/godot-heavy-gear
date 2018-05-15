@@ -8,6 +8,7 @@
 [node name="MovementDisplay" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
+_sections_unfolded = [ "Material" ]
 
 [node name="MovementTiles" type="TileMap" parent="." index="0"]
 
@@ -44,7 +45,7 @@ _sections_unfolded = [ "Border", "Capping", "Fill", "Material", "Transform", "Vi
 [node name="MoveMarker" type="Sprite" parent="." index="2"]
 
 texture = ExtResource( 3 )
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Visibility", "Z Index" ]
 
 [node name="AllowedFacing" parent="MoveMarker" index="0" instance=ExtResource( 4 )]
 

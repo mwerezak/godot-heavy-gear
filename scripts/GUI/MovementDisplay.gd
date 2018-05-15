@@ -2,6 +2,7 @@
 
 extends Node
 
+const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/HexUtils.gd")
 const MovementModes = preload("res://scripts/Game/MovementModes.gd")
 const MovementPathing = preload("res://scripts/Units/MovementPathing.gd")
@@ -20,6 +21,9 @@ onready var world_map = get_parent()
 
 func _ready():
 	call_deferred("_deferred_ready")
+	
+	move_marker.z_as_relative = false
+	move_marker.z_index = Constants.HUD_ZLAYER
 
 func _deferred_ready():
 	## align the movement tiles with the unit grid
