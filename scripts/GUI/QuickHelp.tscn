@@ -15,7 +15,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="QuickHelp" type="WindowDialog"]
+[node name="QuickHelp" type="WindowDialog" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -70,12 +70,28 @@ size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 0
 
-[node name="HelpTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer" index="0"]
+[node name="Panel" type="Panel" parent="MarginContainer/VBoxContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_right = 585.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Size Flags" ]
+
+[node name="HelpTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 4.0
 margin_right = 585.0
 margin_bottom = 363.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -87,49 +103,55 @@ size_flags_vertical = 3
 bbcode_enabled = true
 bbcode_text = "You can return to this window at any time by pressing F1.
 
-[u]Scrolling the Camera:[/u]
-WASD or Arrow Keys, or click and drag with the Middle Mouse Button.
-Alternatively, holding down ALT and moving the mouse also works if you don't have a mouse wheel or middle button.
+[u]Controlling the Camera:[/u]
+To scroll the camera, click and drag using the Middle Mouse Button, or move the mouse while holding ALT.
+The camera can also be scrolled using WASD or the Arrow Keys.
 
-[u]Zoom:[/u]
-Use the mousewheel or hold CTRL and press -/= to zoom.
+To zoom the camera, use the mousewheel or press LCTRL + '-' (minus) or LCTRL + '=' (equals sign).
 
 [u]Activating and Moving Units:[/u]
-To activate a unit, double-click on it. This will begin that unit's \"turn.\"
+Initially, you will be prompted to \"activate\" a unit. That will begin the unit's turn. Eventually, each player will take turns moving a single unit at a time, BattleTech style (no waiting for someone to move their entire army).
+
+To activate a unit, you can click on it and then press the Activate button. Alternatively, once you have clicked on a unit, you can click on it again to confirm your selection. 
+
+[u]Note that clicking on the same item twice acts as a shortcut to confirm most actions in the game.[/u]
 
 When a unit is active a series of buttons for each of the actions you can take with that unit will be displayed. Currently there are only two: Move and Rotate.
 
-When a unit is activated, you can choose an action from the actions panel in the lower right corner of the screen. As a shortcut, you can also click on an unit's icon to being moving and/or rotating the unit. Continung to click on the unit's icon will cycle through moving, rotating, and then finally, back to the actions panel.
+Once a unit is activated, instead of clicking on the Move or Rotate buttons, you can just click on the unit itself. This will cycle between (1) moving the unit (2) rotating the unit, and finally (3) return back to the actions menu.
 
-[u]Note that clicking on the same position twice acts as a shortcut to confirm most actions.[/u]"
+"
 visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
 tab_size = 4
 text = "You can return to this window at any time by pressing F1.
 
-Scrolling the Camera:
-WASD or Arrow Keys, or click and drag with the Middle Mouse Button.
-Alternatively, holding down ALT and moving the mouse also works if you don't have a mouse wheel or middle button.
+Controlling the Camera:
+To scroll the camera, click and drag using the Middle Mouse Button, or move the mouse while holding ALT.
+The camera can also be scrolled using WASD or the Arrow Keys.
 
-Zoom:
-Use the mousewheel or hold CTRL and press -/= to zoom.
+To zoom the camera, use the mousewheel or press LCTRL + '-' (minus) or LCTRL + '=' (equals sign).
 
 Activating and Moving Units:
-To activate a unit, double-click on it. This will begin that unit's \"turn.\"
+Initially, you will be prompted to \"activate\" a unit. That will begin the unit's turn. Eventually, each player will take turns moving a single unit at a time, BattleTech style (no waiting for someone to move their entire army).
+
+To activate a unit, you can click on it and then press the Activate button. Alternatively, once you have clicked on a unit, you can click on it again to confirm your selection. 
+
+Note that clicking on the same item twice acts as a shortcut to confirm most actions in the game.
 
 When a unit is active a series of buttons for each of the actions you can take with that unit will be displayed. Currently there are only two: Move and Rotate.
 
-When a unit is activated, you can choose an action from the actions panel in the lower right corner of the screen. As a shortcut, you can also click on an unit's icon to being moving and/or rotating the unit. Continung to click on the unit's icon will cycle through moving, rotating, and then finally, back to the actions panel.
+Once a unit is activated, instead of clicking on the Move or Rotate buttons, you can just click on the unit itself. This will cycle between (1) moving the unit (2) rotating the unit, and finally (3) return back to the actions menu.
 
-Note that clicking on the same position twice acts as a shortcut to confirm most actions."
+"
 scroll_active = true
 scroll_following = false
 selection_enabled = false
 override_selected_font_color = false
 _sections_unfolded = [ "BBCode", "Size Flags" ]
 
-[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer" index="1"]
+[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer" index="2"]
 
 anchor_left = 0.0
 anchor_top = 0.0
