@@ -2,6 +2,9 @@ extends "ContextBase.gd"
 
 const MovementPathing = preload("res://scripts/units/MovementPathing.gd")
 
+const HELP_TEXT = "Select a location to move to."
+const CONFIRM_TEXT = "Select a location to move to (or click again to confirm)."
+
 onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 onready var label = $MarginContainer/HBoxContainer/Label
 onready var move_display = $"/root/Main/WorldMap/MovementDisplay"
@@ -18,7 +21,7 @@ func activated(args):
 	possible_moves = MovementPathing.calculate_movement(world_map, move_unit)
 	
 	move_display.show_movement(possible_moves, move_unit.current_activation)
-	label.text = "Select a location to move to."
+	label.text = HELP_TEXT
 
 func deactivated():
 	.deactivated()
@@ -50,12 +53,12 @@ func unit_cell_input(map, cell_pos, event):
 				move_button.disabled = false
 				move_display.place_move_marker(possible_moves, cell_pos)
 				move_pos = cell_pos
-				label.text = "Select a location to move to (or click again to confirm)."
+				label.text = CONFIRM_TEXT
 
 func _reset():
 	move_button.disabled = true
 	move_display.clear_move_marker()
-	label.text = "Select a location to move to."
+	label.text = HELP_TEXT
 
 func finalize_move():
 	var move_info = possible_moves[move_pos]

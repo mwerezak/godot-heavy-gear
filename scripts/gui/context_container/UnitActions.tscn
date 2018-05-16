@@ -53,7 +53,7 @@ echo = false
 
 shortcut = SubResource( 5 )
 
-[node name="UnitActions" type="PanelContainer" index="0"]
+[node name="UnitActions" type="PanelContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0

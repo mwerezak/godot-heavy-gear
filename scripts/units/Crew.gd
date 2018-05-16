@@ -26,7 +26,7 @@ var skills = {}
 func _init(faction, crew_spec):
 	parent_faction = faction
 	
-	gender = RandomUtils.get_random_item([ MALE, MALE, FEMALE ]) #sorry, I'm biased. hey, 2:1 isn't so bad
+	gender = RandomUtils.get_random_item([ MALE, MALE, FEMALE ])
 	last_name = RandomUtils.get_random_item(faction.namelists.surnames)
 	first_name = RandomUtils.get_random_item(faction.namelists[gender])
 	

@@ -5,6 +5,9 @@ const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
 const DirectionArc = preload("res://scripts/gui/DirectionArc.tscn")
 
+const HELP_TEXT = "Select a location to rotate towards (or click on the unit to leave as is)."
+const CONFIRM_TEXT = "Select a location to rotate towards (or again to confirm, or click on the unit to leave as is)."
+
 const MARKER_COLOR = Color(0.4, 0.9, 0.3)
 const EXT_MARKER_COLOR = Color(0.9, 0.4, 0.3) #color for rotations that will take us into extended movement
 const TARGET_MARKER_TEX = preload("res://icons/move_marker_32.png")
@@ -53,7 +56,7 @@ func _ready():
 	world_map.add_child(ext_turn_marker)
 
 func activated(args):
-	label.text = "Select direction to rotate unit (or click on unit to leave as is)."
+	label.text = HELP_TEXT
 	
 	rotate_unit = args.unit
 	forced = args.forced if args.has("forced") else false
@@ -140,7 +143,7 @@ func unit_cell_input(world_map, cell_pos, event):
 			selected_dir = dir
 			rotate_unit.map_marker.set_temp_facing(HexUtils.dir2rad(dir))
 			last_clicked = cell_pos
-			label.text = "Select direction to rotate unit (or click again to confirm)."
+			label.text = CONFIRM_TEXT
 			target_marker.position = world_map.get_grid_pos(cell_pos)
 			target_marker.show()
 
