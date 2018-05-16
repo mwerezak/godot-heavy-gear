@@ -6,6 +6,9 @@ onready var camera = $Camera
 onready var world_map = $WorldMap
 
 func _ready():
+	## seed
+	randomize()
+	
 	## set camera limits
 	var map_rect = world_map.get_bounding_rect()
 	camera.set_limit_rect(map_rect)

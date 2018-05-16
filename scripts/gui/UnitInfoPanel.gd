@@ -33,10 +33,12 @@ func show_unit_info(map_marker):
 	var unit = map_marker.get_parent()
 	var unit_info = unit.unit_info
 	var unit_desc = unit_info.desc
+	var crew_info = unit.crew_info
+	var rank_desc = crew_info.get_rank_desc()
 	
 	symbol_icon.texture = NatoCounter.SYMBOLS[unit_desc.symbol]
 	
-	name_label.text = unit_desc.name
-	desc_label.text = unit_desc.short
+	name_label.text = "%s - %s" % [ unit_desc.name, unit_desc.short ]
+	desc_label.text = "%s %s %s" %[rank_desc.short, crew_info.first_name, crew_info.last_name ]
 	
 	container.show()

@@ -5,8 +5,8 @@ const ENLISTED = "enlisted"
 const OFFICER = "officer"
 
 const RANK_SPECIALIST = [ENLISTED, 2]
-const RANK_SQUAD_LEAD = [ENLISTED, 3]
-const RANK_SECTION_LEAD = [ENLISTED, 4]
+const RANK_SQUAD_LEAD = [ENLISTED, 4]
+const RANK_SECTION_LEAD = [ENLISTED, 6]
 
 const RANK_PLATOON_LEAD = [OFFICER, 1]
 const RANK_COMPANY_LEAD = [OFFICER, 2]
@@ -99,9 +99,11 @@ var INFO = {
 }
 
 func _init():
-	## load namelists
 	for faction_id in INFO:
 		var faction_info = INFO[faction_id]
+		faction_info.faction_id = faction_id
+		
+		## load namelists
 		var namelists = faction_info.namelists
 		for key in namelists:
 			namelists[key] = load_namelist(namelists[key])
@@ -112,6 +114,11 @@ func get_info(faction_id):
 func all_factions():
 	return INFO.keys()
 
+func get_rank(faction_info, rank_spec):
+	var ladder = rank_spec[0]
+	var grade = rank_spec[1]
+	return faction_info.ranks[ladder][grade]
+
 ## reads in a name list from file
 static func load_namelist(path):
 	var names = []
@@ -120,7 +127,8 @@ static func load_namelist(path):
 	file.open(path, File.READ)
 	while !file.eof_reached():
 		var name = file.get_line().strip_edges()
-		names.push_back(name)
+		if !name.empty():
+			names.push_back(name)
 	file.close()
 	
 	return names
