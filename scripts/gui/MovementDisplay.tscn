@@ -1,9 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/gui/MovementDisplay.gd" type="Script" id=1]
 [ext_resource path="res://tilesets/MovementTiles.tres" type="TileSet" id=2]
 [ext_resource path="res://icons/move_marker_32.png" type="Texture" id=3]
 [ext_resource path="res://scripts/gui/DirectionArc.tscn" type="PackedScene" id=4]
+[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+
+size = 18
+use_mipmaps = false
+use_filter = false
+font_data = ExtResource( 5 )
+_sections_unfolded = [ "Font", "Settings" ]
 
 [node name="MovementDisplay" type="Node2D"]
 
@@ -55,9 +64,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -53.0
+margin_left = -52.0
 margin_top = 13.0
-margin_right = 21.0
+margin_right = 22.0
 margin_bottom = 39.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -65,6 +74,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
 text = "XXXXX"
 align = 1
 autowrap = true
@@ -72,6 +82,6 @@ uppercase = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags", "custom_colors", "custom_fonts" ]
 
 
