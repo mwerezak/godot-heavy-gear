@@ -9,3 +9,6 @@ func map_markers_input(world_map, map_markers, event):
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		context_manager.deactivate()
+
+func _done_button_pressed():
+	context_manager.deactivate()
