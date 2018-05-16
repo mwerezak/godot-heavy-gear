@@ -16,8 +16,8 @@ config/icon="res://icons/terrain/sparse_forest4.png"
 
 [autoload]
 
-TerrainTypes="*res://scripts/Game/TerrainTypes.gd"
-UnitTypes="*res://scripts/Game/UnitTypes.gd"
+TerrainTypes="*res://scripts/game/TerrainTypes.gd"
+UnitTypes="*res://scripts/game/UnitTypes.gd"
 
 [input]
 

@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://scripts/gui/MovementDisplay.gd" type="Script" id=1]
+[ext_resource path="res://assets/MovementTiles.tres" type="TileSet" id=2]
+[ext_resource path="res://assets/LocationMarkerTexture.tres" type="Texture" id=3]
+[ext_resource path="res://scripts/gui/DirectionArc.tscn" type="PackedScene" id=4]
+
+
+[node name="MovementDisplay" type="Node2D" index="0"]
+
+script = ExtResource( 1 )
+_sections_unfolded = [ "Material" ]
+
+[node name="MovementTiles" type="TileMap" parent="." index="0"]
+
+position = Vector2( 0, -10 )
+mode = 0
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 64, 64 )
+cell_quadrant_size = 16
+cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+cell_half_offset = 0
+cell_tile_origin = 0
+cell_y_sort = false
+cell_clip_uv = false
+collision_use_kinematic = false
+collision_friction = 1.0
+collision_bounce = 0.0
+collision_layer = 1
+collision_mask = 1
+occluder_light_mask = 1
+format = 1
+tile_data = PoolIntArray(  )
+_sections_unfolded = [ "Cell", "Transform" ]
+
+[node name="MovementPath" type="Line2D" parent="." index="1"]
+
+points = PoolVector2Array( 17.7739, 8.31161 )
+width = 3.0
+default_color = Color( 1, 1, 1, 0.501961 )
+texture_mode = 166228480
+sharp_limit = 2.0
+round_precision = 8
+_sections_unfolded = [ "Border", "Capping", "Fill", "Material", "Transform", "Visibility" ]
+
+[node name="MoveMarker" type="Sprite" parent="." index="2"]
+
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Visibility", "Z Index" ]
+
+[node name="AllowedFacing" parent="MoveMarker" index="0" instance=ExtResource( 4 )]
+
+[node name="ModeLabel" type="Label" parent="MoveMarker" index="1"]
+
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -53.0
+margin_top = 13.0
+margin_right = 21.0
+margin_bottom = 39.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "XXXXX"
+align = 1
+autowrap = true
+uppercase = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect", "Size Flags" ]
+
+

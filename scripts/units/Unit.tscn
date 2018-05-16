@@ -1,0 +1,97 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scripts/units/Unit.gd" type="Script" id=1]
+[ext_resource path="res://scripts/units/MapMarker.gd" type="Script" id=2]
+[ext_resource path="res://scripts/units/NatoCounter.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icons/facing_marker_16.png" type="Texture" id=4]
+
+
+[sub_resource type="CircleShape2D" id=1]
+
+custom_solver_bias = 0.0
+radius = 32.0
+
+[sub_resource type="GDScript" id=2]
+
+script/source = "extends Node2D
+
+var radius = 32 setget set_radius
+
+func set_radius(r):
+	radius = r
+	update()
+
+func _ready():
+	update()
+
+func _draw():
+	_draw_circle(Vector2(), radius, Color(1,1,1,1)) #use modulate to control appearance
+
+## we use this instead of draw_circle() so that we can get anti-aliasing
+func _draw_circle(center, radius, color, numpts=32):
+	var points = PoolVector2Array()
+	for i in numpts:
+		var rad = i*deg2rad(360)/numpts
+		var point = radius*Vector2(sin(rad), cos(rad))
+		points.push_back(point)
+	draw_colored_polygon(points, color, PoolVector2Array(), null, null, true)"
+
+[node name="Unit" type="Node" index="0"]
+
+script = ExtResource( 1 )
+cell_position = Vector2( 0, 0 )
+facing = 0
+display_name = null
+unit_type = "dummy_infantry"
+
+[node name="MapMarker" type="Node2D" parent="." index="0" groups=[
+"map_markers",
+]]
+
+script = ExtResource( 2 )
+
+[node name="MouseCatcher" type="Area2D" parent="MapMarker" index="0"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+monitoring = false
+monitorable = false
+audio_bus_override = false
+audio_bus_name = "Master"
+_sections_unfolded = [ "Collision", "Pickable" ]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapMarker/MouseCatcher" index="0"]
+
+shape = SubResource( 1 )
+
+[node name="BaseFootprint" type="Node2D" parent="MapMarker" index="1"]
+
+visible = false
+modulate = Color( 0.282353, 0.282353, 0.282353, 0.12549 )
+script = SubResource( 2 )
+_sections_unfolded = [ "Visibility" ]
+
+[node name="NatoCounter" parent="MapMarker" index="2" instance=ExtResource( 3 )]
+
+[node name="Facing" type="Sprite" parent="MapMarker" index="3"]
+
+visible = false
+modulate = Color( 0.792969, 0.173462, 0.173462, 0.862745 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[node name="TempFacing" type="Sprite" parent="MapMarker" index="4"]
+
+visible = false
+modulate = Color( 0.4, 0.901961, 0.282353, 0.862745 )
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Offset", "Transform", "Visibility" ]
+
+[connection signal="mouse_entered" from="MapMarker/MouseCatcher" to="MapMarker" method="_on_mouse_entered"]
+
+[connection signal="mouse_exited" from="MapMarker/MouseCatcher" to="MapMarker" method="_on_mouse_exited"]
+
+

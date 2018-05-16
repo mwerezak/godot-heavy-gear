@@ -1,23 +1,23 @@
 [gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
-[ext_resource path="res://scripts/GUI/QuickHelp.tscn" type="PackedScene" id=2]
-[ext_resource path="res://scripts/GUI/DevToolbox.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/GUI/ContextContainer/ContextContainer.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/GUI/ContextContainer/SpawnUnitTool.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scripts/GUI/ContextContainer/DeleteUnitTool.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/GUI/ContextContainer/ActivateUnit.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scripts/GUI/ContextContainer/MoveUnit.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scripts/GUI/ContextContainer/SelectFacing.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scripts/GUI/ContextContainer/UnitActions.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scripts/GUI/UnitInfoPanel.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scripts/GUI/Camera.gd" type="Script" id=12]
+[ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/gui/context_container/ContextContainer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/gui/context_container/ActivateUnit.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scripts/gui/Camera.gd" type="Script" id=12]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=13]
-[ext_resource path="res://scripts/GUI/MovementDisplay.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scripts/gui/MovementDisplay.tscn" type="PackedScene" id=14]
 [ext_resource path="res://icons/unit_cursor.png" type="Texture" id=15]
-[ext_resource path="res://scripts/GUI/UnitCursor.gd" type="Script" id=16]
+[ext_resource path="res://scripts/gui/UnitCursor.gd" type="Script" id=16]
 [ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=17]
-[ext_resource path="res://scripts/GUI/TerrainCursor.gd" type="Script" id=18]
+[ext_resource path="res://scripts/gui/TerrainCursor.gd" type="Script" id=18]
 [ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=19]
 
 [sub_resource type="GDScript" id=1]
@@ -78,7 +78,7 @@ use_filter = true
 font_data = ExtResource( 19 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="MainMap" type="Node"]
+[node name="MainMap" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -166,6 +166,8 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
+hover_color = Color( 0.7, 0.7, 0.7, 0.5 )
+selected_color = Color( 0.35, 1, 0.35, 1 )
 
 [node name="MoveUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="4" instance=ExtResource( 8 )]
 
