@@ -34,7 +34,10 @@ var INFO = {
 		name = "Dummy Vehicle",
 		short_desc = "Armored Personnel Carrier", #one-line description of this unit
 		nato_symbol = "wheeled_apc",
-		crew_rank = Factions.RANK_SPECIALIST,
+		default_crew = {
+			rank = Factions.RANK_SPECIALIST,
+			skills = {}, #TODO
+		},
 		
 		unit_type = TYPE_VEHICLE,
 		height = 1.0,
@@ -48,14 +51,20 @@ var INFO = {
 	dummy_infantry = {
 		name = "Dummy Infantry",
 		short_desc = "Infantry Squad",
-		crew_rank = Factions.RANK_SQUAD_LEAD,
 		inherits = "default_infantry",
+		default_crew = {
+			rank = Factions.RANK_SQUAD_LEAD,
+			skills = {}, #TODO
+		},
 	},
 	dummy_gear = {
 		name = "Dummy Gear",
 		short_desc = "Battle Gear",
-		crew_rank = Factions.RANK_SPECIALIST,
 		inherits = "default_gear",
+		default_crew = {
+			rank = Factions.RANK_SPECIALIST,
+			skills = {}, #TODO
+		},
 	}
 }
 

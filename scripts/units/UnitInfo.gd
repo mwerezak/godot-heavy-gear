@@ -37,6 +37,8 @@ func _compare_default_rotation(left, right):
 		MovementModes.default_rotation_lexical(right)
 	)
 
+func get_default_crew(): return _info.default_crew
+
 func use_facing(): return !is_infantry()
 
 func is_vehicle(): return _info.unit_type == UnitTypes.TYPE_VEHICLE

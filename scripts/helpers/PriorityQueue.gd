@@ -1,4 +1,4 @@
-extends Node
+extends Reference
 
 ## Priority Queue implementation with binary heap
 ## Adapted from implementation courtesy of rileyphone

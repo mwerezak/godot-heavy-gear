@@ -11,7 +11,7 @@ const RANK_SECTION_LEAD = [ENLISTED, 4]
 const RANK_PLATOON_LEAD = [OFFICER, 1]
 const RANK_COMPANY_LEAD = [OFFICER, 2]
 
-const INFO = {
+var INFO = {
 	north = {
 		name = "North",
 		short_name = "CNCS",
@@ -106,10 +106,10 @@ func _init():
 		for key in namelists:
 			namelists[key] = load_namelist(namelists[key])
 
-static func get_info(faction_id):
+func get_info(faction_id):
 	return INFO[faction_id]
 
-static func all_factions():
+func all_factions():
 	return INFO.keys()
 
 ## reads in a name list from file

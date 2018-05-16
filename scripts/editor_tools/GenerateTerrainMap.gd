@@ -3,6 +3,8 @@
 tool
 extends EditorScript
 
+const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
+
 var TerrainTypes = preload("res://scripts/game/TerrainTypes.gd").new()
 
 func _run():
@@ -22,11 +24,7 @@ func _run():
 		var terrain_id = editor_tileset.tile_get_name(editor_tile_idx)
 		var terrain_info = tileset_info.terrain_types[terrain_id]
 		
-		var tile_id = get_random_item(terrain_info.tile_ids)
+		var tile_id = RandomUtils.get_random_item(terrain_info.tile_ids)
 		var terrain_tile_idx = terrain_tileset.find_tile_by_name(tile_id)
 		print(cell_pos, ": ", terrain_id, "->", tile_id)
 		terrain_map.set_cellv(cell_pos, terrain_tile_idx)
-
-func get_random_item(arr):
-	var rand_idx = randi() % arr.size()
-	return arr[rand_idx]

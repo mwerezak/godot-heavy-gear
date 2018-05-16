@@ -6,8 +6,9 @@ const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 var cell_position = Vector2() setget set_cell_position, get_cell_position
 var facing = 0 setget set_facing, get_facing
 
-var faction
-var unit_info
+var faction setget set_faction
+var unit_info setget set_unit_info
+var crew_info setget set_crew_info
 
 onready var world_map = get_parent()
 onready var map_marker = $MapMarker
@@ -22,6 +23,9 @@ func _update_marker():
 func set_unit_info(info):
 	unit_info = info
 	call_deferred("_update_marker")
+
+func set_crew_info(crew):
+	crew_info = crew
 
 func set_faction(new_faction):
 	faction = new_faction

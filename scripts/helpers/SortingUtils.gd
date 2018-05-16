@@ -1,5 +1,5 @@
 ## Helpers for sorting and searching
-
+extends Reference
 
 ## returns true if left < right, false if left > right, and null otherwise
 static func lexical_sort(sortv_left, sortv_right):
