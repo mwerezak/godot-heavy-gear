@@ -18,7 +18,7 @@
 
 [node name="TerrainTiles" type="Node"]
 
-[node name="Grass" type="Sprite" parent="." index="0"]
+[node name="Grass0" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 1 )
 centered = false
@@ -67,7 +67,7 @@ centered = false
 offset = Vector2( 0, -37 )
 _sections_unfolded = [ "Offset" ]
 
-[node name="SparseForest" type="Sprite" parent="." index="7"]
+[node name="SparseForest0" type="Sprite" parent="." index="7"]
 
 texture = ExtResource( 8 )
 centered = false
@@ -102,7 +102,7 @@ centered = false
 offset = Vector2( 0, -37 )
 _sections_unfolded = [ "Offset" ]
 
-[node name="DenseForest" type="Sprite" parent="." index="12"]
+[node name="DenseForest0" type="Sprite" parent="." index="12"]
 
 texture = ExtResource( 13 )
 centered = false

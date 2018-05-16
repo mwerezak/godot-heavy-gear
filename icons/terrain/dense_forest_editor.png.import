@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dense_forest.svg-a173b2f4478fb66c2de6b8cbe2fd048b.stex"
+path="res://.import/dense_forest_editor.png-eb0fda2f88f4cea2fd5a46968cf5c6d9.stex"
 
 [deps]
 
-source_file="res://icons/terrain/dense_forest.svg"
-source_md5="d8a47ca9e13fd7853c117ebe8738e8ec"
+source_file="res://icons/terrain/dense_forest_editor.png"
+source_md5="27cc03e2f87fe358703959ade40fa6da"
 
-dest_files=[ "res://.import/dense_forest.svg-a173b2f4478fb66c2de6b8cbe2fd048b.stex" ]
-dest_md5="9c9742b1572db2f1be7ca5d597be2563"
+dest_files=[ "res://.import/dense_forest_editor.png-eb0fda2f88f4cea2fd5a46968cf5c6d9.stex" ]
+dest_md5="7324483210d78006d5413926c2533ab5"
 
 [params]
 

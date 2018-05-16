@@ -7,10 +7,10 @@ path="res://.import/sparse_forest.svg-eeb7e2935e36bdee572f011e7ce65dcf.stex"
 [deps]
 
 source_file="res://icons/terrain/sparse_forest.svg"
-source_md5="d876bc6bccef9127738ffd6326257847"
+source_md5="3c096e441f39e2d2d1b3be9a6fd27956"
 
 dest_files=[ "res://.import/sparse_forest.svg-eeb7e2935e36bdee572f011e7ce65dcf.stex" ]
-dest_md5="a713c351201a296cb19fa6a4c340fd48"
+dest_md5="04ce54e3ba0c507ae6491161104f14eb"
 
 [params]
 

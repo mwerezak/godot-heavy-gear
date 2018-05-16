@@ -38,11 +38,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.9899495"
-     inkscape:cx="-115.68855"
-     inkscape:cy="61.066084"
+     inkscape:zoom="0.7"
+     inkscape:cx="-341.27376"
+     inkscape:cy="254.4417"
      inkscape:document-units="px"
-     inkscape:current-layer="g4944"
+     inkscape:current-layer="layer3"
      showgrid="false"
      units="px"
      inkscape:window-width="1680"
@@ -90,10 +90,46 @@
   </g>
   <g
      inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Editor">
+    <path
+       d="m 127.27923,1.2710876 125.76969,72.6131704 0,145.226332 -125.7697,72.61316 -125.7696879,-72.61317 3.8e-6,-145.226329 z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="true"
+       sodipodi:arg2="-1.0471976"
+       sodipodi:arg1="-1.5707963"
+       sodipodi:r2="125.7697"
+       sodipodi:r1="145.22633"
+       sodipodi:cy="146.49742"
+       sodipodi:cx="127.27923"
+       sodipodi:sides="6"
+       id="path4140-3"
+       style="display:inline;fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"
+       sodipodi:type="star" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ddff7f;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="130.06807"
+       y="129.32483"
+       id="text4218"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4220"
+         x="130.06807"
+         y="129.32483">OPEN</tspan><tspan
+         sodipodi:role="line"
+         x="130.06807"
+         y="179.32481"
+         id="tspan4222">FIELD</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Grassland0"
      style="display:none"
-     transform="translate(63.390168,158.64943)">
+     transform="translate(63.390168,158.64943)"
+     sodipodi:insensitive="true">
     <path
        d="m 63.879532,-154.83416 125.769688,72.61317 0,145.226334 -125.769696,72.613166 -125.769692,-72.613173 4e-6,-145.226333 z"
        inkscape:randomized="0"
@@ -193,7 +229,8 @@
      style="display:none"
      inkscape:label="Grassland1"
      id="g4717"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
        style="fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"
@@ -280,7 +317,8 @@
      inkscape:groupmode="layer"
      id="layer4"
      inkscape:label="Grassland2"
-     style="display:none">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
        style="display:inline;fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"
@@ -336,7 +374,8 @@
      style="display:none"
      inkscape:label="Grassland3"
      id="g4823"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
     <path
        d="M 127.2697,3.8153381 253.0394,76.428508 253.03939,221.65484 127.2697,294.26801 1.5000029,221.65484 1.5000068,76.428502 Z"
        inkscape:randomized="0"
@@ -423,7 +462,8 @@
      inkscape:groupmode="layer"
      id="g4908"
      inkscape:label="Grassland4"
-     style="display:none">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
        style="display:inline;fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"
@@ -450,7 +490,8 @@
      style="display:none"
      inkscape:label="Grassland5"
      id="g4932"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
     <path
        d="M 127.2697,3.8153381 253.0394,76.428508 253.03939,221.65484 127.2697,294.26801 1.5000029,221.65484 1.5000068,76.428502 Z"
        inkscape:randomized="0"
@@ -477,7 +518,8 @@
      inkscape:groupmode="layer"
      id="g4944"
      inkscape:label="Grassland6"
-     style="display:inline">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
        style="display:inline;fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"

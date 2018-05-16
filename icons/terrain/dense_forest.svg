@@ -17,7 +17,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="dense_forest.svg"
-   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/terrain/grassland6.png"
+   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/terrain/dense_forest_editor.png"
    inkscape:export-xdpi="92.309998"
    inkscape:export-ydpi="92.309998">
   <defs
@@ -38,11 +38,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="-4.2985124"
-     inkscape:cy="85.419342"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="45.691328"
+     inkscape:cy="85.619698"
      inkscape:document-units="px"
-     inkscape:current-layer="g9359"
+     inkscape:current-layer="layer2"
      showgrid="false"
      units="px"
      inkscape:window-width="1680"
@@ -62,7 +62,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -71,7 +71,8 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(63.390168,-829.71273)"
-     style="display:none">
+     style="display:none"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
        style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -87,6 +88,100 @@
        inkscape:rounded="0"
        inkscape:randomized="0"
        d="m 63.879532,833.528 125.769688,72.61317 0,145.22633 -125.769696,72.6132 -125.769692,-72.6132 4e-6,-145.22634 z" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Editor"
+     style="display:inline">
+    <path
+       d="m 128.8673,4.806839 125.76969,72.61317 0,145.226331 -125.7697,72.61317 L 3.0975982,222.64634 3.097602,77.420002 Z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="true"
+       sodipodi:arg2="-1.0471976"
+       sodipodi:arg1="-1.5707963"
+       sodipodi:r2="125.7697"
+       sodipodi:r1="145.22633"
+       sodipodi:cy="150.03318"
+       sodipodi:cx="128.86729"
+       sodipodi:sides="6"
+       id="path4337-3"
+       style="display:inline;fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"
+       sodipodi:type="star" />
+    <g
+       transform="matrix(3.9829418,0,0,3.9829418,-64.853779,105.31822)"
+       id="g7365-6"
+       style="display:inline">
+      <path
+         style="fill:#4a302e;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7367-7"
+         d="m 37.764334,30.259367 -3.398226,0 a 0.88604065,0.87895074 0 0 1 -0.906889,-0.87378 l 0,-6.773091 a 0.88604065,0.87895074 0 0 1 0.891253,-0.873781 l 3.393014,0 a 0.88604065,0.87895074 0 0 1 0.927737,0.873781 l 0,6.773091 a 0.88604065,0.87895074 0 0 1 -0.906889,0.87378 z"
+         class="cls-1" />
+      <path
+         style="fill:#2a370a;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7369-5"
+         d="M 23.196785,22.131658 35.33554,5.1006947 a 0.89125265,0.88412104 0 0 1 1.454149,0 L 48.933658,22.131658"
+         class="cls-2" />
+      <path
+         style="fill:#374b06;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7371-3"
+         d="M 24.676993,11.243009 35.33554,-3.7146652 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 10.66376,14.9576742"
+         class="cls-3" />
+      <path
+         style="fill:#4b660b;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7373-5"
+         d="M 27.449779,0.33367953 35.33554,-10.73076 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 7.885762,11.06443953"
+         class="cls-4" />
+    </g>
+    <g
+       transform="matrix(3.9829418,0,0,3.9829418,35.151322,104.30808)"
+       id="g7365-6-6"
+       style="display:inline">
+      <path
+         style="fill:#4a302e;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7367-7-7"
+         d="m 37.764334,30.259367 -3.398226,0 a 0.88604065,0.87895074 0 0 1 -0.906889,-0.87378 l 0,-6.773091 a 0.88604065,0.87895074 0 0 1 0.891253,-0.873781 l 3.393014,0 a 0.88604065,0.87895074 0 0 1 0.927737,0.873781 l 0,6.773091 a 0.88604065,0.87895074 0 0 1 -0.906889,0.87378 z"
+         class="cls-1" />
+      <path
+         style="fill:#2a370a;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7369-5-5"
+         d="M 23.196785,22.131658 35.33554,5.1006947 a 0.89125265,0.88412104 0 0 1 1.454149,0 L 48.933658,22.131658"
+         class="cls-2" />
+      <path
+         style="fill:#374b06;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7371-3-3"
+         d="M 24.676993,11.243009 35.33554,-3.7146652 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 10.66376,14.9576742"
+         class="cls-3" />
+      <path
+         style="fill:#4b660b;fill-opacity:1"
+         inkscape:connector-curvature="0"
+         id="path7373-5-5"
+         d="M 27.449779,0.33367953 35.33554,-10.73076 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 7.885762,11.06443953"
+         class="cls-4" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#58cc00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="129.36386"
+       y="133.36543"
+       id="text4661"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4663"
+         x="129.36386"
+         y="133.36543">DENSE</tspan><tspan
+         sodipodi:role="line"
+         x="129.36386"
+         y="183.36543"
+         id="tspan4665">FOREST</tspan></text>
   </g>
   <g
      transform="translate(63.390168,158.64943)"
@@ -1017,8 +1112,9 @@
      inkscape:groupmode="layer"
      id="g9359"
      inkscape:label="Dense Forest1"
-     style="display:inline"
-     transform="translate(63.390168,158.64943)">
+     style="display:none"
+     transform="translate(63.390168,158.64943)"
+     sodipodi:insensitive="true">
     <path
        sodipodi:type="star"
        style="display:inline;fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"
@@ -1977,7 +2073,8 @@
      style="display:none"
      inkscape:label="Dense Forest2"
      id="g9675"
-     inkscape:groupmode="layer">
+     inkscape:groupmode="layer"
+     sodipodi:insensitive="true">
     <g
        id="g9679"
        style="display:inline"
