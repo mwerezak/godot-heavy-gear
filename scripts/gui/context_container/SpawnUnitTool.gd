@@ -55,3 +55,6 @@ func unit_cell_input(world_map, cell_pos, event):
 		else:
 			spawn_unit.queue_free()
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		context_manager.deactivate()

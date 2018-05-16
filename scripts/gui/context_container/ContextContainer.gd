@@ -12,7 +12,6 @@ func register(context_name, ui_context):
 	ui_contexts[context_name] = ui_context
 	ui_context.context_manager = self
 	ui_context.name = context_name
-	ui_context.hide()
 
 func activate(context_name, args = null):
 	args = args if args else {}

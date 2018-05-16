@@ -6,6 +6,7 @@ var context_manager
 
 func _ready():
 	hide()
+	set_process_input(false)
 
 func activated(args):
 	_become_active()
@@ -22,10 +23,12 @@ func suspended():
 ## convenience function that can be overriden, called on activated() and resumed()
 func _become_active():
 	show()
+	set_process_input(true)
 
 ## convenience function that can be overriden, called on deactivated() and suspended()
 func _become_inactive():
 	hide()
+	set_process_input(false)
 
 func unit_cell_input(map, cell_pos, event):
 	pass

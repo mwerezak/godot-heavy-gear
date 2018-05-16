@@ -33,6 +33,12 @@ func _become_inactive():
 	._become_inactive()
 	move_display.hide()
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		cancel_move()
+	if move_pos && (event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_select")):
+		finalize_move()
+
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if !possible_moves.has(cell_pos):

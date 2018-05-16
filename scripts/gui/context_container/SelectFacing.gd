@@ -106,6 +106,12 @@ func _become_inactive():
 	target_marker.hide()
 	rotate_unit.map_marker.temp_facing_enabled = false
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		cancel_rotation()
+	if selected_dir && (event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_select")):
+		finalize_rotation()
+
 func unit_cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if cell_pos == rotate_unit.cell_position:
@@ -148,7 +154,7 @@ func cancel_rotation():
 	context_manager.deactivate()
 
 func _done_button_pressed():
-	finalize_rotation()
+	if selected_dir: finalize_rotation()
 
 func _cancel_button_pressed():
 	cancel_rotation()

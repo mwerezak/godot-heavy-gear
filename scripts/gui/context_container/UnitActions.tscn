@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/gui/context_container/UnitActions.gd" type="Script" id=1]
 
@@ -35,23 +35,6 @@ echo = false
 [sub_resource type="ShortCut" id=4]
 
 shortcut = SubResource( 3 )
-
-[sub_resource type="InputEventKey" id=5]
-
-device = 0
-alt = false
-shift = false
-control = false
-meta = false
-command = false
-pressed = true
-scancode = 16777217
-unicode = 0
-echo = false
-
-[sub_resource type="ShortCut" id=6]
-
-shortcut = SubResource( 5 )
 
 [node name="UnitActions" type="PanelContainer"]
 
@@ -178,7 +161,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 133.0
+margin_left = 167.0
 margin_right = 234.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -190,9 +173,9 @@ size_flags_horizontal = 8
 size_flags_vertical = 1
 toggle_mode = false
 enabled_focus_mode = 2
-shortcut = SubResource( 6 )
+shortcut = null
 group = null
-text = "End Turn [ESC]"
+text = "End Turn"
 flat = false
 align = 1
 _sections_unfolded = [ "Anchor", "Grow Direction", "Size Flags" ]
