@@ -5,7 +5,6 @@
 [ext_resource path="res://icons/units/nato/infantry.png" type="Texture" id=3]
 [ext_resource path="res://icons/units/nato/counter_stripe.png" type="Texture" id=4]
 
-
 [node name="NatoCounter" type="Sprite"]
 
 texture = ExtResource( 1 )

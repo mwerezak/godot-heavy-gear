@@ -23,8 +23,7 @@ func set_primary_color(color):
 	self_modulate = color
 
 func set_secondary_color(color):
-	# force the alpha of the secondary color to be slightly transparent, for some blending
-	secondary_color = Color(color.r, color.g, color.b, min(0.7, color.a))
+	secondary_color = color
 	if color != null:
 		sec_stripe.self_modulate = secondary_color
 		sec_stripe.show()

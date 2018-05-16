@@ -3,8 +3,9 @@ extends PanelContainer
 const NatoCounter = preload("res://scripts/units/NatoCounter.gd")
 
 onready var container = $VBoxContainer
-onready var name_label = $VBoxContainer/HBoxContainer/NameLabel
 onready var symbol_icon = $VBoxContainer/HBoxContainer/SymbolIcon
+onready var name_label = $VBoxContainer/HBoxContainer/NameLabel
+onready var desc_label = $VBoxContainer/DescLabel
 
 var pinned_marker = null
 
@@ -31,7 +32,11 @@ func clear_unit_info():
 func show_unit_info(map_marker):
 	var unit = map_marker.get_parent()
 	var unit_info = unit.unit_info
+	var unit_desc = unit_info.desc
 	
-	name_label.text = unit.display_name
-	symbol_icon.texture = NatoCounter.SYMBOLS[unit_info.get_symbol()]
+	symbol_icon.texture = NatoCounter.SYMBOLS[unit_desc.symbol]
+	
+	name_label.text = unit_desc.name
+	desc_label.text = unit_desc.short
+	
 	container.show()

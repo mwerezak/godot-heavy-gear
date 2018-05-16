@@ -6,12 +6,19 @@ const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
 
 const MAX_MOVE_ACTIONS = 2
 
+var desc
+
 var _info
 var _movement_modes = []
 var _default_rotation #the movement mode used by default for rotations
 
 func _init(info):
 	_info = info
+	desc = { 
+		name = info.name,
+		short = info.short_desc,
+		symbol = info.nato_symbol,
+	}
 	
 	## setup movement mode data
 	for move_spec in info.movement:
@@ -30,8 +37,6 @@ func _compare_default_rotation(left, right):
 		MovementModes.default_rotation_lexical(right)
 	)
 
-func get_name(): return _info.name
-func get_symbol(): return _info.nato_symbol
 func use_facing(): return !is_infantry()
 
 func is_vehicle(): return _info.unit_type == UnitTypes.TYPE_VEHICLE

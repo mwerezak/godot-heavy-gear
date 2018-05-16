@@ -18,9 +18,8 @@ const INFO = {
 		full_name = "Confederated Northern City-States",
 		adjective = "Northern",
 		
-		#primary_color = Color("#947241"),   #Frontier Brown
-		primary_color = Color("#a2801e"),   #Frontier Tan
-		secondary_color = Color("#41689b"), #Northern Lights Blue
+		primary_color = Color("#aa7f2f"), 
+		secondary_color = Color("#795327"), 
 		
 		ranks = {
 			ENLISTED : {
@@ -55,8 +54,8 @@ const INFO = {
 		full_name = "Allied Southern Territories",
 		adjective = "Southern",
 		
-		primary_color = Color("#486780"), #Steel Blue
-		secondary_color = Color("#e61b23"), #Republic Red
+		primary_color = Color("#707cb1"), #Steel Blue
+		secondary_color = Color("#b44545"), #Republic Red
 		
 		ranks = {
 			ENLISTED : {
@@ -89,3 +88,6 @@ const INFO = {
 
 static func get_info(faction_id):
 	return INFO[faction_id]
+
+static func all_factions():
+	return INFO.keys()
