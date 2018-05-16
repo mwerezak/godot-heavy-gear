@@ -30,8 +30,11 @@ func deactivated():
 
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		if cell_pos == active_unit.cell_position && _can_move():
-			_move_button_pressed()
+		if cell_pos == active_unit.cell_position:
+			if _can_move():
+				_move_button_pressed()
+			elif _can_rotate():
+				_rotate_button_pressed()
 
 
 func _can_move(): return current_activation.can_move()

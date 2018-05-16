@@ -40,7 +40,7 @@ func can_move():
 
 ## any turns left?
 func can_rotate():
-	return active_unit.has_facing() && move_actions + partial_turns > 0
+	return active_unit.has_facing() && (move_actions + partial_turns > 0 || (movement_mode && movement_mode.free_rotate))
 
 ## active unit actions
 
@@ -57,22 +57,24 @@ func move(move_pos, move_info):
 	distance_moved += active_unit.world_map.path_distance(move_info.path)
 
 func rotate(rotate_mode, dir):
-	var new_facing = active_unit.facing
-	var rotate_dir = sign(HexUtils.get_shortest_turn(active_unit.facing, dir))
-	while new_facing != dir:
-		if partial_turns > 0:
-			partial_turns -= 1
-		elif move_actions > 0:
-			move_actions -= 1
-			partial_turns = rotate_mode.turn_rate - 1
-			partial_moves += rotate_mode.speed #note that partial moves carry over, partial turns do not
-		else:
-			#out of turns!
-			break
-		
-		new_facing = HexUtils.rotate_step(new_facing, rotate_dir)
-	
-	active_unit.facing = new_facing
+	if rotate_mode.free_rotate:
+		active_unit.facing = dir
+	else:
+		var new_facing = active_unit.facing
+		var rotate_dir = sign(HexUtils.get_shortest_turn(active_unit.facing, dir))
+		while new_facing != dir:
+			if partial_turns > 0:
+				partial_turns -= 1
+			elif move_actions > 0:
+				move_actions -= 1
+				partial_turns = rotate_mode.turn_rate - 1
+				partial_moves += rotate_mode.speed #note that partial moves carry over, partial turns do not
+			else:
+				#out of turns!
+				break
+			
+			new_facing = HexUtils.rotate_step(new_facing, rotate_dir)
+		active_unit.facing = new_facing
 
 func get_rotation_cost(rotate_mode, dir):
 	var total_turn_cost = abs(HexUtils.get_shortest_turn(active_unit.facing, dir))
