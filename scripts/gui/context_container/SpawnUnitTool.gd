@@ -1,7 +1,6 @@
 extends "ContextBase.gd"
 
 const Unit = preload("res://scripts/units/Unit.tscn")
-const Factions = preload("res://scripts/game/Factions.gd")
 
 onready var unit_model_button = $HBoxContainer/UnitModelButton
 onready var faction_button = $HBoxContainer/FactionButton

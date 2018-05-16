@@ -7,7 +7,7 @@ const Factions = preload("res://scripts/game/Factions.gd")
 const TYPE_VEHICLE = "vehicle"
 const TYPE_INFANTRY = "infantry"
 
-const DEFAULTS = {
+var DEFAULTS = {
 	default_gear = {
 		nato_symbol = "gear",
 		unit_type = TYPE_VEHICLE,
@@ -29,7 +29,7 @@ const DEFAULTS = {
 	},
 }
 
-const INFO = {
+var INFO = {
 	dummy_vehicle = {
 		name = "Dummy Vehicle",
 		short_desc = "Armored Personnel Carrier", #one-line description of this unit

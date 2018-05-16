@@ -18,6 +18,7 @@ config/icon="res://icons/terrain/sparse_forest4.png"
 
 TerrainTypes="*res://scripts/game/TerrainTypes.gd"
 UnitTypes="*res://scripts/game/UnitTypes.gd"
+Factions="*res://scripts/game/Factions.gd"
 
 [input]
 

@@ -21,6 +21,12 @@ const INFO = {
 		primary_color = Color("#aa7f2f"), 
 		secondary_color = Color("#795327"), 
 		
+		namelists = {
+			surnames = "res://namelists/north_surnames.txt",
+			male = "res://namelists/north_male.txt",
+			female = "res://namelists/north_female.txt",
+		},
+		
 		ranks = {
 			ENLISTED : {
 				1: { full = "Private",  short = "Pvt" },
@@ -57,6 +63,12 @@ const INFO = {
 		primary_color = Color("#707cb1"), #Steel Blue
 		secondary_color = Color("#b44545"), #Republic Red
 		
+		namelists = {
+			surnames = "res://namelists/south_surnames.txt",
+			male = "res://namelists/south_male.txt",
+			female = "res://namelists/south_female.txt",
+		},
+		
 		ranks = {
 			ENLISTED : {
 				1: { full = "Soldat",  short = "Sdt" },
@@ -86,8 +98,29 @@ const INFO = {
 	},
 }
 
+func _init():
+	## load namelists
+	for faction_id in INFO:
+		var faction_info = INFO[faction_id]
+		var namelists = faction_info.namelists
+		for key in namelists:
+			namelists[key] = load_namelist(namelists[key])
+
 static func get_info(faction_id):
 	return INFO[faction_id]
 
 static func all_factions():
 	return INFO.keys()
+
+## reads in a name list from file
+static func load_namelist(path):
+	var names = []
+	var file = File.new()
+	
+	file.open(path, File.READ)
+	while !file.eof_reached():
+		var name = file.get_line().strip_edges()
+		names.push_back(name)
+	file.close()
+	
+	return names
