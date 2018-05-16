@@ -107,8 +107,10 @@
        sodipodi:cx="128.86729"
        sodipodi:sides="6"
        id="path4337-3"
-       style="display:inline;fill:#657e2a;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.34810127"
-       sodipodi:type="star" />
+       style="display:inline;fill:#657e2a;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       sodipodi:type="star"
+       inkscape:export-xdpi="91.580002"
+       inkscape:export-ydpi="91.580002" />
     <g
        transform="matrix(3.9829418,0,0,3.9829418,-64.853779,105.31822)"
        id="g7365-6"
