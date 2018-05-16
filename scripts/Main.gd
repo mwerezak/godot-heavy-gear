@@ -20,6 +20,9 @@ func _ready():
 	
 	## load the initial context
 	context_panel.activate("activate_unit")
+	
+	var help_dialog = $GUILayer/QuickHelp
+	help_dialog.popup_centered()
 
 ## capture any input events related to map objects and forward them to the context_panel
 func _unhandled_input(event):

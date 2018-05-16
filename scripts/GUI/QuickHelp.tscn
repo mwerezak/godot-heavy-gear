@@ -1,0 +1,160 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends WindowDialog
+
+func _input(event):
+	if event.is_action_pressed(\"show_quick_help\"):
+		if visible:
+			hide()
+		else:
+			popup_centered()
+
+func _close_button_pressed():
+	hide()
+"
+
+[node name="QuickHelp" type="WindowDialog"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 613.0
+margin_bottom = 407.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+popup_exclusive = false
+window_title = "Controls"
+resizable = true
+script = SubResource( 1 )
+_sections_unfolded = [ "Popup" ]
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Margin" ]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 8.0
+margin_right = 593.0
+margin_bottom = 387.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+
+[node name="HelpTextLabel" type="RichTextLabel" parent="MarginContainer/VBoxContainer" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 585.0
+margin_bottom = 363.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 3
+bbcode_enabled = true
+bbcode_text = "You can return to this window at any time by pressing F1.
+
+[u]Scrolling the Camera:[/u]
+WASD or Arrow Keys, or click and drag with the Middle Mouse Button.
+Alternatively, holding down ALT and moving the mouse also works if you don't have a mouse wheel or middle button.
+
+[u]Zoom:[/u]
+Use the mousewheel or hold CTRL and press -/= to zoom.
+
+[u]Activating and Moving Units:[/u]
+To activate a unit, double-click on it. This will begin that unit's \"turn.\"
+
+When a unit is active a series of buttons for each of the actions you can take with that unit will be displayed. Currently there are only two: Move and Rotate.
+
+When a unit is activated, you can choose an action from the actions panel in the lower right corner of the screen. As a shortcut, you can also click on an unit's icon to being moving and/or rotating the unit. Continung to click on the unit's icon will cycle through moving, rotating, and then finally, back to the actions panel.
+
+[u]Note that clicking on the same position twice acts as a shortcut to confirm most actions.[/u]"
+visible_characters = -1
+percent_visible = 1.0
+meta_underlined = true
+tab_size = 4
+text = "You can return to this window at any time by pressing F1.
+
+Scrolling the Camera:
+WASD or Arrow Keys, or click and drag with the Middle Mouse Button.
+Alternatively, holding down ALT and moving the mouse also works if you don't have a mouse wheel or middle button.
+
+Zoom:
+Use the mousewheel or hold CTRL and press -/= to zoom.
+
+Activating and Moving Units:
+To activate a unit, double-click on it. This will begin that unit's \"turn.\"
+
+When a unit is active a series of buttons for each of the actions you can take with that unit will be displayed. Currently there are only two: Move and Rotate.
+
+When a unit is activated, you can choose an action from the actions panel in the lower right corner of the screen. As a shortcut, you can also click on an unit's icon to being moving and/or rotating the unit. Continung to click on the unit's icon will cycle through moving, rotating, and then finally, back to the actions panel.
+
+Note that clicking on the same position twice acts as a shortcut to confirm most actions."
+scroll_active = true
+scroll_following = false
+selection_enabled = false
+override_selected_font_color = false
+_sections_unfolded = [ "BBCode", "Size Flags" ]
+
+[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 538.0
+margin_top = 367.0
+margin_right = 585.0
+margin_bottom = 387.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 8
+size_flags_vertical = 1
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+group = null
+text = "Close"
+flat = false
+align = 1
+_sections_unfolded = [ "Size Flags" ]
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CloseButton" to="." method="_close_button_pressed"]
+
+
