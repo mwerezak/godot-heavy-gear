@@ -28,7 +28,7 @@ func _become_active():
 
 func _become_inactive():
 	._become_inactive()
-	done_button.text = "End Turn"
+	done_button.text = "End Turn [Enter]"
 	confirm_end_turn = false
 
 func deactivated():
@@ -62,4 +62,4 @@ func _done_button_pressed():
 		context_manager.deactivate()
 	else:
 		confirm_end_turn = true
-		done_button.text = "Confirm?"
+		done_button.text = "Confirm? [Enter]"
