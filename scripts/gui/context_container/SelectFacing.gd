@@ -18,7 +18,10 @@ onready var action_icon = $MarginContainer/HBoxContainer/ActionIcon
 
 var rotate_unit
 var rotate_mode
-var allowed_dirs
+
+var forced = false #if true, we set the unit's facing directly without spending any move actions
+
+var allowed_dirs = {}
 var facing_marker
 var selected_dir
 
@@ -53,21 +56,29 @@ func activated(args):
 	label.text = "Select direction to rotate unit (or click on unit to leave as is)."
 	
 	rotate_unit = args.unit
+	forced = args.forced if args.has("forced") else false
 	.activated(args)
 	
-	var unit_info = rotate_unit.unit_info
-	var cur_activation = rotate_unit.current_activation
+	var cur_activation = null
 	
-	rotate_mode = cur_activation.movement_mode if cur_activation.movement_mode else unit_info.get_default_rotation()
-	
-	allowed_dirs = {}
-	for dir in range(HexUtils.DIR_WRAP):
-		if rotate_mode.free_rotate:
+	if forced:
+		## rotate any direction, for free
+		for dir in range(HexUtils.DIR_WRAP):
 			allowed_dirs[dir] = null
-		else:
-			var move_action_cost = cur_activation.get_rotation_cost(rotate_mode, dir).move_actions
-			if move_action_cost <= cur_activation.move_actions:
-				allowed_dirs[dir] = move_action_cost
+	else:
+		var unit_info = rotate_unit.unit_info
+		
+		cur_activation = rotate_unit.current_activation
+		rotate_mode = cur_activation.movement_mode if cur_activation.movement_mode else unit_info.get_default_rotation()
+		
+		allowed_dirs.clear()
+		for dir in range(HexUtils.DIR_WRAP):
+			if forced || rotate_mode.free_rotate:
+				allowed_dirs[dir] = null
+			else:
+				var move_action_cost = cur_activation.get_rotation_cost(rotate_mode, dir).move_actions
+				if move_action_cost <= cur_activation.move_actions:
+					allowed_dirs[dir] = move_action_cost
 	
 	turn_marker.global_position = rotate_unit.map_marker.global_position
 	turn_marker.clear()
@@ -93,7 +104,6 @@ func deactivated():
 	.deactivated()
 	rotate_unit = null
 	last_clicked = null
-	allowed_dirs = null
 
 func _become_active():
 	._become_active()
@@ -147,7 +157,10 @@ func _get_closest_dir(dir, allowed_dirs):
 	return SortingUtils.get_min_item(allowed_dirs.keys(), comparer, "compare")
 
 func finalize_rotation():
-	rotate_unit.current_activation.rotate(rotate_mode, selected_dir)
+	if forced:
+		rotate_unit.set_facing(selected_dir)
+	else:
+		rotate_unit.current_activation.rotate(rotate_mode, selected_dir)
 	context_manager.deactivate()
 
 func cancel_rotation():

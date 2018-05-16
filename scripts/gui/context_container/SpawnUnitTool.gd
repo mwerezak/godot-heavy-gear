@@ -53,7 +53,9 @@ func unit_cell_input(world_map, cell_pos, event):
 			spawn_unit.set_crew_info(crew)
 			
 			world_map.add_object(spawn_unit, cell_pos)
-			spawn_unit.facing = randi()
+			
+			context_manager.activate("select_facing", { unit = spawn_unit, forced = true })
+			
 		else:
 			spawn_unit.queue_free()
 
