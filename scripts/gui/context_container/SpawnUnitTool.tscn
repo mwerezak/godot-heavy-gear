@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.gd" type="Script" id=1]
 
-[node name="SpawnUnit" type="PanelContainer"]
+[node name="SpawnUnit" type="PanelContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
