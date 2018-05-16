@@ -6,7 +6,7 @@ const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
 const DirectionArc = preload("res://scripts/gui/DirectionArc.tscn")
 
 const HELP_TEXT = "Select a location to rotate towards (or click on the unit to leave as is)."
-const CONFIRM_TEXT = "Select a location to rotate towards (or again to confirm, or click on the unit to leave as is)."
+const CONFIRM_TEXT = "Select a location to rotate towards (or again to confirm, or click on the unit to cancel)."
 
 const MARKER_COLOR = Color(0.4, 0.9, 0.3)
 const EXT_MARKER_COLOR = Color(0.9, 0.4, 0.3) #color for rotations that will take us into extended movement
