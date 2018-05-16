@@ -42,14 +42,13 @@ func unit_cell_input(world_map, cell_pos, event):
 		
 		var i = faction_button.get_selected_id()
 		var j = unit_model_button.get_selected_id()
-		
 		var faction = factions[i]
-		spawn_unit.call_deferred("set_faction", faction)
-		
 		var unit_info = unit_models[i][j]
-		spawn_unit.set_unit_info(unit_info)
 		
 		if world_map.unit_can_place(spawn_unit, cell_pos):
+			spawn_unit.call_deferred("set_faction", faction)
+			spawn_unit.set_unit_info(unit_info)
+			
 			world_map.add_object(spawn_unit, cell_pos)
 			spawn_unit.facing = randi()
 		else:

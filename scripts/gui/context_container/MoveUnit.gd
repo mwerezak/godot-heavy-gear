@@ -4,7 +4,7 @@ const MovementPathing = preload("res://scripts/units/MovementPathing.gd")
 
 onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 onready var label = $MarginContainer/HBoxContainer/Label
-onready var move_display = get_tree().get_root().find_node("MovementDisplay", true, false)
+onready var move_display = $"/root/Main/WorldMap/MovementDisplay"
 
 var move_unit = null
 var move_pos = null

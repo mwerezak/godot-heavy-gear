@@ -1,6 +1,6 @@
 extends Control
 
-onready var ui_context = $"/root/MainMap".find_node("ContextContainer") #this sucks
+onready var ui_context = $"/root/Main".find_node("ContextContainer") #this sucks
 
 var tool_data = [
 	{ name = "Spawn Unit", ui_context = "dev_spawn_unit" },
