@@ -237,7 +237,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 
 ## Figure out if the unit can enter the given cell position
 func _can_enter(from_cell, to_cell):
-	return world_map.unit_can_pass(move_unit, from_cell, to_cell)
+	return world_map.unit_can_pass(move_unit, movement_mode, from_cell, to_cell)
 
 ## we may be able to enter but not finish our movement in certain cells
 func _can_stop(cell_pos):

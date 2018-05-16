@@ -120,12 +120,21 @@ func get_objects_in_cells(grid_cells):
 	return rval
 
 ## return true if a unit can pass from a given cell into another
-func unit_can_pass(unit, from_cell, to_cell):
+func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 	## check that to_cell is actually on the map
 	var to_pos = get_grid_pos(to_cell)
 	var from_pos = get_grid_pos(from_cell)
 	var midpoint = 0.5*(to_pos + from_pos)
 	if !point_on_map(to_pos) || !point_on_map(midpoint):
+		return false
+	
+	## check that the terrain is passable
+	var dest_info = get_terrain_at(to_pos)
+	if dest_info.impassable.has(movement_mode.type_id):
+		return false
+	
+	var midpoint_info = get_terrain_at(midpoint)
+	if midpoint_info.impassable.has(movement_mode.type_id):
 		return false
 	
 	## make sure there are no objects that could block us
