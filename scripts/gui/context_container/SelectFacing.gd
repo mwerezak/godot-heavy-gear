@@ -50,7 +50,7 @@ func _ready():
 	world_map.add_child(ext_turn_marker)
 
 func activated(args):
-	label.text = "Select direction to rotate unit (or double-click on unit to leave as is)."
+	label.text = "Select direction to rotate unit (or click on unit to leave as is)."
 	
 	rotate_unit = args.unit
 	.activated(args)

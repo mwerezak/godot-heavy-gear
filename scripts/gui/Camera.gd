@@ -14,7 +14,7 @@ var limit_rect = null setget set_limit_rect
 
 var mouse_captured = false
 
-func _input(event):
+func _unhandled_input(event):
 	if event.is_action_pressed("view_zoom_in"):
 		zoom /= zoom_step
 		_snap_zoom_limits()

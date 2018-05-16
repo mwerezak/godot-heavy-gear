@@ -120,6 +120,10 @@ When a unit is active a series of buttons for each of the actions you can take w
 
 Once a unit is activated, instead of clicking on the Move or Rotate buttons, you can just click on the unit itself. This will cycle between (1) moving the unit (2) rotating the unit, and finally (3) return back to the actions menu.
 
+To move a unit, click on any of the highlighted grid cells to preview the move. Then click again to finish moving. To cancel without moving the unit, click on the unit's icon or outside of the highlighted region.
+
+To rotate a unit, click anywhere to make the unit face towards the selected location. Click on the location a second time to confirm, or click on the unit to cancel without rotating.
+
 "
 visible_characters = -1
 percent_visible = 1.0
@@ -143,6 +147,10 @@ Note that clicking on the same item twice acts as a shortcut to confirm most act
 When a unit is active a series of buttons for each of the actions you can take with that unit will be displayed. Currently there are only two: Move and Rotate.
 
 Once a unit is activated, instead of clicking on the Move or Rotate buttons, you can just click on the unit itself. This will cycle between (1) moving the unit (2) rotating the unit, and finally (3) return back to the actions menu.
+
+To move a unit, click on any of the highlighted grid cells to preview the move. Then click again to finish moving. To cancel without moving the unit, click on the unit's icon or outside of the highlighted region.
+
+To rotate a unit, click anywhere to make the unit face towards the selected location. Click on the location a second time to confirm, or click on the unit to cancel without rotating.
 
 "
 scroll_active = true
