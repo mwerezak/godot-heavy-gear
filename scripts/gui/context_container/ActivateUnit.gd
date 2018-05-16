@@ -5,17 +5,20 @@ const Constants = preload("res://scripts/Constants.gd")
 
 ## TODO split to another file
 class OverlayFactory:
-	const _overlay_texture = preload("res://icons/selection_marker_16.png")
+	#const _overlay_texture = preload("res://icons/selection_marker_16.png")
+	const _overlay_scene = preload("res://scripts/gui/SelectionMarker.tscn")
 	var _modulate_color
 	
 	func _init(modulate_color):
 		_modulate_color = modulate_color
 	
 	func create_overlay_node(map_marker):
-		var overlay = Sprite.new()
-		overlay.texture = _overlay_texture
+		var overlay = _overlay_scene.instance()
 		overlay.modulate = _modulate_color
-		overlay.offset = Vector2(0, -12 - map_marker.get_footprint_radius())
+		
+		var unit = map_marker.get_parent()
+		overlay.text = unit.crew_info.last_name
+		
 		overlay.z_as_relative = false
 		overlay.z_index = Constants.HUD_ZLAYER
 		return overlay

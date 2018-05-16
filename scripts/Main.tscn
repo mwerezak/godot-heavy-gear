@@ -248,7 +248,6 @@ _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
 [node name="TerrainCursor" type="Sprite" parent="WorldMap" index="3"]
 
-editor/display_folded = true
 visible = false
 modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
 position = Vector2( 1, 1 )
