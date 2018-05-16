@@ -2,15 +2,15 @@ extends Node
 
 const MovementModes = preload("res://scripts/game/MovementModes.gd")
 const UnitInfo = preload("res://scripts/units/UnitInfo.gd")
+const Factions = preload("res://scripts/game/Factions.gd")
 
 const TYPE_VEHICLE = "vehicle"
 const TYPE_INFANTRY = "infantry"
 
-const INFO = {
+var INFO = {
 	dummy_vehicle = {
 		name = "Dummy Vehicle",
 		short_desc = "Armored Personnel Carrier", #one-line description of this unit
-		#long_desc = "", #optional multi-line description, not used yet
 		nato_symbol = "wheeled_apc",
 		
 		unit_type = TYPE_VEHICLE,
@@ -39,6 +39,8 @@ const INFO = {
 		name = "Dummy Gear",
 		short_desc = "Battle Gear",
 		nato_symbol = "gear",
+		crew_rank = rank("enlisted", Factions.EN_SPECIALIST),
+		
 		unit_type = TYPE_VEHICLE,
 		
 		height = 1.0,
