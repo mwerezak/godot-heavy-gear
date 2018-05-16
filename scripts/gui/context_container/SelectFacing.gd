@@ -7,7 +7,7 @@ const DirectionArc = preload("res://scripts/gui/DirectionArc.tscn")
 
 const MARKER_COLOR = Color(0.4, 0.9, 0.3)
 const EXT_MARKER_COLOR = Color(0.9, 0.4, 0.3) #color for rotations that will take us into extended movement
-const TARGET_MARKER_TEX = preload("res://assets/LocationMarkerTexture.tres")
+const TARGET_MARKER_TEX = preload("res://icons/move_marker_32.png")
 
 onready var turn_marker #shows available directions the unit can face
 onready var ext_turn_marker
