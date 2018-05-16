@@ -6,14 +6,13 @@ onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 onready var rotate_button = $MarginContainer/HBoxContainer/RotateButton
 
 var active_unit
+var current_activation
 
 func activated(args):
 	active_unit = args.unit
-	active_unit.current_activation = UnitActivation.new(active_unit)
-	
+	current_activation = UnitActivation.new(active_unit)
+	active_unit.current_activation = current_activation	
 	.activated(args)
-	if _can_move():
-		_move_button_pressed()
 
 func resumed():
 	.resumed()
@@ -30,15 +29,16 @@ func deactivated():
 	active_unit = null
 
 func unit_cell_input(map, cell_pos, event):
-	if cell_pos == active_unit.cell_position && event.is_action_pressed("click_select"):
-		if _can_move():
+	if event.is_action_pressed("click_select"):
+		if cell_pos == active_unit.cell_position && _can_move():
 			_move_button_pressed()
 
-func _can_move(): return active_unit.current_activation.can_move()
-func _can_rotate(): return active_unit.current_activation.can_rotate()
+
+func _can_move(): return current_activation.can_move()
+func _can_rotate(): return current_activation.can_rotate()
 
 func _is_turn_over():
-	return !(_can_move() || _can_rotate() || active_unit.current_activation.action_points > 0)
+	return !(_can_move() || _can_rotate() || current_activation.action_points > 0)
 
 func _move_button_pressed():
 	context_manager.activate("move_unit", { unit = active_unit })
