@@ -5,21 +5,14 @@ const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
 const TerrainTiles = preload("res://scripts/terrain/TerrainTiles.gd")
 const WorldMap = preload("res://scripts/WorldMap.gd")
 
-onready var scatter_grid = $ScatterGrid
+export(Vector2) var cell_pos
 export(String) var terrain_id
 export(int) var scatter_seed = 0
 
-func _unhandled_input(event):
-	var mouse_pos = get_global_mouse_position()
-	if HexUtils.inside_hex(global_position, WorldMap.TERRAIN_WIDTH/2, mouse_pos):
-		print("inside")
-	else:
-		print("outside")
+#onready var terrain_map = get_parent()
+onready var scatter_grid = $ScatterGrid
 
 func _ready():
-	#randomize()
-	#position = get_tree().get_root().get_visible_rect().size/2 #for testing
-	
 	## setup scatter grid
 	var terrain_cell = WorldMap.get_terrain_cell_size()
 	scatter_grid.position = -terrain_cell/2
@@ -35,7 +28,20 @@ func _ready():
 			
 		var placement_info = RandomUtils.get_weighted_random(randweights)
 		place_scatters(placement_info)
+
+func _create_scatter(scatter_info):
+	var scatter = Sprite.new()
+	scatter.texture = RandomUtils.get_random_item(scatter_info.textures)
+	scatter.z_as_relative = false
+	scatter.z_index = scatter_info.zlayer
 	
+	if scatter_info.offset == TerrainTiles.ScatterOffset.CENTER:
+		scatter.offset.y = -scatter.texture.get_size().y/2
+	
+	return scatter
+
+func _get_scatter_pos(cell_pos):
+	return scatter_grid.map_to_world(cell_pos) * scatter_grid.scale
 
 const TEST_TEXTURE = preload("res://icons/terrain/woodland/flowers0.png")
 const scatter_width = 0 ## temp
@@ -65,9 +71,6 @@ func place_scatters(placement_info):
 				scatter.modulate = Color(1, 0.5, 0.5)
 				scatter.hide()
 
-func _get_scatter_pos(cell_pos):
-	return scatter_grid.map_to_world(cell_pos) * scatter_grid.scale #+ scatter_grid.cell_size/2
-
 const _RADIAL_DIR = 0
 const _STEP_DIRS = [4, 6, 8, 10, 0, 2]
 func _hex_spiral(radius):
@@ -81,12 +84,3 @@ func _hex_spiral(radius):
 				cur_pos = HexUtils.get_step(cur_pos, step_dir)
 	return path
 
-func _create_scatter(scatter_info):
-	var scatter = Sprite.new()
-	scatter.texture = RandomUtils.get_random_item(scatter_info.textures)
-	scatter.z_index = scatter_info.z_index
-	
-	if scatter_info.offset == TerrainTiles.ScatterOffset.CENTER:
-		scatter.offset.y = -scatter.texture.get_size().y/2
-	
-	return scatter

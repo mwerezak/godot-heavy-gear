@@ -1,12 +1,14 @@
 extends Node
 
+const Constants = preload("res://scripts/Constants.gd")
+
 enum ScatterOffset { CENTER, ROOT }
 
 const SCATTERS = {
 	bush = {
 		offset = ScatterOffset.ROOT,
 		base_radius = 17,
-		z_index = 1,
+		zlayer = Constants.SHORT_SCATTER_ZLAYER,
 		textures = [
 			preload("res://icons/terrain/woodland/bush0.png"),
 			preload("res://icons/terrain/woodland/bush1.png"),
@@ -15,7 +17,7 @@ const SCATTERS = {
 	flowers = {
 		offset = ScatterOffset.CENTER,
 		base_radius = 8,
-		z_index = 0,
+		zlayer = Constants.GROUND_SCATTER_ZLAYER,
 		textures = [
 			preload("res://icons/terrain/woodland/flowers0.png"),
 			preload("res://icons/terrain/woodland/flowers1.png"),
@@ -27,7 +29,7 @@ const SCATTERS = {
 	flower_patch = {
 		offset = ScatterOffset.CENTER,
 		base_radius = 21,
-		z_index = 0,
+		zlayer = Constants.GROUND_SCATTER_ZLAYER,
 		textures = [
 			preload("res://icons/terrain/woodland/flower_patch0.png"),
 		],
@@ -35,7 +37,7 @@ const SCATTERS = {
 	pine_tree = {
 		offset = ScatterOffset.ROOT,
 		base_radius = 5,
-		z_index = 2,
+		zlayer = Constants.TALL_SCATTER_ZLAYER,
 		textures = [
 			preload("res://icons/terrain/woodland/pine0.png"),
 		],
@@ -43,7 +45,7 @@ const SCATTERS = {
 	round_tree = {
 		offset = ScatterOffset.ROOT,
 		base_radius = 8,
-		z_index = 2,
+		zlayer = Constants.TALL_SCATTER_ZLAYER,
 		textures = [
 			preload("res://icons/terrain/woodland/tree0.png"),
 			preload("res://icons/terrain/woodland/tree1.png"),
@@ -90,7 +92,7 @@ const OVERLAYS = {
 		scatters = [
 			{
 				randweight = 1.0,
-				density = 3.0,
+				density = 3.6,
 				scatters = {
 					pine_tree = 8.0,
 					round_tree = 3.0,

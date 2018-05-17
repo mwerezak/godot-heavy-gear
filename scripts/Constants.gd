@@ -1,5 +1,9 @@
 extends Node
 
-const TERRAIN_ZLAYER = -1
-const UNITS_ZLAYER = 0
-const HUD_ZLAYER = 1
+const TERRAIN_ZLAYER = 0
+const GROUND_SCATTER_ZLAYER = 1
+const SHORT_SCATTER_ZLAYER = 2
+const TALL_SCATTER_ZLAYER = 3
+
+const UNIT_MARKER_ZLAYER = 4
+const HUD_ZLAYER = 5
