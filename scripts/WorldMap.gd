@@ -8,9 +8,13 @@ const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 ## also, note that for regular hexagons, w = sqrt(3)/2 * h
 const TERRAIN_WIDTH  = 64*4 #256
 const TERRAIN_HEIGHT = 74*4 #296
+static func get_terrain_cell_size():
+	return Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT*3/4) #because Vector2() can't be const :(
 
 const UNITGRID_WIDTH = 16*4 #64
 const UNITGRID_HEIGHT = 18*4 #72
+static func get_unit_grid_cell_size():
+	return Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT*3/4)
 
 const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in distance units
 
@@ -18,8 +22,8 @@ onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 
 func _ready():
-	terrain.cell_size = Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT*3/4)
-	unit_grid.cell_size = Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT*3/4)
+	terrain.cell_size = get_terrain_cell_size()
+	unit_grid.cell_size = get_unit_grid_cell_size()
 	
 	terrain.z_as_relative = false
 	terrain.z_index = Constants.TERRAIN_ZLAYER

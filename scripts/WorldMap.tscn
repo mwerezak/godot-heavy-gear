@@ -1,15 +1,18 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/WorldMap.gd" type="Script" id=1]
-[ext_resource path="res://tilesets/TerrainTilesOld.tres" type="TileSet" id=2]
+[ext_resource path="res://tilesets/TerrainTiles.tres" type="TileSet" id=2]
+[ext_resource path="res://scripts/terrain/TerrainOverlay.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/terrain/TerrainOverlay.gd" type="Script" id=4]
 
-[node name="WorldMap" type="Node2D" index="0"]
+[node name="WorldMap" type="Node2D"]
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )
 
 [node name="TerrainTiles" type="TileMap" parent="." index="0"]
 
+editor/display_folded = true
 position = Vector2( 0, -1.00002 )
 mode = 0
 tile_set = ExtResource( 2 )
@@ -27,8 +30,974 @@ collision_layer = 1
 collision_mask = 1
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 0, 7, 0, 1, 13, 0, 2, 7, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 6, 4, 0, 7, 5, 0, 8, 8, 0, 9, 10, 0, 10, 5, 0, 11, 3, 0, 65536, 7, 0, 65537, 2, 0, 65538, 1, 0, 65539, 4, 0, 65540, 3, 0, 65541, 1, 0, 65542, 3, 0, 65543, 13, 0, 65544, 7, 0, 65545, 3, 0, 65546, 5, 0, 131072, 1, 0, 131073, 2, 0, 131074, 1, 0, 131075, 9, 0, 131076, 7, 0, 131077, 8, 0, 131078, 5, 0, 131079, 3, 0, 131080, 4, 0, 131081, 2, 0, 131082, 10, 0, 131083, 8, 0, 196608, 3, 0, 196609, 4, 0, 196610, 8, 0, 196611, 13, 0, 196612, 8, 0, 196613, 4, 0, 196614, 4, 0, 196615, 10, 0, 196616, 7, 0, 196617, 10, 0, 196618, 11, 0, 262144, 1, 0, 262145, 6, 0, 262146, 11, 0, 262147, 12, 0, 262148, 7, 0, 262149, 11, 0, 262150, 2, 0, 262151, 8, 0, 262152, 12, 0, 262153, 14, 0, 262154, 13, 0, 262155, 10, 0, 327680, 4, 0, 327681, 6, 0, 327682, 3, 0, 327683, 8, 0, 327684, 3, 0, 327685, 1, 0, 327686, 0, 0, 327687, 9, 0, 327688, 14, 0, 327689, 14, 0, 327690, 13, 0, 393216, 1, 0, 393217, 0, 0, 393218, 1, 0, 393219, 2, 0, 393220, 3, 0, 393221, 2, 0, 393222, 0, 0, 393223, 6, 0, 393224, 0, 0, 393225, 10, 0, 393226, 13, 0, 393227, 7, 0, 458752, 8, 0, 458753, 2, 0, 458754, 0, 0, 458755, 0, 0, 458756, 9, 0, 458757, 2, 0, 458758, 5, 0, 458759, 2, 0, 458760, 6, 0, 458761, 5, 0, 458762, 3, 0, 524288, 9, 0, 524289, 5, 0, 524290, 0, 0, 524291, 10, 0, 524292, 7, 0, 524293, 1, 0, 524294, 4, 0, 524295, 0, 0, 524296, 2, 0, 524297, 6, 0, 524298, 3, 0, 524299, 0, 0, 589824, 6, 0, 589825, 5, 0, 589826, 0, 0, 589827, 13, 0, 589828, 11, 0, 589829, 9, 0, 589830, 3, 0, 589831, 1, 0, 589832, 2, 0, 589833, 11, 0, 589834, 4, 0, 655360, 10, 0, 655361, 6, 0, 655362, 4, 0, 655363, 5, 0, 655364, 5, 0, 655365, 13, 0, 655366, 7, 0, 655367, 11, 0, 655368, 6, 0, 655369, 0, 0, 655370, 10, 0, 655371, 5, 0, 720896, 10, 0, 720897, 3, 0, 720898, 3, 0, 720899, 10, 0, 720900, 14, 0, 720901, 13, 0, 720902, 10, 0, 720903, 1, 0, 720904, 5, 0, 720905, 3, 0, 720906, 4, 0 )
+tile_data = PoolIntArray( 0, 1, 0, 1, 2, 0, 2, 1, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 1, 0, 9, 1, 0, 10, 0, 0, 11, 0, 0, 65536, 1, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 2, 0, 65544, 1, 0, 65545, 0, 0, 65546, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 1, 0, 131076, 1, 0, 131077, 1, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 1, 0, 131083, 1, 0, 196608, 0, 0, 196609, 0, 0, 196610, 1, 0, 196611, 2, 0, 196612, 1, 0, 196613, 0, 0, 196614, 0, 0, 196615, 1, 0, 196616, 1, 0, 196617, 1, 0, 196618, 1, 0, 262144, 0, 0, 262145, 0, 0, 262146, 1, 0, 262147, 2, 0, 262148, 1, 0, 262149, 1, 0, 262150, 0, 0, 262151, 1, 0, 262152, 2, 0, 262153, 2, 0, 262154, 2, 0, 262155, 1, 0, 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 1, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 1, 0, 327688, 2, 0, 327689, 2, 0, 327690, 2, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 1, 0, 393226, 2, 0, 393227, 1, 0, 458752, 1, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 1, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 524288, 1, 0, 524289, 0, 0, 524290, 0, 0, 524291, 1, 0, 524292, 1, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 2, 0, 589828, 1, 0, 589829, 1, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 1, 0, 589834, 0, 0, 655360, 1, 0, 655361, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 2, 0, 655366, 1, 0, 655367, 1, 0, 655368, 0, 0, 655369, 0, 0, 655370, 1, 0, 655371, 0, 0, 720896, 1, 0, 720897, 0, 0, 720898, 0, 0, 720899, 1, 0, 720900, 2, 0, 720901, 2, 0, 720902, 1, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0 )
 _sections_unfolded = [ "Cell", "Collision", "Z Index" ]
+
+[node name="TerrainOverlay" type="Node2D" parent="TerrainTiles" index="0" instance=ExtResource( 3 )]
+
+position = Vector2( 128, 111 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -1538619845
+
+[node name="TerrainOverlay2" type="Node2D" parent="TerrainTiles" index="1" instance=ExtResource( 3 )]
+
+position = Vector2( 384, 111 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 248663493
+
+[node name="TerrainOverlay3" type="Node2D" parent="TerrainTiles" index="2" instance=ExtResource( 3 )]
+
+position = Vector2( 640, 111 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1520092208
+
+[node name="TerrainOverlay4" type="Node2D" parent="TerrainTiles" index="3" instance=ExtResource( 3 )]
+
+position = Vector2( 896, 111 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 493749765
+
+[node name="TerrainOverlay5" type="Node2D" parent="TerrainTiles" index="4" instance=ExtResource( 3 )]
+
+position = Vector2( 1152, 111 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1548896315
+
+[node name="TerrainOverlay6" type="Node2D" parent="TerrainTiles" index="5" instance=ExtResource( 3 )]
+
+position = Vector2( 1408, 111 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1282959653
+
+[node name="TerrainOverlay7" type="Node2D" parent="TerrainTiles" index="6" instance=ExtResource( 3 )]
+
+position = Vector2( 1664, 111 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 140578415
+
+[node name="TerrainOverlay8" type="Node2D" parent="TerrainTiles" index="7" instance=ExtResource( 3 )]
+
+position = Vector2( 1920, 111 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1862851930
+
+[node name="TerrainOverlay9" type="Node2D" parent="TerrainTiles" index="8" instance=ExtResource( 3 )]
+
+position = Vector2( 2176, 111 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -238235643
+
+[node name="TerrainOverlay10" type="Node2D" parent="TerrainTiles" index="9" instance=ExtResource( 3 )]
+
+position = Vector2( 2432, 111 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1705505498
+
+[node name="TerrainOverlay11" type="Node2D" parent="TerrainTiles" index="10" instance=ExtResource( 3 )]
+
+position = Vector2( 2688, 111 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1284174096
+
+[node name="TerrainOverlay12" type="Node2D" parent="TerrainTiles" index="11" instance=ExtResource( 3 )]
+
+position = Vector2( 2944, 111 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 2118770149
+
+[node name="TerrainOverlay13" type="Node2D" parent="TerrainTiles" index="12" instance=ExtResource( 3 )]
+
+position = Vector2( 256, 333 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1728853765
+
+[node name="TerrainOverlay14" type="Node2D" parent="TerrainTiles" index="13" instance=ExtResource( 3 )]
+
+position = Vector2( 512, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1047003889
+
+[node name="TerrainOverlay15" type="Node2D" parent="TerrainTiles" index="14" instance=ExtResource( 3 )]
+
+position = Vector2( 768, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 492598650
+
+[node name="TerrainOverlay16" type="Node2D" parent="TerrainTiles" index="15" instance=ExtResource( 3 )]
+
+position = Vector2( 1024, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -802965681
+
+[node name="TerrainOverlay17" type="Node2D" parent="TerrainTiles" index="16" instance=ExtResource( 3 )]
+
+position = Vector2( 1280, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 521664773
+
+[node name="TerrainOverlay18" type="Node2D" parent="TerrainTiles" index="17" instance=ExtResource( 3 )]
+
+position = Vector2( 1536, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 255663727
+
+[node name="TerrainOverlay19" type="Node2D" parent="TerrainTiles" index="18" instance=ExtResource( 3 )]
+
+position = Vector2( 1792, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -886915143
+
+[node name="TerrainOverlay20" type="Node2D" parent="TerrainTiles" index="19" instance=ExtResource( 3 )]
+
+position = Vector2( 2048, 333 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 567120548
+
+[node name="TerrainOverlay21" type="Node2D" parent="TerrainTiles" index="20" instance=ExtResource( 3 )]
+
+position = Vector2( 2304, 333 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -1266581169
+
+[node name="TerrainOverlay22" type="Node2D" parent="TerrainTiles" index="21" instance=ExtResource( 3 )]
+
+position = Vector2( 2560, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 947429924
+
+[node name="TerrainOverlay23" type="Node2D" parent="TerrainTiles" index="22" instance=ExtResource( 3 )]
+
+position = Vector2( 2816, 333 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 256878170
+
+[node name="TerrainOverlay24" type="Node2D" parent="TerrainTiles" index="23" instance=ExtResource( 3 )]
+
+position = Vector2( 128, 555 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1084105072
+
+[node name="TerrainOverlay25" type="Node2D" parent="TerrainTiles" index="24" instance=ExtResource( 3 )]
+
+position = Vector2( 384, 555 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 428385434
+
+[node name="TerrainOverlay26" type="Node2D" parent="TerrainTiles" index="25" instance=ExtResource( 3 )]
+
+position = Vector2( 640, 555 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1437670533
+
+[node name="TerrainOverlay27" type="Node2D" parent="TerrainTiles" index="26" instance=ExtResource( 3 )]
+
+position = Vector2( 896, 555 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -402301222
+
+[node name="TerrainOverlay28" type="Node2D" parent="TerrainTiles" index="27" instance=ExtResource( 3 )]
+
+position = Vector2( 1152, 555 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1460183184
+
+[node name="TerrainOverlay29" type="Node2D" parent="TerrainTiles" index="28" instance=ExtResource( 3 )]
+
+position = Vector2( 1408, 555 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1193198074
+
+[node name="TerrainOverlay30" type="Node2D" parent="TerrainTiles" index="29" instance=ExtResource( 3 )]
+
+position = Vector2( 1664, 555 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 50620100
+
+[node name="TerrainOverlay31" type="Node2D" parent="TerrainTiles" index="30" instance=ExtResource( 3 )]
+
+position = Vector2( 1920, 555 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 2049913903
+
+[node name="TerrainOverlay32" type="Node2D" parent="TerrainTiles" index="31" instance=ExtResource( 3 )]
+
+position = Vector2( 2176, 555 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -857528102
+
+[node name="TerrainOverlay33" type="Node2D" parent="TerrainTiles" index="32" instance=ExtResource( 3 )]
+
+position = Vector2( 2432, 555 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1884964271
+
+[node name="TerrainOverlay34" type="Node2D" parent="TerrainTiles" index="33" instance=ExtResource( 3 )]
+
+position = Vector2( 2688, 555 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1201752549
+
+[node name="TerrainOverlay35" type="Node2D" parent="TerrainTiles" index="34" instance=ExtResource( 3 )]
+
+position = Vector2( 2944, 555 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1231828154
+
+[node name="TerrainOverlay36" type="Node2D" parent="TerrainTiles" index="35" instance=ExtResource( 3 )]
+
+position = Vector2( 256, 777 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1998074181
+
+[node name="TerrainOverlay37" type="Node2D" parent="TerrainTiles" index="36" instance=ExtResource( 3 )]
+
+position = Vector2( 512, 777 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -777781425
+
+[node name="TerrainOverlay38" type="Node2D" parent="TerrainTiles" index="37" instance=ExtResource( 3 )]
+
+position = Vector2( 768, 777 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -311920710
+
+[node name="TerrainOverlay39" type="Node2D" parent="TerrainTiles" index="38" instance=ExtResource( 3 )]
+
+position = Vector2( 1024, 777 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = -1606438513
+
+[node name="TerrainOverlay40" type="Node2D" parent="TerrainTiles" index="39" instance=ExtResource( 3 )]
+
+position = Vector2( 1280, 777 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -282854587
+
+[node name="TerrainOverlay41" type="Node2D" parent="TerrainTiles" index="40" instance=ExtResource( 3 )]
+
+position = Vector2( 1536, 777 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 516495535
+
+[node name="TerrainOverlay42" type="Node2D" parent="TerrainTiles" index="41" instance=ExtResource( 3 )]
+
+position = Vector2( 1792, 777 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -616646151
+
+[node name="TerrainOverlay43" type="Node2D" parent="TerrainTiles" index="42" instance=ExtResource( 3 )]
+
+position = Vector2( 2048, 777 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 836340964
+
+[node name="TerrainOverlay44" type="Node2D" parent="TerrainTiles" index="43" instance=ExtResource( 3 )]
+
+position = Vector2( 2304, 777 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -2070051953
+
+[node name="TerrainOverlay45" type="Node2D" parent="TerrainTiles" index="44" instance=ExtResource( 3 )]
+
+position = Vector2( 2560, 777 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 141859940
+
+[node name="TerrainOverlay46" type="Node2D" parent="TerrainTiles" index="45" instance=ExtResource( 3 )]
+
+position = Vector2( 2816, 777 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 526098586
+
+[node name="TerrainOverlay47" type="Node2D" parent="TerrainTiles" index="46" instance=ExtResource( 3 )]
+
+position = Vector2( 128, 999 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1085110213
+
+[node name="TerrainOverlay48" type="Node2D" parent="TerrainTiles" index="47" instance=ExtResource( 3 )]
+
+position = Vector2( 384, 999 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 435836869
+
+[node name="TerrainOverlay49" type="Node2D" parent="TerrainTiles" index="48" instance=ExtResource( 3 )]
+
+position = Vector2( 640, 999 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1436732976
+
+[node name="TerrainOverlay50" type="Node2D" parent="TerrainTiles" index="49" instance=ExtResource( 3 )]
+
+position = Vector2( 896, 999 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = -394917883
+
+[node name="TerrainOverlay51" type="Node2D" parent="TerrainTiles" index="50" instance=ExtResource( 3 )]
+
+position = Vector2( 1152, 999 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1467634235
+
+[node name="TerrainOverlay52" type="Node2D" parent="TerrainTiles" index="51" instance=ExtResource( 3 )]
+
+position = Vector2( 1408, 999 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1191211813
+
+[node name="TerrainOverlay53" type="Node2D" parent="TerrainTiles" index="52" instance=ExtResource( 3 )]
+
+position = Vector2( 1664, 999 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 50925679
+
+[node name="TerrainOverlay54" type="Node2D" parent="TerrainTiles" index="53" instance=ExtResource( 3 )]
+
+position = Vector2( 1920, 999 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 2047928154
+
+[node name="TerrainOverlay55" type="Node2D" parent="TerrainTiles" index="54" instance=ExtResource( 3 )]
+
+position = Vector2( 2176, 999 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = -858465787
+
+[node name="TerrainOverlay56" type="Node2D" parent="TerrainTiles" index="55" instance=ExtResource( 3 )]
+
+position = Vector2( 2432, 999 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 1884288218
+
+[node name="TerrainOverlay57" type="Node2D" parent="TerrainTiles" index="56" instance=ExtResource( 3 )]
+
+position = Vector2( 2688, 999 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 1200814864
+
+[node name="TerrainOverlay58" type="Node2D" parent="TerrainTiles" index="57" instance=ExtResource( 3 )]
+
+position = Vector2( 2944, 999 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1230104549
+
+[node name="TerrainOverlay59" type="Node2D" parent="TerrainTiles" index="58" instance=ExtResource( 3 )]
+
+position = Vector2( 256, 1221 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1353567131
+
+[node name="TerrainOverlay60" type="Node2D" parent="TerrainTiles" index="59" instance=ExtResource( 3 )]
+
+position = Vector2( 512, 1221 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 167576175
+
+[node name="TerrainOverlay61" type="Node2D" parent="TerrainTiles" index="60" instance=ExtResource( 3 )]
+
+position = Vector2( 768, 1221 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1168276058
+
+[node name="TerrainOverlay62" type="Node2D" parent="TerrainTiles" index="61" instance=ExtResource( 3 )]
+
+position = Vector2( 1024, 1221 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 403289263
+
+[node name="TerrainOverlay63" type="Node2D" parent="TerrainTiles" index="62" instance=ExtResource( 3 )]
+
+position = Vector2( 1280, 1221 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1199439461
+
+[node name="TerrainOverlay64" type="Node2D" parent="TerrainTiles" index="63" instance=ExtResource( 3 )]
+
+position = Vector2( 1536, 1221 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1996693327
+
+[node name="TerrainOverlay65" type="Node2D" parent="TerrainTiles" index="64" instance=ExtResource( 3 )]
+
+position = Vector2( 1792, 1221 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 856210585
+
+[node name="TerrainOverlay66" type="Node2D" parent="TerrainTiles" index="65" instance=ExtResource( 3 )]
+
+position = Vector2( 2048, 1221 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1779667844
+
+[node name="TerrainOverlay67" type="Node2D" parent="TerrainTiles" index="66" instance=ExtResource( 3 )]
+
+position = Vector2( 2304, 1221 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = -52984145
+
+[node name="TerrainOverlay68" type="Node2D" parent="TerrainTiles" index="67" instance=ExtResource( 3 )]
+
+position = Vector2( 2560, 1221 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 1615766276
+
+[node name="TerrainOverlay69" type="Node2D" parent="TerrainTiles" index="68" instance=ExtResource( 3 )]
+
+position = Vector2( 2816, 1221 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 2006296506
+
+[node name="TerrainOverlay70" type="Node2D" parent="TerrainTiles" index="69" instance=ExtResource( 3 )]
+
+position = Vector2( 128, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1749687057
+
+[node name="TerrainOverlay71" type="Node2D" parent="TerrainTiles" index="70" instance=ExtResource( 3 )]
+
+position = Vector2( 384, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -237194503
+
+[node name="TerrainOverlay72" type="Node2D" parent="TerrainTiles" index="71" instance=ExtResource( 3 )]
+
+position = Vector2( 640, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 226831076
+
+[node name="TerrainOverlay73" type="Node2D" parent="TerrainTiles" index="72" instance=ExtResource( 3 )]
+
+position = Vector2( 896, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1066834119
+
+[node name="TerrainOverlay74" type="Node2D" parent="TerrainTiles" index="73" instance=ExtResource( 3 )]
+
+position = Vector2( 1152, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 257732335
+
+[node name="TerrainOverlay75" type="Node2D" parent="TerrainTiles" index="74" instance=ExtResource( 3 )]
+
+position = Vector2( 1408, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1063440345
+
+[node name="TerrainOverlay76" type="Node2D" parent="TerrainTiles" index="75" instance=ExtResource( 3 )]
+
+position = Vector2( 1664, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -77041885
+
+[node name="TerrainOverlay77" type="Node2D" parent="TerrainTiles" index="76" instance=ExtResource( 3 )]
+
+position = Vector2( 1920, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1383285262
+
+[node name="TerrainOverlay78" type="Node2D" parent="TerrainTiles" index="77" instance=ExtResource( 3 )]
+
+position = Vector2( 2176, 1443 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1523109575
+
+[node name="TerrainOverlay79" type="Node2D" parent="TerrainTiles" index="78" instance=ExtResource( 3 )]
+
+position = Vector2( 2432, 1443 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 682513294
+
+[node name="TerrainOverlay80" type="Node2D" parent="TerrainTiles" index="79" instance=ExtResource( 3 )]
+
+position = Vector2( 2688, 1443 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 1073043396
+
+[node name="TerrainOverlay81" type="Node2D" parent="TerrainTiles" index="80" instance=ExtResource( 3 )]
+
+position = Vector2( 2944, 1443 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 565199513
+
+[node name="TerrainOverlay82" type="Node2D" parent="TerrainTiles" index="81" instance=ExtResource( 3 )]
+
+position = Vector2( 256, 1665 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -557283974
+
+[node name="TerrainOverlay83" type="Node2D" parent="TerrainTiles" index="82" instance=ExtResource( 3 )]
+
+position = Vector2( 512, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 961565444
+
+[node name="TerrainOverlay84" type="Node2D" parent="TerrainTiles" index="83" instance=ExtResource( 3 )]
+
+position = Vector2( 768, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1964559215
+
+[node name="TerrainOverlay85" type="Node2D" parent="TerrainTiles" index="84" instance=ExtResource( 3 )]
+
+position = Vector2( 1024, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 938214724
+
+[node name="TerrainOverlay86" type="Node2D" parent="TerrainTiles" index="85" instance=ExtResource( 3 )]
+
+position = Vector2( 1280, 1665 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1993363322
+
+[node name="TerrainOverlay87" type="Node2D" parent="TerrainTiles" index="86" instance=ExtResource( 3 )]
+
+position = Vector2( 1536, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1726377060
+
+[node name="TerrainOverlay88" type="Node2D" parent="TerrainTiles" index="87" instance=ExtResource( 3 )]
+
+position = Vector2( 1792, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 586091950
+
+[node name="TerrainOverlay89" type="Node2D" parent="TerrainTiles" index="88" instance=ExtResource( 3 )]
+
+position = Vector2( 2048, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1711873895
+
+[node name="TerrainOverlay90" type="Node2D" parent="TerrainTiles" index="89" instance=ExtResource( 3 )]
+
+position = Vector2( 2304, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -330639548
+
+[node name="TerrainOverlay91" type="Node2D" parent="TerrainTiles" index="90" instance=ExtResource( 3 )]
+
+position = Vector2( 2560, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1876561895
+
+[node name="TerrainOverlay92" type="Node2D" parent="TerrainTiles" index="91" instance=ExtResource( 3 )]
+
+position = Vector2( 2816, 1665 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1728640079
+
+[node name="TerrainOverlay93" type="Node2D" parent="TerrainTiles" index="92" instance=ExtResource( 3 )]
+
+position = Vector2( 128, 1887 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1466188613
+
+[node name="TerrainOverlay94" type="Node2D" parent="TerrainTiles" index="93" instance=ExtResource( 3 )]
+
+position = Vector2( 384, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1316026033
+
+[node name="TerrainOverlay95" type="Node2D" parent="TerrainTiles" index="94" instance=ExtResource( 3 )]
+
+position = Vector2( 640, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -843611718
+
+[node name="TerrainOverlay96" type="Node2D" parent="TerrainTiles" index="95" instance=ExtResource( 3 )]
+
+position = Vector2( 896, 1887 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -2145664113
+
+[node name="TerrainOverlay97" type="Node2D" parent="TerrainTiles" index="96" instance=ExtResource( 3 )]
+
+position = Vector2( 1152, 1887 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -821099195
+
+[node name="TerrainOverlay98" type="Node2D" parent="TerrainTiles" index="97" instance=ExtResource( 3 )]
+
+position = Vector2( 1408, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -15390033
+
+[node name="TerrainOverlay99" type="Node2D" parent="TerrainTiles" index="98" instance=ExtResource( 3 )]
+
+position = Vector2( 1664, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1155871751
+
+[node name="TerrainOverlay100" type="Node2D" parent="TerrainTiles" index="99" instance=ExtResource( 3 )]
+
+position = Vector2( 1920, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 304455396
+
+[node name="TerrainOverlay101" type="Node2D" parent="TerrainTiles" index="100" instance=ExtResource( 3 )]
+
+position = Vector2( 2176, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1694076303
+
+[node name="TerrainOverlay102" type="Node2D" parent="TerrainTiles" index="101" instance=ExtResource( 3 )]
+
+position = Vector2( 2432, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -397365660
+
+[node name="TerrainOverlay103" type="Node2D" parent="TerrainTiles" index="102" instance=ExtResource( 3 )]
+
+position = Vector2( 2688, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -5786982
+
+[node name="TerrainOverlay104" type="Node2D" parent="TerrainTiles" index="103" instance=ExtResource( 3 )]
+
+position = Vector2( 2944, 1887 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -513631889
+
+[node name="TerrainOverlay105" type="Node2D" parent="TerrainTiles" index="104" instance=ExtResource( 3 )]
+
+position = Vector2( 256, 2109 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -691565830
+
+[node name="TerrainOverlay106" type="Node2D" parent="TerrainTiles" index="105" instance=ExtResource( 3 )]
+
+position = Vector2( 512, 2109 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 829378692
+
+[node name="TerrainOverlay107" type="Node2D" parent="TerrainTiles" index="106" instance=ExtResource( 3 )]
+
+position = Vector2( 768, 2109 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1293404399
+
+[node name="TerrainOverlay108" type="Node2D" parent="TerrainTiles" index="107" instance=ExtResource( 3 )]
+
+position = Vector2( 1024, 2109 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 268110532
+
+[node name="TerrainOverlay109" type="Node2D" parent="TerrainTiles" index="108" instance=ExtResource( 3 )]
+
+position = Vector2( 1280, 2109 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1324305658
+
+[node name="TerrainOverlay110" type="Node2D" parent="TerrainTiles" index="109" instance=ExtResource( 3 )]
+
+position = Vector2( 1536, 2109 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 2130013668
+
+[node name="TerrainOverlay111" type="Node2D" parent="TerrainTiles" index="110" instance=ExtResource( 3 )]
+
+position = Vector2( 1792, 2109 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 989465902
+
+[node name="TerrainOverlay112" type="Node2D" parent="TerrainTiles" index="111" instance=ExtResource( 3 )]
+
+position = Vector2( 2048, 2109 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1853497319
+
+[node name="TerrainOverlay113" type="Node2D" parent="TerrainTiles" index="112" instance=ExtResource( 3 )]
+
+position = Vector2( 2304, 2109 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -463874876
+
+[node name="TerrainOverlay114" type="Node2D" parent="TerrainTiles" index="113" instance=ExtResource( 3 )]
+
+position = Vector2( 2560, 2109 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1748038041
+
+[node name="TerrainOverlay115" type="Node2D" parent="TerrainTiles" index="114" instance=ExtResource( 3 )]
+
+position = Vector2( 2816, 2109 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 2131228111
+
+[node name="TerrainOverlay116" type="Node2D" parent="TerrainTiles" index="115" instance=ExtResource( 3 )]
+
+position = Vector2( 128, 2331 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -1491079184
+
+[node name="TerrainOverlay117" type="Node2D" parent="TerrainTiles" index="116" instance=ExtResource( 3 )]
+
+position = Vector2( 384, 2331 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 27702778
+
+[node name="TerrainOverlay118" type="Node2D" parent="TerrainTiles" index="117" instance=ExtResource( 3 )]
+
+position = Vector2( 640, 2331 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1567567333
+
+[node name="TerrainOverlay119" type="Node2D" parent="TerrainTiles" index="118" instance=ExtResource( 3 )]
+
+position = Vector2( 896, 2331 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 271806010
+
+[node name="TerrainOverlay120" type="Node2D" parent="TerrainTiles" index="119" instance=ExtResource( 3 )]
+
+position = Vector2( 1152, 2331 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1596371440
+
+[node name="TerrainOverlay121" type="Node2D" parent="TerrainTiles" index="120" instance=ExtResource( 3 )]
+
+position = Vector2( 1408, 2331 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 1322047194
+
+[node name="TerrainOverlay122" type="Node2D" parent="TerrainTiles" index="121" instance=ExtResource( 3 )]
+
+position = Vector2( 1664, 2331 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 187856420
+
+[node name="TerrainOverlay123" type="Node2D" parent="TerrainTiles" index="122" instance=ExtResource( 3 )]
+
+position = Vector2( 1920, 2331 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1641891087
+
+[node name="TerrainOverlay124" type="Node2D" parent="TerrainTiles" index="123" instance=ExtResource( 3 )]
+
+position = Vector2( 2176, 2331 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -191809478
+
+[node name="TerrainOverlay125" type="Node2D" parent="TerrainTiles" index="124" instance=ExtResource( 3 )]
+
+position = Vector2( 2432, 2331 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 2013813391
+
+[node name="TerrainOverlay126" type="Node2D" parent="TerrainTiles" index="125" instance=ExtResource( 3 )]
+
+position = Vector2( 2688, 2331 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 1331650245
+
+[node name="TerrainOverlay127" type="Node2D" parent="TerrainTiles" index="126" instance=ExtResource( 3 )]
+
+position = Vector2( 2944, 2331 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1897547162
+
+[node name="TerrainOverlay128" type="Node2D" parent="TerrainTiles" index="127" instance=ExtResource( 3 )]
+
+position = Vector2( 256, 2553 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = -687783131
+
+[node name="TerrainOverlay129" type="Node2D" parent="TerrainTiles" index="128" instance=ExtResource( 3 )]
+
+position = Vector2( 512, 2553 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 833095983
+
+[node name="TerrainOverlay130" type="Node2D" parent="TerrainTiles" index="129" instance=ExtResource( 3 )]
+
+position = Vector2( 768, 2553 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1297121562
+
+[node name="TerrainOverlay131" type="Node2D" parent="TerrainTiles" index="130" instance=ExtResource( 3 )]
+
+position = Vector2( 1024, 2553 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 2409327
+
+[node name="TerrainOverlay132" type="Node2D" parent="TerrainTiles" index="131" instance=ExtResource( 3 )]
+
+position = Vector2( 1280, 2553 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 1328022821
+
+[node name="TerrainOverlay133" type="Node2D" parent="TerrainTiles" index="132" instance=ExtResource( 3 )]
+
+position = Vector2( 1536, 2553 )
+script = ExtResource( 4 )
+terrain_id = "dense_forest"
+scatter_seed = 2134780431
+
+[node name="TerrainOverlay134" type="Node2D" parent="TerrainTiles" index="133" instance=ExtResource( 3 )]
+
+position = Vector2( 1792, 2553 )
+script = ExtResource( 4 )
+terrain_id = "sparse_forest"
+scatter_seed = 992463705
+
+[node name="TerrainOverlay135" type="Node2D" parent="TerrainTiles" index="134" instance=ExtResource( 3 )]
+
+position = Vector2( 2048, 2553 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -1848730044
+
+[node name="TerrainOverlay136" type="Node2D" parent="TerrainTiles" index="135" instance=ExtResource( 3 )]
+
+position = Vector2( 2304, 2553 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = -461206161
+
+[node name="TerrainOverlay137" type="Node2D" parent="TerrainTiles" index="136" instance=ExtResource( 3 )]
+
+position = Vector2( 2560, 2553 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 1753067460
+
+[node name="TerrainOverlay138" type="Node2D" parent="TerrainTiles" index="137" instance=ExtResource( 3 )]
+
+position = Vector2( 2816, 2553 )
+script = ExtResource( 4 )
+terrain_id = "grassland"
+scatter_seed = 2134946426
 
 [node name="UnitGrid" type="TileMap" parent="." index="1"]
 
