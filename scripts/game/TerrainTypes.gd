@@ -8,9 +8,10 @@ const DEFAULT_DIFFICULT_TERRAIN = {
 	MovementModes.GROUND: 2.0,
 }
 
+const TILESET_WOODLAND = preload("res://tilesets/TerrainTiles.tres")
+
 const TILESETS = {
-	default = {
-		tileset = preload("res://tilesets/TerrainTiles.tres"),
+	TILESET_WOODLAND : {
 		terrain_types = {
 			grassland = {
 				name = "Grassland", #display name
@@ -44,11 +45,11 @@ const TILESETS = {
 }
 
 func _init():
-	for tileset_id in TILESETS:
-		var tileset_info = TILESETS[tileset_id]
-		tileset_info.tileset_id = tileset_id
-		tileset_info.terrain_ids = {}
-	
+	for tileset in TILESETS:
+		var tileset_info = TILESETS[tileset]
+		
+		tileset_info.terrain_ids = {} ## reverse mapping of tile_id -> terrain_id
+		
 		var terrain_types = tileset_info.terrain_types
 		for terrain_id in terrain_types:
 			var terrain_info = terrain_types[terrain_id]
@@ -57,11 +58,11 @@ func _init():
 			for tile_id in terrain_info.tile_ids:
 				tileset_info.terrain_ids[tile_id] = terrain_id
 
-func get_terrain_info(tileset_id, tile_idx):
+func get_terrain_info(tileset, tile_idx):
 	if tile_idx < 0: return null
 	
-	var tileset_info = TILESETS[tileset_id]
-	var tile_id = tileset_info.tileset.tile_get_name(tile_idx)
+	var tile_id = tileset.tile_get_name(tile_idx)
+	var tileset_info = TILESETS[tileset]
 	var terrain_id = tileset_info.terrain_ids[tile_id]
 	return tileset_info.terrain_types[terrain_id]
 

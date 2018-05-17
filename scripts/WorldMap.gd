@@ -14,8 +14,6 @@ const UNITGRID_HEIGHT = 18*4 #72
 
 const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in distance units
 
-var tileset_id = "default" #TODO
-
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 
@@ -50,7 +48,7 @@ func get_terrain_at(world_pos):
 
 func get_terrain_at_hex(hex_pos):
 	var tile_idx = terrain.get_cellv(hex_pos)
-	return TerrainTypes.get_terrain_info(tileset_id, tile_idx)
+	return TerrainTypes.get_terrain_info(terrain.get_tileset(), tile_idx)
 
 func point_on_map(world_pos):
 	var hex_pos = get_terrain_hex(world_pos)
