@@ -8,7 +8,7 @@ const DEFAULT_DIFFICULT_TERRAIN = {
 	MovementModes.GROUND: 2.0,
 }
 
-const TILESET_WOODLAND = preload("res://tilesets/TerrainTiles.tres")
+const TILESET_WOODLAND = preload("res://tilesets/TerrainTilesOld.tres")
 
 const TILESETS = {
 	TILESET_WOODLAND : {

@@ -1,20 +1,20 @@
 [gd_resource type="TileSet" load_steps=16 format=2]
 
-[ext_resource path="res://icons/terrain/grassland0.png" type="Texture" id=1]
-[ext_resource path="res://icons/terrain/grassland1.png" type="Texture" id=2]
-[ext_resource path="res://icons/terrain/sparse_forest3.png" type="Texture" id=3]
-[ext_resource path="res://icons/terrain/sparse_forest4.png" type="Texture" id=4]
-[ext_resource path="res://icons/terrain/dense_forest0.png" type="Texture" id=5]
-[ext_resource path="res://icons/terrain/dense_forest1.png" type="Texture" id=6]
-[ext_resource path="res://icons/terrain/dense_forest2.png" type="Texture" id=7]
-[ext_resource path="res://icons/terrain/grassland2.png" type="Texture" id=8]
-[ext_resource path="res://icons/terrain/grassland3.png" type="Texture" id=9]
-[ext_resource path="res://icons/terrain/grassland4.png" type="Texture" id=10]
-[ext_resource path="res://icons/terrain/grassland5.png" type="Texture" id=11]
-[ext_resource path="res://icons/terrain/grassland6.png" type="Texture" id=12]
-[ext_resource path="res://icons/terrain/sparse_forest0.png" type="Texture" id=13]
-[ext_resource path="res://icons/terrain/sparse_forest1.png" type="Texture" id=14]
-[ext_resource path="res://icons/terrain/sparse_forest2.png" type="Texture" id=15]
+[ext_resource path="res://icons/terrain/old/grassland0.png" type="Texture" id=1]
+[ext_resource path="res://icons/terrain/old/grassland1.png" type="Texture" id=2]
+[ext_resource path="res://icons/terrain/old/sparse_forest3.png" type="Texture" id=3]
+[ext_resource path="res://icons/terrain/old/sparse_forest4.png" type="Texture" id=4]
+[ext_resource path="res://icons/terrain/old/dense_forest0.png" type="Texture" id=5]
+[ext_resource path="res://icons/terrain/old/dense_forest1.png" type="Texture" id=6]
+[ext_resource path="res://icons/terrain/old/dense_forest2.png" type="Texture" id=7]
+[ext_resource path="res://icons/terrain/old/grassland2.png" type="Texture" id=8]
+[ext_resource path="res://icons/terrain/old/grassland3.png" type="Texture" id=9]
+[ext_resource path="res://icons/terrain/old/grassland4.png" type="Texture" id=10]
+[ext_resource path="res://icons/terrain/old/grassland5.png" type="Texture" id=11]
+[ext_resource path="res://icons/terrain/old/grassland6.png" type="Texture" id=12]
+[ext_resource path="res://icons/terrain/old/sparse_forest0.png" type="Texture" id=13]
+[ext_resource path="res://icons/terrain/old/sparse_forest1.png" type="Texture" id=14]
+[ext_resource path="res://icons/terrain/old/sparse_forest2.png" type="Texture" id=15]
 
 [resource]
 
@@ -153,5 +153,5 @@
 14/occluder_offset = Vector2( 0, 0 )
 14/navigation_offset = Vector2( 0, 0 )
 14/shapes = [  ]
-_sections_unfolded = [ "0" ]
+_sections_unfolded = [ "0", "1" ]
 

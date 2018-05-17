@@ -20,7 +20,7 @@
 [ext_resource path="res://scripts/gui/TerrainCursor.gd" type="Script" id=18]
 [ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=19]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 
 script/source = "## Developer info label
 
@@ -116,7 +116,7 @@ align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script = SubResource( 4 )
+script = SubResource( 1 )
 _sections_unfolded = [ "Grow Direction" ]
 
 [node name="DevToolbox" parent="GUILayer" index="2" instance=ExtResource( 3 )]
