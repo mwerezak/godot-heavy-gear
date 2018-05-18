@@ -21,6 +21,7 @@ onready var nato_counter = $NatoCounter
 func _ready():
 	z_as_relative = false
 	z_index = Constants.UNIT_MARKER_ZLAYER
+	
 	set_footprint_radius(FOOTPRINT_RADIUS)
 
 func _on_mouse_entered():

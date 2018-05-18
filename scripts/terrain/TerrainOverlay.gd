@@ -35,7 +35,7 @@ func _create_scatter(scatter_info):
 	scatter.z_as_relative = false
 	scatter.z_index = scatter_info.zlayer
 	
-	if scatter_info.offset == TerrainTiles.ScatterOffset.CENTER:
+	if scatter_info.offset == TerrainTiles.OFFSET_ROOT:
 		scatter.offset.y = -scatter.texture.get_size().y/2
 	
 	return scatter
