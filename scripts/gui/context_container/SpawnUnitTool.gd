@@ -46,13 +46,14 @@ func unit_cell_input(world_map, cell_pos, event):
 		var unit_info = unit_models[i][j]
 		
 		if world_map.unit_can_place(spawn_unit, cell_pos):
-			spawn_unit.call_deferred("set_faction", faction)
+			spawn_unit.set_faction(faction)
 			spawn_unit.set_unit_info(unit_info)
 			
 			var crew = Crew.new(faction, unit_info.get_default_crew())
 			spawn_unit.set_crew_info(crew)
 			
-			world_map.add_object(spawn_unit, cell_pos)
+			spawn_unit.cell_position = cell_pos
+			world_map.add_unit(spawn_unit)
 			
 			if spawn_unit.has_facing():
 				context_manager.activate("select_facing", { unit = spawn_unit, forced = true })

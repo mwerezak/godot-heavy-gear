@@ -8,7 +8,7 @@ const PriorityQueue = preload("res://scripts/helpers/PriorityQueue.gd")
 const MovementModes = preload("res://scripts/game/MovementModes.gd")
 
 
-static func calculate_movement(world_map, move_unit):
+static func calculate_movement(move_unit):
 	var unit_info = move_unit.unit_info
 	
 	var current_mode = move_unit.current_activation.movement_mode
@@ -25,7 +25,7 @@ static func calculate_movement(world_map, move_unit):
 		if !move_unit.has_facing() && movement_mode.reversed:
 			continue
 		
-		var movement = new(world_map, move_unit, movement_mode)
+		var movement = new(move_unit, movement_mode)
 		for cell_pos in movement.possible_moves:
 			var move_info = movement.possible_moves[cell_pos]
 			
@@ -64,11 +64,11 @@ var _grid_spacing
 var _movement_rate #amount of movement per move action
 var _turning_rate  #amount of turning per move action
 
-func _init(world_map, move_unit, movement_mode):
-	self.move_unit = move_unit
-	self.unit_info = move_unit.unit_info
-	self.world_map = world_map
-	self.movement_mode = movement_mode
+func _init(unit, move_mode):
+	move_unit = unit
+	unit_info = unit.unit_info
+	world_map = unit.world_map
+	movement_mode = move_mode
 	
 	_grid_spacing = HexUtils.pixels2units(world_map.UNITGRID_WIDTH)
 	

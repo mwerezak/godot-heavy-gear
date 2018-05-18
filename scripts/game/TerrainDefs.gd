@@ -13,7 +13,6 @@ var TERRAIN_IDS = {}
 const INFO = {
 	grassland = {
 		name = "Grassland", #display name
-		tileset_id = "default",
 		tile_ids = ["grassland0"],
 		height = 0, #height of the terrain above elevation - e.g. for forests, how tall are the trees?
 		difficult = {}, #limits movement on this terrain for certain movement types
@@ -22,7 +21,6 @@ const INFO = {
 	},
 	sparse_forest = {
 		name = "Sparse Forest",
-		tileset_id = "default",
 		tile_ids = ["sparse_forest0"],
 		height = 1.67,
 		difficult = {},
@@ -31,7 +29,6 @@ const INFO = {
 	},
 	dense_forest = {
 		name = "Dense Forest",
-		tileset_id = "default",
 		tile_ids = ["dense_forest0"],
 		height = 2.5, #taller trees than sparse forest
 		difficult = DEFAULT_DIFFICULT_TERRAIN,

@@ -2,6 +2,8 @@ extends Node2D
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
+signal cell_position_changed(old_position, new_position)
+
 ## the grid cell that the unit is located in
 var cell_position setget set_cell_position, get_cell_position
 var facing = 0 setget set_facing, get_facing
@@ -10,34 +12,41 @@ var faction setget set_faction
 var unit_info setget set_unit_info
 var crew_info setget set_crew_info
 
-onready var world_map = get_parent()
+onready var world_map
 onready var map_marker = $MapMarker
 
 var current_activation = null
+
+func _ready():
+	_update_marker()
+
+func set_world_map(map):
+	world_map = map
+
+func get_cell_position():
+	return cell_position
+
+func set_cell_position(cell_pos):
+	var old_pos = cell_position
+	cell_position = cell_pos
+	emit_signal("cell_position_changed", old_pos, cell_pos)
 
 func _update_marker():
 	if map_marker:
 		map_marker.set_nato_symbol(unit_info.desc.symbol)
 		map_marker.set_facing_marker_visible(has_facing())
+		map_marker.set_colors(faction.primary_color, faction.secondary_color)
 
 func set_unit_info(info):
 	unit_info = info
-	call_deferred("_update_marker")
+	_update_marker()
 
 func set_crew_info(crew):
 	crew_info = crew
 
 func set_faction(new_faction):
 	faction = new_faction
-	map_marker.set_colors(faction.primary_color, faction.secondary_color)
-
-func get_cell_position():
-	return cell_position
-
-func set_cell_position(cell_pos):
-	cell_position = cell_pos
-	if world_map:
-		position = world_map.get_grid_pos(cell_pos) #snap to grid
+	_update_marker()
 
 ## not all units use facing. infantry, for example
 func has_facing():

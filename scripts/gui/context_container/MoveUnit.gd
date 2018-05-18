@@ -17,8 +17,7 @@ func activated(args):
 	.activated(args)
 	move_unit = args.unit
 	
-	var world_map = move_unit.get_parent()
-	possible_moves = MovementPathing.calculate_movement(world_map, move_unit)
+	possible_moves = MovementPathing.calculate_movement(move_unit)
 	
 	move_display.show_movement(possible_moves, move_unit.current_activation)
 	label.text = HELP_TEXT

@@ -2,6 +2,7 @@ extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
+const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids
@@ -21,7 +22,11 @@ const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in di
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 
-var terrain_overlays = {}
+
+## data structures to map position -> object
+var terrain_overlays = {} #1-to-1
+var structure_locs = {} #1-to-1
+var unit_locs = ArrayMap.new() #1-to-many
 
 func _ready():
 	terrain.cell_size = get_terrain_cell_size()
@@ -33,7 +38,10 @@ func _ready():
 	## setup overlays
 	for overlay in terrain.get_children():
 		terrain.remove_child(overlay)
-		add_overlay(overlay)
+		add_child(overlay)
+		
+		var hex_pos = get_terrain_hex(overlay.position)
+		terrain_overlays[hex_pos] = overlay
 	
 	var test_sprites = [$Sprite1, $Sprite2, $Sprite3, $Sprite4]
 	for test in test_sprites:
@@ -41,7 +49,10 @@ func _ready():
 		test.z_index = Constants.DEFAULT_SCATTER_ZLAYER
 		var init_pos = test.global_position
 		remove_child(test)
-		get_overlay_at(init_pos).add_child(test)
+		
+		var hex_pos = get_terrain_hex(init_pos)
+		var overlay = terrain_overlays[hex_pos]
+		overlay.add_child(test)
 		test.global_position = init_pos
 	
 
@@ -51,19 +62,6 @@ func get_bounding_rect():
 	var cell_size = terrain.cell_size
 	var cell_to_pixel = Transform2D(Vector2(cell_size.x, 0), Vector2(0, cell_size.y), Vector2())
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
-
-## overlay access
-func get_overlay_for_hex(hex_pos):
-	return terrain_overlays[hex_pos]
-
-func get_overlay_at(world_pos):
-	var hex_pos = get_terrain_hex(world_pos)
-	return get_overlay_for_hex(hex_pos)
-
-func add_overlay(overlay):
-	add_child(overlay)
-	var hex_pos = get_terrain_hex(overlay.position)
-	terrain_overlays[hex_pos] = overlay
 
 ## Terrain Hexes
 
@@ -137,18 +135,37 @@ func get_neighbors(cell_pos):
 
 ## Objects
 
-func add_object(object, cell_pos):
-	add_child(object)
-	object.set_cell_position(cell_pos)
+func add_unit(unit):
+	unit.world_map = self
+	unit.connect("cell_position_changed", self, "_unit_cell_position_changed", [unit])
+	unit_locs.push_back(unit.cell_position, unit)
+	_set_object_position(unit, unit.cell_position)
 
-func get_objects_in_cells(grid_cells):
-	var rval = {}
-	for child in get_children():
-		if child.has_method("get_cell_position"):
-			var child_cell = child.get_cell_position()
-			if grid_cells.has(child_cell):
-				rval[child] = child_cell
-	return rval
+func get_units_at_cell(cell_pos):
+	if !unit_locs.has(cell_pos):
+		return []
+	return unit_locs.get_values(cell_pos)
+
+func get_objects_at_cell(cell_pos):
+	return get_units_at_cell(cell_pos)
+
+func _unit_cell_position_changed(old_pos, new_pos, unit):
+	unit_locs.move(old_pos, new_pos, unit)
+	_set_object_position(unit, new_pos)
+
+func _set_object_position(object, cell_pos):
+	var world_pos = get_grid_pos(cell_pos)
+	
+	## need to place objects inside terrain overlays for YSort to work correctly
+	var hex_pos = get_terrain_hex(world_pos)
+	var overlay = terrain_overlays[hex_pos]
+	if object.get_parent() == null:
+		overlay.add_child(object)
+	elif overlay != object.get_parent():
+		object.get_parent().remove_child(object)
+		overlay.add_child(object)
+	
+	object.position = world_pos - overlay.position
 
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):
@@ -169,7 +186,7 @@ func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 		return false
 	
 	## make sure there are no objects that could block us
-	for object in get_objects_in_cells([ to_cell ]):
+	for object in get_objects_at_cell(to_cell):
 		if object != unit && !object.can_pass(unit):
 			return false
 
@@ -182,7 +199,7 @@ func unit_can_place(unit, to_cell):
 		return false
 	
 	## make sure there are no objects that could block us
-	for object in get_objects_in_cells([ to_cell ]):
+	for object in get_objects_at_cell(to_cell):
 		if object != unit && !object.can_stack(unit):
 			return false
 	
