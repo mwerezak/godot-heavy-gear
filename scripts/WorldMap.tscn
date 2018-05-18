@@ -14,13 +14,14 @@ render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[node name="WorldMap" type="Node2D" index="0"]
+[node name="WorldMap" type="Node2D"]
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )
 
 [node name="TerrainTiles" type="TileMap" parent="." index="0"]
 
+editor/display_folded = true
 position = Vector2( -0.902466, -1.90251 )
 mode = 0
 tile_set = ExtResource( 2 )
@@ -1036,6 +1037,9 @@ occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
 _sections_unfolded = [ "Cell", "Transform" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Sprite1" type="Sprite" parent="." index="2"]
 

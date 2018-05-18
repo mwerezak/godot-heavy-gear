@@ -1,6 +1,5 @@
 extends Reference
 
-const UnitTypes = preload("res://scripts/game/UnitTypes.gd")
 const MovementModes = preload("res://scripts/game/MovementModes.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
 
@@ -41,8 +40,8 @@ func get_default_crew(): return _info.default_crew
 
 func use_facing(): return !is_infantry()
 
-func is_vehicle(): return _info.unit_type == UnitTypes.TYPE_VEHICLE
-func is_infantry(): return _info.unit_type == UnitTypes.TYPE_INFANTRY
+func is_vehicle(): return _info.unit_type == UnitModels.VEHICLE
+func is_infantry(): return _info.unit_type == UnitModels.INFANTRY
 
 func max_action_points(): return _info.action_points
 func max_move_actions(): return MAX_MOVE_ACTIONS

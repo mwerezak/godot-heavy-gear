@@ -81,7 +81,7 @@ func get_terrain_at(world_pos):
 
 func get_terrain_at_hex(hex_pos):
 	var tile_idx = terrain.get_cellv(hex_pos)
-	return TerrainTypes.get_terrain_info(terrain.get_tileset(), tile_idx)
+	return TerrainDefs.get_terrain_info(terrain.get_tileset(), tile_idx)
 
 func point_on_map(world_pos):
 	var hex_pos = get_terrain_hex(world_pos)

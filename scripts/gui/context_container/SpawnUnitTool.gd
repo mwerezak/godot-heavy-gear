@@ -19,7 +19,7 @@ func _ready():
 		var j = 0
 		var models = {}
 		for model_id in faction.unit_models:
-			models[j] = UnitTypes.get_info(model_id)
+			models[j] = UnitModels.get_info(model_id)
 			j += 1
 		
 		unit_models[i] = models

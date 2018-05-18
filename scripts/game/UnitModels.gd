@@ -4,10 +4,11 @@ const MovementModes = preload("res://scripts/game/MovementModes.gd")
 const UnitInfo = preload("res://scripts/units/UnitInfo.gd")
 const Factions = preload("res://scripts/game/Factions.gd")
 
-const TYPE_VEHICLE = "vehicle"
-const TYPE_INFANTRY = "infantry"
+## Unit types
+enum { TYPE_VEHICLE, TYPE_INFANTRY }
 
-var DEFAULTS = {
+## Unit types that can be inherited, but are not used to create a UnitInfo
+var BASE_TYPES = {
 	default_gear = {
 		nato_symbol = "gear",
 		unit_type = TYPE_VEHICLE,
@@ -29,6 +30,7 @@ var DEFAULTS = {
 	},
 }
 
+## Each entry generates a UnitInfo object during initialization
 var INFO = {
 	dummy_vehicle = {
 		name = "Dummy Vehicle",
@@ -80,7 +82,7 @@ func _resolve_dependencies(child_id, resolve_cache):
 	if resolve_cache.has(child_id):
 		return resolve_cache[child_id]
 	
-	var child = INFO[child_id] if INFO.has(child_id) else DEFAULTS[child_id]
+	var child = INFO[child_id] if INFO.has(child_id) else BASE_TYPES[child_id]
 	if child.has("inherits"):
 		var parent_id = child.inherits
 		if !resolve_cache.has(parent_id):
