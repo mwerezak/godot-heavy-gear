@@ -3,7 +3,7 @@ extends Node
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
 ## the grid cell that the unit is located in
-var cell_position = Vector2() setget set_cell_position, get_cell_position
+var cell_position setget set_cell_position, get_cell_position
 var facing = 0 setget set_facing, get_facing
 
 var faction setget set_faction
@@ -35,9 +35,9 @@ func get_cell_position():
 	return cell_position
 
 func set_cell_position(cell_pos):
+	cell_position = cell_pos
 	if world_map:
-		cell_position = cell_pos
-		map_marker.position = world_map.get_grid_pos(cell_position)
+		map_marker.position = world_map.get_grid_pos(cell_pos)
 
 ## not all units use facing. infantry, for example
 func has_facing():

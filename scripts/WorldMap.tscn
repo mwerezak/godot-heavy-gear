@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/WorldMap.gd" type="Script" id=1]
 [ext_resource path="res://tilesets/TerrainTiles.tres" type="TileSet" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://icons/structures/highrise0.png" type="Texture" id=5]
 [ext_resource path="res://icons/structures/highrise1.png" type="Texture" id=6]
 [ext_resource path="res://icons/structures/industrial0.png" type="Texture" id=7]
+[ext_resource path="res://scripts/structures/Structure.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -14,7 +15,7 @@ render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[node name="WorldMap" type="Node2D"]
+[node name="WorldMap" type="Node2D" index="0"]
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )
@@ -1068,5 +1069,10 @@ position = Vector2( 2171.09, 1341.9 )
 texture = ExtResource( 7 )
 offset = Vector2( 0, -52.5 )
 _sections_unfolded = [ "Offset" ]
+
+[node name="Structure" parent="." index="6" instance=ExtResource( 8 )]
+
+position = Vector2( 375.791, 153.657 )
+structure_id = "industrial0"
 
 
