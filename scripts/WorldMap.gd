@@ -38,6 +38,7 @@ func _ready():
 	## setup overlays
 	for overlay in terrain.get_children():
 		overlay.world_map = self
+		overlay.position = get_terrain_pos(overlay.terrain_hex)
 		
 		terrain.remove_child(overlay)
 		add_child(overlay)
@@ -46,9 +47,8 @@ func _ready():
 		terrain_overlays[hex_pos] = overlay
 	
 	## setup structures
-	for structure in get_children():
-		if structure.has_method("get_footprint"):
-			setup_structure(structure)
+	for structure in get_node("Structures").get_children():
+		setup_structure(structure)
 	
 	## setup scatters
 	for overlay in terrain_overlays.values():

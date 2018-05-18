@@ -21,6 +21,8 @@ const INFO = {
 		exclude_scatters = true, #if the structure prevents scatters from spawning on cells it occupies
 		footprint = [ Rect2(0, 0, 2, -2) ], #grid cells that this structure occupies.
 		
+		height = 1.5, ## how tall is the structure?
+		
 		## if not null, this structure overrides the terrain on the cells that it occupies
 		## see TerrainDefs.gd. Any missing keys are inherited from the terrain the structure is on
 		terrain_info = DEFAULT_BUILDING_TERRAIN,
@@ -32,6 +34,7 @@ const INFO = {
 		exclude_scatters = true, 
 		footprint = [ Rect2(0, 0, 2, -2) ], 
 		
+		height = 2.0,
 		terrain_info = DEFAULT_BUILDING_TERRAIN,
 		stack_units = 1,
 	},
@@ -50,6 +53,17 @@ const INFO = {
 		exclude_scatters = true, 
 		footprint = [ Rect2(0, 0, 1, 1) ], 
 		
+		height = 3.0,
+		terrain_info = DEFAULT_BUILDING_TERRAIN,
+		stack_units = 2,
+	},
+	highrise2 = {
+		texture = preload("res://icons/structures/highrise2.png"),
+		position_offset = Vector2(-25, 25), 
+		exclude_scatters = true, 
+		footprint = [ Rect2(0, 0, 1, 1) ], 
+		
+		height = 4.0,
 		terrain_info = DEFAULT_BUILDING_TERRAIN,
 		stack_units = 2,
 	},

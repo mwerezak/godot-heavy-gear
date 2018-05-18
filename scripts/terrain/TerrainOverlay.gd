@@ -6,7 +6,7 @@ const TerrainTiles = preload("res://scripts/terrain/TerrainTiles.gd")
 const TerrainScatter = preload("res://scripts/terrain/TerrainScatter.gd")
 const WorldMap = preload("res://scripts/WorldMap.gd")
 
-export(Vector2) var cell_pos
+export(Vector2) var terrain_hex
 export(String) var terrain_id
 export(int) var scatter_seed = 0
 
@@ -61,7 +61,9 @@ func _can_place_scatter(scatter_pos, base_radius):
 	var cell_pos = world_map.get_grid_cell(world_pos)
 	var structure = world_map.get_structure_at_cell(cell_pos)
 	if structure && structure.exclude_scatters():
-		return false
+		var cell_center = transform.xform_inv(world_map.get_grid_pos(cell_pos))
+		if HexUtils.inside_hex(cell_center, WorldMap.UNITGRID_WIDTH/2 - base_radius, scatter_pos):
+			return false
 	
 	return true
 	

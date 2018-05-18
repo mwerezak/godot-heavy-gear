@@ -13,7 +13,9 @@ var TERRAIN_IDS = {}
 const INFO = {
 	grassland = {
 		name = "Grassland", #display name
-		tile_ids = ["grassland0"],
+		tile_ids = {
+			grassland0 = preload("res://icons/terrain/woodland/woodland0.png")
+		},
 		height = 0, #height of the terrain above elevation - e.g. for forests, how tall are the trees?
 		difficult = {}, #limits movement on this terrain for certain movement types
 		dangerous = [], #moving through this terrain using certain movement types may cause damage and immobilize the unit
@@ -21,7 +23,9 @@ const INFO = {
 	},
 	sparse_forest = {
 		name = "Sparse Forest",
-		tile_ids = ["sparse_forest0"],
+		tile_ids = {
+			sparse_forest0 = preload("res://icons/terrain/woodland/woodland0.png")
+		},
 		height = 1.67,
 		difficult = {},
 		dangerous = [],
@@ -29,7 +33,9 @@ const INFO = {
 	},
 	dense_forest = {
 		name = "Dense Forest",
-		tile_ids = ["dense_forest0"],
+		tile_ids = {
+			dense_forest0 = preload("res://icons/terrain/woodland/woodland0.png")
+		},
 		height = 2.5, #taller trees than sparse forest
 		difficult = DEFAULT_DIFFICULT_TERRAIN,
 		dangerous = [],
