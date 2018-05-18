@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
@@ -37,7 +37,7 @@ func get_cell_position():
 func set_cell_position(cell_pos):
 	cell_position = cell_pos
 	if world_map:
-		map_marker.position = world_map.get_grid_pos(cell_pos)
+		position = world_map.get_grid_pos(cell_pos) #snap to grid
 
 ## not all units use facing. infantry, for example
 func has_facing():

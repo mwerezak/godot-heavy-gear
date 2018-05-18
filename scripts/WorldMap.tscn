@@ -15,7 +15,7 @@ render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[node name="WorldMap" type="Node2D" index="0"]
+[node name="WorldMap" type="Node2D"]
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )
