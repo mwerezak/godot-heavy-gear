@@ -37,23 +37,22 @@ func _ready():
 	
 	## setup overlays
 	for overlay in terrain.get_children():
+		overlay.world_map = self
+		
 		terrain.remove_child(overlay)
 		add_child(overlay)
 		
 		var hex_pos = get_terrain_hex(overlay.position)
 		terrain_overlays[hex_pos] = overlay
 	
-	var test_sprites = [$Sprite1, $Sprite2, $Sprite3, $Sprite4]
-	for test in test_sprites:
-		test.z_as_relative = false
-		test.z_index = Constants.DEFAULT_SCATTER_ZLAYER
-		var init_pos = test.global_position
-		remove_child(test)
-		
-		var hex_pos = get_terrain_hex(init_pos)
-		var overlay = terrain_overlays[hex_pos]
-		overlay.add_child(test)
-		test.global_position = init_pos
+	## setup structures
+	for structure in get_children():
+		if structure.has_method("get_footprint"):
+			setup_structure(structure)
+	
+	## setup scatters
+	for overlay in terrain_overlays.values():
+		overlay.setup_scatters()
 	
 
 ## returns the bounding rectangle in world coords
@@ -133,7 +132,7 @@ func get_neighbors(cell_pos):
 	return neighbors
 
 
-## Objects
+## Map Objects
 
 func add_unit(unit):
 	unit.world_map = self
@@ -145,6 +144,32 @@ func get_units_at_cell(cell_pos):
 	if !unit_locs.has(cell_pos):
 		return []
 	return unit_locs.get_values(cell_pos)
+
+func get_structure_at_cell(cell_pos):
+	return structure_locs[cell_pos] if structure_locs.has(cell_pos) else null
+
+## structures start on the world map, and so aren't "added"
+## this is an important distinction. 
+## Currently it is an error to setup a structure once the map is prepared, since scatters won't update
+func setup_structure(structure):
+	## structures don't set their own position, at the moment...
+	var cell_pos = get_grid_cell(structure.position)
+	structure.cell_position = cell_pos
+	
+	var footprint_cells = []
+	for rect in structure.get_footprint():
+		for cell in HexUtils.get_rect(rect):
+			footprint_cells.push_back(cell)
+			if structure_locs.has(cell):
+				print("WARNING: structure already present at cell ", cell)
+				structure.queue_free()
+				return
+	
+	for cell in footprint_cells:
+		structure_locs[cell] = structure
+	
+	_set_object_position(structure, cell_pos)
+	
 
 func get_objects_at_cell(cell_pos):
 	return get_units_at_cell(cell_pos)
@@ -165,7 +190,7 @@ func _set_object_position(object, cell_pos):
 		object.get_parent().remove_child(object)
 		overlay.add_child(object)
 	
-	object.position = world_pos - overlay.position
+	object.set_position(world_pos - overlay.position)
 
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):

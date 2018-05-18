@@ -39,6 +39,9 @@ func _update_text():
 	var terrain_id = terrain.terrain_id if terrain else \"None\"
 	
 	var cell_pos = world_map.get_grid_cell(mouse_pos)
+	var structure = world_map.get_structure_at_cell(cell_pos)
+	if structure:
+		terrain_id += \":\" + structure.structure_id
 	
 	var zoom = camera.zoom.x
 	text = \"%s %s %s x%.2f\" % [cell_pos, hex_pos, terrain_id, 1/zoom]"
@@ -79,7 +82,7 @@ use_filter = true
 font_data = ExtResource( 19 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="Main" type="Node" index="0"]
+[node name="Main" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]

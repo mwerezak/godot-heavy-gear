@@ -10,7 +10,7 @@ export(Vector2) var cell_pos
 export(String) var terrain_id
 export(int) var scatter_seed = 0
 
-onready var world_map = $"../.."
+onready var world_map
 onready var scatter_grid = $ScatterGrid
 
 func _ready():
@@ -18,8 +18,8 @@ func _ready():
 	var terrain_cell = WorldMap.get_terrain_cell_size()
 	scatter_grid.position = -terrain_cell/2
 	scatter_grid.cell_size = terrain_cell
-	
-	## TODO clean this up
+
+func setup_scatters():
 	if TerrainTiles.OVERLAYS.has(terrain_id):
 		rand_seed(scatter_seed)
 		var overlay_info = TerrainTiles.OVERLAYS[terrain_id]
@@ -39,31 +39,29 @@ func place_scatters(placement_info):
 	
 	scatter_grid.scale = scatter_scale*Vector2(1,1)
 	
-	for cell_pos in _hex_spiral(ceil(placement_info.density - 1)):
+	for cell_pos in HexUtils.get_spiral(ceil(placement_info.density - 1)):
 		var scatter_id = RandomUtils.get_weighted_random(placement_info.scatters)
 		if scatter_id != "none":
 			var scatter_info = TerrainTiles.SCATTERS[scatter_id]
 			var base_radius = scatter_info.base_radius
 			var scatter_pos = _get_scatter_pos(cell_pos) + RandomUtils.get_random_scatter(max(scatter_radius - base_radius, 0))
 			
-			if HexUtils.inside_hex(Vector2(), WorldMap.TERRAIN_WIDTH/2 - base_radius, scatter_pos):
+			if _can_place_scatter(scatter_pos, base_radius):
 				var scatter = TerrainScatter.new(scatter_info)
 				scatter.position = scatter_pos
 				add_child(scatter)
 
-
-const _RADIAL_DIR = 0
-const _STEP_DIRS = [4, 6, 8, 10, 0, 2]
-
-## produces a spiral path on the scatter hex grid
-func _hex_spiral(radius):
-	var cur_pos = Vector2(0,0)
-	var path = [ cur_pos ]
-	for ring in radius:
-		cur_pos = HexUtils.get_step(cur_pos, _RADIAL_DIR)
-		for step_dir in _STEP_DIRS:
-			for i in (ring + 1):
-				path.push_back(cur_pos)
-				cur_pos = HexUtils.get_step(cur_pos, step_dir)
-	return path
-
+func _can_place_scatter(scatter_pos, base_radius):
+	## make sure the scatter is inside our hex
+	if !HexUtils.inside_hex(Vector2(), WorldMap.TERRAIN_WIDTH/2 - base_radius, scatter_pos):
+		return false
+	
+	## check if there are any structures that exclude scatters
+	var world_pos = transform.xform(scatter_pos)
+	var cell_pos = world_map.get_grid_cell(world_pos)
+	var structure = world_map.get_structure_at_cell(cell_pos)
+	if structure && structure.exclude_scatters():
+		return false
+	
+	return true
+	

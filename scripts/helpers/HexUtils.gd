@@ -118,6 +118,42 @@ static func get_neighbors(cell_pos):
 		rval[dir] = cell_pos + HEX_CONN[parity][dir]
 	return rval
 
+## produces a spiral path. radius is the number of rings, must be an integer
+const _RADIAL_DIR = 0
+const _STEP_DIRS = [4, 6, 8, 10, 0, 2]
+static func get_spiral(radius):
+	var cur_pos = Vector2(0,0)
+	var path = [ cur_pos ]
+	for ring in radius:
+		cur_pos = get_step(cur_pos, _RADIAL_DIR)
+		for step_dir in _STEP_DIRS:
+			for i in (ring + 1):
+				path.push_back(cur_pos)
+				cur_pos = get_step(cur_pos, step_dir)
+	return path
+
+## note that rect positions MUST be absolute.
+## Shift rect before calling this function, do not shift the results afterwards.
+static func get_rect(rect):
+	var contents = []
+	var origin_parity = int(rect.position.y) & 1
+	
+	for r in range(rect.position.y, rect.end.y, sign(rect.size.y)):		
+		var q_start = rect.position.x
+		var q_end = rect.end.x
+		
+		var row_parity = int(r) & 1
+		if row_parity != origin_parity:
+			if origin_parity:
+				q_end += 1
+			else:
+				q_start -= 1
+		
+		for q in range(q_start, q_end, sign(rect.size.x)):
+			print(Vector2(q, r))
+			contents.push_back(Vector2(q, r))
+	return contents
+
 ## Hex Geometry
 
 ## needed since the expression below can't be in a const for some reason
