@@ -1,6 +1,6 @@
 ## A scene that handles and displays movement for a single unit
 
-extends Node
+extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
@@ -21,8 +21,8 @@ onready var world_map = get_parent()
 func _ready():
 	call_deferred("_deferred_ready")
 	
-	move_marker.z_as_relative = false
-	move_marker.z_index = Constants.HUD_ZLAYER
+	z_as_relative = false
+	z_index = Constants.HUD_ZLAYER
 
 func _deferred_ready():
 	## align the movement tiles with the unit grid

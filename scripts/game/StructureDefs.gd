@@ -26,6 +26,15 @@ const INFO = {
 		terrain_info = DEFAULT_BUILDING_TERRAIN,
 		stack_units = 1, #the number of units (typically infantry) that may occupy each cell of this structure
 	},
+	industrial1 = {
+		texture = preload("res://icons/structures/industrial1.png"),
+		position_offset = Vector2(-29, 23),
+		exclude_scatters = true, 
+		footprint = [ Rect2(0, 0, 2, -2) ], 
+		
+		terrain_info = DEFAULT_BUILDING_TERRAIN,
+		stack_units = 1,
+	},
 	highrise0 = {
 		texture = preload("res://icons/structures/highrise0.png"),
 		position_offset = Vector2(-25, 25), 

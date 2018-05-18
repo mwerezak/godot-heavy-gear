@@ -192,6 +192,21 @@ func _set_object_position(object, cell_pos):
 	
 	object.set_position(world_pos - overlay.position)
 
+func get_terrain_info(cell_pos):
+	var world_pos = get_grid_pos(cell_pos)
+	var hex_pos = get_terrain_hex(world_pos)
+	
+	var info = get_terrain_at_hex(hex_pos)
+	if structure_locs.has(cell_pos):
+		var s = structure_locs[cell_pos]
+		var s_info = s.structure_info.terrain_info
+		if s_info:
+			info = info.duplicate()
+			for key in s_info:
+				info[key] = s_info[key]
+	
+	return info
+
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 	## check that to_cell is actually on the map
@@ -202,11 +217,12 @@ func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 		return false
 	
 	## check that the terrain is passable
-	var dest_info = get_terrain_at(to_pos)
+	var dest_info = get_terrain_info(to_cell)
 	if dest_info.impassable.has(movement_mode.type_id):
 		return false
 	
-	var midpoint_info = get_terrain_at(midpoint)
+	var midpoint_cell = get_grid_cell(midpoint)
+	var midpoint_info = get_terrain_info(midpoint_cell)
 	if midpoint_info.impassable.has(movement_mode.type_id):
 		return false
 	
@@ -222,6 +238,16 @@ func unit_can_place(unit, to_cell):
 	## check that to_cell is actually on the map
 	if !grid_cell_on_map(to_cell):
 		return false
+	
+	## check that the terrain is passable
+	var allowed = false
+	var terrain_info = get_terrain_info(to_cell)
+	for movement_mode in unit.unit_info.get_movement_modes():
+		if !terrain_info.impassable.has(movement_mode.type_id):
+			allowed = true
+			break
+	
+	if !allowed: return false
 	
 	## make sure there are no objects that could block us
 	for object in get_objects_at_cell(to_cell):

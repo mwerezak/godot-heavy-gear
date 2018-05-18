@@ -1033,19 +1033,39 @@ __meta__ = {
 position = Vector2( 2147.42, 1329.84 )
 structure_id = "industrial0"
 
-[node name="Structure2" parent="." index="3" instance=ExtResource( 4 )]
+[node name="Structure5" parent="." index="3" instance=ExtResource( 4 )]
+
+position = Vector2( 1873.99, 1332.56 )
+structure_id = "industrial1"
+
+[node name="Structure2" parent="." index="4" instance=ExtResource( 4 )]
 
 position = Vector2( 2148.24, 1035.13 )
 structure_id = "highrise0"
 
-[node name="Structure3" parent="." index="4" instance=ExtResource( 4 )]
+[node name="Structure3" parent="." index="5" instance=ExtResource( 4 )]
 
 position = Vector2( 2216.83, 1033.32 )
 structure_id = "highrise0"
 
-[node name="Structure4" parent="." index="5" instance=ExtResource( 4 )]
+[node name="Structure4" parent="." index="6" instance=ExtResource( 4 )]
 
 position = Vector2( 2333.82, 1184.32 )
+structure_id = "highrise1"
+
+[node name="Structure6" parent="." index="7" instance=ExtResource( 4 )]
+
+position = Vector2( 2340.62, 1493.13 )
+structure_id = "highrise1"
+
+[node name="Structure8" parent="." index="8" instance=ExtResource( 4 )]
+
+position = Vector2( 2342.48, 1330.27 )
+structure_id = "highrise0"
+
+[node name="Structure7" parent="." index="9" instance=ExtResource( 4 )]
+
+position = Vector2( 2429.05, 1490.41 )
 structure_id = "highrise1"
 
 
