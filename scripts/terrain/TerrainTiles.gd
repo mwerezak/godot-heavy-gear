@@ -6,7 +6,7 @@ enum { OFFSET_CENTER, OFFSET_ROOT }
 
 const SCATTERS = {
 	bush = {
-		offset = OFFSET_ROOT,
+		offset_mode = OFFSET_ROOT,
 		base_radius = 17,
 		zlayer = Constants.DEFAULT_SCATTER_ZLAYER,
 		textures = [
@@ -15,7 +15,7 @@ const SCATTERS = {
 		],
 	},
 	flowers = {
-		offset = OFFSET_CENTER,
+		offset_mode = OFFSET_CENTER,
 		base_radius = 8,
 		zlayer = Constants.GROUND_SCATTER_ZLAYER,
 		textures = [
@@ -27,7 +27,7 @@ const SCATTERS = {
 		],
 	},
 	flower_patch = {
-		offset = OFFSET_CENTER,
+		offset_mode = OFFSET_CENTER,
 		base_radius = 21,
 		zlayer = Constants.GROUND_SCATTER_ZLAYER,
 		textures = [
@@ -35,7 +35,7 @@ const SCATTERS = {
 		],
 	},
 	rocks = {
-		offset = OFFSET_ROOT,
+		offset_mode = OFFSET_ROOT,
 		base_radius = 23,
 		zlayer = Constants.GROUND_SCATTER_ZLAYER,
 		textures = [
@@ -44,7 +44,7 @@ const SCATTERS = {
 		],
 	},
 	pine_tree = {
-		offset = OFFSET_ROOT,
+		offset_mode = OFFSET_ROOT,
 		base_radius = 5,
 		zlayer = Constants.DEFAULT_SCATTER_ZLAYER,
 		textures = [
@@ -52,7 +52,7 @@ const SCATTERS = {
 		],
 	},
 	round_tree = {
-		offset = OFFSET_ROOT,
+		offset_mode = OFFSET_ROOT,
 		base_radius = 8,
 		zlayer = Constants.DEFAULT_SCATTER_ZLAYER,
 		textures = [

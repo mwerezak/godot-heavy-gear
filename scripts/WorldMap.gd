@@ -21,12 +21,29 @@ const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in di
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 
+var terrain_overlays = {}
+
 func _ready():
 	terrain.cell_size = get_terrain_cell_size()
 	unit_grid.cell_size = get_unit_grid_cell_size()
 	
 	terrain.z_as_relative = false
 	terrain.z_index = Constants.TERRAIN_ZLAYER
+	
+	## setup overlays
+	for overlay in terrain.get_children():
+		terrain.remove_child(overlay)
+		add_overlay(overlay)
+	
+	var test_sprites = [$Sprite1, $Sprite2, $Sprite3, $Sprite4]
+	for test in test_sprites:
+		test.z_as_relative = false
+		test.z_index = Constants.DEFAULT_SCATTER_ZLAYER
+		var init_pos = test.global_position
+		remove_child(test)
+		get_overlay_at(init_pos).add_child(test)
+		test.global_position = init_pos
+	
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
@@ -35,6 +52,18 @@ func get_bounding_rect():
 	var cell_to_pixel = Transform2D(Vector2(cell_size.x, 0), Vector2(0, cell_size.y), Vector2())
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
 
+## overlay access
+func get_overlay_for_hex(hex_pos):
+	return terrain_overlays[hex_pos]
+
+func get_overlay_at(world_pos):
+	var hex_pos = get_terrain_hex(world_pos)
+	return get_overlay_for_hex(hex_pos)
+
+func add_overlay(overlay):
+	add_child(overlay)
+	var hex_pos = get_terrain_hex(overlay.position)
+	terrain_overlays[hex_pos] = overlay
 
 ## Terrain Hexes
 
