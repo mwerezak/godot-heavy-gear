@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/WorldMap.gd" type="Script" id=1]
 [ext_resource path="res://tilesets/TerrainTiles.tres" type="TileSet" id=2]
 [ext_resource path="res://scripts/terrain/TerrainOverlay.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/structures/Structure.tscn" type="PackedScene" id=4]
+[ext_resource path="res://icons/structures/editor_marker_64.png" type="Texture" id=5]
+[ext_resource path="res://scripts/structures/Structure.gd" type="Script" id=6]
 
 [node name="WorldMap" type="Node2D" index="0"]
 
@@ -1028,44 +1030,118 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Structure" parent="." index="2" instance=ExtResource( 4 )]
+[node name="Structure" type="Sprite" parent="." index="2" instance=ExtResource( 4 )]
 
 position = Vector2( 2147.42, 1329.84 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "industrial0"
 
-[node name="Structure5" parent="." index="3" instance=ExtResource( 4 )]
+[node name="Structure5" type="Sprite" parent="." index="3" instance=ExtResource( 4 )]
 
 position = Vector2( 1873.99, 1332.56 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "industrial1"
 
-[node name="Structure2" parent="." index="4" instance=ExtResource( 4 )]
+[node name="Structure2" type="Sprite" parent="." index="4" instance=ExtResource( 4 )]
 
 position = Vector2( 2148.24, 1035.13 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "highrise0"
 
-[node name="Structure3" parent="." index="5" instance=ExtResource( 4 )]
+[node name="Structure3" type="Sprite" parent="." index="5" instance=ExtResource( 4 )]
 
 position = Vector2( 2216.83, 1033.32 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "highrise0"
 
-[node name="Structure4" parent="." index="6" instance=ExtResource( 4 )]
+[node name="Structure4" type="Sprite" parent="." index="6" instance=ExtResource( 4 )]
 
 position = Vector2( 2333.82, 1184.32 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "highrise1"
 
-[node name="Structure6" parent="." index="7" instance=ExtResource( 4 )]
+[node name="Structure10" type="Sprite" parent="." index="7" instance=ExtResource( 4 )]
+
+position = Vector2( 841.377, 293.427 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
+structure_id = "highrise1"
+
+[node name="Structure14" parent="." index="8" instance=ExtResource( 4 )]
+
+position = Vector2( 764.664, 292.525 )
+structure_id = "highrise1"
+
+[node name="Structure11" type="Sprite" parent="." index="9" instance=ExtResource( 4 )]
+
+position = Vector2( 805.277, 369.488 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
+structure_id = "highrise1"
+
+[node name="Structure15" parent="." index="10" instance=ExtResource( 4 )]
+
+position = Vector2( 885.599, 370.391 )
+structure_id = "highrise1"
+
+[node name="Structure12" type="Sprite" parent="." index="11" instance=ExtResource( 4 )]
+
+position = Vector2( 621.557, 412.913 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
+structure_id = "industrial1"
+
+[node name="Structure13" type="Sprite" parent="." index="12" instance=ExtResource( 4 )]
+
+position = Vector2( 745.819, 524.823 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
+structure_id = "industrial0"
+
+[node name="Structure6" type="Sprite" parent="." index="13" instance=ExtResource( 4 )]
 
 position = Vector2( 2340.62, 1493.13 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "highrise1"
 
-[node name="Structure8" parent="." index="8" instance=ExtResource( 4 )]
+[node name="Structure8" type="Sprite" parent="." index="14" instance=ExtResource( 4 )]
 
 position = Vector2( 2342.48, 1330.27 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "highrise0"
 
-[node name="Structure7" parent="." index="9" instance=ExtResource( 4 )]
+[node name="Structure7" type="Sprite" parent="." index="15" instance=ExtResource( 4 )]
 
 position = Vector2( 2429.05, 1490.41 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
+structure_id = "highrise1"
+
+[node name="Structure9" type="Sprite" parent="." index="16" instance=ExtResource( 4 )]
+
+position = Vector2( 2048, 1702 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
+_sections_unfolded = [ "Offset" ]
 structure_id = "highrise1"
 
 
