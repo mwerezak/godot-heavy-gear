@@ -46,6 +46,9 @@ func build_points():
 				break
 	
 
+func get_endpoints():
+	return [start_position, end_position]
+
 func can_extend(cell_pos, new_pos):
 	if !footprint.has(cell_pos):
 		return false
@@ -117,3 +120,9 @@ func merge(segment, cell_pos, new_pos):
 
 func total_connections(cell_pos):
 	return footprint[cell_pos].size() + junctions[cell_pos].keys().size() if junctions.has(cell_pos) else 0
+
+func all_connection_dirs(cell_pos):
+	var dirs = footprint[cell_pos]
+	if junctions.has(cell_pos):
+		dirs += junctions[cell_pos].keys()
+	return dirs
