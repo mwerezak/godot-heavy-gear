@@ -8,6 +8,7 @@
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )
+_sections_unfolded = [ "Visibility" ]
 source_map = ExtResource( 2 )
 
 [node name="TerrainTiles" type="TileMap" parent="." index="0"]

@@ -7,6 +7,7 @@ const Structure = preload("res://scripts/structures/Structure.tscn")
 var world_map
 var source_map
 
+var global_lighting
 var terrain_indexes = {}
 var terrain_overlays = {}
 var structures = {}
@@ -16,6 +17,9 @@ func _init(world_map):
 
 func load_map(map_scene):
 	source_map = map_scene.instance()
+	
+	global_lighting = source_map.global_lighting
+	
 	var editor_map = source_map.get_node("Terrain")
 	_generate_terrain(editor_map)
 	

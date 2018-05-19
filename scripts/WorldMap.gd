@@ -43,6 +43,8 @@ func _ready():
 	var map_loader = MapLoader.new(self)
 	map_loader.load_map(source_map)
 	
+	modulate = map_loader.global_lighting
+	
 	## setup terrain tiles
 	for hex_pos in map_loader.terrain_indexes:
 		var idx = map_loader.terrain_indexes[hex_pos]
