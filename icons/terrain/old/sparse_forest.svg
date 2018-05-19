@@ -39,8 +39,8 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="-119.5195"
-     inkscape:cy="115.40031"
+     inkscape:cx="194.63794"
+     inkscape:cy="53.781005"
      inkscape:document-units="px"
      inkscape:current-layer="layer2"
      showgrid="false"
@@ -93,67 +93,70 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Editor">
-    <path
-       d="m 128.57143,4.3450928 125.76969,72.6131702 0,145.226337 -125.7697,72.61316 -125.7696898,-72.61317 3.9e-6,-145.226334 z"
-       inkscape:randomized="0"
-       inkscape:rounded="0"
-       inkscape:flatsided="true"
-       sodipodi:arg2="-1.0471976"
-       sodipodi:arg1="-1.5707963"
-       sodipodi:r2="125.7697"
-       sodipodi:r1="145.22633"
-       sodipodi:cy="149.57143"
-       sodipodi:cx="128.57143"
-       sodipodi:sides="6"
-       id="path7283-3"
-       style="display:inline;fill:#657e2a;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       sodipodi:type="star"
-       inkscape:export-xdpi="91.580002"
-       inkscape:export-ydpi="91.580002" />
     <g
-       transform="matrix(3.9829418,0,0,3.9829418,-14.346145,104.30807)"
-       id="g7365-6"
-       style="display:inline">
+       id="g4453">
       <path
-         style="fill:#4a302e;fill-opacity:1"
-         inkscape:connector-curvature="0"
-         id="path7367-7"
-         d="m 37.764334,30.259367 -3.398226,0 a 0.88604065,0.87895074 0 0 1 -0.906889,-0.87378 l 0,-6.773091 a 0.88604065,0.87895074 0 0 1 0.891253,-0.873781 l 3.393014,0 a 0.88604065,0.87895074 0 0 1 0.927737,0.873781 l 0,6.773091 a 0.88604065,0.87895074 0 0 1 -0.906889,0.87378 z"
-         class="cls-1" />
-      <path
-         style="fill:#2a370a;fill-opacity:1"
-         inkscape:connector-curvature="0"
-         id="path7369-5"
-         d="M 23.196785,22.131658 35.33554,5.1006947 a 0.89125265,0.88412104 0 0 1 1.454149,0 L 48.933658,22.131658"
-         class="cls-2" />
-      <path
-         style="fill:#374b06;fill-opacity:1"
-         inkscape:connector-curvature="0"
-         id="path7371-3"
-         d="M 24.676993,11.243009 35.33554,-3.7146652 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 10.66376,14.9576742"
-         class="cls-3" />
-      <path
-         style="fill:#4b660b;fill-opacity:1"
-         inkscape:connector-curvature="0"
-         id="path7373-5"
-         d="M 27.449779,0.33367953 35.33554,-10.73076 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 7.885762,11.06443953"
-         class="cls-4" />
+         inkscape:export-ydpi="91.580002"
+         inkscape:export-xdpi="91.580002"
+         sodipodi:type="star"
+         style="display:inline;fill:#657e2a;fill-opacity:1;stroke:#ffffff;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="path7283-3"
+         sodipodi:sides="6"
+         sodipodi:cx="128.57143"
+         sodipodi:cy="149.57143"
+         sodipodi:r1="145.22633"
+         sodipodi:r2="125.7697"
+         sodipodi:arg1="-1.5707963"
+         sodipodi:arg2="-1.0471976"
+         inkscape:flatsided="true"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 128.57143,4.3450928 125.76969,72.6131702 0,145.226337 -125.7697,72.61316 -125.7696898,-72.61317 3.9e-6,-145.226334 z" />
+      <g
+         style="display:inline"
+         id="g7365-6"
+         transform="matrix(3.9829418,0,0,3.9829418,-14.346145,104.30807)">
+        <path
+           class="cls-1"
+           d="m 37.764334,30.259367 -3.398226,0 a 0.88604065,0.87895074 0 0 1 -0.906889,-0.87378 l 0,-6.773091 a 0.88604065,0.87895074 0 0 1 0.891253,-0.873781 l 3.393014,0 a 0.88604065,0.87895074 0 0 1 0.927737,0.873781 l 0,6.773091 a 0.88604065,0.87895074 0 0 1 -0.906889,0.87378 z"
+           id="path7367-7"
+           inkscape:connector-curvature="0"
+           style="fill:#4a302e;fill-opacity:1" />
+        <path
+           class="cls-2"
+           d="M 23.196785,22.131658 35.33554,5.1006947 a 0.89125265,0.88412104 0 0 1 1.454149,0 L 48.933658,22.131658"
+           id="path7369-5"
+           inkscape:connector-curvature="0"
+           style="fill:#2a370a;fill-opacity:1" />
+        <path
+           class="cls-3"
+           d="M 24.676993,11.243009 35.33554,-3.7146652 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 10.66376,14.9576742"
+           id="path7371-3"
+           inkscape:connector-curvature="0"
+           style="fill:#374b06;fill-opacity:1" />
+        <path
+           class="cls-4"
+           d="M 27.449779,0.33367953 35.33554,-10.73076 a 0.89125265,0.88412104 0 0 1 1.454149,0 l 7.885762,11.06443953"
+           id="path7373-5"
+           inkscape:connector-curvature="0"
+           style="fill:#4b660b;fill-opacity:1" />
+      </g>
+      <text
+         sodipodi:linespacing="125%"
+         id="text4460"
+         y="132.42857"
+         x="128.90904"
+         style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#a3ca00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           y="132.42857"
+           x="128.90904"
+           id="tspan4462"
+           sodipodi:role="line">SPARSE</tspan><tspan
+           id="tspan4464"
+           y="182.42856"
+           x="128.90904"
+           sodipodi:role="line">FOREST</tspan></text>
     </g>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#a3ca00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="128.90904"
-       y="132.42857"
-       id="text4460"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4462"
-         x="128.90904"
-         y="132.42857">SPARSE</tspan><tspan
-         sodipodi:role="line"
-         x="128.90904"
-         y="182.42856"
-         id="tspan4464">FOREST</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"

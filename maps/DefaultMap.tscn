@@ -8,7 +8,7 @@
 [node name="DefaultMap" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
-_sections_unfolded = [ "Transform" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 map_seed = 0
 global_lighting = Color( 1, 1, 1, 1 )
 
@@ -81,7 +81,7 @@ collision_layer = 1
 collision_mask = 1
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 262155, 4, 0, 262156, 3, 0, 327688, 1, 0, 327694, 3, 0, 393230, 3, 0, 458760, 0, 0, 524299, 2, 0, 524300, 3, 0, 917537, 2, 0, 917538, 2, 0, 1048606, 2, 0, 1048607, 3, 0, 1048609, 0, 0, 1048612, 3, 0, 1114142, 4, 0, 1179684, 2, 0, 1310751, 4, 0, 1310753, 0, 0, 1310756, 4, 0, 1310757, 3, 0 )
+tile_data = PoolIntArray( 262155, 4, 0, 262156, 3, 0, 327688, 1, 0, 327694, 3, 0, 393230, 3, 0, 458760, 0, 0, 524299, 2, 0, 524300, 3, 0, 917537, 2, 0, 917538, 2, 0, 1048606, 2, 0, 1048607, 3, 0, 1048609, 0, 0, 1048612, 3, 0, 1114142, 4, 0, 1179684, 2, 0, 1310751, 4, 0, 1310753, 0, 0, 1310756, 4, 0, 1310757, 3, 0, 2097184, 4, 0, 2162720, 4, 0 )
 _sections_unfolded = [ "Cell", "Transform" ]
 __meta__ = {
 "_edit_lock_": true

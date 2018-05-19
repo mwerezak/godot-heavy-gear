@@ -61,9 +61,9 @@ func _can_place_scatter(scatter_pos, base_radius):
 	var cell_pos = world_map.get_grid_cell(world_pos)
 	var structure = world_map.get_structure_at_cell(cell_pos)
 	if structure && structure.exclude_scatters():
-		var cell_center = transform.xform_inv(world_map.get_grid_pos(cell_pos))
-		if HexUtils.inside_hex(cell_center, WorldMap.UNITGRID_WIDTH/2 - base_radius, scatter_pos):
-			return false
+		#var cell_center = transform.xform_inv(world_map.get_grid_pos(cell_pos))
+		#if HexUtils.inside_hex(cell_center, WorldMap.UNITGRID_WIDTH/2 - base_radius, scatter_pos):
+		return false
 	
 	return true
 	

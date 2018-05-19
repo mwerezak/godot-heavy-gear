@@ -50,7 +50,7 @@ static func rotate_step(dir, rot):
 	return normalize(dir + rot)
 
 static func reverse_dir(dir):
-	return rotate_step(dir, 6)
+	return rotate_step(dir, TURN_180DEG)
 
 static func dir2rad(dir):
 	return normalize(dir)*UNIT_ARC
@@ -156,12 +156,12 @@ static func get_rect(rect):
 ## Hex Geometry
 
 ## needed since the expression below can't be in a const for some reason
-static func _get_cube_xform():
+static func _get_axial_xform():
 	return Transform2D(Vector2(1, 0), Vector2(0, 1).rotated(deg2rad(30)), Vector2(0,0))
 
 ## returns true if a point is inside a unit hex centered at the origin
 static func inside_unit_hex(world_pos):
-	var cube_pos = _get_cube_xform().xform_inv(world_pos)
+	var cube_pos = _get_axial_xform().xform_inv(world_pos)
 	var z = -(cube_pos.x + cube_pos.y) #x + y + z = 0
 	return abs(cube_pos.x) <= 1 && abs(cube_pos.y) <= 1 && abs(z) <= 1
 
@@ -170,13 +170,13 @@ static func inside_hex(hex_center, edge_radius, world_pos):
 
 ## not sure if these are needed
 static func cell2cube(cell_pos):
-	var x = cell_pos.x - (cell_pos.y - (cell_pos.y&1))/2
+	var x = cell_pos.x - (cell_pos.y - (int(cell_pos.y)&1))/2
 	var z = cell_pos.y
 	var y = -x-z
 	return Vector3(x, y, z)
 
 static func cube2cell(cube_pos):
-	var col = cube_pos.x + (cube_pos.z - (cube_pos.z&1))/2
+	var col = cube_pos.x + (cube_pos.z - (int(cube_pos.z)&1))/2
 	var row = cube_pos.z
 	return Vector2(col, row)
 

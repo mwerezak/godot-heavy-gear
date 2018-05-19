@@ -4,7 +4,7 @@
 [ext_resource path="res://maps/DefaultMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tilesets/TerrainTiles.tres" type="TileSet" id=3]
 
-[node name="WorldMap" type="Node2D"]
+[node name="WorldMap" type="Node2D" index="0"]
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )
@@ -30,6 +30,7 @@ collision_mask = 1
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
+_sections_unfolded = [ "Cell" ]
 
 [node name="UnitGrid" type="TileMap" parent="." index="1"]
 
@@ -55,5 +56,10 @@ _sections_unfolded = [ "Cell", "Transform" ]
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Overlays" type="YSort" parent="." index="2"]
+
+sort_enabled = true
+_sections_unfolded = [ "Sort" ]
 
 

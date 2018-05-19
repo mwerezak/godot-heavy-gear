@@ -3,6 +3,7 @@ extends Reference
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
 const TerrainOverlay = preload("res://scripts/terrain/TerrainOverlay.tscn")
 const Structure = preload("res://scripts/structures/Structure.tscn")
+const RoadBuilder = preload("res://scripts/terrain/RoadBuilder.gd")
 
 var world_map
 var source_map
@@ -25,6 +26,9 @@ func load_map(map_scene):
 	
 	var struct_map = source_map.get_node("Structures")
 	_generate_structures(struct_map)
+	
+	var road_map = source_map.get_node("Roads")
+	_generate_roads(road_map)
 
 ## rebuild cached terrain indexes and overlays
 func _generate_terrain(editor_terrain_map):
@@ -65,3 +69,9 @@ func _generate_structures(struct_map):
 		struct.set_structure_info(struct_info)
 		struct.position = world_map.get_grid_pos(cell_pos)
 		structures[cell_pos] = struct
+
+func _generate_roads(road_map):
+	var builder = RoadBuilder.new(world_map)
+	builder.build_segments(road_map)
+
+

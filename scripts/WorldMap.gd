@@ -25,6 +25,7 @@ export(PackedScene) var source_map
 
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
+onready var overlay_container = $Overlays
 
 
 ## data structures to map position -> object
@@ -78,7 +79,7 @@ func _setup_overlay(overlay, hex_pos):
 	overlay.world_map = self
 	overlay.position = get_terrain_pos(overlay.terrain_hex)
 	
-	add_child(overlay)
+	overlay_container.add_child(overlay)
 	terrain_overlays[hex_pos] = overlay
 
 func _setup_structure(structure, cell_pos):
