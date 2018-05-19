@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/editor_tools/EditorMap.gd" type="Script" id=1]
 [ext_resource path="res://tilesets/EditorTiles.tres" type="TileSet" id=2]
-[ext_resource path="res://tilesets/Structures.tres" type="TileSet" id=3]
+[ext_resource path="res://tilesets/Roads.tres" type="TileSet" id=3]
+[ext_resource path="res://tilesets/Structures.tres" type="TileSet" id=4]
 
 [node name="DefaultMap" type="Node2D" index="0"]
 
@@ -35,7 +36,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Structures" type="TileMap" parent="." index="1"]
+[node name="Roads" type="TileMap" parent="." index="1"]
 
 position = Vector2( 0, -36 )
 mode = 0
@@ -44,7 +45,7 @@ cell_size = Vector2( 64, 74 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 0
-cell_tile_origin = 1
+cell_tile_origin = 0
 cell_y_sort = false
 cell_clip_uv = false
 collision_use_kinematic = false
@@ -54,17 +55,17 @@ collision_layer = 1
 collision_mask = 1
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray( 262155, 4, 0, 262156, 3, 0, 327688, 1, 0, 327691, 4, 0, 327692, 3, 0, 458762, 0, 0, 917537, 2, 0, 917538, 2, 0, 1048606, 2, 0, 1048607, 3, 0, 1048609, 0, 0, 1048612, 3, 0, 1114142, 4, 0, 1179681, 0, 0, 1179684, 2, 0, 1310752, 4, 0, 1310756, 4, 0, 1310757, 3, 0 )
+tile_data = PoolIntArray( 16, 0, 0, 65551, 0, 0, 131087, 0, 0, 196622, 0, 0, 262158, 0, 0, 327693, 0, 0, 393229, 0, 0, 458765, 0, 0, 524302, 0, 0, 589838, 0, 0, 655375, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 720916, 0, 0, 720917, 0, 0, 720918, 0, 0, 720919, 0, 0, 720920, 0, 0, 720921, 0, 0, 720922, 0, 0, 786459, 0, 0, 851995, 0, 0, 917532, 0, 0, 983068, 0, 0, 1048605, 0, 0, 1114141, 0, 0, 1179678, 0, 0, 1179679, 0, 0, 1179680, 0, 0, 1179681, 0, 0, 1179682, 0, 0, 1179683, 0, 0, 1245213, 0, 0, 1310749, 0, 0, 1376284, 0, 0, 1441820, 0, 0, 1507356, 0, 0, 1572893, 0, 0, 1638429, 0, 0, 1703966, 0, 0, 1769502, 0, 0, 1835039, 0, 0, 1900575, 0, 0, 1966112, 0, 0, 2031648, 0, 0, 2097185, 0, 0, 2162721, 0, 0, 2228258, 0, 0, 2293793, 0, 0, 2359329, 0, 0 )
 _sections_unfolded = [ "Cell", "Transform" ]
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Roads" type="TileMap" parent="." index="2"]
+[node name="Structures" type="TileMap" parent="." index="2"]
 
 position = Vector2( 0, -36 )
 mode = 0
-tile_set = null
+tile_set = ExtResource( 4 )
 cell_size = Vector2( 64, 74 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -79,7 +80,7 @@ collision_layer = 1
 collision_mask = 1
 occluder_light_mask = 1
 format = 1
-tile_data = PoolIntArray(  )
+tile_data = PoolIntArray( 262155, 4, 0, 262156, 3, 0, 327688, 1, 0, 327694, 3, 0, 393230, 3, 0, 458760, 0, 0, 524299, 2, 0, 524300, 3, 0, 917537, 2, 0, 917538, 2, 0, 1048606, 2, 0, 1048607, 3, 0, 1048609, 0, 0, 1048612, 3, 0, 1114142, 4, 0, 1179684, 2, 0, 1310751, 4, 0, 1310753, 0, 0, 1310756, 4, 0, 1310757, 3, 0 )
 _sections_unfolded = [ "Cell", "Transform" ]
 __meta__ = {
 "_edit_lock_": true
