@@ -31,6 +31,7 @@ onready var overlay_container = $Overlays
 ## data structures to map position -> object
 var terrain_overlays = {} #1-to-1
 var structure_locs = {} #1-to-1
+var road_cells = {}
 var unit_locs = ArrayMap.new() #1-to-many
 
 func _ready():
@@ -63,6 +64,12 @@ func _ready():
 	for cell_pos in map_loader.structures:
 		var structure = map_loader.structures[cell_pos]
 		_setup_structure(structure, cell_pos)
+	
+	## setup roads
+	for road_segment in map_loader.road_segments:
+		add_child(road_segment)
+		for cell_pos in road_segment.footprint:
+			road_cells[cell_pos] = true
 	
 	## setup scatters
 	for overlay in terrain_overlays.values():
@@ -212,19 +219,25 @@ func _set_object_position(object, cell_pos):
 	
 	object.set_position(world_pos - overlay.position)
 
+var _terrain_info_cache = {}
 func get_terrain_info(cell_pos):
+	if _terrain_info_cache.has(cell_pos):
+		return _terrain_info_cache[cell_pos]
+	
 	var world_pos = get_grid_pos(cell_pos)
 	var hex_pos = get_terrain_hex(world_pos)
 	
-	var info = get_terrain_at_hex(hex_pos)
+	var info = get_terrain_at_hex(hex_pos).duplicate()
 	if structure_locs.has(cell_pos):
 		var s = structure_locs[cell_pos]
 		var s_info = s.get_terrain_info()
 		if s_info:
-			info = info.duplicate()
 			for key in s_info:
 				info[key] = s_info[key]
 	
+	info.has_road = road_cells.has(cell_pos)
+	
+	_terrain_info_cache[cell_pos] = info
 	return info
 
 ## return true if a unit can pass from a given cell into another

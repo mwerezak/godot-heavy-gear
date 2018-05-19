@@ -2,7 +2,7 @@ extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
-const RoadSegment = preload("res://scripts/terrain/RoadSegment.gd")
+const RoadSegment = preload("res://scripts/terrain/RoadSegment.tscn")
 
 var world_map
 
@@ -18,10 +18,13 @@ func build_segments(road_map):
 	for segment in _segments.duplicate():
 		_possibly_merge_segment(segment)
 	
-	for segment in _segments:
+	for segment in _segments.duplicate():
 		segment.build_points()
-		if segment.points.size() > 0:
-			world_map.add_child(segment)
+		if segment.points.size() <= 1:
+			_segments.erase(segment)
+			segment.queue_free()
+	
+	return _segments
 
 func _generate_segments(road_map):
 	for cell_pos in road_map.get_used_cells():
@@ -48,7 +51,7 @@ func _generate_segments(road_map):
 				existing_segment.extend(best, cell_pos)
 				_placed_cells[cell_pos] = existing_segment
 			else:
-				var new_segment = RoadSegment.new()
+				var new_segment = RoadSegment.instance()
 				new_segment.setup(world_map, cell_pos)
 				new_segment.extend(cell_pos, best)
 				_segments.push_back(new_segment)
@@ -56,7 +59,7 @@ func _generate_segments(road_map):
 				
 				existing_segment.join(best, cell_pos, new_segment)
 		else:
-			var new_segment = RoadSegment.new()
+			var new_segment = RoadSegment.instance()
 			new_segment.setup(world_map, cell_pos)
 			_segments.push_back(new_segment)
 			_placed_cells[cell_pos] = new_segment

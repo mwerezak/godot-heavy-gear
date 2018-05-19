@@ -56,9 +56,14 @@ func _can_place_scatter(scatter_pos, base_radius):
 	if !HexUtils.inside_hex(Vector2(), WorldMap.TERRAIN_WIDTH/2 - base_radius, scatter_pos):
 		return false
 	
-	## check if there are any structures that exclude scatters
 	var world_pos = transform.xform(scatter_pos)
 	var cell_pos = world_map.get_grid_cell(world_pos)
+	
+	## don't place scatters on roads
+	if world_map.road_cells.has(cell_pos):
+		return false
+	
+	## check if there are any structures that exclude scatters
 	var structure = world_map.get_structure_at_cell(cell_pos)
 	if structure && structure.exclude_scatters():
 		var cell_center = transform.xform_inv(world_map.get_grid_pos(cell_pos))

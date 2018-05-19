@@ -12,6 +12,7 @@ var global_lighting
 var terrain_indexes = {}
 var terrain_overlays = {}
 var structures = {}
+var road_segments = []
 
 func _init(world_map):
 	self.world_map = world_map
@@ -27,8 +28,10 @@ func load_map(map_scene):
 	var struct_map = source_map.get_node("Structures")
 	_generate_structures(struct_map)
 	
+	## generate roads
 	var road_map = source_map.get_node("Roads")
-	_generate_roads(road_map)
+	var builder = RoadBuilder.new(world_map)
+	road_segments = builder.build_segments(road_map)
 
 ## rebuild cached terrain indexes and overlays
 func _generate_terrain(editor_terrain_map):
@@ -69,9 +72,4 @@ func _generate_structures(struct_map):
 		struct.set_structure_info(struct_info)
 		struct.position = world_map.get_grid_pos(cell_pos)
 		structures[cell_pos] = struct
-
-func _generate_roads(road_map):
-	var builder = RoadBuilder.new(world_map)
-	builder.build_segments(road_map)
-
 

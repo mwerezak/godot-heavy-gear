@@ -1,5 +1,6 @@
 extends Line2D
 
+const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
 var world_map
@@ -13,6 +14,10 @@ var footprint = {}
 
 ## maps cell position -> dict of dirs connecting to OTHER road segments
 var junctions = {}
+
+func _ready():
+	z_as_relative = false
+	z_index = Constants.GROUND_SCATTER_ZLAYER
 
 func setup(world_map, start_cell_pos):
 	self.world_map = world_map
