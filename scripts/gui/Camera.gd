@@ -29,6 +29,7 @@ func _unhandled_input(event):
 
 	if mouse_captured && event is InputEventMouseMotion:
 		position -= event.relative * zoom #like we're grabbing the map
+		if limit_rect: _snap_to_limits()
 
 # use _process for smoother scrolling
 func _process(delta):
