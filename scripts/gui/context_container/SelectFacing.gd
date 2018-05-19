@@ -94,6 +94,9 @@ func activated(args):
 		else:
 			ext_turn_marker.set_dir(dir, true)
 
+	selected_dir = rotate_unit.facing
+	rotate_unit.map_marker.set_temp_facing(HexUtils.dir2rad(selected_dir))
+
 	turn_marker.show()
 	ext_turn_marker.show()
 
@@ -104,7 +107,6 @@ func resumed():
 func deactivated():
 	.deactivated()
 	rotate_unit = null
-	selected_dir = null
 
 func _become_active():
 	._become_active()
