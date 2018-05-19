@@ -38,9 +38,6 @@ func _ready():
 	terrain.cell_size = get_terrain_cell_size()
 	unit_grid.cell_size = get_unit_grid_cell_size()
 	
-	print(unit_grid.cell_size)
-	print(unit_grid.position)
-	
 	terrain.z_as_relative = false
 	terrain.z_index = Constants.TERRAIN_ZLAYER
 	
@@ -82,7 +79,7 @@ func _ready():
 func get_bounding_rect():
 	var cell_bounds = terrain.get_used_rect()
 	var cell_size = terrain.cell_size
-	var cell_to_pixel = Transform2D(Vector2(cell_size.x, 0), Vector2(0, cell_size.y), Vector2())
+	var cell_to_pixel = Transform2D().scaled(cell_size)
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
 
 func _setup_overlay(overlay, hex_pos):
