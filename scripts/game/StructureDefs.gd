@@ -49,7 +49,7 @@ const INFO = {
 	},
 	highrise1 = {
 		texture = preload("res://icons/structures/highrise1.png"),
-		position_offset = Vector2(-25, 25), 
+		position_offset = Vector2(-32, 25), 
 		exclude_scatters = true, 
 		footprint = [ Rect2(0, 0, 1, 1) ], 
 		
@@ -59,7 +59,7 @@ const INFO = {
 	},
 	highrise2 = {
 		texture = preload("res://icons/structures/highrise2.png"),
-		position_offset = Vector2(-25, 25), 
+		position_offset = Vector2(-32, 25), 
 		exclude_scatters = true, 
 		footprint = [ Rect2(0, 0, 1, 1) ], 
 		

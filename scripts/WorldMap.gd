@@ -37,6 +37,9 @@ func _ready():
 	terrain.cell_size = get_terrain_cell_size()
 	unit_grid.cell_size = get_unit_grid_cell_size()
 	
+	print(unit_grid.cell_size)
+	print(unit_grid.position)
+	
 	terrain.z_as_relative = false
 	terrain.z_index = Constants.TERRAIN_ZLAYER
 	
@@ -90,6 +93,10 @@ func _setup_structure(structure, cell_pos):
 	for rect in structure.get_footprint():
 		for cell in HexUtils.get_rect(rect):
 			footprint_cells.push_back(cell)
+			if !grid_cell_on_map(cell):
+				print("WARNING: structure extends off map at ", cell)
+				return
+			
 			if structure_locs.has(cell):
 				print("WARNING: structure already present at cell ", cell)
 				structure.queue_free()

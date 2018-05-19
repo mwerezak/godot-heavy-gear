@@ -4,7 +4,7 @@
 [ext_resource path="res://maps/DefaultMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://tilesets/TerrainTiles.tres" type="TileSet" id=3]
 
-[node name="WorldMap" type="Node2D" index="0"]
+[node name="WorldMap" type="Node2D"]
 
 position = Vector2( 0, 1 )
 script = ExtResource( 1 )
@@ -37,7 +37,7 @@ _sections_unfolded = [ "Cell" ]
 position = Vector2( 0, -36 )
 mode = 0
 tile_set = null
-cell_size = Vector2( 64, 74 )
+cell_size = Vector2( 64, 54 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 cell_half_offset = 0

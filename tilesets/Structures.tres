@@ -37,7 +37,7 @@
 2/shapes = [  ]
 3/name = "highrise1"
 3/texture = ExtResource( 4 )
-3/tex_offset = Vector2( -25, -63 )
+3/tex_offset = Vector2( -32, -63 )
 3/modulate = Color( 1, 1, 1, 1 )
 3/region = Rect2( 0, 0, 62, 88 )
 3/is_autotile = false
@@ -46,7 +46,7 @@
 3/shapes = [  ]
 4/name = "highrise2"
 4/texture = ExtResource( 5 )
-4/tex_offset = Vector2( -25, -63 )
+4/tex_offset = Vector2( -32, -63 )
 4/modulate = Color( 1, 1, 1, 1 )
 4/region = Rect2( 0, 0, 62, 88 )
 4/is_autotile = false

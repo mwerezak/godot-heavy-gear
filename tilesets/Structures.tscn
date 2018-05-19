@@ -30,12 +30,12 @@ offset = Vector2( -25, -100 )
 
 texture = ExtResource( 4 )
 centered = false
-offset = Vector2( -25, -63 )
+offset = Vector2( -32, -63 )
 
 [node name="highrise2" type="Sprite" parent="." index="4"]
 
 texture = ExtResource( 5 )
 centered = false
-offset = Vector2( -25, -63 )
+offset = Vector2( -32, -63 )
 
 

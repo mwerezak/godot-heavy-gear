@@ -26,9 +26,6 @@ func build_segments(road_map):
 func _generate_segments(road_map):
 	for cell_pos in road_map.get_used_cells():
 		
-		if cell_pos == Vector2(32, 37):
-			print("breakpoint")
-		
 		## see if there are any existing segments to connect to
 		var connections = {}
 		var conn_dir = {}
