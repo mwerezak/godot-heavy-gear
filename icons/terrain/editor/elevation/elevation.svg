@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="258"
+   height="298"
+   viewBox="0 0 258 298"
+   id="svg4390"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="elevation.svg"
+   inkscape:export-filename="/home/mwerezak/Projects/Projects/heavy_gear/game/icons/terrain/editor/elevation/level+5.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4392" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#747a83"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="200.57136"
+     inkscape:cy="144.7484"
+     inkscape:document-units="px"
+     inkscape:current-layer="g4159"
+     showgrid="false"
+     inkscape:window-width="1680"
+     inkscape:window-height="974"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     units="px" />
+  <metadata
+     id="metadata4395">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Outline"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-754.36216)"
+     style="display:none"
+     sodipodi:insensitive="true">
+    <path
+       sodipodi:type="star"
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:3.82460976;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:22.9476585, 22.9476585;stroke-dashoffset:38.24609756;stroke-opacity:0.53801168"
+       id="path4957"
+       sodipodi:sides="6"
+       sodipodi:cx="123.36172"
+       sodipodi:cy="909.91632"
+       sodipodi:r1="142.44585"
+       sodipodi:r2="123.36171"
+       sodipodi:arg1="0.52359878"
+       sodipodi:arg2="1.0471976"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 246.72344,981.13924 123.36172,1052.3622 -4.8718575e-6,981.13924 -4.2448535e-6,838.6934 123.36172,767.47047 246.72344,838.6934 Z"
+       transform="matrix(0.93297998,0,0,0.9331408,13.905977,54.300083)" />
+  </g>
+  <g
+     style="display:inline"
+     transform="translate(0,-754.36216)"
+     id="g4167"
+     inkscape:groupmode="layer"
+     inkscape:label="+Back">
+    <path
+       transform="matrix(0.93297998,0,0,0.9331408,13.905977,54.300083)"
+       d="M 246.72344,981.13924 123.36172,1052.3622 -4.8718575e-6,981.13924 -4.2448535e-6,838.6934 123.36172,767.47047 246.72344,838.6934 Z"
+       inkscape:randomized="0"
+       inkscape:rounded="0"
+       inkscape:flatsided="true"
+       sodipodi:arg2="1.0471976"
+       sodipodi:arg1="0.52359878"
+       sodipodi:r2="123.36171"
+       sodipodi:r1="142.44585"
+       sodipodi:cy="909.91632"
+       sodipodi:cx="123.36172"
+       sodipodi:sides="6"
+       id="path4169"
+       style="fill:#ffffff;fill-opacity:0.78431373;stroke:none;stroke-width:3.82460976;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:22.9476585, 22.9476585;stroke-dashoffset:38.24609756;stroke-opacity:0.53801168"
+       sodipodi:type="star" />
+  </g>
+  <g
+     inkscape:label="-Back"
+     inkscape:groupmode="layer"
+     id="g4171"
+     transform="translate(0,-754.36216)"
+     style="display:none">
+    <path
+       sodipodi:type="star"
+       style="fill:#000000;fill-opacity:0.78431373;stroke:none;stroke-width:3.82460976;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:22.9476585, 22.9476585;stroke-dashoffset:38.24609756;stroke-opacity:0.53801168"
+       id="path4173"
+       sodipodi:sides="6"
+       sodipodi:cx="123.36172"
+       sodipodi:cy="909.91632"
+       sodipodi:r1="142.44585"
+       sodipodi:r2="123.36171"
+       sodipodi:arg1="0.52359878"
+       sodipodi:arg2="1.0471976"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 246.72344,981.13924 123.36172,1052.3622 -4.8718575e-6,981.13924 -4.2448535e-6,838.6934 123.36172,767.47047 246.72344,838.6934 Z"
+       transform="matrix(0.93297998,0,0,0.9331408,13.905977,54.300083)" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="Label"
+     id="g4159"
+     inkscape:groupmode="layer">
+    <text
+       sodipodi:linespacing="125%"
+       id="text4161"
+       y="232.22266"
+       x="128.63867"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ff0101;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-size:30px;fill:#ff0101;fill-opacity:1"
+         id="tspan4163"
+         y="232.22266"
+         x="128.63867"
+         sodipodi:role="line">LEVEL +5</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="NotFound"
+     style="display:none">
+    <text
+       sodipodi:linespacing="125%"
+       id="text4142"
+       y="214.22266"
+       x="128.63867"
+       style="font-style:normal;font-weight:normal;font-size:20px;line-height:125%;font-family:sans-serif;text-align:center;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       xml:space="preserve"><tspan
+         style="font-size:20px"
+         y="214.22266"
+         x="128.63867"
+         id="tspan4144"
+         sodipodi:role="line">TEXTURE</tspan><tspan
+         style="font-size:20px"
+         id="tspan4148"
+         y="239.22266"
+         x="128.63867"
+         sodipodi:role="line">NOT FOUND</tspan></text>
+  </g>
+</svg>

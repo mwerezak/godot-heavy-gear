@@ -8,6 +8,7 @@ var StructureDefs = preload("res://scripts/game/StructureDefs.gd").new()
 
 func _run():
 	var tileset = get_scene()
+	if tileset.name != "EditorStructures": return #sanity check
 	
 	for struct_id in StructureDefs.INFO:
 		var struct_info = StructureDefs.INFO[struct_id]

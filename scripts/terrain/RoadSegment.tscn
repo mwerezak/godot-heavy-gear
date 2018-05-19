@@ -1,17 +1,19 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scripts/terrain/RoadSegment.gd" type="Script" id=1]
+[ext_resource path="res://icons/terrain/road_texture.tres" type="Texture" id=1]
+[ext_resource path="res://scripts/terrain/RoadSegment.gd" type="Script" id=2]
 
 [node name="RoadSegment" type="Line2D" index="0"]
 
 points = PoolVector2Array(  )
 width = 16.0
-default_color = Color( 0.243137, 0.243137, 0.243137, 1 )
+default_color = Color( 1, 1, 1, 1 )
+texture = ExtResource( 1 )
 texture_mode = 1
 joint_mode = 2
 sharp_limit = 0.196
 round_precision = 8
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 _sections_unfolded = [ "Border", "Capping", "Fill" ]
 
 

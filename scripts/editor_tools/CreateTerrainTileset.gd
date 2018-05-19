@@ -8,6 +8,7 @@ var TerrainDefs = preload("res://scripts/game/TerrainDefs.gd").new()
 
 func _run():
 	var tileset = get_scene()
+	if tileset.name != "TerrainTiles": return #sanity check
 	
 	for terrain_id in TerrainDefs.INFO:
 		var terrain_info = TerrainDefs.INFO[terrain_id]
