@@ -44,16 +44,16 @@ func _input(event):
 
 func unit_cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		if !possible_moves.has(cell_pos):
+		if !possible_moves.has(cell_pos) && event.doubleclick:
 			cancel_move() #double click outside possible moves to cancel
 		else:
-			if move_pos == cell_pos:
-				finalize_move() #double click on the same cell to confirm
-			else:
-				move_button.disabled = false
-				move_display.place_move_marker(possible_moves, cell_pos)
-				move_pos = cell_pos
-				label.text = CONFIRM_TEXT
+			move_button.disabled = false
+			move_display.place_move_marker(possible_moves, cell_pos)
+			move_pos = cell_pos
+			label.text = CONFIRM_TEXT
+			
+			if event.doubleclick:
+				finalize_move()
 
 func _reset():
 	move_button.disabled = true

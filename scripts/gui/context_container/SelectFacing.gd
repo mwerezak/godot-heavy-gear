@@ -28,8 +28,6 @@ var allowed_dirs = {}
 var facing_marker
 var selected_dir
 
-var last_clicked
-
 func _ready():
 	action_icon.modulate = MARKER_COLOR
 	
@@ -106,7 +104,7 @@ func resumed():
 func deactivated():
 	.deactivated()
 	rotate_unit = null
-	last_clicked = null
+	selected_dir = null
 
 func _become_active():
 	._become_active()
@@ -128,11 +126,8 @@ func _input(event):
 func unit_cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if cell_pos == rotate_unit.cell_position:
-			if cell_pos == last_clicked:
-				cancel_rotation()
-			last_clicked = cell_pos #allow double-clicking on unit to leave facing as is
-		elif cell_pos == last_clicked:
-			finalize_rotation()
+			if event.doubleclick:
+				cancel_rotation() #allow double-clicking on unit to leave facing as is
 		else:
 			var dir = world_map.get_dir_to(rotate_unit.cell_position, cell_pos)
 			
@@ -141,10 +136,12 @@ func unit_cell_input(world_map, cell_pos, event):
 			
 			selected_dir = dir
 			rotate_unit.map_marker.set_temp_facing(HexUtils.dir2rad(dir))
-			last_clicked = cell_pos
 			label.text = CONFIRM_TEXT
 			target_marker.position = world_map.get_grid_pos(cell_pos)
 			target_marker.show()
+			
+			if event.doubleclick:
+				finalize_rotation()
 
 class ClosestDistanceMetric:
 	var target_dir
