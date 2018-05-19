@@ -4,6 +4,8 @@ const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 
+const MapLoader = preload("res://scripts/MapLoader.gd")
+
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids
 ## also, note that for regular hexagons, w = sqrt(3)/2 * h
@@ -18,6 +20,8 @@ static func get_unit_grid_cell_size():
 	return Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT*3/4)
 
 const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in distance units
+
+export(PackedScene) var source_map
 
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
@@ -35,25 +39,31 @@ func _ready():
 	terrain.z_as_relative = false
 	terrain.z_index = Constants.TERRAIN_ZLAYER
 	
+	## load the source map
+	var map_loader = MapLoader.new(self)
+	map_loader.load_map(source_map)
+	
+	## setup terrain tiles
+	for hex_pos in map_loader.terrain_indexes:
+		var idx = map_loader.terrain_indexes[hex_pos]
+		terrain.set_cellv(hex_pos, idx)
+	
 	## setup overlays
-	for overlay in terrain.get_children():
-		overlay.world_map = self
-		overlay.position = get_terrain_pos(overlay.terrain_hex)
-		
-		terrain.remove_child(overlay)
-		add_child(overlay)
-		
-		var hex_pos = get_terrain_hex(overlay.position)
-		terrain_overlays[hex_pos] = overlay
+	for hex_pos in map_loader.terrain_overlays:
+		var overlay = map_loader.terrain_overlays[hex_pos]
+		_setup_overlay(overlay, hex_pos)
 	
 	## setup structures
-	for structure in get_node("Structures").get_children():
-		setup_structure(structure)
+	for cell_pos in map_loader.structures:
+		var structure = map_loader.structures[cell_pos]
+		_setup_structure(structure, cell_pos)
 	
 	## setup scatters
 	for overlay in terrain_overlays.values():
 		overlay.setup_scatters()
-	
+
+
+## Initialization
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
@@ -61,6 +71,30 @@ func get_bounding_rect():
 	var cell_size = terrain.cell_size
 	var cell_to_pixel = Transform2D(Vector2(cell_size.x, 0), Vector2(0, cell_size.y), Vector2())
 	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
+
+func _setup_overlay(overlay, hex_pos):
+	overlay.world_map = self
+	overlay.position = get_terrain_pos(overlay.terrain_hex)
+	
+	add_child(overlay)
+	terrain_overlays[hex_pos] = overlay
+
+func _setup_structure(structure, cell_pos):
+	structure.world_map = self
+	structure.cell_position = cell_pos
+	
+	var footprint_cells = []
+	for rect in structure.get_footprint():
+		for cell in HexUtils.get_rect(rect):
+			footprint_cells.push_back(cell)
+			if structure_locs.has(cell):
+				print("WARNING: structure already present at cell ", cell)
+				structure.queue_free()
+				return
+	
+	_set_object_position(structure, cell_pos)
+	for cell in footprint_cells:
+		structure_locs[cell] = structure
 
 ## Terrain Hexes
 
@@ -84,7 +118,6 @@ func point_on_map(world_pos):
 	var hex_pos = get_terrain_hex(world_pos)
 	var tile_id = terrain.get_cellv(hex_pos)
 	return tile_id >= 0
-
 
 ## Unit Grid Cells
 
@@ -148,29 +181,6 @@ func get_units_at_cell(cell_pos):
 func get_structure_at_cell(cell_pos):
 	return structure_locs[cell_pos] if structure_locs.has(cell_pos) else null
 
-## structures start on the world map, and so aren't "added"
-## this is an important distinction. 
-## Currently it is an error to setup a structure once the map is prepared, since scatters won't update
-func setup_structure(structure):
-	## structures don't set their own position, at the moment...
-	var cell_pos = get_grid_cell(structure.position)
-	structure.cell_position = cell_pos
-	
-	var footprint_cells = []
-	for rect in structure.get_footprint():
-		for cell in HexUtils.get_rect(rect):
-			footprint_cells.push_back(cell)
-			if structure_locs.has(cell):
-				print("WARNING: structure already present at cell ", cell)
-				structure.queue_free()
-				return
-	
-	for cell in footprint_cells:
-		structure_locs[cell] = structure
-	
-	_set_object_position(structure, cell_pos)
-	
-
 func get_objects_at_cell(cell_pos):
 	return get_units_at_cell(cell_pos)
 
@@ -199,7 +209,7 @@ func get_terrain_info(cell_pos):
 	var info = get_terrain_at_hex(hex_pos)
 	if structure_locs.has(cell_pos):
 		var s = structure_locs[cell_pos]
-		var s_info = s.structure_info.terrain_info
+		var s_info = s.get_terrain_info()
 		if s_info:
 			info = info.duplicate()
 			for key in s_info:

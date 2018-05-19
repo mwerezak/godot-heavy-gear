@@ -41,7 +41,7 @@ func _update_text():
 	var cell_pos = world_map.get_grid_cell(mouse_pos)
 	var structure = world_map.get_structure_at_cell(cell_pos)
 	if structure:
-		terrain_id += \":\" + structure.structure_id
+		terrain_id += \":\" + structure.get_structure_id()
 	
 	var zoom = camera.zoom.x
 	text = \"%s %s %s x%.2f\" % [cell_pos, hex_pos, terrain_id, 1/zoom]"

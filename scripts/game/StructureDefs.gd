@@ -69,5 +69,9 @@ const INFO = {
 	},
 }
 
+func _init():
+	for structure_id in INFO:
+		INFO[structure_id].structure_id = structure_id
+
 func get_info(structure_id):
 	return INFO[structure_id]

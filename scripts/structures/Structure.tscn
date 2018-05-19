@@ -9,12 +9,11 @@ render_priority = 0
 blend_mode = 0
 light_mode = 0
 
-[node name="Structure" type="Sprite" index="0"]
+[node name="Structure" type="Sprite"]
 
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 _sections_unfolded = [ "Offset" ]
-structure_id = "Null"
 
 [node name="Sprite" type="Sprite" parent="." index="0"]
 

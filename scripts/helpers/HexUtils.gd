@@ -150,7 +150,6 @@ static func get_rect(rect):
 				q_start -= 1
 		
 		for q in range(q_start, q_end, sign(rect.size.x)):
-			print(Vector2(q, r))
 			contents.push_back(Vector2(q, r))
 	return contents
 

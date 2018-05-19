@@ -13,6 +13,7 @@ var _default_rotation #the movement mode used by default for rotations
 
 func _init(info):
 	_info = info
+	
 	desc = { 
 		name = info.name,
 		short = info.short_desc,
@@ -35,6 +36,8 @@ func _compare_default_rotation(left, right):
 		MovementModes.default_rotation_lexical(left), 
 		MovementModes.default_rotation_lexical(right)
 	)
+
+func get_model_id(): return _info.model_id
 
 func get_default_crew(): return _info.default_crew
 

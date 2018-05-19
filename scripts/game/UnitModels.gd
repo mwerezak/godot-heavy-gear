@@ -96,6 +96,10 @@ func _resolve_dependencies(child_id, resolve_cache):
 func _init():
 	var all_models = INFO.keys()
 	
+	## include model IDs in data structure
+	for model_id in all_models:
+		INFO[model_id].model_id = model_id
+	
 	## resolve all inherit references
 	var resolve_cache = {}
 	for model_id in all_models:
