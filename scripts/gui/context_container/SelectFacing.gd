@@ -134,7 +134,7 @@ func unit_cell_input(world_map, cell_pos, event):
 		elif cell_pos == last_clicked:
 			finalize_rotation()
 		else:
-			var dir = world_map.get_dir_to(cell_pos, rotate_unit.cell_position)
+			var dir = world_map.get_dir_to(rotate_unit.cell_position, cell_pos)
 			
 			if !allowed_dirs.has(dir):
 				dir = _get_closest_dir(dir, allowed_dirs) ## get the closest allowed dir

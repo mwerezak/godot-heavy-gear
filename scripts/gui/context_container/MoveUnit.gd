@@ -25,6 +25,7 @@ func activated(args):
 func deactivated():
 	.deactivated()
 	move_button.disabled = true
+	move_pos = null
 
 func _become_active():
 	._become_active()

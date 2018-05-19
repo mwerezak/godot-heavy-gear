@@ -33,8 +33,5 @@ func _become_inactive():
 func unit_cell_input(map, cell_pos, event):
 	pass
 
-func terrain_input(map, hex_pos, terrain, event):
-	pass
-
 func map_markers_input(map, map_markers, event):
 	pass

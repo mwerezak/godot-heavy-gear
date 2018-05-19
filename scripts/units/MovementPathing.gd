@@ -106,11 +106,12 @@ func _init_move_info(move_count, facing, move_path, init_moves=null, init_turns=
 	}
 
 ## lower priority moves are explored first
-func _move_priority(move_state):
+func _explore_priority(move_state):
+	var on_road = world_map.road_cells.has(move_state.path.back())
 	var turns = move_state.turns_remaining if move_state.turns_remaining else 0
 	var moves = move_state.moves_remaining
 	var hazard = 10000 if move_state.hazard else 0
-	return -(turns * 10*moves) + hazard
+	return -(turns * 10*moves) + hazard + (-100 if on_road else 0)
 
 func _search_possible_moves(start_loc, start_dir):
 	var cur_activation = move_unit.current_activation
@@ -123,7 +124,7 @@ func _search_possible_moves(start_loc, start_dir):
 	var next_move = {}
 	
 	var move_queue = PriorityQueue.new()
-	move_queue.add(start_loc, _move_priority(visited[start_loc]))
+	move_queue.add(start_loc, _explore_priority(visited[start_loc]))
 	
 	for move_count in range(max_moves):
 		_search_move_action(move_queue, visited, next_move)
@@ -133,7 +134,7 @@ func _search_possible_moves(start_loc, start_dir):
 		for next_pos in next_move:
 			if !visited.has(next_pos):
 				visited[next_pos] = next_move[next_pos]
-			move_queue.add(next_pos, _move_priority(visited[next_pos]))
+			move_queue.add(next_pos, _explore_priority(visited[next_pos]))
 	
 	## don't use any of the positions in next_move on the final move
 	_search_move_action(move_queue, visited, next_move)
@@ -148,7 +149,7 @@ func _search_move_action(move_queue, visited, next_move):
 		var neighbors = _visit_cell_neighbors(cur_pos, visited, next_move)
 		for next_pos in neighbors:
 			visited[next_pos] = neighbors[next_pos]
-			move_queue.add(next_pos, _move_priority(neighbors[next_pos]))
+			move_queue.add(next_pos, _explore_priority(neighbors[next_pos]))
 
 func _visit_cell_neighbors(cur_pos, visited, next_move):
 	var next_visited = {}
@@ -214,7 +215,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			next_state.path = next_path
 		
 			next_visited[next_pos] = next_state
-		else:
+		elif !next_move.has(next_pos): #already next-move-visited
 			## even if we take a whole new move action, we still may not be able to reach the next_pos, so check that
 			if _movement_rate + moves_remaining >= move_cost && (!_track_turns || _turning_rate + turns_remaining >= turn_cost):
 				## it's important that prev_facing is cleared when we reset turns_remaining
@@ -246,7 +247,7 @@ func _can_stop(cell_pos):
 ## How much movement must we expend to move from a cell in a given direction?
 func _move_cost(from_cell, to_cell):
 	var midpoint = 0.5*(world_map.get_grid_pos(from_cell) + world_map.get_grid_pos(to_cell))
-	var terrain_info = world_map.get_terrain_at(midpoint)
+	var terrain_info = world_map.get_terrain_at_pos(midpoint)
 	return _grid_spacing * unit_info.get_move_cost_on_terrain(movement_mode, terrain_info)
 
 ## If entering a given cell will trigger a dangerous terrain check

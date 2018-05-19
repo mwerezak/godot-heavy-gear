@@ -40,6 +40,7 @@ static func create(move_spec, move_type_id):
 		speed = move_spec.speed,
 		turn_rate = mode_info.turn_rate,
 		free_rotate = (mode_info.turn_rate == null),
+		road_bonus = mode_info.road_bonus,
 		reversed = false,
 	}
 
@@ -51,6 +52,7 @@ static func create_reversed(move_spec, move_type_id):
 		speed = move_spec.reverse,
 		turn_rate = mode_info.turn_rate,
 		free_rotate = (mode_info.turn_rate == null),
+		road_bonus = mode_info.road_bonus,
 		reversed = true,
 	}
 

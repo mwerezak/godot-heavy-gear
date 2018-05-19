@@ -123,13 +123,34 @@ func get_terrain_pos(hex_pos):
 	var hex_origin = terrain.map_to_world(hex_pos)
 	return hex_origin + terrain.cell_size/2
 
-func get_terrain_at(world_pos):
-	var hex_pos = get_terrain_hex(world_pos)
-	return get_terrain_at_hex(hex_pos)
-
-func get_terrain_at_hex(hex_pos):
+func raw_terrain_info(hex_pos):
 	var tile_idx = terrain.get_cellv(hex_pos)
 	return TerrainDefs.get_terrain_info(terrain.get_tileset(), tile_idx)
+
+func get_terrain_at_pos(world_pos):
+	var cell_pos = get_grid_cell(world_pos)
+	return get_terrain_at(cell_pos)
+
+var _terrain_cache = {}
+func get_terrain_at(cell_pos):
+	if _terrain_cache.has(cell_pos):
+		return _terrain_cache[cell_pos]
+	
+	var world_pos = get_grid_pos(cell_pos)
+	var hex_pos = get_terrain_hex(world_pos)
+	
+	var info = raw_terrain_info(hex_pos).duplicate()
+	if structure_locs.has(cell_pos):
+		var s = structure_locs[cell_pos]
+		var s_info = s.get_terrain_info()
+		if s_info:
+			for key in s_info:
+				info[key] = s_info[key]
+	
+	info.has_road = road_cells.has(cell_pos)
+	
+	_terrain_cache[cell_pos] = info
+	return info
 
 func point_on_map(world_pos):
 	var hex_pos = get_terrain_hex(world_pos)
@@ -219,27 +240,6 @@ func _set_object_position(object, cell_pos):
 	
 	object.set_position(world_pos - overlay.position)
 
-var _terrain_info_cache = {}
-func get_terrain_info(cell_pos):
-	if _terrain_info_cache.has(cell_pos):
-		return _terrain_info_cache[cell_pos]
-	
-	var world_pos = get_grid_pos(cell_pos)
-	var hex_pos = get_terrain_hex(world_pos)
-	
-	var info = get_terrain_at_hex(hex_pos).duplicate()
-	if structure_locs.has(cell_pos):
-		var s = structure_locs[cell_pos]
-		var s_info = s.get_terrain_info()
-		if s_info:
-			for key in s_info:
-				info[key] = s_info[key]
-	
-	info.has_road = road_cells.has(cell_pos)
-	
-	_terrain_info_cache[cell_pos] = info
-	return info
-
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 	## check that to_cell is actually on the map
@@ -250,12 +250,12 @@ func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 		return false
 	
 	## check that the terrain is passable
-	var dest_info = get_terrain_info(to_cell)
+	var dest_info = get_terrain_at(to_cell)
 	if dest_info.impassable.has(movement_mode.type_id):
 		return false
 	
 	var midpoint_cell = get_grid_cell(midpoint)
-	var midpoint_info = get_terrain_info(midpoint_cell)
+	var midpoint_info = get_terrain_at(midpoint_cell)
 	if midpoint_info.impassable.has(movement_mode.type_id):
 		return false
 	
@@ -274,7 +274,7 @@ func unit_can_place(unit, to_cell):
 	
 	## check that the terrain is passable
 	var allowed = false
-	var terrain_info = get_terrain_info(to_cell)
+	var terrain_info = get_terrain_at(to_cell)
 	for movement_mode in unit.unit_info.get_movement_modes():
 		if !terrain_info.impassable.has(movement_mode.type_id):
 			allowed = true
