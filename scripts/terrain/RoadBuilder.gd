@@ -94,6 +94,8 @@ func _merge_or_join_segments():
 			
 			_segments.erase(merged)
 			merged.queue_free()
+		
+		merge_info.erase(next_pos) #mark cell as handled
 
 func _possibly_merge(segment, cell_pos, candidate_info):
 	## see if there are any neighboring segments we can connect to
@@ -109,8 +111,9 @@ func _possibly_merge(segment, cell_pos, candidate_info):
 		return other
 	
 	## just form a junction
-	segment.extend(cell_pos, best_pos)
-	other.join(best_pos, cell_pos, segment)
+	if segment.can_extend(cell_pos, best_pos):
+		segment.extend(cell_pos, best_pos)
+		other.join(best_pos, cell_pos, segment)
 	return null
 
 ## determines how roads connect by ordering available connections
@@ -119,8 +122,6 @@ class RoadConnectionComparer:
 	var neighbors #map neighbor_pos -> segment
 	var join_angle = {}
 	func _init(cell_pos, neighbors, neighbor_dir): 
-		if cell_pos == Vector2(27,15):
-			print("breakpoint")
 		self.cell_pos = cell_pos
 		self.neighbors = neighbors
 		
@@ -135,12 +136,9 @@ class RoadConnectionComparer:
 	
 	func compare(pos_left, pos_right):
 		return _conn_metric(neighbors[pos_left], pos_left) < _conn_metric(neighbors[pos_right], pos_right)
-#		return SortingUtils.lexical_sort(
-#			_conn_lexical(neighbors[pos_left], pos_left), _conn_lexical(neighbors[pos_right], pos_right)
-#		)
 	
 	func _conn_metric(segment, next_pos):
 		var angle = join_angle[next_pos]
 		if angle != null:
 			return angle
-		return abs(2 - segment.total_connections(next_pos))
+		return -segment.total_connections(next_pos)

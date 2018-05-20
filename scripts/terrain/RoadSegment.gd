@@ -29,14 +29,15 @@ func build_points():
 	if footprint[start_position].size() != 1:
 		return
 	
-	add_point(Vector2())
+	var points = []
+	points.push_back(Vector2())
 	position = world_map.get_grid_pos(start_position)
 	
 	var fwd_dir = footprint[start_position][0]
 	var cur_pos = HexUtils.get_step(start_position, fwd_dir)
 	while fwd_dir != null:
-		add_point(world_map.get_grid_pos(cur_pos) - position)
-
+		points.push_back(world_map.get_grid_pos(cur_pos) - position)
+		
 		var rev_dir = HexUtils.reverse_dir(fwd_dir)
 		fwd_dir = null
 		for next_dir in footprint[cur_pos]:
@@ -45,29 +46,46 @@ func build_points():
 				cur_pos = HexUtils.get_step(cur_pos, fwd_dir)
 				break
 	
+	#handle self-junctions
+	var self_junctions = {}
+	for endpoint_pos in get_endpoints():
+		if junctions.has(endpoint_pos):
+			for dir in junctions[endpoint_pos]:
+				if junctions[endpoint_pos][dir] == self:
+					var joined_pos = HexUtils.get_step(endpoint_pos, dir)
+					self_junctions[endpoint_pos] = joined_pos
+					break
+	
+	if self_junctions.has(start_position):
+		points.push_front(world_map.get_grid_pos(self_junctions[start_position]) - position)
+	if self_junctions.has(end_position):
+		points.push_back(world_map.get_grid_pos(self_junctions[end_position]) - position)
+	
+	set_points(points)
 
 func get_endpoints():
 	return [start_position, end_position]
 
 func can_extend(cell_pos, new_pos):
-	if !footprint.has(cell_pos):
+	if !get_endpoints().has(cell_pos):
 		return false
-	
-	if footprint[cell_pos].size() >= 2:
-		return false
-	
+	if footprint.has(new_pos) && junctions.has(cell_pos) && junctions[cell_pos].values().has(self):
+		return false #each cell may only ever have one self-junction
 	return true
 
 func extend(cell_pos, new_pos):
 	assert(HexUtils.get_neighbors(cell_pos).values().has(new_pos))
-	
+
 	var dir = world_map.get_dir_to(cell_pos, new_pos)
-	footprint[cell_pos].push_back(dir)
-	footprint[new_pos] = [ HexUtils.reverse_dir(dir) ]
-	if cell_pos == end_position:
-		end_position = new_pos
-	elif cell_pos == start_position:
-		start_position = new_pos
+	if footprint.has(new_pos): ## don't extend over ourselves!
+		join(cell_pos, new_pos, self) ## form a self-junction instead
+	else:
+		footprint[cell_pos].push_back(dir)
+		footprint[new_pos] = [ HexUtils.reverse_dir(dir) ]
+		if cell_pos == end_position:
+			end_position = new_pos
+		elif cell_pos == start_position:
+			start_position = new_pos
 
 func join(cell_pos, new_pos, segment):
 	var dir = world_map.get_dir_to(cell_pos, new_pos)
@@ -85,6 +103,8 @@ func has_junction(segment):
 	return false
 
 func can_merge(segment, cell_pos, new_pos):
+	if segment == self:
+		return false
 	if !can_extend(cell_pos, new_pos):
 		return false
 	if !segment.can_extend(new_pos, cell_pos):
