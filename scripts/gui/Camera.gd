@@ -1,26 +1,28 @@
 extends Camera2D
 
-var zoom_step = 1.1
+var zoom_step = 0.1
 var min_zoom = 0.5
 var max_zoom = 2.0
 
 var pan_speed = 800
 
-## Rectangle used to limit camera panning.
-## Note that the built in camera limits do not work: they don't actually constrain the position of the camera.
-## They only stop the view from moving. For the player, this makes the camera appear to "stick" at the edges of the map, 
-## which is bad.
+## Rectangle used to limit the position of the camera node.
+## While the built-in Camera2D limits ensure that the *viewport* does not leave certain limits,
+## we have to manually ensure that the *camera* itself does not leave the map or else the view will "stick"
+## at the edges. Using the two together allows us to properly handle map limits while zooming.
 var limit_rect = null setget set_limit_rect
 
 var mouse_captured = false
 
 func _unhandled_input(event):
-	if event.is_action_pressed("view_zoom_in"):
-		zoom /= zoom_step
-		_snap_zoom_limits()
-	if event.is_action_pressed("view_zoom_out"):
-		zoom *= zoom_step
-		_snap_zoom_limits()
+	# mousewheel zoom
+	if event is InputEventMouseButton:
+		if event.is_action_pressed("view_zoom_in"):
+			zoom /= 1 + zoom_step
+			_snap_zoom_limits()
+		if event.is_action_pressed("view_zoom_out"):
+			zoom *= 1 + zoom_step
+			_snap_zoom_limits()
 	
 	if event.is_action_pressed("view_pan_mouse"):
 		mouse_captured = true
@@ -31,15 +33,13 @@ func _unhandled_input(event):
 		position -= event.relative * zoom #like we're grabbing the map
 		if limit_rect: _snap_to_limits()
 
-# use _process for smoother scrolling
 func _process(delta):
-	
 	#smooth keyboard zoom
 	if Input.is_action_pressed("view_zoom_in"):
-		zoom /= zoom_step
+		zoom /= 1 + zoom_step * delta * 10
 		_snap_zoom_limits()
 	if Input.is_action_pressed("view_zoom_out"):
-		zoom *= zoom_step
+		zoom *= 1 + zoom_step * delta * 10
 		_snap_zoom_limits()
 	
 	var panning = Vector2()
@@ -56,15 +56,23 @@ func _process(delta):
 		position += panning.normalized() * pan_speed * delta * zoom
 		if limit_rect: _snap_to_limits()
 
-# force position to be inside limit_rect
 func _snap_to_limits():
-	position.x = clamp(position.x, limit_rect.position.x, limit_rect.end.x)
-	position.y = clamp(position.y, limit_rect.position.y, limit_rect.end.y)
+	var screen = get_viewport().get_visible_rect()
+	var width = screen.size.x * zoom.x
+	var height = screen.size.y * zoom.y
+	position.x = clamp(position.x, limit_rect.position.x + width/2, limit_rect.end.x - width/2)
+	position.y = clamp(position.y, limit_rect.position.y + height/2, limit_rect.end.y - height/2)
 
 func _snap_zoom_limits():
 	zoom.x = clamp(zoom.x, min_zoom, max_zoom)
 	zoom.y = clamp(zoom.y, min_zoom, max_zoom)
+	#if limit_rect: _snap_to_limits()
 
 func set_limit_rect(rect):
 	limit_rect = rect
+	
+	limit_left = rect.position.x
+	limit_top = rect.position.y
+	limit_right = rect.end.x
+	limit_bottom = rect.end.y
 	_snap_to_limits()
