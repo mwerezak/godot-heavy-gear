@@ -2,7 +2,7 @@ extends Sprite
 
 const Constants = preload("res://scripts/Constants.gd")
 
-onready var world = $".."
+onready var world_map = get_parent()
 
 var grid_position setget set_grid_position, get_grid_position
 
@@ -12,16 +12,14 @@ func _ready():
 
 func _unhandled_input(event):
 	if event is InputEventMouseMotion:
-		var mouse_pos = world.get_global_mouse_position()
-		
-		## don't snap to blank hexes
-		if world.point_on_map(mouse_pos):
-			var grid_pos = world.get_grid_cell(mouse_pos)
+		var mouse_pos = world_map.get_global_mouse_position()
+		var grid_pos = world_map.get_grid_cell(mouse_pos)
+		if world_map.grid_cell_on_map(grid_pos):
 			set_grid_position(grid_pos)
 
 func set_grid_position(cell):
 	grid_position = cell
-	global_position = world.get_grid_pos(cell)
+	global_position = world_map.get_grid_pos(cell)
 
 func get_grid_position():
 	return grid_position

@@ -27,6 +27,9 @@ onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 onready var overlay_container = $Overlays
 
+## Rect2 in world coordinates (i.e. pixels)
+var map_bounds  #the displayable boundary of the map
+var unit_bounds #the "game" boundary of the map
 
 ## data structures to map position -> object
 var terrain_overlays = {} #1-to-1
@@ -52,6 +55,19 @@ func _ready():
 		var idx = map_loader.terrain_indexes[hex_pos]
 		terrain.set_cellv(hex_pos, idx)
 	
+	## determine the map bounds
+	var cell_bounds = terrain.get_used_rect()
+	var cell_size = terrain.cell_size
+	var cell_to_pixel = Transform2D().scaled(cell_size)
+	
+	#cut off the pointy parts of the hexes, so the player sees smooth map edges
+	var margins = Vector2(TERRAIN_WIDTH/2, TERRAIN_HEIGHT/4)
+	map_bounds = Rect2(cell_to_pixel.xform(cell_bounds.position) + margins, cell_to_pixel.xform(cell_bounds.size) - margins*2)
+	
+	#unit cells must be entirely contained within the map bounds
+	var unit_margins = Vector2(UNITGRID_WIDTH/2, UNITGRID_HEIGHT/4)
+	unit_bounds = Rect2(map_bounds.position + unit_margins, map_bounds.size - unit_margins*2)
+	
 	## setup overlays
 	for hex_pos in map_loader.terrain_overlays:
 		var overlay = map_loader.terrain_overlays[hex_pos]
@@ -72,15 +88,11 @@ func _ready():
 	for overlay in terrain_overlays.values():
 		overlay.setup_scatters()
 
-
 ## Initialization
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
-	var cell_bounds = terrain.get_used_rect()
-	var cell_size = terrain.cell_size
-	var cell_to_pixel = Transform2D().scaled(cell_size)
-	return Rect2(cell_to_pixel * cell_bounds.position, cell_to_pixel * cell_bounds.size)
+	return map_bounds
 
 func _setup_overlay(overlay, hex_pos):
 	overlay.world_map = self
@@ -150,6 +162,9 @@ func get_terrain_at(cell_pos):
 	return info
 
 func point_on_map(world_pos):
+	if !map_bounds.has_point(world_pos):
+		return false
+	
 	var hex_pos = get_terrain_hex(world_pos)
 	var tile_id = terrain.get_cellv(hex_pos)
 	return tile_id >= 0
@@ -190,7 +205,10 @@ func path_distance(cell_path):
 	return distance
 
 func grid_cell_on_map(cell_pos):
-	return point_on_map(get_grid_pos(cell_pos))
+	var world_pos = get_grid_pos(cell_pos)
+	if !unit_bounds.has_point(world_pos):
+		return false
+	return point_on_map(world_pos)
 
 func get_neighbors(cell_pos):
 	var neighbors = []
