@@ -12,7 +12,7 @@ var pan_speed = 800
 ## at the edges. Using the two together allows us to properly handle map limits while zooming.
 var limit_rect = null setget set_limit_rect
 
-var mouse_captured = false
+var _mouse_captured = false
 
 func _unhandled_input(event):
 	# mousewheel zoom
@@ -25,13 +25,13 @@ func _unhandled_input(event):
 			_snap_zoom_limits()
 	
 	if event.is_action_pressed("view_pan_mouse"):
-		mouse_captured = true
+		_mouse_captured = true
 	elif event.is_action_released("view_pan_mouse"):
-		mouse_captured = false
+		_mouse_captured = false
 
-	if mouse_captured && event is InputEventMouseMotion:
+	if _mouse_captured && event is InputEventMouseMotion:
 		position -= event.relative * zoom #like we're grabbing the map
-		if limit_rect: _snap_to_limits()
+		_snap_scroll_limits()
 
 func _process(delta):
 	#smooth keyboard zoom
@@ -54,9 +54,11 @@ func _process(delta):
 	
 	if panning.length_squared() > 0:
 		position += panning.normalized() * pan_speed * delta * zoom
-		if limit_rect: _snap_to_limits()
+		_snap_scroll_limits()
 
-func _snap_to_limits():
+func _snap_scroll_limits():
+	if !limit_rect: return
+	
 	var screen = get_viewport().get_visible_rect()
 	var width = screen.size.x * zoom.x
 	var height = screen.size.y * zoom.y
@@ -64,9 +66,14 @@ func _snap_to_limits():
 	position.y = clamp(position.y, limit_rect.position.y + height/2, limit_rect.end.y - height/2)
 
 func _snap_zoom_limits():
-	zoom.x = clamp(zoom.x, min_zoom, max_zoom)
-	zoom.y = clamp(zoom.y, min_zoom, max_zoom)
-	#if limit_rect: _snap_to_limits()
+	if !limit_rect: return
+	
+	#ensure zoom cannot make screen larger than limit_rect
+	var screen = get_viewport().get_visible_rect()
+	var size_limit = min(limit_rect.size.x/screen.size.x, limit_rect.size.y/screen.size.y)
+	var max_zoom_limit = min(size_limit, max_zoom)
+	zoom.x = clamp(zoom.x, min_zoom, max_zoom_limit)
+	zoom.y = clamp(zoom.y, min_zoom, max_zoom_limit)
 
 func set_limit_rect(rect):
 	limit_rect = rect
@@ -75,4 +82,5 @@ func set_limit_rect(rect):
 	limit_top = rect.position.y
 	limit_right = rect.end.x
 	limit_bottom = rect.end.y
-	_snap_to_limits()
+	_snap_scroll_limits()
+	_snap_zoom_limits()
