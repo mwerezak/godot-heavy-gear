@@ -243,6 +243,8 @@ func _unit_cell_position_changed(old_pos, new_pos, unit):
 
 func _set_object_position(object, cell_pos):
 	var world_pos = get_grid_pos(cell_pos)
+	if object.has_method("get_position_offset"):
+		world_pos += object.get_position_offset()
 	
 	## need to place objects inside terrain overlays for YSort to work correctly
 	var hex_pos = get_terrain_hex(world_pos)
