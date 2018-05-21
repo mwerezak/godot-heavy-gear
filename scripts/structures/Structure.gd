@@ -26,7 +26,7 @@ func get_footprint():
 		rects.push_back(rect)
 	return rects
 
-func get_position_offset(): return _info.position_offset #offset from cell_position cell center
+func get_position_offset(): return _info.position_offset #offset from the centre of the grid cell
 func get_structure_id(): return _info.structure_id
 func exclude_scatters(): return _info.exclude_scatters
 func get_terrain_info(): return _info.terrain_info

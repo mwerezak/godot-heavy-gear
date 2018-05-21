@@ -5,6 +5,7 @@ const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 
 const MapLoader = preload("res://scripts/MapLoader.gd")
+const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids
@@ -37,6 +38,8 @@ var structure_locs = {} #1-to-1
 var road_cells = {}
 var unit_locs = ArrayMap.new() #1-to-many
 
+var terrain_elevation
+
 func _ready():
 	terrain.cell_size = get_terrain_cell_size()
 	unit_grid.cell_size = get_unit_grid_cell_size()
@@ -62,11 +65,15 @@ func _ready():
 	
 	#cut off the pointy parts of the hexes, so the player sees smooth map edges
 	var margins = Vector2(TERRAIN_WIDTH/2, TERRAIN_HEIGHT/4)
-	map_bounds = Rect2(cell_to_pixel.xform(cell_bounds.position) + margins, cell_to_pixel.xform(cell_bounds.size) - margins*2)
+	map_bounds = Rect2(cell_to_pixel.xform(cell_bounds.position) + margins, cell_to_pixel.xform(cell_bounds.size + Vector2(0.5, 0)) - margins*2)
 	
 	#unit cells must be entirely contained within the map bounds
 	var unit_margins = Vector2(UNITGRID_WIDTH/2, UNITGRID_HEIGHT/4)
 	unit_bounds = Rect2(map_bounds.position + unit_margins, map_bounds.size - unit_margins*2)
+	
+	## setup terrain elevation
+	terrain_elevation = ElevationMap.new(self)
+	terrain_elevation.load_hex_map(map_loader.terrain_elevation)
 	
 	## setup overlays
 	for hex_pos in map_loader.terrain_overlays:

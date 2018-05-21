@@ -39,12 +39,13 @@ func _update_text():
 	var terrain_id = terrain.terrain_id if terrain else \"None\"
 	
 	var cell_pos = world_map.get_grid_cell(mouse_pos)
+	var elevation = world_map.terrain_elevation.get_elevation_at_cell(cell_pos)
 	var structure = world_map.get_structure_at_cell(cell_pos)
 	if structure:
 		terrain_id += \":\" + structure.get_structure_id()
 	
 	var zoom = camera.zoom.x
-	text = \"%s %s %s x%.2f\" % [cell_pos, hex_pos, terrain_id, 1/zoom]"
+	text = \"%s:%s %s %s x%.2f\" % [cell_pos, elevation, hex_pos, terrain_id, 1/zoom]"
 
 [sub_resource type="StyleBoxFlat" id=2]
 

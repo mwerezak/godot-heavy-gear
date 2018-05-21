@@ -11,6 +11,7 @@ var source_map
 var global_lighting
 var terrain_indexes = {}
 var terrain_overlays = {}
+var terrain_elevation = {}
 var structures = {}
 var road_segments = []
 
@@ -22,6 +23,8 @@ func load_map(map_scene):
 	
 	global_lighting = source_map.global_lighting
 	
+	rand_seed(source_map.map_seed) #initialize seed
+	
 	var editor_map = source_map.get_node("Terrain")
 	_generate_terrain(editor_map)
 	
@@ -32,16 +35,16 @@ func load_map(map_scene):
 	var road_map = source_map.get_node("Roads")
 	var builder = RoadBuilder.new(world_map)
 	road_segments = builder.build_segments(road_map)
+	
+	## extract elevation data
+	var elevation_map = source_map.get_node("Elevation")
+	_extract_elevation(elevation_map)
 
 ## rebuild cached terrain indexes and overlays
 func _generate_terrain(editor_terrain_map):
 	var editor_tileset = editor_terrain_map.get_tileset()
 	var world_tileset = world_map.terrain.get_tileset()
 	
-	rand_seed(source_map.map_seed) #initialize seed
-	
-	terrain_overlays.clear()
-	terrain_indexes.clear()
 	for hex_pos in editor_terrain_map.get_used_cells():
 		## generate terrain tile index
 		var editor_tile_idx = editor_terrain_map.get_cellv(hex_pos)
@@ -73,3 +76,10 @@ func _generate_structures(struct_map):
 		struct.position = world_map.get_grid_pos(cell_pos)
 		structures[cell_pos] = struct
 
+func _extract_elevation(elevation_map):
+	var elevation_tileset = elevation_map.get_tileset()
+	for hex_pos in elevation_map.get_used_cells():
+		var idx = elevation_map.get_cellv(hex_pos)
+		var raw_str = elevation_tileset.tile_get_name(idx)
+		var elevation = raw_str.split("=", true, 1)[1].to_float()
+		terrain_elevation[hex_pos] = elevation

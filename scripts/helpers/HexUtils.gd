@@ -156,12 +156,12 @@ static func get_rect(rect):
 ## Hex Geometry
 
 ## needed since the expression below can't be in a const for some reason
-static func _get_axial_xform():
+static func get_axial_transform():
 	return Transform2D(Vector2(1, 0), Vector2(0, 1).rotated(deg2rad(30)), Vector2(0,0))
 
 ## returns true if a point is inside a unit hex centered at the origin
 static func inside_unit_hex(world_pos):
-	var cube_pos = _get_axial_xform().xform_inv(world_pos)
+	var cube_pos = get_axial_transform().xform_inv(world_pos)
 	var z = -(cube_pos.x + cube_pos.y) #x + y + z = 0
 	return abs(cube_pos.x) <= 1 && abs(cube_pos.y) <= 1 && abs(z) <= 1
 

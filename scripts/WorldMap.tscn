@@ -30,7 +30,7 @@ collision_mask = 1
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
-_sections_unfolded = [ "Cell" ]
+_sections_unfolded = [ "Cell", "Transform" ]
 
 [node name="UnitGrid" type="TileMap" parent="." index="1"]
 
