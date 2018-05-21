@@ -13,13 +13,14 @@ export(int) var scatter_seed = 0
 onready var world_map
 onready var scatter_grid = $ScatterGrid
 
-func _ready():
+func setup_scatters(world_map):
+	self.world_map = world_map
+	
 	## setup scatter grid
-	var terrain_cell = WorldMap.get_terrain_cell_size()
+	var terrain_cell = world_map.terrain.cell_size
 	scatter_grid.position = -terrain_cell/2
 	scatter_grid.cell_size = terrain_cell
-
-func setup_scatters():
+	
 	if TerrainTiles.OVERLAYS.has(terrain_id):
 		rand_seed(scatter_seed)
 		var overlay_info = TerrainTiles.OVERLAYS[terrain_id]

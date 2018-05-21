@@ -78,7 +78,9 @@ func _ready():
 	## setup overlays
 	for hex_pos in map_loader.terrain_overlays:
 		var overlay = map_loader.terrain_overlays[hex_pos]
-		_setup_overlay(overlay, hex_pos)
+		overlay.position = get_terrain_pos(overlay.terrain_hex)
+		overlay_container.add_child(overlay)
+		terrain_overlays[hex_pos] = overlay
 	
 	## setup structures
 	for cell_pos in map_loader.structures:
@@ -93,20 +95,13 @@ func _ready():
 	
 	## setup scatters
 	for overlay in terrain_overlays.values():
-		overlay.setup_scatters()
+		overlay.setup_scatters(self)
 
 ## Initialization
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
 	return map_bounds
-
-func _setup_overlay(overlay, hex_pos):
-	overlay.world_map = self
-	overlay.position = get_terrain_pos(overlay.terrain_hex)
-	
-	overlay_container.add_child(overlay)
-	terrain_overlays[hex_pos] = overlay
 
 func _setup_structure(structure, cell_pos):
 	structure.world_map = self
