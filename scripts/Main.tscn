@@ -21,7 +21,7 @@
 [ext_resource path="res://scripts/gui/TerrainCursor.gd" type="Script" id=19]
 [ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=20]
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 
 content_margin_left = -1.0
 content_margin_right = -1.0
@@ -49,7 +49,7 @@ shadow_size = 0
 anti_aliasing = true
 anti_aliasing_size = 1
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 
 size = 24
 use_mipmaps = false
@@ -57,7 +57,7 @@ use_filter = true
 font_data = ExtResource( 20 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="Main" type="Node" index="0"]
+[node name="Main" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -250,7 +250,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 1 )
 _sections_unfolded = [ "Margin", "Mouse", "Rect", "Size Flags", "custom_styles" ]
 
 [node name="LocLabel" type="Label" parent="WorldMap/TerrainCursor/Transparent" index="0"]
@@ -267,7 +267,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 4
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "----"
 align = 1
 uppercase = true

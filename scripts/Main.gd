@@ -27,8 +27,11 @@ func _ready():
 	var help_dialog = $GUILayer/QuickHelp
 	help_dialog.popup_centered()
 
-## capture any input events related to map objects and forward them to the context_panel
 func _unhandled_input(event):
+	if event.is_action_pressed("toggle_elevation"):
+		world_map.elevation_overlays.visible = !world_map.elevation_overlays.visible
+	
+	## capture any input events related to map objects and forward them to the context_panel
 	if event is InputEventMouse:
 		## unit cell position events
 		var mouse_pos = world_map.get_global_mouse_position()

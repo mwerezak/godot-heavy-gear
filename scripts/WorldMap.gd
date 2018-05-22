@@ -7,7 +7,7 @@ const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 const MapLoader = preload("res://scripts/MapLoader.gd")
 const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 
-const ElevationOverlay = preload("res://scripts/gui/ElevationOverlay.gd")
+const ElevationOverlay = preload("res://scripts/gui/ElevationOverlay.tscn")
 
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids
@@ -25,6 +25,7 @@ export(PackedScene) var source_map
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 onready var overlay_container = $Overlays
+onready var elevation_overlays = $ElevationOverlays
 
 ## Rect2 in world coordinates (i.e. pixels)
 var map_bounds  #the displayable boundary of the map
@@ -75,13 +76,12 @@ func _ready():
 	
 	for cell_pos in all_grid_cells():
 		var world_pos = get_grid_pos(cell_pos)
-		var z = elevation.get_elevation(world_pos)
-		prints(cell_pos, z)
-		if z:
-			var overlay = ElevationOverlay.new()
+		var cell_z = elevation.get_elevation(world_pos)
+		if cell_z:
+			var overlay = ElevationOverlay.instance()
+			elevation_overlays.add_child(overlay)
 			overlay.position = world_pos
-			overlay.level = z
-			add_child(overlay)
+			overlay.level = cell_z
 	
 	## setup overlays
 	for hex_pos in map_loader.terrain_overlays:
