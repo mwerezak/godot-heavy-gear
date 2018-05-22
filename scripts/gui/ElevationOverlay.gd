@@ -3,7 +3,7 @@ extends Sprite
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-const INTENSITY = 0.1
+const INTENSITY = 0.05
 const ELEVATION_OVERLAY_MAT = preload("res://icons/terrain/elevation_overlay_material.tres")
 const DEPTH_OVERLAY_MAT = preload("res://icons/terrain/depth_overlay_material.tres")
 
@@ -22,9 +22,9 @@ func _ready():
 func set_level(new_level):
 	level = new_level
 	if level == 0:
-		self_modulate = Color(0,0,0,0)
-		label_node.hide()
+		hide()
 	else:
+		show()
 		var intensity = abs(level) * INTENSITY
 		self_modulate = Color(intensity, intensity, intensity, 1)
 		if level >= 0:
@@ -35,7 +35,6 @@ func set_level(new_level):
 		var height = level*HexUtils.UNIT_METRE
 		if abs(height) >= 0.1:
 			label.text = "%+0.1fm" % height ##todo distance formatting helpers
-			label_node.show()
-		else:
-			label_node.hide()
-		
+
+func toggle_labels():
+	label_node.visible = !label_node.visible

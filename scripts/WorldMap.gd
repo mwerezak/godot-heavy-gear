@@ -25,9 +25,8 @@ export(PackedScene) var source_map
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
 onready var overlay_container = $Overlays
-onready var elevation_overlays = $ElevationOverlays
 
-## Rect2 in world coordinates (i.e. pixels)
+## These are all Rect2s in world coordinates (i.e. pixels)
 var map_rect    #the region occupied by the map
 var map_bounds  #the displayable boundary of the map
 var unit_bounds #the "game" boundary of the map
@@ -38,6 +37,7 @@ var structure_locs = {} #1-to-1
 var road_cells = {}
 var unit_locs = ArrayMap.new() #1-to-many
 
+## elevation map object
 var elevation
 
 func _ready():

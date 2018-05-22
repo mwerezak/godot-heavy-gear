@@ -29,7 +29,7 @@ func _ready():
 
 func _unhandled_input(event):
 	if event.is_action_pressed("toggle_elevation"):
-		world_map.elevation_overlays.visible = !world_map.elevation_overlays.visible
+		get_tree().call_group("elevation_overlays", "toggle_labels")
 	
 	## capture any input events related to map objects and forward them to the context_panel
 	if event is InputEventMouse:

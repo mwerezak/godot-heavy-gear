@@ -33,12 +33,16 @@ anti_aliasing = true
 anti_aliasing_size = 1
 _sections_unfolded = [ "Border", "Corner Radius" ]
 
-[node name="ElevationOverlay" type="Sprite" index="0"]
+[node name="ElevationOverlay" type="Sprite" index="0" groups=[
+"elevation_overlays",
+]]
 
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Label2D" type="Node2D" parent="." index="0"]
+
+visible = false
 
 [node name="PanelContainer" type="PanelContainer" parent="Label2D" index="0"]
 

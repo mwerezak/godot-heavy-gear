@@ -12,11 +12,7 @@ script = ExtResource( 1 )
 _sections_unfolded = [ "Visibility" ]
 source_map = ExtResource( 2 )
 
-[node name="ElevationOverlays" type="Node2D" parent="." index="0"]
-
-visible = false
-
-[node name="TerrainTiles" type="TileMap" parent="." index="1"]
+[node name="TerrainTiles" type="TileMap" parent="." index="0"]
 
 mode = 0
 tile_set = ExtResource( 3 )
@@ -42,7 +38,7 @@ __meta__ = {
 }
 hex_size = Vector2( 0, 0 )
 
-[node name="UnitGrid" type="TileMap" parent="." index="2"]
+[node name="UnitGrid" type="TileMap" parent="." index="1"]
 
 position = Vector2( 96, 81 )
 mode = 0
@@ -69,7 +65,7 @@ __meta__ = {
 }
 hex_size = Vector2( 0, 0 )
 
-[node name="Overlays" type="YSort" parent="." index="3"]
+[node name="Overlays" type="YSort" parent="." index="2"]
 
 sort_enabled = true
 _sections_unfolded = [ "Sort" ]
