@@ -197,6 +197,11 @@ func get_grid_pos(cell_pos):
 	var local_pos = unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2
 	return unit_grid.transform.xform(local_pos)
 
+## gets the complete position of a cell in distance units including elevation
+func get_cell_coords(cell_pos):
+	var world_pos = get_grid_pos(cell_pos)
+	return Vector3(world_pos.x/HexUtils.UNIT_DISTANCE, world_pos.y/HexUtils.UNIT_DISTANCE, elevation.get_elevation(world_pos))
+
 func get_angle_to(cell_from, cell_to):
 	var from_pos = get_grid_pos(cell_from)
 	var to_pos = get_grid_pos(cell_to)
@@ -207,18 +212,17 @@ func get_dir_to(cell_from, cell_to):
 	return HexUtils.nearest_dir(get_angle_to(cell_from, cell_to))
 
 ## returns the distance betwen the centres of two cells, in distance units
-func grid_distance(cell1, cell2):
-	var pos1 = get_grid_pos(cell1)
-	var pos2 = get_grid_pos(cell2)
-	var pixel_dist = (pos1 - pos2).length()
-	return HexUtils.pixels2units(pixel_dist)
+func distance_along_ground(cell1, cell2):
+	var pos1 = get_cell_coords(cell1)
+	var pos2 = get_cell_coords(cell2)
+	return (pos1 - pos2).length()
 
 func path_distance(cell_path):
 	var distance = 0
 	var last_cell = null
 	for next_cell in cell_path:
 		if last_cell:
-			distance += grid_distance(last_cell, next_cell)
+			distance += distance_along_ground(last_cell, next_cell)
 		last_cell = next_cell
 	return distance
 

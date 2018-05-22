@@ -248,7 +248,8 @@ func _can_stop(cell_pos):
 func _move_cost(from_cell, to_cell):
 	var midpoint = 0.5*(world_map.get_grid_pos(from_cell) + world_map.get_grid_pos(to_cell))
 	var terrain_info = world_map.get_terrain_at_pos(midpoint)
-	return _grid_spacing * unit_info.get_move_cost_on_terrain(movement_mode, terrain_info)
+	var distance = world_map.distance_along_ground(from_cell, to_cell)
+	return distance * unit_info.get_move_cost_on_terrain(movement_mode, terrain_info)
 
 ## If entering a given cell will trigger a dangerous terrain check
 func _is_dangerous(cell_pos):

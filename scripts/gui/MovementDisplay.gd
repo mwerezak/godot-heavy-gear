@@ -27,6 +27,7 @@ func _ready():
 func _deferred_ready():
 	## align the movement tiles with the unit grid
 	movement_tiles.cell_size = world_map.unit_grid.cell_size
+	movement_tiles.position = world_map.unit_grid.position
 
 func show_movement(possible_moves, current_activation):
 	var move_actions = current_activation.move_actions
