@@ -91,11 +91,11 @@ func _calc_plane_coefficients(origin_hex):
 		trap_vec[i] = Vector3(pos.x, pos.y, z)
 	
 	return [
-		_get_plane(trap_vec[0], trap_vec[2], trap_vec[1]), #upper triangle
-		_get_plane(trap_vec[0], trap_vec[2], trap_vec[3]), #lower triangle
+		_calc_plane(trap_vec[0], trap_vec[2], trap_vec[1]), #upper triangle
+		_calc_plane(trap_vec[0], trap_vec[2], trap_vec[3]), #lower triangle
 	]
 
-func _get_plane(plane_origin, p1, p2):
+func _calc_plane(plane_origin, p1, p2):
 	var plane_normal = (p1 - plane_origin).cross(p2 - plane_origin)
 	return [ plane_normal.x, plane_normal.y, plane_normal.z, -plane_normal.dot(plane_origin) ]
 
@@ -117,3 +117,19 @@ func get_elevation(world_pos):
 	
 	return -(plane[0]*world_pos.x + plane[1]*world_pos.y + plane[3])/plane[2]
 
+func get_gradient(world_pos):
+	var axial_pos = _world_to_axial(world_pos)
+	var trap_origin = axial_pos.floor()
+	var origin_hex = world_map.get_terrain_hex(_axial_to_world(trap_origin))
+	
+	var plane = _get_plane_coefficients(origin_hex)
+	if !plane:
+		return _get_hex_elevation(origin_hex)
+	
+	var v = axial_pos - trap_origin
+	if v.x > v.y:
+		plane = plane[_UPPER_TRIANGLE]
+	else:
+		plane = plane[_LOWER_TRIANGLE]
+	
+	return Vector2(plane[0], plane[1])/plane[2] * HexUtils.UNIT_DISTANCE

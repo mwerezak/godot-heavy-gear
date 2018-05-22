@@ -33,7 +33,7 @@ anti_aliasing = true
 anti_aliasing_size = 1
 _sections_unfolded = [ "Border", "Corner Radius" ]
 
-[node name="ElevationOverlay" type="Sprite" index="0" groups=[
+[node name="ElevationOverlay" type="Sprite" groups=[
 "elevation_overlays",
 ]]
 
