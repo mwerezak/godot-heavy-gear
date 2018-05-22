@@ -8,6 +8,9 @@ signal cell_position_changed(old_position, new_position)
 var cell_position setget set_cell_position, get_cell_position
 var facing = 0 setget set_facing, get_facing
 
+#distance from this unit's base to the ground (in distance units), for hovering/flying units
+var altitude = 0 setget set_altitude, get_altitude
+
 var faction setget set_faction
 var unit_info setget set_unit_info
 var crew_info setget set_crew_info
@@ -30,6 +33,16 @@ func set_cell_position(cell_pos):
 	var old_pos = cell_position
 	cell_position = cell_pos
 	emit_signal("cell_position_changed", old_pos, cell_pos)
+
+func set_altitude(alt):
+	altitude = alt
+
+func get_altitude():
+	return altitude
+
+## The location of the point attached to the bottom of the unit
+func get_base_location():
+	return world_map.get_ground_location(cell_position) + Vector3(0, 0, altitude)
 
 func _update_marker():
 	if map_marker:
