@@ -31,9 +31,7 @@ func load_hex_map(raw_elevation):
 	## precalculate bilinear coefficients
 	_coefficients.clear()
 	for hex_pos in _elevation_map:
-		var a = _calc_bilinear_coefficients(hex_pos)
-		if a:
-			_coefficients[hex_pos] = a
+		_get_bilinear_coefficients(hex_pos)
 
 func _update_bounds(axis, index, value):
 	if _bounds[axis].has(index):
@@ -48,12 +46,18 @@ func _clamp_bounds(value, axis, index):
 	return clamp(value, bounds[_MIN], bounds[_MAX])
 
 func _get_hex_elevation(hex_pos):
-	if !_bounds[_ROW].has(hex_pos.x) || !_bounds[_COL].has(hex_pos.y):
+	if !_bounds[_COL].has(hex_pos.x) && !_bounds[_ROW].has(hex_pos.y):
 		return null
 	
 	## repeated boundary conditions
-	hex_pos.x = _clamp_bounds(hex_pos.x, _ROW, hex_pos.y)
-	hex_pos.y = _clamp_bounds(hex_pos.y, _COL, hex_pos.x)
+	elif !_bounds[_ROW].has(hex_pos.y):
+		hex_pos.y = _clamp_bounds(hex_pos.y, _COL, hex_pos.x)
+		hex_pos.x = _clamp_bounds(hex_pos.x, _ROW, hex_pos.y)
+	else:
+		hex_pos.x = _clamp_bounds(hex_pos.x, _ROW, hex_pos.y)
+		hex_pos.y = _clamp_bounds(hex_pos.y, _COL, hex_pos.x)
+	
+	
 	return _elevation_map[hex_pos]
 
 ## elevation grid points are in the center of each terrain hex
@@ -62,6 +66,14 @@ func _world_to_axial(world_pos):
 
 func _axial_to_world(axial_pos):
 	return terrain_grid.axial_to_world(axial_pos) + terrain_grid.cell_size/2.0
+
+func _get_bilinear_coefficients(origin_hex):
+	if _coefficients.has(origin_hex):
+		return _coefficients[origin_hex]
+	
+	var rval = _calc_bilinear_coefficients(origin_hex)
+	_coefficients[origin_hex] = rval
+	return rval
 
 func _calc_bilinear_coefficients(origin_hex):
 	var trapezoid = [ origin_hex, HexUtils.get_step(origin_hex, 0), HexUtils.get_step(origin_hex, 2), HexUtils.get_step(origin_hex, 4) ]
@@ -81,19 +93,17 @@ func _calc_bilinear_coefficients(origin_hex):
 	a[3] = z[0] - z[1] - z[3] + z[2]
 	return a
 
-
 func get_elevation(world_pos):
 	## get the elevation trapezoid containing world_pos
 	var axial_pos = _world_to_axial(world_pos)
 	var trap_origin = axial_pos.floor()
 	var origin_hex = world_map.get_terrain_hex(_axial_to_world(trap_origin))
 	
-	if !_coefficients.has(origin_hex): 
-		return null
-	
 	## bilinear interpolation
 	var v = axial_pos - trap_origin
-	var a = _coefficients[origin_hex]
+	var a = _get_bilinear_coefficients(origin_hex)
+	if a == null:
+		return _get_hex_elevation(origin_hex)
 	return a[0] + a[1]*v.x + a[2]*v.y + a[3]*v.x*v.y
 	#var z_y0 = lerp(z[0], z[1], v.x)
 	#var z_y1 = lerp(z[3], z[2], v.x)
