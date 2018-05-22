@@ -184,7 +184,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			## this allows "straight" zig-zagging, which hopefully lessens 
 			## the distortion on movement caused by using a hex grid
 			if move_dir == prev_facing:
-				turn_cost *= -1
+				turn_cost -= abs(HexUtils.get_shortest_turn(prev_facing, facing))
 			
 			## do we need to start a new move to face this direction?
 			if turns_remaining < turn_cost:
