@@ -28,6 +28,7 @@ onready var overlay_container = $Overlays
 onready var elevation_overlays = $ElevationOverlays
 
 ## Rect2 in world coordinates (i.e. pixels)
+var map_rect    #the region occupied by the map
 var map_bounds  #the displayable boundary of the map
 var unit_bounds #the "game" boundary of the map
 
@@ -62,9 +63,11 @@ func _ready():
 	var cell_size = terrain.cell_size
 	var cell_to_pixel = Transform2D().scaled(cell_size)
 	
+	map_rect = Rect2(cell_to_pixel.xform(cell_bounds.position), cell_to_pixel.xform(cell_bounds.size + Vector2(0.5, 0)))
+	
 	#cut off the pointy parts of the hexes, so the player sees smooth map edges
 	var margins = Vector2(TERRAIN_WIDTH/2, TERRAIN_HEIGHT/4)
-	map_bounds = Rect2(cell_to_pixel.xform(cell_bounds.position) + margins, cell_to_pixel.xform(cell_bounds.size + Vector2(0.5, 0)) - margins*2)
+	map_bounds = Rect2(map_rect.position + margins, map_rect.size - margins*2)
 	
 	#unit cells must be entirely contained within the map bounds
 	var unit_margins = Vector2(UNITGRID_WIDTH/2, UNITGRID_HEIGHT/4)
@@ -74,12 +77,12 @@ func _ready():
 	elevation = ElevationMap.new(self)
 	elevation.load_hex_map(map_loader.terrain_elevation)
 	
-	for cell_pos in all_grid_cells():
+	for cell_pos in get_rect_cells(map_rect):
 		var world_pos = get_grid_pos(cell_pos)
 		var cell_z = elevation.get_elevation(world_pos)
 		if cell_z:
 			var overlay = ElevationOverlay.instance()
-			elevation_overlays.add_child(overlay)
+			add_child(overlay)
 			overlay.position = world_pos
 			overlay.level = cell_z
 	
@@ -113,12 +116,6 @@ func get_bounding_rect():
 
 func all_terrain_hexes():
 	return terrain.get_used_cells()
-
-## including cells that are outside unit_bounds
-func all_grid_cells():
-	var ul = get_grid_cell(map_bounds.position)
-	var lr = get_grid_cell(map_bounds.end)
-	return HexUtils.get_rect(Rect2(ul, lr - ul))
 
 func _setup_structure(structure, cell_pos):
 	structure.world_map = self
@@ -238,6 +235,11 @@ func get_neighbors(cell_pos):
 			neighbors.push_back(other_pos)
 	return neighbors
 
+## gets all grid cells overlapping a rectangle given in pixel coords
+func get_rect_cells(world_rect):
+	var ul = get_grid_cell(world_rect.position)
+	var lr = get_grid_cell(world_rect.end)
+	return HexUtils.get_rect(Rect2(ul, lr - ul))
 
 ## Map Objects
 
