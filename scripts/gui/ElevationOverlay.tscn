@@ -2,7 +2,7 @@
 
 [ext_resource path="res://icons/cell_overlay.png" type="Texture" id=1]
 [ext_resource path="res://scripts/gui/ElevationOverlay.gd" type="Script" id=2]
-[ext_resource path="res://fonts/hud_monospaced_sm.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/elevation_label.tres" type="DynamicFont" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -33,7 +33,7 @@ anti_aliasing = true
 anti_aliasing_size = 1
 _sections_unfolded = [ "Border", "Corner Radius" ]
 
-[node name="ElevationOverlay" type="Sprite" groups=[
+[node name="ElevationOverlay" type="Sprite" index="0" groups=[
 "elevation_overlays",
 ]]
 
