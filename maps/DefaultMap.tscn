@@ -6,7 +6,7 @@
 [ext_resource path="res://tilesets/EditorRoads.tres" type="TileSet" id=4]
 [ext_resource path="res://tilesets/EditorStructures.tres" type="TileSet" id=5]
 
-[node name="DefaultMap" type="Node2D"]
+[node name="DefaultMap" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
@@ -65,7 +65,7 @@ __meta__ = {
 
 [node name="Roads" type="TileMap" parent="." index="2"]
 
-position = Vector2( 96, 84 )
+position = Vector2( 96, 81 )
 mode = 0
 tile_set = ExtResource( 4 )
 cell_size = Vector2( 64, 54 )
@@ -90,7 +90,7 @@ __meta__ = {
 
 [node name="Structures" type="TileMap" parent="." index="3"]
 
-position = Vector2( 96, 84 )
+position = Vector2( 96, 81 )
 mode = 0
 tile_set = ExtResource( 5 )
 cell_size = Vector2( 64, 54 )
