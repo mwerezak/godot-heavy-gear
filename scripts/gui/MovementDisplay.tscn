@@ -4,9 +4,9 @@
 [ext_resource path="res://tilesets/MovementTiles.tres" type="TileSet" id=2]
 [ext_resource path="res://icons/move_marker_32.png" type="Texture" id=3]
 [ext_resource path="res://scripts/gui/DirectionArc.tscn" type="PackedScene" id=4]
-[ext_resource path="res://fonts/hud_monospaced.tres" type="DynamicFont" id=5]
+[ext_resource path="res://fonts/hud_monospaced_med.tres" type="DynamicFont" id=5]
 
-[node name="MovementDisplay" type="Node2D"]
+[node name="MovementDisplay" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform" ]
@@ -56,10 +56,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -61.0
-margin_top = 13.0
-margin_right = 29.0
-margin_bottom = 39.0
+margin_left = -71.0
+margin_top = 9.0
+margin_right = 39.0
+margin_bottom = 28.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
