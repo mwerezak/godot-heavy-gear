@@ -18,7 +18,6 @@ func setup_scatters(world_map):
 	
 	## setup scatter grid
 	var terrain_cell = world_map.terrain.cell_size
-	scatter_grid.position = -terrain_cell/2
 	scatter_grid.cell_size = terrain_cell
 	
 	if TerrainTiles.OVERLAYS.has(terrain_id):

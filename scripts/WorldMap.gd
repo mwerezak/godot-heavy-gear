@@ -12,13 +12,9 @@ const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 ## also, note that for regular hexagons, w = sqrt(3)/2 * h
 const TERRAIN_WIDTH  = 64*4 #256
 const TERRAIN_HEIGHT = 74*4 #296
-static func get_terrain_cell_size():
-	return Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT*3/4) #because Vector2() can't be const :(
 
 const UNITGRID_WIDTH = 16*4 #64
 const UNITGRID_HEIGHT = 18*4 #72
-static func get_unit_grid_cell_size():
-	return Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT*3/4)
 
 const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in distance units
 
@@ -41,8 +37,8 @@ var unit_locs = ArrayMap.new() #1-to-many
 var terrain_elevation
 
 func _ready():
-	terrain.cell_size = get_terrain_cell_size()
-	unit_grid.cell_size = get_unit_grid_cell_size()
+	terrain.set_hex_size(Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT))
+	unit_grid.set_hex_size(Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT))
 	
 	terrain.z_as_relative = false
 	terrain.z_index = Constants.TERRAIN_ZLAYER
@@ -72,8 +68,8 @@ func _ready():
 	unit_bounds = Rect2(map_bounds.position + unit_margins, map_bounds.size - unit_margins*2)
 	
 	## setup terrain elevation
-	terrain_elevation = ElevationMap.new(self)
-	terrain_elevation.load_hex_map(map_loader.terrain_elevation)
+	#terrain_elevation = ElevationMap.new(self)
+	#terrain_elevation.load_hex_map(map_loader.terrain_elevation)
 	
 	## setup overlays
 	for hex_pos in map_loader.terrain_overlays:
@@ -127,12 +123,13 @@ func _setup_structure(structure, cell_pos):
 ## Terrain Hexes
 
 func get_terrain_hex(world_pos):
-	return terrain.world_to_map(world_pos)
+	return terrain.world_to_map(terrain.transform.affine_inverse().xform(world_pos))
 
 ## returns the position of the hex centre
 func get_terrain_pos(hex_pos):
 	var hex_origin = terrain.map_to_world(hex_pos)
-	return hex_origin + terrain.cell_size/2
+	var local_pos = hex_origin + terrain.cell_size/2
+	return terrain.transform.xform(local_pos)
 
 func raw_terrain_info(hex_pos):
 	var tile_idx = terrain.get_cellv(hex_pos)
@@ -174,12 +171,13 @@ func point_on_map(world_pos):
 ## Unit Grid Cells
 
 func get_grid_cell(world_pos):
-	var cell_pos = unit_grid.world_to_map(world_pos)
+	var cell_pos = unit_grid.world_to_map(unit_grid.transform.affine_inverse().xform(world_pos))
 	return cell_pos
 
 ## returns the position of the cell centre
 func get_grid_pos(cell_pos):
-	return unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2
+	var local_pos = unit_grid.map_to_world(cell_pos) + unit_grid.cell_size/2
+	return unit_grid.transform.xform(local_pos)
 
 func get_angle_to(cell_from, cell_to):
 	var from_pos = get_grid_pos(cell_from)

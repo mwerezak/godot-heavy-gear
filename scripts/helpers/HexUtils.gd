@@ -156,32 +156,14 @@ static func get_rect(rect):
 ## Hex Geometry
 
 ## needed since the expression below can't be in a const for some reason
-static func get_axial_transform():
-	return Transform2D(Vector2(1, 0), Vector2(0, 1).rotated(deg2rad(30)), Vector2(0,0))
+static func get_axial_transform(edge_radius, origin=Vector2()):
+	return Transform2D(Vector2(edge_radius, 0), Vector2(0, edge_radius).rotated(deg2rad(30)), origin)
 
 ## returns true if a point is inside a unit hex centered at the origin
 static func inside_unit_hex(world_pos):
-	var cube_pos = get_axial_transform().xform_inv(world_pos)
-	var z = -(cube_pos.x + cube_pos.y) #x + y + z = 0
-	return abs(cube_pos.x) <= 1 && abs(cube_pos.y) <= 1 && abs(z) <= 1
+	var axial_pos = get_axial_transform(1).xform_inv(world_pos)
+	var z = -(axial_pos.x + axial_pos.y) #x + y + z = 0
+	return abs(axial_pos.x) <= 1 && abs(axial_pos.y) <= 1 && abs(z) <= 1
 
 static func inside_hex(hex_center, edge_radius, world_pos):
 	return inside_unit_hex((world_pos - hex_center)/edge_radius)
-
-## not sure if these are needed
-static func cell2cube(cell_pos):
-	var x = cell_pos.x - (cell_pos.y - (int(cell_pos.y)&1))/2
-	var z = cell_pos.y
-	var y = -x-z
-	return Vector3(x, y, z)
-
-static func cube2cell(cube_pos):
-	var col = cube_pos.x + (cube_pos.z - (int(cube_pos.z)&1))/2
-	var row = cube_pos.z
-	return Vector2(col, row)
-
-static func get_hex_vertices():
-	return [
-		Vector2(0, -1), Vector2(sqrt(3)/2, -0.5), Vector2(sqrt(3)/2, 0.5),
-		Vector2(0, 1), Vector2(-sqrt(3)/2, 0.5), Vector2(-sqrt(3)/2, -0.5)
-	]
