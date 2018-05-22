@@ -11,8 +11,8 @@ func _update_text():
 	var hex_pos = world_map.get_terrain_hex(mouse_pos)
 	#var hex_pos = world_map.terrain.world_to_axial(mouse_pos - world_map.terrain.cell_size/2)
 	var axial_pos = world_map.elevation._world_to_axial(mouse_pos)
-	var trapezoid = world_map.elevation._get_trapezoid(axial_pos.floor())
-	var trap_str = "[ %s %s %s %s ]" % trapezoid
+	#var trapezoid = world_map.elevation._get_trapezoid(axial_pos.floor())
+	#var trap_str = "[ %s %s %s %s ]" % trapezoid
 	var hex_elevation = world_map.elevation._get_hex_elevation(hex_pos)
 	
 	var terrain = world_map.raw_terrain_info(hex_pos)
@@ -26,4 +26,4 @@ func _update_text():
 		terrain_id += ":" + structure.get_structure_id()
 
 	var zoom = camera.zoom.x
-	text = "%s zcell:%s zhex:%s %s %s x%.2f" % [cell_pos, elevation, hex_elevation, trap_str, terrain_id, 1/zoom]
+	text = "%s zcell:%s zhex:%s %s x%.2f" % [cell_pos, elevation, hex_elevation, terrain_id, 1/zoom]

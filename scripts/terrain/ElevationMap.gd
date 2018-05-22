@@ -13,6 +13,7 @@ var terrain_grid
 
 var _bounds = [{}, {}]
 var _elevation_map = {}
+var _coefficients = {}
 
 func _init(world_map):
 	self.world_map = world_map
@@ -26,6 +27,13 @@ func load_hex_map(raw_elevation):
 		_elevation_map[hex_pos] = raw_elevation[hex_pos] if raw_elevation.has(hex_pos) else 0
 		_update_bounds(_COL, hex_pos.x, hex_pos.y)
 		_update_bounds(_ROW, hex_pos.y, hex_pos.x)
+	
+	## precalculate bilinear coefficients
+	_coefficients.clear()
+	for hex_pos in _elevation_map:
+		var a = _calc_bilinear_coefficients(hex_pos)
+		if a:
+			_coefficients[hex_pos] = a
 
 func _update_bounds(axis, index, value):
 	if _bounds[axis].has(index):
@@ -55,39 +63,41 @@ func _world_to_axial(world_pos):
 func _axial_to_world(axial_pos):
 	return terrain_grid.axial_to_world(axial_pos) + terrain_grid.cell_size/2.0
 
-## returns [UL, UR, LR, LL] <-> [ f11, f12, f22, f21 ]
-func _get_trapezoid(trap_origin):
-	var trap_origin_world = _axial_to_world(trap_origin)
-	var origin_hex = world_map.get_terrain_hex(trap_origin_world)
-	return [ origin_hex, HexUtils.get_step(origin_hex, 0), HexUtils.get_step(origin_hex, 2), HexUtils.get_step(origin_hex, 4) ]
+func _calc_bilinear_coefficients(origin_hex):
+	var trapezoid = [ origin_hex, HexUtils.get_step(origin_hex, 0), HexUtils.get_step(origin_hex, 2), HexUtils.get_step(origin_hex, 4) ]
+
+	## get the elevation at each corner of the trapezoid
+	var z = [0, 0, 0, 0]
+	for i in range(4):
+		z[i] = _get_hex_elevation(trapezoid[i])
+	
+	if z.has(null):
+		return
+	
+	var a = [0, 0, 0, 0]
+	a[0] = z[0]
+	a[1] = z[1] - z[0]
+	a[2] = z[3] - z[0]
+	a[3] = z[0] - z[1] - z[3] + z[2]
+	return a
+
 
 func get_elevation(world_pos):
 	## get the elevation trapezoid containing world_pos
 	var axial_pos = _world_to_axial(world_pos)
 	var trap_origin = axial_pos.floor()
-	var trap = _get_trapezoid(trap_origin)
+	var origin_hex = world_map.get_terrain_hex(_axial_to_world(trap_origin))
 	
-	## get the elevation at each corner of the trapezoid
-	var z = [0, 0, 0, 0]
-	for i in range(4):
-		z[i] = _get_hex_elevation(trap[i])
-	
-	if z.has(null):
-		return z[0]
-	
-	## calculate bilinear coefficients
-	var a = [0, 0, 0, 0]
-	a[0] = z[0]
-	a[1] = z[3] - z[0]
-	a[2] = z[1] - z[0]
-	a[3] = z[0] - z[1] + z[2] - z[3]
+	if !_coefficients.has(origin_hex): 
+		return null
 	
 	## bilinear interpolation
 	var v = axial_pos - trap_origin
-	#return a[0] + a[1]*v.x + a[2]*v.y + a[3]*v.x*v.y
-	var z_y0 = lerp(z[0], z[1], v.x)
-	var z_y1 = lerp(z[3], z[2], v.x)
-	return lerp(z_y0, z_y1, v.y)
+	var a = _coefficients[origin_hex]
+	return a[0] + a[1]*v.x + a[2]*v.y + a[3]*v.x*v.y
+	#var z_y0 = lerp(z[0], z[1], v.x)
+	#var z_y1 = lerp(z[3], z[2], v.x)
+	#return lerp(z_y0, z_y1, v.y)
 
 
 """
