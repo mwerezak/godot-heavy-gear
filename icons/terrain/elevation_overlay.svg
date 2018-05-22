@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="66"
+   height="74"
+   viewBox="0 0 66.000001 74.000001"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="elevation_overlay.svg"
+   inkscape:export-filename="/home/mwerezak/Dropbox/Projects/heavy_gear/game/icons/terrain/elevation_overlay.png"
+   inkscape:export-xdpi="87.567566"
+   inkscape:export-ydpi="87.567566">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#7c7c7c"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.6"
+     inkscape:cx="16.269558"
+     inkscape:cy="37.857517"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1680"
+     inkscape:window-height="974"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-978.36216)">
+    <path
+       sodipodi:type="star"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:24, 24;stroke-dashoffset:40;stroke-opacity:1"
+       id="path4136"
+       sodipodi:sides="6"
+       sodipodi:cx="33.214287"
+       sodipodi:cy="1014.505"
+       sodipodi:r1="34.644699"
+       sodipodi:r2="30.003189"
+       sodipodi:arg1="-1.5707963"
+       sodipodi:arg2="-1.0471976"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 33.214288,979.86031 30.003189,17.32235 -1e-6,34.64474 -30.00319,17.3223 -30.0031892,-17.3223 9e-7,-34.64475 z"
+       transform="matrix(1.099883,0,0,1.0679845,-3.5318308,-68.113462)" />
+  </g>
+</svg>

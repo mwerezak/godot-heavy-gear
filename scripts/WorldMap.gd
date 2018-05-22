@@ -7,6 +7,8 @@ const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 const MapLoader = preload("res://scripts/MapLoader.gd")
 const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 
+const ElevationOverlay = preload("res://scripts/gui/ElevationOverlay.gd")
+
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids
 ## also, note that for regular hexagons, w = sqrt(3)/2 * h
@@ -34,7 +36,7 @@ var structure_locs = {} #1-to-1
 var road_cells = {}
 var unit_locs = ArrayMap.new() #1-to-many
 
-var terrain_elevation
+var elevation
 
 func _ready():
 	terrain.set_hex_size(Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT))
@@ -68,8 +70,18 @@ func _ready():
 	unit_bounds = Rect2(map_bounds.position + unit_margins, map_bounds.size - unit_margins*2)
 	
 	## setup terrain elevation
-	#terrain_elevation = ElevationMap.new(self)
-	#terrain_elevation.load_hex_map(map_loader.terrain_elevation)
+	elevation = ElevationMap.new(self)
+	elevation.load_hex_map(map_loader.terrain_elevation)
+	
+	for cell_pos in all_grid_cells():
+		var world_pos = get_grid_pos(cell_pos)
+		var z = elevation.get_elevation(world_pos)
+		prints(cell_pos, z)
+		if z:
+			var overlay = ElevationOverlay.new()
+			overlay.position = world_pos
+			overlay.level = z
+			add_child(overlay)
 	
 	## setup overlays
 	for hex_pos in map_loader.terrain_overlays:
@@ -98,6 +110,15 @@ func _ready():
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
 	return map_bounds
+
+func all_terrain_hexes():
+	return terrain.get_used_cells()
+
+## including cells that are outside unit_bounds
+func all_grid_cells():
+	var ul = get_grid_cell(map_bounds.position)
+	var lr = get_grid_cell(map_bounds.end)
+	return HexUtils.get_rect(Rect2(ul, lr - ul))
 
 func _setup_structure(structure, cell_pos):
 	structure.world_map = self

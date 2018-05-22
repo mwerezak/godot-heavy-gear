@@ -12,10 +12,10 @@ func _ready():
 	mode = MODE_SQUARE
 	cell_half_offset = HALF_OFFSET_X
 
-func set_hex_size(hex_size):
-	hex_size = hex_size
-	cell_size = Vector2(hex_size.x, hex_size.y*3/4)
-	_axial_transform = HexUtils.get_axial_transform(hex_size.x)
+func set_hex_size(size):
+	hex_size = size
+	cell_size = Vector2(size.x, size.y*3/4)
+	_axial_transform = HexUtils.get_axial_transform(size.x)
 
 func get_hex_size():
 	return hex_size
