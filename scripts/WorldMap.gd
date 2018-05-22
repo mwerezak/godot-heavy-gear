@@ -6,8 +6,7 @@ const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 
 const MapLoader = preload("res://scripts/MapLoader.gd")
 const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
-
-const ElevationOverlay = preload("res://scripts/gui/ElevationOverlay.tscn")
+const ElevationOverlay = preload("res://scripts/terrain/ElevationOverlay.tscn")
 
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids
