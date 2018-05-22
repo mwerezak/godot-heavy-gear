@@ -6,14 +6,13 @@ const TerrainTiles = preload("res://scripts/terrain/TerrainTiles.gd")
 const TerrainScatter = preload("res://scripts/terrain/TerrainScatter.gd")
 const WorldMap = preload("res://scripts/WorldMap.gd")
 
-export(Vector2) var terrain_hex
 export(String) var terrain_id
 export(int) var scatter_seed = 0
 
 onready var world_map
 onready var scatter_grid = $ScatterGrid
 
-func setup_scatters(world_map):
+func spawn_scatters(world_map):
 	self.world_map = world_map
 	
 	## setup scatter grid
@@ -28,12 +27,9 @@ func setup_scatters(world_map):
 			randweights[item] = item.randweight
 			
 		var placement_info = RandomUtils.get_weighted_random(randweights)
-		place_scatters(placement_info)
+		_place_scatters(placement_info)
 
-func _get_scatter_pos(cell_pos):
-	return scatter_grid.map_to_world(cell_pos) * scatter_grid.scale
-
-func place_scatters(placement_info):
+func _place_scatters(placement_info):
 	var scatter_scale = 1.0/placement_info.density
 	var scatter_radius = scatter_scale*WorldMap.TERRAIN_WIDTH/2
 	
@@ -48,8 +44,11 @@ func place_scatters(placement_info):
 			
 			if _can_place_scatter(scatter_pos, base_radius):
 				var scatter = TerrainScatter.new(scatter_info)
-				scatter.position = scatter_pos
-				add_child(scatter)
+				scatter.position = position + scatter_pos
+				world_map.add_child(scatter)
+
+func _get_scatter_pos(cell_pos):
+	return scatter_grid.map_to_world(cell_pos) * scatter_grid.scale
 
 func _can_place_scatter(scatter_pos, base_radius):
 	## make sure the scatter is inside our hex

@@ -31,7 +31,6 @@ var map_bounds  #the displayable boundary of the map
 var unit_bounds #the "game" boundary of the map
 
 ## data structures to map position -> object
-var terrain_overlays = {} #1-to-1
 var structure_locs = {} #1-to-1
 var road_cells = {}
 var unit_locs = ArrayMap.new() #1-to-many
@@ -85,13 +84,6 @@ func _ready():
 			overlay.position = world_pos
 			overlay.level = cell_z
 	
-	## setup overlays
-	for hex_pos in map_loader.terrain_overlays:
-		var overlay = map_loader.terrain_overlays[hex_pos]
-		overlay.position = get_terrain_pos(overlay.terrain_hex)
-		overlay_container.add_child(overlay)
-		terrain_overlays[hex_pos] = overlay
-	
 	## setup structures
 	for cell_pos in map_loader.structures:
 		var structure = map_loader.structures[cell_pos]
@@ -104,8 +96,12 @@ func _ready():
 			road_cells[cell_pos] = true
 	
 	## setup scatters
-	for overlay in terrain_overlays.values():
-		overlay.setup_scatters(self)
+	for hex_pos in map_loader.scatter_spawners:
+		var spawner = map_loader.scatter_spawners[hex_pos]
+		spawner.position = get_terrain_pos(hex_pos)
+		add_child(spawner)
+		spawner.spawn_scatters(self)
+		spawner.queue_free()
 
 ## Initialization
 
@@ -271,17 +267,7 @@ func _set_object_position(object, cell_pos):
 	var world_pos = get_grid_pos(cell_pos)
 	if object.has_method("get_position_offset"):
 		world_pos += object.get_position_offset()
-	
-	## need to place objects inside terrain overlays for YSort to work correctly
-	var hex_pos = get_terrain_hex(world_pos)
-	var overlay = terrain_overlays[hex_pos]
-	if object.get_parent() == null:
-		overlay.add_child(object)
-	elif overlay != object.get_parent():
-		object.get_parent().remove_child(object)
-		overlay.add_child(object)
-	
-	object.set_position(world_pos - overlay.position)
+	add_child(object)
 
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):

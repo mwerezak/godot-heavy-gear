@@ -1,7 +1,7 @@
 extends Reference
 
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
-const TerrainOverlay = preload("res://scripts/terrain/TerrainOverlay.tscn")
+const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.tscn")
 const Structure = preload("res://scripts/structures/Structure.tscn")
 const RoadBuilder = preload("res://scripts/terrain/RoadBuilder.gd")
 
@@ -10,8 +10,8 @@ var source_map
 
 var global_lighting
 var terrain_indexes = {}
-var terrain_overlays = {}
 var terrain_elevation = {}
+var scatter_spawners = {}
 var structures = {}
 var road_segments = []
 
@@ -56,12 +56,11 @@ func _generate_terrain(editor_terrain_map):
 		terrain_indexes[hex_pos] = terrain_tile_idx
 		
 		## generate terrain hex overlay
-		var overlay = TerrainOverlay.instance()
-		overlay.name = "Overlay (%d, %d)"% [ hex_pos.x, hex_pos.y ]
-		overlay.terrain_id = terrain_id
-		overlay.scatter_seed = hash(hex_pos) ^ source_map.map_seed
-		overlay.terrain_hex = hex_pos
-		terrain_overlays[hex_pos] = overlay
+		var spawner = ScatterSpawner.instance()
+		spawner.name = "Overlay (%d, %d)"% [ hex_pos.x, hex_pos.y ]
+		spawner.terrain_id = terrain_id
+		spawner.scatter_seed = hash(hex_pos) ^ source_map.map_seed
+		scatter_spawners[hex_pos] = spawner
 
 func _generate_structures(struct_map):
 	var struct_set = struct_map.get_tileset()
