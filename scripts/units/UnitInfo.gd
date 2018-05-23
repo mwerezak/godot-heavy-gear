@@ -59,7 +59,7 @@ func get_move_cost_on_terrain(move_mode, terrain_info):
 	var type_id = move_mode.type_id
 	var base_speed = move_mode.speed
 	
-	## roads bypass difficult area terrain
+	## roads bypass difficult terrain
 	if terrain_info.has_road:
 		return base_speed/(base_speed + move_mode.road_bonus)
 	

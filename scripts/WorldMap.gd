@@ -81,9 +81,9 @@ func _ready():
 			var overlay = ElevationOverlay.instance()
 			add_child(overlay)
 			
-			var terrain_info = get_terrain_at(cell_pos)
-			if terrain_info:
-				overlay.setup(terrain_info.elevation)
+			var elevation_info = elevation.get_info(cell_pos)
+			if elevation_info:
+				overlay.setup(elevation_info)
 	
 	## setup structures
 	for cell_pos in map_loader.structures:
@@ -178,6 +178,10 @@ func get_terrain_at(cell_pos):
 	
 	_terrain_cache[cell_pos] = info
 	return info
+
+## should be called after anything that modifies terrain
+func refresh_terrain(cell_pos):
+	_terrain_cache.erase(cell_pos)
 
 func point_on_map(world_pos):
 	if !map_bounds.has_point(world_pos):

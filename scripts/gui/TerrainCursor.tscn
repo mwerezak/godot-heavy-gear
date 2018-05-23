@@ -48,7 +48,7 @@ use_filter = true
 font_data = ExtResource( 3 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="TerrainCursor" type="Sprite"]
+[node name="TerrainCursor" type="Sprite" index="0"]
 
 modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
 position = Vector2( 1, 1 )
