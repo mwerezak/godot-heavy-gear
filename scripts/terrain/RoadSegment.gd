@@ -17,7 +17,7 @@ var junctions = {}
 
 func _ready():
 	z_as_relative = false
-	z_index = Constants.GROUND_SCATTER_ZLAYER
+	z_index = Constants.ROAD_ZLAYER
 
 func setup(world_map, start_cell_pos):
 	self.world_map = world_map

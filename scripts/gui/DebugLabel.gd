@@ -17,7 +17,7 @@ func _update_text():
 
 	var cell_pos = world_map.get_grid_cell(mouse_pos)
 	var elevation_info = world_map.elevation.get_info(cell_pos)
-	var elevation_str = "world_pos:%s grade:%s normal:%s" % [ elevation_info.world_pos, elevation_info.grade, elevation_info.normal ]
+	var elevation_str = "world_pos:%s grade:%s normal:%s" % [ elevation_info.world_pos, elevation_info.grade, elevation_info.normal ] if elevation_info else "N/A"
 	
 	var structure = world_map.get_structure_at_cell(cell_pos)
 	if structure:

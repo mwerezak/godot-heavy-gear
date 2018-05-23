@@ -23,7 +23,6 @@ export(PackedScene) var source_map
 
 onready var terrain = $TerrainTiles
 onready var unit_grid = $UnitGrid
-onready var overlay_container = $Overlays
 
 ## These are all Rect2s in world coordinates (i.e. pixels)
 var map_rect    #the region occupied by the map
@@ -71,7 +70,8 @@ func _ready():
 	var unit_margins = Vector2(UNITGRID_WIDTH/2, UNITGRID_HEIGHT/4)
 	unit_bounds = Rect2(map_bounds.position + unit_margins, map_bounds.size - unit_margins*2)
 	
-	## setup terrain elevation TODO move this into MapLoader, should just pull them out and add them
+	## setup terrain elevation 
+	## TODO move this into MapLoader, should just pull them out and add them
 	elevation = ElevationMap.new(self)
 	elevation.load_hex_map(map_loader.terrain_elevation)
 	
@@ -80,8 +80,10 @@ func _ready():
 		if info:
 			var overlay = ElevationOverlay.instance()
 			add_child(overlay)
-			overlay.position = Vector2(info.world_pos.x, info.world_pos.y)
-			overlay.level = info.elevation
+			
+			var terrain_info = get_terrain_at(cell_pos)
+			if terrain_info:
+				overlay.setup(terrain_info.elevation)
 	
 	## setup structures
 	for cell_pos in map_loader.structures:
@@ -128,7 +130,8 @@ func _setup_structure(structure, cell_pos):
 				structure.queue_free()
 				return
 	
-	_set_object_position(structure, cell_pos)
+	_update_object_position(structure, cell_pos)
+	add_child(structure)
 	for cell in footprint_cells:
 		structure_locs[cell] = structure
 
@@ -159,15 +162,19 @@ func get_terrain_at(cell_pos):
 	var world_pos = get_grid_pos(cell_pos)
 	var hex_pos = get_terrain_hex(world_pos)
 	
-	var info = raw_terrain_info(hex_pos).duplicate()
+	var info = raw_terrain_info(hex_pos)
+	if !info: return null
+	
+	info = info.duplicate()
+	info.has_road = road_cells.has(cell_pos)
+	info.elevation = elevation.get_info(cell_pos)
+	
 	if structure_locs.has(cell_pos):
 		var s = structure_locs[cell_pos]
 		var s_info = s.get_terrain_info()
 		if s_info:
 			for key in s_info:
 				info[key] = s_info[key]
-	
-	info.has_road = road_cells.has(cell_pos)
 	
 	_terrain_cache[cell_pos] = info
 	return info
@@ -193,8 +200,8 @@ func get_grid_pos(cell_pos):
 
 ## gets the complete position of a cell in distance units including elevation
 func get_ground_location(cell_pos):
-	var world_pos = get_grid_pos(cell_pos)
-	return Vector3(world_pos.x/HexUtils.UNIT_DISTANCE, world_pos.y/HexUtils.UNIT_DISTANCE, elevation.get_elevation(world_pos))
+	var info = get_terrain_at(cell_pos)
+	return info.elevation.world_pos/HexUtils.UNIT_DISTANCE
 
 func get_angle_to(cell_from, cell_to):
 	var from_pos = get_grid_pos(cell_from)
@@ -245,7 +252,8 @@ func add_unit(unit):
 	unit.world_map = self
 	unit.connect("cell_position_changed", self, "_unit_cell_position_changed", [unit])
 	unit_locs.push_back(unit.cell_position, unit)
-	_set_object_position(unit, unit.cell_position)
+	_update_object_position(unit, unit.cell_position)
+	add_child(unit)
 
 func get_units_at_cell(cell_pos):
 	if !unit_locs.has(cell_pos):
@@ -260,13 +268,13 @@ func get_objects_at_cell(cell_pos):
 
 func _unit_cell_position_changed(old_pos, new_pos, unit):
 	unit_locs.move(old_pos, new_pos, unit)
-	_set_object_position(unit, new_pos)
+	_update_object_position(unit, new_pos)
 
-func _set_object_position(object, cell_pos):
+func _update_object_position(object, cell_pos):
 	var world_pos = get_grid_pos(cell_pos)
 	if object.has_method("get_position_offset"):
 		world_pos += object.get_position_offset()
-	add_child(object)
+	object.position = world_pos
 
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):

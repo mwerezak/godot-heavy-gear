@@ -7,6 +7,7 @@ const TerrainDefs = preload("res://scripts/game/TerrainDefs.gd")
 const DEFAULT_BUILDING_TERRAIN = {
 	impassable = [ MovementModes.WALKER, MovementModes.GROUND ],
 	difficult = TerrainDefs.DEFAULT_DIFFICULT_TERRAIN,
+	has_road = false, #no road bonuses when a building is present
 }
 
 ## for structures that count as difficult terrain (which should be most non-building structures)

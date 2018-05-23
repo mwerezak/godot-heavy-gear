@@ -66,9 +66,4 @@ __meta__ = {
 }
 hex_size = Vector2( 0, 0 )
 
-[node name="Overlays" type="YSort" parent="." index="2"]
-
-sort_enabled = true
-_sections_unfolded = [ "Sort" ]
-
 

@@ -82,7 +82,7 @@ func _calc_plane_coefficients(origin_hex):
 		trap_vec[i] = Vector3(pos.x, pos.y, z)
 	
 	return [
-		_calc_plane(trap_vec[0], trap_vec[2], trap_vec[1]), #upper triangle
+		_calc_plane(trap_vec[0], trap_vec[1], trap_vec[2]), #upper triangle
 		_calc_plane(trap_vec[0], trap_vec[2], trap_vec[3]), #lower triangle
 	]
 
@@ -109,12 +109,12 @@ func _calc_elevation_info(cell_pos):
 	
 	# ax + by + cz + d = 0 --> z = -(ax + by + d)/c
 	var z = -(plane[0]*world_pos.x + plane[1]*world_pos.y + plane[3])/plane[2]
-	var normal = Vector3(plane[0], plane[1], plane[2]).normalized()
+	
 	return {
-		elevation = HexUtils.pixels2units(z),
+		level = HexUtils.pixels2units(z),
 		world_pos = Vector3(world_pos.x, world_pos.y, z),
 		grade = Vector2(plane[0], plane[1])/plane[2], #gradient = (dz/dx, dz/dy)
-		normal = normal if normal.z >= 0 else -normal, #always point up by convention
+		normal = Vector3(plane[0], plane[1], plane[2]).normalized(),
 	}
 
 func get_info(cell_pos):
