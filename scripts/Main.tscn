@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=2]
@@ -17,47 +17,9 @@
 [ext_resource path="res://scripts/gui/MovementDisplay.tscn" type="PackedScene" id=15]
 [ext_resource path="res://icons/unit_cursor.png" type="Texture" id=16]
 [ext_resource path="res://scripts/gui/UnitCursor.gd" type="Script" id=17]
-[ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=18]
-[ext_resource path="res://scripts/gui/TerrainCursor.gd" type="Script" id=19]
-[ext_resource path="res://fonts/LiberationMono-Regular.ttf" type="DynamicFontData" id=20]
+[ext_resource path="res://scripts/gui/TerrainCursor.tscn" type="PackedScene" id=18]
 
-[sub_resource type="StyleBoxFlat" id=1]
-
-content_margin_left = -1.0
-content_margin_right = -1.0
-content_margin_top = -1.0
-content_margin_bottom = -1.0
-bg_color = Color( 1, 0.784314, 0.584314, 0.392157 )
-draw_center = true
-border_width_left = 0
-border_width_top = 0
-border_width_right = 0
-border_width_bottom = 0
-border_color = Color( 0.8, 0.8, 0.8, 1 )
-border_blend = false
-corner_radius_top_left = 0
-corner_radius_top_right = 0
-corner_radius_bottom_right = 0
-corner_radius_bottom_left = 0
-corner_detail = 8
-expand_margin_left = 0.0
-expand_margin_right = 0.0
-expand_margin_top = 0.0
-expand_margin_bottom = 0.0
-shadow_color = Color( 0, 0, 0, 0.6 )
-shadow_size = 0
-anti_aliasing = true
-anti_aliasing_size = 1
-
-[sub_resource type="DynamicFont" id=2]
-
-size = 24
-use_mipmaps = false
-use_filter = true
-font_data = ExtResource( 20 )
-_sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
-
-[node name="Main" type="Node"]
+[node name="Main" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -218,62 +180,12 @@ visible = false
 
 [node name="UnitCursor" type="Sprite" parent="WorldMap" index="2"]
 
-modulate = Color( 0.566406, 0.566406, 0.566406, 0.77349 )
+modulate = Color( 1, 0.784314, 0.584314, 0.353608 )
 z_index = 1
 texture = ExtResource( 16 )
 script = ExtResource( 17 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
-[node name="TerrainCursor" type="Sprite" parent="WorldMap" index="3"]
-
-modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
-position = Vector2( 1, 1 )
-z_index = 1
-texture = ExtResource( 18 )
-centered = false
-offset = Vector2( 0, -37 )
-script = ExtResource( 19 )
-_sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
-
-[node name="Transparent" type="PanelContainer" parent="WorldMap/TerrainCursor" index="0"]
-
-anchor_left = 0.5
-anchor_top = 0.0
-anchor_right = 0.5
-anchor_bottom = 0.0
-margin_left = -28.0
-margin_right = 28.0
-margin_bottom = 28.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-custom_styles/panel = SubResource( 1 )
-_sections_unfolded = [ "Margin", "Mouse", "Rect", "Size Flags", "custom_styles" ]
-
-[node name="LocLabel" type="Label" parent="WorldMap/TerrainCursor/Transparent" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 56.0
-margin_bottom = 28.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-custom_fonts/font = SubResource( 2 )
-text = "----"
-align = 1
-uppercase = true
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin", "Size Flags", "Visibility", "custom_fonts" ]
+[node name="TerrainCursor" parent="WorldMap" index="3" instance=ExtResource( 18 )]
 
 

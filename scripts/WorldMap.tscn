@@ -5,7 +5,7 @@
 [ext_resource path="res://tilesets/TerrainTiles.tres" type="TileSet" id=3]
 [ext_resource path="res://scripts/helpers/HexGrid.gd" type="Script" id=4]
 
-[node name="WorldMap" type="YSort" index="0"]
+[node name="WorldMap" type="YSort"]
 
 position = Vector2( 0, 1 )
 sort_enabled = true
