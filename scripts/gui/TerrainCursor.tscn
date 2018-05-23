@@ -102,7 +102,7 @@ uppercase = true
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Anchor", "Margin", "Size Flags", "Visibility", "custom_fonts" ]
+_sections_unfolded = [ "Anchor", "Margin", "Mouse", "Size Flags", "Visibility", "custom_fonts" ]
 
 [node name="ElevationPanel" type="PanelContainer" parent="." index="1"]
 
@@ -136,12 +136,12 @@ margin_right = 100.0
 margin_bottom = 42.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 1
+mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 alignment = 0
-_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Size Flags" ]
+_sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Mouse", "Size Flags" ]
 
 [node name="ElevationTitle" type="Label" parent="ElevationPanel/VBoxContainer" index="0"]
 
