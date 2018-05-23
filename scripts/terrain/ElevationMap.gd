@@ -13,7 +13,8 @@ var terrain_grid
 
 var _bounds = [{}, {}]
 var _elevation_map = {}
-var _coefficients = {}
+
+var _info_cache = {}
 
 func _init(world_map):
 	self.world_map = world_map
@@ -27,11 +28,6 @@ func load_hex_map(raw_elevation):
 		_elevation_map[hex_pos] = raw_elevation[hex_pos] if raw_elevation.has(hex_pos) else 0
 		_update_bounds(_COL, hex_pos.x, hex_pos.y)
 		_update_bounds(_ROW, hex_pos.y, hex_pos.x)
-	
-	## precalculate plane coefficients
-	_coefficients.clear()
-	for hex_pos in _elevation_map:
-		_get_plane_coefficients(hex_pos)
 
 func _update_bounds(axis, index, value):
 	if _bounds[axis].has(index):
@@ -66,14 +62,6 @@ func _world_to_axial(world_pos):
 func _axial_to_world(axial_pos):
 	return terrain_grid.axial_to_world(axial_pos) + terrain_grid.cell_size/2.0
 
-func _get_plane_coefficients(origin_hex):
-	if _coefficients.has(origin_hex):
-		return _coefficients[origin_hex]
-	
-	var rval = _calc_plane_coefficients(origin_hex)
-	_coefficients[origin_hex] = rval
-	return rval
-
 const _UPPER_TRIANGLE = 0
 const _LOWER_TRIANGLE = 1
 func _calc_plane_coefficients(origin_hex):
@@ -82,10 +70,13 @@ func _calc_plane_coefficients(origin_hex):
 	## get the elevation at each corner of the trapezoid
 	var trap_vec = [null, null, null, null]
 	for i in range(4):
-		var z = _get_hex_elevation(trap_hexes[i])
-		
-		if z == null:
+		var elevation = _get_hex_elevation(trap_hexes[i])
+		if elevation == null:
 			return null
+		
+		## x,y are in pixels, so it's probably a good idea
+		## to make all components have consistent units
+		var z = HexUtils.units2pixels(elevation)
 		
 		var pos = world_map.get_terrain_pos(trap_hexes[i])
 		trap_vec[i] = Vector3(pos.x, pos.y, z)
@@ -99,37 +90,37 @@ func _calc_plane(plane_origin, p1, p2):
 	var plane_normal = (p1 - plane_origin).cross(p2 - plane_origin)
 	return [ plane_normal.x, plane_normal.y, plane_normal.z, -plane_normal.dot(plane_origin) ]
 
-func get_elevation(world_pos):
-	## get the elevation trapezoid containing world_pos
+func _calc_elevation_info(cell_pos):
+	## get the elevation trapezoid containing cell_pos
+	var world_pos = world_map.get_grid_pos(cell_pos)
 	var axial_pos = _world_to_axial(world_pos)
 	var trap_origin = axial_pos.floor()
 	var origin_hex = world_map.get_terrain_hex(_axial_to_world(trap_origin))
 	
-	var plane = _get_plane_coefficients(origin_hex)
+	var plane = _calc_plane_coefficients(origin_hex)
 	if !plane:
-		return _get_hex_elevation(origin_hex)
+		return null
 	
-	var v = axial_pos - trap_origin
-	if v.x > v.y:
+	var trap_pos = axial_pos - trap_origin #axial position within the trapezoid
+	if trap_pos.x > trap_pos.y:
 		plane = plane[_UPPER_TRIANGLE]
 	else:
 		plane = plane[_LOWER_TRIANGLE]
 	
-	return -(plane[0]*world_pos.x + plane[1]*world_pos.y + plane[3])/plane[2]
+	# ax + by + cz + d = 0 --> z = -(ax + by + d)/c
+	var z = -(plane[0]*world_pos.x + plane[1]*world_pos.y + plane[3])/plane[2]
+	var normal = Vector3(plane[0], plane[1], plane[2]).normalized()
+	return {
+		elevation = HexUtils.pixels2units(z),
+		world_pos = Vector3(world_pos.x, world_pos.y, z),
+		grade = Vector2(plane[0], plane[1])/plane[2], #gradient = (dz/dx, dz/dy)
+		normal = normal if normal.z >= 0 else -normal, #always point up by convention
+	}
 
-func get_gradient(world_pos):
-	var axial_pos = _world_to_axial(world_pos)
-	var trap_origin = axial_pos.floor()
-	var origin_hex = world_map.get_terrain_hex(_axial_to_world(trap_origin))
+func get_info(cell_pos):
+	if _info_cache.has(cell_pos):
+		return _info_cache[cell_pos]
 	
-	var plane = _get_plane_coefficients(origin_hex)
-	if !plane:
-		return _get_hex_elevation(origin_hex)
-	
-	var v = axial_pos - trap_origin
-	if v.x > v.y:
-		plane = plane[_UPPER_TRIANGLE]
-	else:
-		plane = plane[_LOWER_TRIANGLE]
-	
-	return Vector2(plane[0], plane[1])/plane[2] * HexUtils.UNIT_DISTANCE
+	var info = _calc_elevation_info(cell_pos)
+	_info_cache[cell_pos] = info
+	return info

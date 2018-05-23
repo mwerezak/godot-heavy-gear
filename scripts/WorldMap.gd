@@ -71,18 +71,17 @@ func _ready():
 	var unit_margins = Vector2(UNITGRID_WIDTH/2, UNITGRID_HEIGHT/4)
 	unit_bounds = Rect2(map_bounds.position + unit_margins, map_bounds.size - unit_margins*2)
 	
-	## setup terrain elevation
+	## setup terrain elevation TODO move this into MapLoader, should just pull them out and add them
 	elevation = ElevationMap.new(self)
 	elevation.load_hex_map(map_loader.terrain_elevation)
 	
 	for cell_pos in get_rect_cells(map_rect):
-		var world_pos = get_grid_pos(cell_pos)
-		var cell_z = elevation.get_elevation(world_pos)
-		if cell_z:
+		var info = elevation.get_info(cell_pos)
+		if info:
 			var overlay = ElevationOverlay.instance()
 			add_child(overlay)
-			overlay.position = world_pos
-			overlay.level = cell_z
+			overlay.position = Vector2(info.world_pos.x, info.world_pos.y)
+			overlay.level = info.elevation
 	
 	## setup structures
 	for cell_pos in map_loader.structures:

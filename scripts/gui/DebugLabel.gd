@@ -16,13 +16,12 @@ func _update_text():
 	var terrain_id = terrain.terrain_id if terrain else "None"
 
 	var cell_pos = world_map.get_grid_cell(mouse_pos)
-	var elevation = world_map.elevation.get_elevation(world_map.get_grid_pos(cell_pos))
-	var gradient = world_map.elevation.get_gradient(world_map.get_grid_pos(cell_pos))
-	var grad_str = "%s@%s" % [ gradient.length(), HexUtils.nearest_dir(gradient.angle()) ] 
+	var elevation_info = world_map.elevation.get_info(cell_pos)
+	var elevation_str = "world_pos:%s grade:%s normal:%s" % [ elevation_info.world_pos, elevation_info.grade, elevation_info.normal ]
 	
 	var structure = world_map.get_structure_at_cell(cell_pos)
 	if structure:
 		terrain_id += ":" + structure.get_structure_id()
 
 	var zoom = camera.zoom.x
-	text = "%s z:%s grad:%s %s x%.2f" % [cell_pos, elevation, grad_str, terrain_id, 1/zoom]
+	text = "cell:%s %s terrain:%s x%.2f" % [cell_pos, elevation_str, terrain_id, 1/zoom]

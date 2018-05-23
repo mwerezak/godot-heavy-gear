@@ -3,7 +3,7 @@ extends Sprite
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-const INTENSITY = 0.05
+const INTENSITY = 0.125
 const ELEVATION_OVERLAY_MAT = preload("res://icons/terrain/elevation_overlay_material.tres")
 const DEPTH_OVERLAY_MAT = preload("res://icons/terrain/depth_overlay_material.tres")
 
@@ -26,7 +26,9 @@ func set_level(new_level):
 	else:
 		show()
 		var intensity = abs(level) * INTENSITY
-		self_modulate = Color(intensity, intensity, intensity, 1)
+		var c = Color("#657e2a")
+		c.a = intensity
+		self_modulate = c 
 		if level >= 0:
 			material = ELEVATION_OVERLAY_MAT
 		else:
