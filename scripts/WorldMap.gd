@@ -1,8 +1,9 @@
 extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
-const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
+const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
+const HexGrid = preload("res://scripts/helpers/HexGrid.gd")
 
 const MapLoader = preload("res://scripts/MapLoader.gd")
 const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
@@ -109,15 +110,14 @@ func _ready():
 #			road_cells[cell_pos] = true
 	
 	## setup scatters
-#	for hex_pos in map_loader.scatter_spawners:
-#		var spawner = map_loader.scatter_spawners[hex_pos]
-#		spawner.position = get_terrain_pos(hex_pos)
-#		add_child(spawner)
-#
-#		for scatter in spawner.create_scatters(self):
-#			add_child(scatter)
-#
-#		spawner.queue_free()
+	var scatter_grid = HexGrid.new()
+	scatter_grid.cell_size = terrain_grid.cell_size
+	for hex_pos in map_loader.scatter_spawners:
+		scatter_grid.position = terrain_grid.offset_to_world(hex_pos)
+		var spawner = map_loader.scatter_spawners[hex_pos]
+		for scatter in spawner.create_scatters(self, scatter_grid, terrain_grid.cell_spacing.x/2.0):
+			add_child(scatter)
+	scatter_grid.queue_free()
 
 ## Initialization
 
@@ -164,6 +164,8 @@ func _setup_structure(structure, offset_cell):
 ## Terrain Cells
 
 func raw_terrain_info(terrain_cell):
+	if !terrain_tiles.has(terrain_cell): return null
+	
 	var offset_cell = terrain_tiles[terrain_cell]
 	var tile_idx = terrain_tilemap.get_cellv(offset_cell)
 	

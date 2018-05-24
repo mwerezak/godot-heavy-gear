@@ -1,65 +1,74 @@
-extends Node2D
+extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
 const TerrainTiles = preload("res://scripts/terrain/TerrainTiles.gd")
 const TerrainScatter = preload("res://scripts/terrain/TerrainScatter.gd")
-const WorldMap = preload("res://scripts/WorldMap.gd")
 
-export(String) var terrain_id
-export(int) var scatter_seed = 0
+var terrain_id
+var random_seed = 0
 
-onready var world_map
-onready var scatter_grid = $ScatterGrid
+func _init(terrain_id, random_seed = 0):
+	self.terrain_id = terrain_id
+	self.random_seed = random_seed
 
-func create_scatters(world_map):
-	self.world_map = world_map
-	
-	## setup scatter grid
-	var terrain_cell = world_map.terrain_grid.cell_spacing
-	scatter_grid.cell_size = terrain_cell
+func create_scatters(world_map, scatter_grid, scatter_radius):
 	
 	if !TerrainTiles.OVERLAYS.has(terrain_id):
 		return []
 	
-	rand_seed(scatter_seed)
+	rand_seed(random_seed)
+	
 	var overlay_info = TerrainTiles.OVERLAYS[terrain_id]
 	var randweights = {}
 	for item in overlay_info.scatters:
 		randweights[item] = item.randweight
 		
 	var placement_info = RandomUtils.get_weighted_random(randweights)
-	return _place_scatters(placement_info)
-
-func _place_scatters(placement_info):
-	var scatter_scale = 1.0/placement_info.density
-	var scatter_radius = scatter_scale*WorldMap.TERRAIN_WIDTH/2
-	
-	scatter_grid.scale = scatter_scale*Vector2(1,1)
 	
 	var scatters = []
-	for cell_pos in HexUtils.get_spiral(ceil(placement_info.density - 1)):
+	for scatter_data in _get_scatter_placement(scatter_grid, placement_info):
+		if !inside_hex(scatter_data.position - scatter_grid.position, scatter_radius - scatter_data.info.base_radius):
+			continue
+		if !can_place_scatter(world_map, scatter_data):
+			continue
+		
+		var scatter = TerrainScatter.new(scatter_data.info)
+		scatter.position = scatter_data.position
+		scatters.push_back(scatter)
+	return scatters
+
+func _get_scatter_placement(scatter_grid, placement_info):
+	var scatter_scale = 1.0/placement_info.density
+	scatter_grid.scale = scatter_scale*Vector2(1,1)
+	
+	var scatter_data = []
+	for scatter_cell in HexUtils.get_spiral(ceil(placement_info.density - 1)):
 		var scatter_id = RandomUtils.get_weighted_random(placement_info.scatters)
 		if scatter_id != "none":
 			var scatter_info = TerrainTiles.SCATTERS[scatter_id]
-			var base_radius = scatter_info.base_radius
-			var scatter_pos = _get_scatter_pos(cell_pos) + RandomUtils.get_random_scatter(max(scatter_radius - base_radius, 0))
-			
-			if _can_place_scatter(scatter_pos, base_radius):
-				var scatter = TerrainScatter.new(scatter_info)
-				scatter.position = position + scatter_pos
-				scatters.push_back(scatter)
-	return scatters
+			var scaled_base_radius = scatter_info.base_radius/(scatter_grid.cell_spacing.x * scatter_scale)
+			var scatter_pos = scatter_cell + RandomUtils.get_random_scatter(max(0.5 - scaled_base_radius, 0))
 
-func _get_scatter_pos(cell_pos):
-	return scatter_grid.map_to_world(cell_pos) * scatter_grid.scale
+			scatter_data.push_back({
+				info = scatter_info,
+				position = scatter_grid.axial_to_world(scatter_pos),
+			})
+	return scatter_data
 
-func _can_place_scatter(scatter_pos, base_radius):
-	## make sure the scatter is inside our hex
-	if !HexUtils.inside_hex(Vector2(), WorldMap.TERRAIN_WIDTH/2 - base_radius, scatter_pos):
-		return false
-	
-	var world_pos = transform.xform(scatter_pos)
+
+## I dont understand why a special transform is needed here, but nothing works unless I do this
+## needed since the expression below can't be in a const for some reason
+func get_axial_transform(edge_radius, origin=Vector2()):
+	return Transform2D(Vector2(edge_radius, 0), Vector2(0, edge_radius).rotated(deg2rad(30)), origin)
+
+func inside_hex(world_pos, radius):
+	var axial_pos = get_axial_transform(1).xform_inv(world_pos)
+	var z = -(axial_pos.x + axial_pos.y) #x + y + z = 0
+	return abs(axial_pos.x) <= radius && abs(axial_pos.y) <= radius && abs(z) <= radius
+
+func can_place_scatter(world_map, scatter_data):
+	var world_pos = scatter_data.position
 	var grid_cell = world_map.unit_grid.get_axial_cell(world_pos)
 	
 	## don't place scatters on roads
@@ -70,9 +79,5 @@ func _can_place_scatter(scatter_pos, base_radius):
 	var structure = world_map.get_structure_at_cell(grid_cell)
 	if structure && structure.exclude_scatters():
 		return false
-		#var cell_center = transform.xform_inv(world_map.get_grid_pos(grid_cell))
-		#if HexUtils.inside_hex(cell_center, WorldMap.UNITGRID_WIDTH/2 - base_radius, scatter_pos):
-		#	return false
 	
 	return true
-	

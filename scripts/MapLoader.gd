@@ -1,9 +1,9 @@
 extends Reference
 
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
-const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.tscn")
-const Structure = preload("res://scripts/structures/Structure.tscn")
+const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.gd")
 const RoadBuilder = preload("res://scripts/terrain/RoadBuilder.gd")
+const Structure = preload("res://scripts/structures/Structure.tscn")
 
 var source_map
 
@@ -56,11 +56,9 @@ func _generate_terrain(editor_terrain_map):
 		terrain_indexes[hex_cell] = terrain_tile_idx
 		
 		## generate terrain hex overlay
-#		var spawner = ScatterSpawner.instance()
-#		spawner.name = "Overlay (%d, %d)"% [ hex_cell.x, hex_cell.y ]
-#		spawner.terrain_id = terrain_id
-#		spawner.scatter_seed = hash(hex_cell) ^ source_map.map_seed
-#		scatter_spawners[hex_cell] = spawner
+		var scatter_seed = hash(hex_cell) ^ source_map.map_seed
+		var spawner = ScatterSpawner.new(terrain_id, scatter_seed)
+		scatter_spawners[hex_cell] = spawner
 
 func _generate_structures(struct_map):
 	var struct_set = struct_map.get_tileset()

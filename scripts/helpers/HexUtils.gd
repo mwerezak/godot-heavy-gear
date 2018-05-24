@@ -78,8 +78,17 @@ static func arc_dirs(start_dir, end_dir):
 ## an array of all possible move directions
 const MOVE_DIRECTIONS = [0, 2, 4, 6, 8, 10]
 
+const AXIAL_CONN = {
+	0 : Vector2(1, 0),
+	2 : Vector2(1, 1),
+	4 : Vector2(0, 1),
+	6 : Vector2(-1, 0),
+	8 : Vector2(-1, -1),
+	10: Vector2(0, -1),
+}
+
 ## gets the step vector to adjacent grid positions for even and odd row hexes
-const HEX_CONN_EVEN = {
+const OFFSET_CONN_EVEN = {
 	0 : Vector2(1, 0),
 	2 : Vector2(0, 1),
 	4 : Vector2(-1, 1),
@@ -88,7 +97,7 @@ const HEX_CONN_EVEN = {
 	10: Vector2(0, -1),
 }
 
-const HEX_CONN_ODD = {
+const OFFSET_CONN_ODD = {
 	0 : Vector2(1, 0),
 	2 : Vector2(1, 1),
 	4 : Vector2(0, 1),
@@ -98,24 +107,29 @@ const HEX_CONN_ODD = {
 }
 
 ## map hex row parity to connection table
-const HEX_CONN = {
-	0 : HEX_CONN_EVEN,
-	1 : HEX_CONN_ODD,
+const OFFSET_CONN = {
+	0 : OFFSET_CONN_EVEN,
+	1 : OFFSET_CONN_ODD,
 }
 
-static func get_step(cell_pos, dir):
+static func get_axial_step(cell_pos, dir):
+	if !MOVE_DIRECTIONS.has(dir): 
+		return cell_pos
+	return cell_pos + AXIAL_CONN[dir]
+
+static func get_offset_step(cell_pos, dir):
 	if !MOVE_DIRECTIONS.has(dir): 
 		return cell_pos
 	
 	var parity = int(cell_pos.y) & 1
-	return cell_pos + HEX_CONN[parity][dir]
+	return cell_pos + OFFSET_CONN[parity][dir]
 
 static func get_neighbors(cell_pos):
 	var parity = int(cell_pos.y) & 1
 	var rval = {}
 	
 	for dir in MOVE_DIRECTIONS:
-		rval[dir] = cell_pos + HEX_CONN[parity][dir]
+		rval[dir] = cell_pos + OFFSET_CONN[parity][dir]
 	return rval
 
 ## produces a spiral path. radius is the number of rings, must be an integer
@@ -125,15 +139,16 @@ static func get_spiral(radius):
 	var cur_pos = Vector2(0,0)
 	var path = [ cur_pos ]
 	for ring in radius:
-		cur_pos = get_step(cur_pos, _RADIAL_DIR)
+		cur_pos = get_axial_step(cur_pos, _RADIAL_DIR)
 		for step_dir in _STEP_DIRS:
 			for i in (ring + 1):
 				path.push_back(cur_pos)
-				cur_pos = get_step(cur_pos, step_dir)
+				cur_pos = get_axial_step(cur_pos, step_dir)
 	return path
 
 ## note that rect positions MUST be absolute.
 ## Shift rect before calling this function, do not shift the results afterwards.
+## returns cells in OFFSET coordinates
 static func get_rect(rect):
 	var contents = []
 	var origin_parity = int(rect.position.y) & 1
@@ -152,18 +167,3 @@ static func get_rect(rect):
 		for q in range(q_start, q_end, sign(rect.size.x)):
 			contents.push_back(Vector2(q, r))
 	return contents
-
-## Hex Geometry
-
-## needed since the expression below can't be in a const for some reason
-static func get_axial_transform(edge_radius, origin=Vector2()):
-	return Transform2D(Vector2(edge_radius, 0), Vector2(0, edge_radius).rotated(deg2rad(30)), origin)
-
-## returns true if a point is inside a unit hex centered at the origin
-static func inside_unit_hex(world_pos):
-	var axial_pos = get_axial_transform(1).xform_inv(world_pos)
-	var z = -(axial_pos.x + axial_pos.y) #x + y + z = 0
-	return abs(axial_pos.x) <= 1 && abs(axial_pos.y) <= 1 && abs(z) <= 1
-
-static func inside_hex(hex_center, edge_radius, world_pos):
-	return inside_unit_hex((world_pos - hex_center)/edge_radius)

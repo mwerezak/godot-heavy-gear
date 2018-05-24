@@ -45,7 +45,7 @@ const SCATTERS = {
 	},
 	pine_tree = {
 		offset_mode = OFFSET_ROOT,
-		base_radius = 5,
+		base_radius = 3,
 		zlayer = Constants.DEFAULT_SCATTER_ZLAYER,
 		textures = [
 			preload("res://icons/terrain/woodland/pine0.png"),
@@ -53,7 +53,7 @@ const SCATTERS = {
 	},
 	round_tree = {
 		offset_mode = OFFSET_ROOT,
-		base_radius = 8,
+		base_radius = 5,
 		zlayer = Constants.DEFAULT_SCATTER_ZLAYER,
 		textures = [
 			preload("res://icons/terrain/woodland/tree0.png"),
@@ -103,7 +103,7 @@ const OVERLAYS = {
 		scatters = [
 			{
 				randweight = 1.0,
-				density = 3.5,
+				density = 3.0,
 				scatters = {
 					pine_tree = 8.0,
 					round_tree = 3.0,
@@ -112,7 +112,7 @@ const OVERLAYS = {
 			},
 			{
 				randweight = 1.0,
-				density = 4.0,
+				density = 3.5,
 				scatters = {
 					pine_tree = 8.0,
 					round_tree = 3.0,
