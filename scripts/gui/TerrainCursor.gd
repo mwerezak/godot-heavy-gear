@@ -23,13 +23,13 @@ func _unhandled_input(event):
 			var hex_pos = world_map.terrain.world_to_map(mouse_pos)
 			set_hex_position(hex_pos)
 			hex_coords_label.text = _format_hexloc(hex_pos)
-			
-			var terrain = world_map.get_terrain_at_pos(mouse_pos)
-			if terrain && terrain.elevation && terrain.elevation.level:
-				elevation_label.text = "%.2+f u" % terrain.elevation.level ##TODO units formatting
-				elevation_panel.show()
-			else:
-				elevation_panel.hide()
+
+#			var terrain = world_map.get_terrain_at_pos(mouse_pos)
+#			if terrain && terrain.elevation && terrain.elevation.level:
+#				elevation_label.text = "%.2+f u" % terrain.elevation.level ##TODO units formatting
+#				elevation_panel.show()
+#			else:
+#				elevation_panel.hide()
 
 func _format_hexloc(hex_pos):
 	var map_rect = world_map.terrain.get_used_rect()

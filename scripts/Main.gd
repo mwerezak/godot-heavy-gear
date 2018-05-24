@@ -10,8 +10,7 @@ func _ready():
 	randomize()
 	
 	## set camera limits
-	var map_rect = world_map.get_bounding_rect()
-	camera.set_limit_rect(map_rect)
+	camera.set_limit_rect(world_map.get_display_rect())
 	
 	## register Context Panel items
 	context_panel.register("dev_spawn_unit", context_panel.get_node("SpawnUnit"))
@@ -26,6 +25,7 @@ func _ready():
 	
 	var help_dialog = $GUILayer/QuickHelp
 	help_dialog.popup_centered()
+
 
 func _unhandled_input(event):
 	if event.is_action_pressed("toggle_elevation"):

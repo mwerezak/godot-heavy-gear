@@ -66,4 +66,12 @@ __meta__ = {
 }
 hex_size = Vector2( 0, 0 )
 
+[node name="ElevationLabels" type="CanvasLayer" parent="." index="2"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
 

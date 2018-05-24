@@ -13,7 +13,6 @@ var pan_speed = 800
 var limit_rect = null setget set_limit_rect
 
 var _mouse_captured = false
-
 func _unhandled_input(event):
 	# mousewheel zoom
 	if event is InputEventMouseButton:

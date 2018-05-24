@@ -12,22 +12,24 @@ export(int) var scatter_seed = 0
 onready var world_map
 onready var scatter_grid = $ScatterGrid
 
-func spawn_scatters(world_map):
+func create_scatters(world_map):
 	self.world_map = world_map
 	
 	## setup scatter grid
 	var terrain_cell = world_map.terrain.cell_size
 	scatter_grid.cell_size = terrain_cell
 	
-	if TerrainTiles.OVERLAYS.has(terrain_id):
-		rand_seed(scatter_seed)
-		var overlay_info = TerrainTiles.OVERLAYS[terrain_id]
-		var randweights = {}
-		for item in overlay_info.scatters:
-			randweights[item] = item.randweight
-			
-		var placement_info = RandomUtils.get_weighted_random(randweights)
-		_place_scatters(placement_info)
+	if !TerrainTiles.OVERLAYS.has(terrain_id):
+		return []
+	
+	rand_seed(scatter_seed)
+	var overlay_info = TerrainTiles.OVERLAYS[terrain_id]
+	var randweights = {}
+	for item in overlay_info.scatters:
+		randweights[item] = item.randweight
+		
+	var placement_info = RandomUtils.get_weighted_random(randweights)
+	return _place_scatters(placement_info)
 
 func _place_scatters(placement_info):
 	var scatter_scale = 1.0/placement_info.density
@@ -35,6 +37,7 @@ func _place_scatters(placement_info):
 	
 	scatter_grid.scale = scatter_scale*Vector2(1,1)
 	
+	var scatters = []
 	for cell_pos in HexUtils.get_spiral(ceil(placement_info.density - 1)):
 		var scatter_id = RandomUtils.get_weighted_random(placement_info.scatters)
 		if scatter_id != "none":
@@ -45,7 +48,8 @@ func _place_scatters(placement_info):
 			if _can_place_scatter(scatter_pos, base_radius):
 				var scatter = TerrainScatter.new(scatter_info)
 				scatter.position = position + scatter_pos
-				world_map.add_child(scatter)
+				scatters.push_back(scatter)
+	return scatters
 
 func _get_scatter_pos(cell_pos):
 	return scatter_grid.map_to_world(cell_pos) * scatter_grid.scale

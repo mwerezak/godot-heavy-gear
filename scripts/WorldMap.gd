@@ -7,6 +7,7 @@ const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 const MapLoader = preload("res://scripts/MapLoader.gd")
 const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 const ElevationOverlay = preload("res://scripts/terrain/ElevationOverlay.tscn")
+const ElevationLabel = preload("res://scripts/gui/ElevationLabel.tscn")
 
 ## dimensions of terrain hexes
 ## it is important that these are all multiples of 4, due to the geometry of hex grids
@@ -26,7 +27,7 @@ onready var unit_grid = $UnitGrid
 
 ## These are all Rect2s in world coordinates (i.e. pixels)
 var map_rect    #the region occupied by the map
-var map_bounds  #the displayable boundary of the map
+var display_rect  #the displayable boundary of the map
 var unit_bounds #the "game" boundary of the map
 
 ## data structures to map position -> object
@@ -63,12 +64,12 @@ func _ready():
 	map_rect = Rect2(cell_to_pixel.xform(cell_bounds.position), cell_to_pixel.xform(cell_bounds.size + Vector2(0.5, 0)))
 	
 	#cut off the pointy parts of the hexes, so the player sees smooth map edges
-	var margins = Vector2(TERRAIN_WIDTH/2, TERRAIN_HEIGHT/4)
-	map_bounds = Rect2(map_rect.position + margins, map_rect.size - margins*2)
+	var terrain_margins = Vector2(TERRAIN_WIDTH/2, TERRAIN_HEIGHT/4)
+	display_rect = Rect2(map_rect.position + terrain_margins, map_rect.size - terrain_margins*2)
 	
 	#unit cells must be entirely contained within the map bounds
-	var unit_margins = Vector2(UNITGRID_WIDTH/2, UNITGRID_HEIGHT/4)
-	unit_bounds = Rect2(map_bounds.position + unit_margins, map_bounds.size - unit_margins*2)
+	var unit_margins = Vector2(UNITGRID_WIDTH/2, UNITGRID_HEIGHT/4) + terrain_margins
+	unit_bounds = Rect2(map_rect.position + unit_margins, map_rect.size - unit_margins*2)
 	
 	## setup terrain elevation 
 	## TODO move this into MapLoader, should just pull them out and add them
@@ -101,14 +102,24 @@ func _ready():
 		var spawner = map_loader.scatter_spawners[hex_pos]
 		spawner.position = get_terrain_pos(hex_pos)
 		add_child(spawner)
-		spawner.spawn_scatters(self)
+		
+		for scatter in spawner.create_scatters(self):
+			add_child(scatter)
+		
+		remove_child(spawner)
 		spawner.queue_free()
 
 ## Initialization
 
 ## returns the bounding rectangle in world coords
 func get_bounding_rect():
-	return map_bounds
+	return map_rect
+
+func get_display_rect():
+	return display_rect
+
+func get_grid_rect():
+	return unit_bounds
 
 func all_terrain_hexes():
 	return terrain.get_used_cells()
@@ -184,7 +195,7 @@ func refresh_terrain(cell_pos):
 	_terrain_cache.erase(cell_pos)
 
 func point_on_map(world_pos):
-	if !map_bounds.has_point(world_pos):
+	if !unit_bounds.has_point(world_pos):
 		return false
 	
 	var hex_pos = get_terrain_hex(world_pos)

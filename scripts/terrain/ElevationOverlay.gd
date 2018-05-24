@@ -15,15 +15,9 @@ const LEVEL_MULT = 0.125
 var color = Color("#657e2a")
 var brightness = 0 setget set_brightness
 
-onready var label = $Label2D/PanelContainer/Label
-onready var label_node = $Label2D
-
 func _ready():
 	z_as_relative = false
 	z_index = Constants.ELEVATION_OVERLAY_ZLAYER
-	
-	label_node.z_as_relative = false
-	label_node.z_index = Constants.HUD_ZLAYER
 
 const _X_AXIS = Vector3(1, 0, 0)
 const _Y_AXIS = Vector3(0, 1, 0)
@@ -42,6 +36,3 @@ func set_brightness(value):
 	self_modulate = modulate_color
 	material = ELEVATION_OVERLAY_MAT if value >= 0 else DEPTH_OVERLAY_MAT
 	brightness = value
-
-func toggle_labels():
-	label_node.visible = !label_node.visible

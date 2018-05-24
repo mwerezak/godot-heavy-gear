@@ -48,7 +48,7 @@ use_filter = true
 font_data = ExtResource( 3 )
 _sections_unfolded = [ "Extra Spacing", "Font", "Settings" ]
 
-[node name="TerrainCursor" type="Sprite" index="0"]
+[node name="TerrainCursor" type="Sprite"]
 
 modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
 position = Vector2( 1, 1 )
@@ -106,6 +106,7 @@ _sections_unfolded = [ "Anchor", "Margin", "Mouse", "Size Flags", "Visibility", 
 
 [node name="ElevationPanel" type="PanelContainer" parent="." index="1"]
 
+visible = false
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
