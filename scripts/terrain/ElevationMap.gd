@@ -117,10 +117,23 @@ func _calc_elevation_info(cell_pos):
 		normal = Vector3(plane[0], plane[1], plane[2]).normalized(),
 	}
 
+const SHARPNESS = 6.0 #controls how much we smooth the elevation map
 func get_info(cell_pos):
 	if _info_cache.has(cell_pos):
 		return _info_cache[cell_pos]
 	
 	var info = _calc_elevation_info(cell_pos)
+	if info:
+		var total = SHARPNESS
+		for neighbor_pos in HexUtils.get_neighbors(cell_pos).values():
+			## average with neighbors
+			var neighbor_info = _calc_elevation_info(neighbor_pos)
+			if neighbor_info:
+				info.level = (total*info.level + neighbor_info.level)/(total+1)
+				info.grade = (total*info.grade + neighbor_info.grade)/(total+1)
+				info.normal = (total*info.normal + neighbor_info.normal)/(total+1)
+				total += 1
+	
 	_info_cache[cell_pos] = info
 	return info
+

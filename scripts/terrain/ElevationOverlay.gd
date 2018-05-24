@@ -43,24 +43,5 @@ func set_brightness(value):
 	material = ELEVATION_OVERLAY_MAT if value >= 0 else DEPTH_OVERLAY_MAT
 	brightness = value
 
-#func set_level(new_level):
-#	level = new_level
-#	if level == 0:
-#		hide()
-#	else:
-#		show()
-#		var intensity = abs(level) * INTENSITY
-#		var c = Color("#657e2a")
-#		c.a = intensity
-#		self_modulate = c 
-#		if level >= 0:
-#			material = ELEVATION_OVERLAY_MAT
-#		else:
-#			material = DEPTH_OVERLAY_MAT
-#
-#		var height = level*HexUtils.UNIT_METRE
-#		if abs(height) >= 0.1:
-#			label.text = "%+0.1fm" % height ##todo distance formatting helpers
-
 func toggle_labels():
 	label_node.visible = !label_node.visible
