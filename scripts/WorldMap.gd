@@ -98,9 +98,9 @@ func _ready():
 #				overlay.setup(elevation_info)
 	
 	## setup structures
-	for cell_pos in map_loader.structures:
-		var structure = map_loader.structures[cell_pos]
-		_setup_structure(structure, cell_pos)
+	for offset_cell in map_loader.structures:
+		var structure = map_loader.structures[offset_cell]
+		_setup_structure(structure, offset_cell)
 	
 	## setup roads
 #	for road_segment in map_loader.road_segments:
@@ -135,27 +135,31 @@ func get_grid_rect():
 func all_terrain_cells():
 	return terrain_tiles.values()
 
-func _setup_structure(structure, cell_pos):
+func _setup_structure(structure, offset_cell):
 	structure.world_map = self
-	structure.cell_position = cell_pos
+	
+	var anchor_cell = unit_grid.offset_to_axial(offset_cell)
+	structure.cell_position = anchor_cell
 	
 	var footprint_cells = []
 	for rect in structure.get_footprint():
-		for cell in HexUtils.get_rect(rect):
-			footprint_cells.push_back(cell)
-			if !grid_cell_on_map(cell):
-				print("WARNING: structure extends off map at ", cell)
+		var shifted_rect = Rect2(rect.position + offset_cell, rect.size)
+		for offset_cell in HexUtils.get_rect(shifted_rect):
+			var grid_cell = unit_grid.offset_to_axial(offset_cell)
+			footprint_cells.push_back(grid_cell)
+			if !grid_cell_on_map(grid_cell):
+				print("WARNING: structure extends off map at ", offset_cell)
 				return
 			
-			if structure_locs.has(cell):
-				print("WARNING: structure already present at cell ", cell)
+			if structure_locs.has(grid_cell):
+				print("WARNING: structure already present at cell ", offset_cell)
 				structure.queue_free()
 				return
 	
-	_update_object_position(structure, cell_pos)
+	_update_object_position(structure, anchor_cell)
 	add_child(structure)
-	for cell in footprint_cells:
-		structure_locs[cell] = structure
+	for grid_cell in footprint_cells:
+		structure_locs[grid_cell] = structure
 
 ## Terrain Cells
 
@@ -272,23 +276,23 @@ func add_unit(unit):
 	_update_object_position(unit, unit.cell_position)
 	add_child(unit)
 
-func get_units_at_cell(cell_pos):
-	if !unit_locs.has(cell_pos):
+func get_units_at_cell(grid_cell):
+	if !unit_locs.has(grid_cell):
 		return []
-	return unit_locs.get_values(cell_pos)
+	return unit_locs.get_values(grid_cell)
 
-func get_structure_at_cell(cell_pos):
-	return structure_locs[cell_pos] if structure_locs.has(cell_pos) else null
+func get_structure_at_cell(grid_cell):
+	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null
 
-func get_objects_at_cell(cell_pos):
-	return get_units_at_cell(cell_pos)
+func get_objects_at_cell(grid_cell):
+	return get_units_at_cell(grid_cell)
 
 func _unit_cell_position_changed(old_pos, new_pos, unit):
 	unit_locs.move(old_pos, new_pos, unit)
 	_update_object_position(unit, new_pos)
 
-func _update_object_position(object, cell_pos):
-	var world_pos = unit_grid.axial_to_world(cell_pos)
+func _update_object_position(object, grid_cell):
+	var world_pos = unit_grid.axial_to_world(grid_cell)
 	if object.has_method("get_position_offset"):
 		world_pos += object.get_position_offset()
 	object.position = world_pos

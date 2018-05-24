@@ -20,11 +20,7 @@ func set_structure_info(info):
 	centered = false
 
 func get_footprint():
-	var rects = []
-	for relative_rect in _info.footprint:
-		var rect = Rect2(relative_rect.position + cell_position, relative_rect.size)
-		rects.push_back(rect)
-	return rects
+	return _info.footprint
 
 func get_position_offset(): return _info.position_offset #offset from the centre of the grid cell
 func get_structure_id(): return _info.structure_id
