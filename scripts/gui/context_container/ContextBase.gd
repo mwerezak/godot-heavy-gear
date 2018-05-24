@@ -30,8 +30,5 @@ func _become_inactive():
 	hide()
 	set_process_input(false)
 
-func unit_cell_input(map, cell_pos, event):
-	pass
-
-func map_markers_input(map, map_markers, event):
+func cell_input(world_map, cell_pos, event):
 	pass

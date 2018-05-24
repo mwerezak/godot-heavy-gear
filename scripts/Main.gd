@@ -37,16 +37,7 @@ func _unhandled_input(event):
 		var mouse_pos = world_map.get_global_mouse_position()
 		if world_map.point_on_map(mouse_pos):
 			var cell_pos = world_map.get_grid_cell(mouse_pos)
-			context_panel.unit_cell_input_event(world_map, cell_pos, event)
-		
-		## map marker events
-		var map_markers = []
-		for marker_obj in get_tree().get_nodes_in_group("map_markers"):
-			if marker_obj.has_mouse:
-				map_markers.push_back(marker_obj)
-		if !map_markers.empty():
-			context_panel.map_markers_input_event(world_map, map_markers, event)
-			_update_unit_info_panel(map_markers, event)
+			context_panel.cell_input_event(world_map, cell_pos, event)
 
 func _update_unit_info_panel(map_markers, event):
 	if event.is_action_pressed("click_select"):

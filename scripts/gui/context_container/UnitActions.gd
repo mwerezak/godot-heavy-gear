@@ -36,7 +36,7 @@ func deactivated():
 	active_unit = null
 	current_activation = null
 
-func unit_cell_input(map, cell_pos, event):
+func cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if cell_pos == active_unit.cell_position:
 			if _can_move():

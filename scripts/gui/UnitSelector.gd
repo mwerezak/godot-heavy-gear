@@ -14,33 +14,31 @@ func _init(hover_overlay_factory, selected_overlay_factory):
 	_hover_overlay_factory = hover_overlay_factory
 	_selected_overlay_factory = selected_overlay_factory
 
-func highlight_objects(hover_objects, exclude = null):
+func highlight_objects(hover_objects):
+	for object in _hover_overlays:
+		if !hover_objects.has(object):
+			_clear_hover_overlay(object)
+
 	for object in hover_objects:
-		if !exclude || !exclude.has(object):
-			_attach_hover_overlay(object)
+		if !_hover_overlays.has(object):
+			var overlay = _hover_overlay_factory.create_overlay_node(object)
+			_hover_overlays[object] = overlay
+			object.add_child(overlay)
 
 func get_highlighted_objects():
 	return _hover_overlays.keys()
+
+func _clear_hover_overlay(object):
+	if _hover_overlays.has(object):
+		var overlay = _hover_overlays[object]
+		_hover_overlays.erase(object)
+		overlay.queue_free()
 
 ## returns a new Selection
 ## should be overriden by subclasses
 ## by default, just select all highlighted objects
 func create_selection(select_objects):
 	return _create_selection(select_objects)
-
-
-func _attach_hover_overlay(object):
-	if !_hover_overlays.has(object):
-		var overlay = _hover_overlay_factory.create_overlay_node(object)
-		object.add_child(overlay)
-		object.connect("mouse_exited", self, "_clear_hover_overlay", [object], CONNECT_ONESHOT)
-		_hover_overlays[object] = overlay
-		
-func _clear_hover_overlay(object):
-	if _hover_overlays.has(object):
-		var overlay = _hover_overlays[object]
-		_hover_overlays.erase(object)
-		overlay.queue_free()
 
 func _create_selection(objects):
 	var selection = UnitSelection.new()

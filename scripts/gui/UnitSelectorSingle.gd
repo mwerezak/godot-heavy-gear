@@ -8,6 +8,9 @@ func _init(hover_factory, selected_factory).(hover_factory, selected_factory):
 	pass
 
 func create_selection(select_objects, current_selection=null):
+	if select_objects.empty():
+		return _create_selection(select_objects)
+	
 	var found_idx = -1
 	if current_selection:
 		for object in current_selection.selected:

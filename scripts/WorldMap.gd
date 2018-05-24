@@ -106,7 +106,6 @@ func _ready():
 		for scatter in spawner.create_scatters(self):
 			add_child(scatter)
 		
-		remove_child(spawner)
 		spawner.queue_free()
 
 ## Initialization

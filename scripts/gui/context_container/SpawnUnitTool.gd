@@ -36,7 +36,7 @@ func _update_model_list(i):
 		var unit_info = unit_models[i][j]
 		unit_model_button.add_item(unit_info.desc.name, j)
 
-func unit_cell_input(world_map, cell_pos, event):
+func cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		var spawn_unit = Unit.instance()
 		

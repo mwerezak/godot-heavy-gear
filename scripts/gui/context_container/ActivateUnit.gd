@@ -12,11 +12,10 @@ class OverlayFactory:
 	func _init(modulate_color):
 		_modulate_color = modulate_color
 	
-	func create_overlay_node(map_marker):
+	func create_overlay_node(unit):
 		var overlay = _overlay_scene.instance()
 		overlay.modulate = _modulate_color
 		
-		var unit = map_marker.get_parent()
 		overlay.text = unit.crew_info.last_name
 		
 		overlay.z_as_relative = false
@@ -54,20 +53,27 @@ func _input(event):
 	if selection && (event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_select")):
 		activate_selected()
 
-func map_markers_input(map, map_markers, event):
-	if event.is_action_pressed("click_select"):
+func cell_input(world_map, cell_pos, event):
+	var units = world_map.get_units_at_cell(cell_pos)
+
+	if !units.empty() && event.is_action_pressed("click_select"):
 		if selection: selection.cleanup()
 		
-		var new_selection = unit_selector.create_selection(map_markers, selection)
-		unit_selector.highlight_objects(map_markers, new_selection.selected)
+		var new_selection = unit_selector.create_selection(units, selection)
+		
+		var highlight = []
+		for unit in units: if !new_selection.selected.has(unit): highlight.push_back(unit)
+		unit_selector.highlight_objects(highlight)
 		
 		var confirm_selection = new_selection.equals(selection)
 		set_selection(new_selection)
 		if confirm_selection: activate_selected()
 		
 	elif event is InputEventMouseMotion:
-		var cur_selected = selection.selected if selection else null
-		unit_selector.highlight_objects(map_markers, cur_selected)
+		var cur_selected = selection.selected if selection else []
+		var highlight = []
+		for unit in units: if !cur_selected.has(unit): highlight.push_back(unit)
+		unit_selector.highlight_objects(highlight)
 
 func set_selection(s):
 	selection = s
@@ -78,8 +84,7 @@ func set_selection(s):
 		label.text = "Select a unit to activate."
 
 func activate_selected():
-	var selected_marker = selection.selected.front()
-	var selected_unit = selected_marker.get_parent()
+	var selected_unit = selection.selected.front()
 	
 	context_manager.activate("unit_actions", { unit = selected_unit })
 

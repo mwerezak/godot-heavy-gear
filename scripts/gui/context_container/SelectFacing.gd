@@ -125,7 +125,7 @@ func _input(event):
 	if selected_dir && (event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_select")):
 		finalize_rotation()
 
-func unit_cell_input(world_map, cell_pos, event):
+func cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if cell_pos == rotate_unit.cell_position:
 			if event.doubleclick:
