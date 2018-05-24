@@ -35,17 +35,19 @@ func show_movement(possible_moves, current_activation):
 	clear_move_marker()
 	movement_tiles.clear()
 	
-	for move_cell in possible_moves:
-		var move_info = possible_moves[move_cell]
+	for grid_cell in possible_moves:
+		var move_info = possible_moves[grid_cell]
 		
-		var cell
+		var tile_idx
 		if move_info.hazard:
-			cell = TILE_RED
+			tile_idx = TILE_RED
 		elif move_actions - move_info.move_count < current_activation.EXTENDED_MOVE:
-			cell = TILE_YELLOW
+			tile_idx = TILE_YELLOW
 		else:
-			cell = TILE_BLUE
-		movement_tiles.set_cellv(move_cell, cell)
+			tile_idx = TILE_BLUE
+
+		var tile_cell = world_map.unit_grid.axial_to_offset(grid_cell)
+		movement_tiles.set_cellv(tile_cell, tile_idx)
 
 func place_move_marker(possible_moves, move_pos):
 	if !possible_moves.has(move_pos):
@@ -55,7 +57,7 @@ func place_move_marker(possible_moves, move_pos):
 	var movement_mode = move_info.movement_mode
 
 	move_marker.show()
-	move_marker.position = world_map.get_grid_pos(move_pos)
+	move_marker.position = world_map.unit_grid.axial_to_world(move_pos)
 	mode_label.text = movement_mode.name
 	
 	## facing
@@ -68,7 +70,7 @@ func place_move_marker(possible_moves, move_pos):
 	## move path
 	var path_points = PoolVector2Array()
 	for grid_cell in move_info.path:
-		path_points.push_back(world_map.get_grid_pos(grid_cell))
+		path_points.push_back(world_map.unit_grid.axial_to_world(grid_cell))
 	move_path.points = path_points
 	move_path.show()
 

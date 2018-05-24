@@ -125,13 +125,13 @@ func _input(event):
 	if selected_dir && (event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_select")):
 		finalize_rotation()
 
-func cell_input(world_map, cell_pos, event):
+func cell_input(world_map, grid_cell, event):
 	if event.is_action_pressed("click_select"):
-		if cell_pos == rotate_unit.cell_position:
+		if grid_cell == rotate_unit.cell_position:
 			if event.doubleclick:
 				cancel_rotation() #allow double-clicking on unit to leave facing as is
 		else:
-			var dir = world_map.get_dir_to(rotate_unit.cell_position, cell_pos)
+			var dir = world_map.get_dir_to(rotate_unit.cell_position, grid_cell)
 			
 			if !allowed_dirs.has(dir):
 				dir = _get_closest_dir(dir, allowed_dirs) ## get the closest allowed dir
@@ -139,7 +139,7 @@ func cell_input(world_map, cell_pos, event):
 			selected_dir = dir
 			rotate_unit.map_marker.set_temp_facing(HexUtils.dir2rad(dir))
 			label.text = CONFIRM_TEXT
-			target_marker.position = world_map.get_grid_pos(cell_pos)
+			target_marker.position = world_map.unit_grid.axial_to_world(grid_cell)
 			target_marker.show()
 			
 			if event.doubleclick:

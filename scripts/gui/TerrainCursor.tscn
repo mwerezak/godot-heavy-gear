@@ -54,21 +54,20 @@ modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
 position = Vector2( 1, 1 )
 z_index = 1
 texture = ExtResource( 1 )
-centered = false
-offset = Vector2( 0, -37 )
 script = ExtResource( 2 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
 [node name="HexCoordPanel" type="PanelContainer" parent="." index="0"]
 
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.0
 anchor_right = 0.5
 anchor_bottom = 0.0
-margin_left = -28.0
-margin_top = -15.0
-margin_right = 28.0
-margin_bottom = 13.0
+margin_left = -159.0
+margin_top = -115.0
+margin_right = -103.0
+margin_bottom = -87.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2

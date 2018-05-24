@@ -1,4 +1,4 @@
-extends Line2D
+extends Reference
 
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
@@ -15,9 +15,10 @@ var footprint = {}
 ## maps cell position -> dict of dirs connecting to OTHER road segments
 var junctions = {}
 
-func _ready():
-	z_as_relative = false
-	z_index = Constants.ROAD_ZLAYER
+## clears all data structures to ensure no cyclic segment references
+func clear():
+	footprint.clear()
+	junctions.clear()
 
 func setup(world_map, start_cell_pos):
 	self.world_map = world_map
@@ -25,18 +26,17 @@ func setup(world_map, start_cell_pos):
 	end_position = start_cell_pos
 	footprint[start_cell_pos] = []
 
-func build_points():
-	if footprint[start_position].size() != 1:
-		return
+## gets all cells occupied by the segment from start to end
+func get_full_footprint():
+	var grid_cells = [ start_position ]
 	
-	var points = []
-	points.push_back(Vector2())
-	position = world_map.get_grid_pos(start_position)
+	if footprint[start_position].size() != 1:
+		return grid_cells
 	
 	var fwd_dir = footprint[start_position][0]
 	var cur_pos = HexUtils.get_step(start_position, fwd_dir)
 	while fwd_dir != null:
-		points.push_back(world_map.get_grid_pos(cur_pos) - position)
+		grid_cells.push_back(cur_pos)
 		
 		var rev_dir = HexUtils.reverse_dir(fwd_dir)
 		fwd_dir = null
@@ -57,11 +57,11 @@ func build_points():
 					break
 	
 	if self_junctions.has(start_position):
-		points.push_front(world_map.get_grid_pos(self_junctions[start_position]) - position)
+		grid_cells.push_front(self_junctions[start_position])
 	if self_junctions.has(end_position):
-		points.push_back(world_map.get_grid_pos(self_junctions[end_position]) - position)
+		grid_cells.push_back(self_junctions[end_position])
 	
-	set_points(points)
+	return grid_cells
 
 func get_endpoints():
 	return [start_position, end_position]

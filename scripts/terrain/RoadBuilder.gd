@@ -2,7 +2,7 @@ extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
-const RoadSegment = preload("res://scripts/terrain/RoadSegment.tscn")
+const RoadSegment = preload("res://scripts/terrain/RoadSegment.gd")
 const PriorityQueue = preload("res://scripts/helpers/PriorityQueue.gd")
 
 var world_map
@@ -18,11 +18,11 @@ func build_segments(road_map):
 	
 	_merge_or_join_segments()
 	
-	for segment in _segments.duplicate():
-		segment.build_points()
-		if segment.points.size() <= 1:
-			_segments.erase(segment)
-			segment.queue_free()
+	#for segment in _segments.duplicate():
+	#	segment.build_points()
+	#	if segment.points.size() <= 1:
+	#		_segments.erase(segment)
+	#		segment.queue_free()
 	
 	return _segments
 
@@ -62,7 +62,7 @@ func _generate_segments(road_map):
 				_placed_cells[cell_pos] = existing_segment
 				continue
 		
-		var new_segment = RoadSegment.instance()
+		var new_segment = RoadSegment.new()
 		new_segment.setup(world_map, cell_pos)
 		_segments.push_back(new_segment)
 		_placed_cells[cell_pos] = new_segment
@@ -93,7 +93,7 @@ func _merge_or_join_segments():
 					merge_info.erase(endpoint)
 			
 			_segments.erase(merged)
-			merged.queue_free()
+			merged.clear()
 		
 		merge_info.erase(next_pos) #mark cell as handled
 

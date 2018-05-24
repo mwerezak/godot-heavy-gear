@@ -246,8 +246,11 @@ func _can_stop(cell_pos):
 
 ## How much movement must we expend to move from a cell in a given direction?
 func _move_cost(from_cell, to_cell):
-	var midpoint = 0.5*(world_map.get_grid_pos(from_cell) + world_map.get_grid_pos(to_cell))
-	var terrain_info = world_map.get_terrain_at_pos(midpoint)
+	var from_world = world_map.unit_grid.axial_to_world(from_cell)
+	var to_world = world_map.unit_grid.axial_to_world(to_cell)
+	var midpoint = (from_world + to_world)/2.0
+
+	var terrain_info = world_map.get_terrain_at_world(midpoint)
 	var distance = world_map.distance_along_ground(from_cell, to_cell)
 	return distance * unit_info.get_move_cost_on_terrain(movement_mode, terrain_info)
 

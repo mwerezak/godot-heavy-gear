@@ -16,7 +16,7 @@ func create_scatters(world_map):
 	self.world_map = world_map
 	
 	## setup scatter grid
-	var terrain_cell = world_map.terrain.cell_size
+	var terrain_cell = world_map.terrain_grid.cell_spacing
 	scatter_grid.cell_size = terrain_cell
 	
 	if !TerrainTiles.OVERLAYS.has(terrain_id):
@@ -60,18 +60,19 @@ func _can_place_scatter(scatter_pos, base_radius):
 		return false
 	
 	var world_pos = transform.xform(scatter_pos)
-	var cell_pos = world_map.get_grid_cell(world_pos)
+	var grid_cell = world_map.unit_grid.get_axial_cell(world_pos)
 	
 	## don't place scatters on roads
-	if world_map.road_cells.has(cell_pos):
+	if world_map.road_cells.has(grid_cell):
 		return false
 	
 	## check if there are any structures that exclude scatters
-	var structure = world_map.get_structure_at_cell(cell_pos)
+	var structure = world_map.get_structure_at_cell(grid_cell)
 	if structure && structure.exclude_scatters():
-		var cell_center = transform.xform_inv(world_map.get_grid_pos(cell_pos))
-		if HexUtils.inside_hex(cell_center, WorldMap.UNITGRID_WIDTH/2 - base_radius, scatter_pos):
-			return false
+		return false
+		#var cell_center = transform.xform_inv(world_map.get_grid_pos(grid_cell))
+		#if HexUtils.inside_hex(cell_center, WorldMap.UNITGRID_WIDTH/2 - base_radius, scatter_pos):
+		#	return false
 	
 	return true
 	

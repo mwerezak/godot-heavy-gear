@@ -51,10 +51,10 @@ func _init():
 		for tile_id in terrain_info.tile_ids:
 			TERRAIN_IDS[tile_id] = terrain_id
 
-func get_terrain_info(tileset, tile_idx):
-	if tile_idx < 0: return null
+func get_terrain_info(tile_id):
+	if !TERRAIN_IDS.has(tile_id):
+		return null
 	
-	var tile_id = tileset.tile_get_name(tile_idx)
 	var terrain_id = TERRAIN_IDS[tile_id]
 	return INFO[terrain_id]
 

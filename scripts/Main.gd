@@ -10,7 +10,7 @@ func _ready():
 	randomize()
 	
 	## set camera limits
-	camera.set_limit_rect(world_map.get_display_rect())
+	camera.set_limit_rect(world_map.get_bounding_rect())
 	
 	## register Context Panel items
 	context_panel.register("dev_spawn_unit", context_panel.get_node("SpawnUnit"))
@@ -33,11 +33,11 @@ func _unhandled_input(event):
 	
 	## capture any input events related to map objects and forward them to the context_panel
 	if event is InputEventMouse:
-		## unit cell position events
+		## grid cell position events
 		var mouse_pos = world_map.get_global_mouse_position()
 		if world_map.point_on_map(mouse_pos):
-			var cell_pos = world_map.get_grid_cell(mouse_pos)
-			context_panel.cell_input_event(world_map, cell_pos, event)
+			var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
+			context_panel.cell_input_event(world_map, grid_cell, event)
 
 func _update_unit_info_panel(map_markers, event):
 	if event.is_action_pressed("click_select"):

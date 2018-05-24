@@ -1,22 +1,24 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/WorldMap.gd" type="Script" id=1]
 [ext_resource path="res://maps/DefaultMap.tscn" type="PackedScene" id=2]
-[ext_resource path="res://tilesets/TerrainTiles.tres" type="TileSet" id=3]
-[ext_resource path="res://scripts/helpers/HexGrid.gd" type="Script" id=4]
+[ext_resource path="res://scripts/helpers/HexGrid.gd" type="Script" id=3]
 
-[node name="WorldMap" type="YSort"]
+[node name="WorldMap" type="Node2D" index="0"]
 
-position = Vector2( 0, 1 )
-sort_enabled = true
 script = ExtResource( 1 )
 _sections_unfolded = [ "Visibility" ]
 source_map = ExtResource( 2 )
 
-[node name="TerrainTiles" type="TileMap" parent="." index="0"]
+[node name="TerrainGrid" type="Node2D" parent="." index="0"]
+
+script = ExtResource( 3 )
+cell_size = Vector2( 0, 0 )
+
+[node name="TileMap" type="TileMap" parent="TerrainGrid" index="0"]
 
 mode = 0
-tile_set = ExtResource( 3 )
+tile_set = null
 cell_size = Vector2( 256, 222 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -32,46 +34,15 @@ collision_mask = 1
 occluder_light_mask = 1
 format = 1
 tile_data = PoolIntArray(  )
-script = ExtResource( 4 )
 _sections_unfolded = [ "Cell", "Transform" ]
 __meta__ = {
 "_edit_lock_": true
 }
-hex_size = Vector2( 0, 0 )
 
-[node name="UnitGrid" type="TileMap" parent="." index="1"]
+[node name="UnitGrid" type="Node2D" parent="." index="1"]
 
-position = Vector2( 96, 81 )
-mode = 0
-tile_set = null
-cell_size = Vector2( 64, 54 )
-cell_quadrant_size = 16
-cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-cell_half_offset = 0
-cell_tile_origin = 0
-cell_y_sort = false
-cell_clip_uv = false
-collision_use_kinematic = false
-collision_friction = 1.0
-collision_bounce = 0.0
-collision_layer = 1
-collision_mask = 1
-occluder_light_mask = 1
-format = 1
-tile_data = PoolIntArray(  )
-script = ExtResource( 4 )
-_sections_unfolded = [ "Cell", "Transform" ]
-__meta__ = {
-"_edit_lock_": true
-}
-hex_size = Vector2( 0, 0 )
-
-[node name="ElevationLabels" type="CanvasLayer" parent="." index="2"]
-
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+script = ExtResource( 3 )
+_sections_unfolded = [ "Transform" ]
+cell_size = Vector2( 0, 0 )
 
 
