@@ -40,9 +40,10 @@ func _unhandled_input(event):
 		if world_map.point_on_map(mouse_pos):
 			var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
 			context_panel.cell_input_event(world_map, grid_cell, event)
+			_update_unit_info_panel(world_map.get_units_at_cell(grid_cell), event)
 
-func _update_unit_info_panel(map_markers, event):
+func _update_unit_info_panel(units, event):
 	if event.is_action_pressed("click_select"):
-		unit_info_panel.select_markers(map_markers)
+		unit_info_panel.select_units(units)
 	elif event is InputEventMouseMotion:
-		unit_info_panel.hover_markers(map_markers)
+		unit_info_panel.hover_units(units)

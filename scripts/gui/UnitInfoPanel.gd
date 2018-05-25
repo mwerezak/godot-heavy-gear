@@ -7,30 +7,30 @@ onready var symbol_icon = $VBoxContainer/HBoxContainer/SymbolIcon
 onready var name_label = $VBoxContainer/HBoxContainer/NameLabel
 onready var desc_label = $VBoxContainer/DescLabel
 
-var pinned_marker = null
+var pinned_object = null
 
 func _ready():
 	container.hide()
 
-func select_markers(map_markers):
-	var idx = max(0, map_markers.find(pinned_marker))
+func select_units(units):
+	if units.empty(): return
 	
 	#cycle to next unit (also allows showing info for stacked units)
-	var next_idx = (idx + 1) % map_markers.size()
-	pinned_marker = map_markers[next_idx]
-	show_unit_info(pinned_marker)
+	var pinned_idx = max(0, units.find(pinned_object))
+	var next_idx = (pinned_idx + 1) % units.size()
+	pinned_object = units[next_idx]
+	show_unit_info(pinned_object)
 
-func hover_markers(map_markers):
-	if pinned_marker == null || !map_markers.has(pinned_marker):
-		pinned_marker = null
-		var map_marker = map_markers.front()
-		show_unit_info(map_marker)
+func hover_units(units):
+	if units.empty(): return
+	if pinned_object == null || !units.has(pinned_object):
+		pinned_object = null
+		show_unit_info(units.front())
 
 func clear_unit_info():
 	container.hide()
 
-func show_unit_info(map_marker):
-	var unit = map_marker.get_parent()
+func show_unit_info(unit):
 	var unit_info = unit.unit_info
 	var unit_desc = unit_info.desc
 	var crew_info = unit.crew_info
