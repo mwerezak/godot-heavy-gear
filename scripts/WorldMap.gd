@@ -47,9 +47,6 @@ func _ready():
 	terrain_grid.cell_size = Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT)
 	unit_grid.cell_size = Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT)
 	
-	#terrain_grid.position = terrain_grid.cell_size/2
-	#unit_grid.position = unit_grid.cell_size/2
-	
 	## load the source map
 	var map_loader = MapLoader.new()
 	map_loader.load_map(self, source_map)
@@ -104,10 +101,10 @@ func _ready():
 		_setup_structure(structure, offset_cell)
 	
 	## setup roads
-#	for road_segment in map_loader.road_segments:
-#		add_child(road_segment)
-#		for cell_pos in road_segment.footprint:
-#			road_cells[cell_pos] = true
+	for road in map_loader.roads:
+		add_child(road)
+		for grid_cell in road.footprint:
+			road_cells[grid_cell] = true
 	
 	## setup scatters
 	var scatter_grid = HexGrid.new()

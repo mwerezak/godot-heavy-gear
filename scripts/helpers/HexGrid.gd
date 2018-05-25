@@ -70,6 +70,23 @@ func offset_to_world(offset_pos):
 		offset_pos.x += 0.5
 	return (transform * square_transform).xform(offset_pos)
 
+## directions
+
+func get_dir(from_world, to_world):
+	return HexUtils.nearest_dir((to_world - from_world).angle())
+
+func get_axial_dir(from_axial, to_axial):
+	var from_world = axial_to_world(from_axial)
+	var to_world = axial_to_world(to_axial)
+	return HexUtils.nearest_dir((to_world - from_world).angle())
+
+func get_offset_dir(from_offset, to_offset):
+	var from_world = offset_to_world(from_offset)
+	var to_world = offset_to_world(to_offset)
+	return HexUtils.nearest_dir((to_world - from_world).angle())
+
+## transforms
+
 static func _calc_axial_transform(cell_spacing):
 	var axial_x = Vector2(cell_spacing.x, 0)
 	var axial_y = Vector2(-cell_spacing.x/2, cell_spacing.y)

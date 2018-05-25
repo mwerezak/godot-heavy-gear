@@ -1,9 +1,11 @@
+## Used to construct terrain features that follow lines on the map (roads, rivers)
+
 extends Reference
 
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-var world_map
+var segment_grid
 
 var start_position
 var end_position
@@ -20,21 +22,21 @@ func clear():
 	footprint.clear()
 	junctions.clear()
 
-func setup(world_map, start_cell_pos):
-	self.world_map = world_map
+func _init(segment_grid, start_cell_pos):
+	self.segment_grid = segment_grid
 	start_position = start_cell_pos
 	end_position = start_cell_pos
 	footprint[start_cell_pos] = []
 
 ## gets all cells occupied by the segment from start to end
-func get_full_footprint():
+func get_cells():
 	var grid_cells = [ start_position ]
 	
 	if footprint[start_position].size() != 1:
 		return grid_cells
 	
 	var fwd_dir = footprint[start_position][0]
-	var cur_pos = HexUtils.get_step(start_position, fwd_dir)
+	var cur_pos = HexUtils.get_axial_step(start_position, fwd_dir)
 	while fwd_dir != null:
 		grid_cells.push_back(cur_pos)
 		
@@ -43,7 +45,7 @@ func get_full_footprint():
 		for next_dir in footprint[cur_pos]:
 			if next_dir != rev_dir:
 				fwd_dir = next_dir
-				cur_pos = HexUtils.get_step(cur_pos, fwd_dir)
+				cur_pos = HexUtils.get_axial_step(cur_pos, fwd_dir)
 				break
 	
 	#handle self-junctions
@@ -52,7 +54,7 @@ func get_full_footprint():
 		if junctions.has(endpoint_pos):
 			for dir in junctions[endpoint_pos]:
 				if junctions[endpoint_pos][dir] == self:
-					var joined_pos = HexUtils.get_step(endpoint_pos, dir)
+					var joined_pos = HexUtils.get_axial_step(endpoint_pos, dir)
 					self_junctions[endpoint_pos] = joined_pos
 					break
 	
@@ -74,9 +76,9 @@ func can_extend(cell_pos, new_pos):
 	return true
 
 func extend(cell_pos, new_pos):
-	assert(HexUtils.get_neighbors(cell_pos).values().has(new_pos))
+	assert(HexUtils.get_axial_neighbors(cell_pos).values().has(new_pos))
 
-	var dir = world_map.get_dir_to(cell_pos, new_pos)
+	var dir = segment_grid.get_axial_dir(cell_pos, new_pos)
 	if footprint.has(new_pos): ## don't extend over ourselves!
 		join(cell_pos, new_pos, self) ## form a self-junction instead
 	else:
@@ -88,7 +90,7 @@ func extend(cell_pos, new_pos):
 			start_position = new_pos
 
 func join(cell_pos, new_pos, segment):
-	var dir = world_map.get_dir_to(cell_pos, new_pos)
+	var dir = segment_grid.get_axial_dir(cell_pos, new_pos)
 	if !junctions.has(cell_pos):
 		junctions[cell_pos] = { dir: segment }
 	else:
@@ -122,7 +124,7 @@ func merge(segment, cell_pos, new_pos):
 		junctions[other_pos] = segment.junctions[other_pos]
 	
 	## connect ends
-	var dir = world_map.get_dir_to(cell_pos, new_pos)
+	var dir = segment_grid.get_axial_dir(cell_pos, new_pos)
 	footprint[cell_pos].push_back(dir)
 	footprint[new_pos].push_back(HexUtils.reverse_dir(dir))
 	

@@ -117,6 +117,12 @@ static func get_axial_step(cell_pos, dir):
 		return cell_pos
 	return cell_pos + AXIAL_CONN[dir]
 
+static func get_axial_neighbors(cell_pos):
+	var rval = AXIAL_CONN.duplicate()
+	for dir in rval:
+		rval[dir] += cell_pos
+	return rval
+
 static func get_offset_step(cell_pos, dir):
 	if !MOVE_DIRECTIONS.has(dir): 
 		return cell_pos
@@ -124,7 +130,7 @@ static func get_offset_step(cell_pos, dir):
 	var parity = int(cell_pos.y) & 1
 	return cell_pos + OFFSET_CONN[parity][dir]
 
-static func get_neighbors(cell_pos):
+static func get_offset_neighbors(cell_pos):
 	var parity = int(cell_pos.y) & 1
 	var rval = {}
 	

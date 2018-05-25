@@ -2,8 +2,9 @@ extends Reference
 
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
 const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.gd")
-const RoadBuilder = preload("res://scripts/terrain/RoadBuilder.gd")
+const SegmentBuilder = preload("res://scripts/terrain/SegmentBuilder.gd")
 const Structure = preload("res://scripts/structures/Structure.tscn")
+const Road = preload("res://scripts/terrain/Road.gd")
 
 var source_map
 
@@ -15,7 +16,7 @@ var terrain_indexes = {}
 var terrain_elevation = {}
 var scatter_spawners = {}
 var structures = {}
-var road_segments = []
+var roads = []
 
 func load_map(world_map, map_scene):
 	source_map = map_scene.instance()
@@ -33,9 +34,13 @@ func load_map(world_map, map_scene):
 	_generate_structures(struct_map)
 	
 	## generate roads
-	#var road_map = source_map.get_node("Roads")
-	#var builder = RoadBuilder.new(world_map)
-	#road_segments = builder.build_segments(road_map)
+	var road_map = source_map.get_node("Roads")
+	var builder = SegmentBuilder.new(world_map.unit_grid, Road.ConnectionComparer)
+	var road_segments = builder.build_segments(road_map)
+	for grid_cells in road_segments:
+		var road = Road.new()
+		road.setup(world_map, grid_cells)
+		roads.push_back(road)
 	
 	## extract elevation data
 	var elevation_map = source_map.get_node("Elevation")
