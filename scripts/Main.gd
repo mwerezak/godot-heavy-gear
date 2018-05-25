@@ -22,11 +22,10 @@ func _ready():
 	context_panel.register("move_unit", context_panel.get_node("MoveUnit"))
 	context_panel.register("select_facing", context_panel.get_node("SelectFacing"))
 	
-	## load the initial context
-	context_panel.activate("activate_unit")
-	
 	var help_dialog = $GUILayer/QuickHelp
 	help_dialog.popup_centered()
+	
+	game_state.start_game(self)
 
 
 func _unhandled_input(event):
