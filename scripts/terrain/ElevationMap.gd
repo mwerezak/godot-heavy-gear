@@ -105,10 +105,6 @@ func _calc_elevation_info(grid_cell):
 	var z = -(plane[0]*world_pos.x + plane[1]*world_pos.y + plane[3])/plane[2]
 	
 	return {
-		origin_hex = world_map.terrain_grid.axial_to_offset(origin_hex),
-		local_pos = local_pos,
-		raw_level = _get_terrain_elevation(origin_hex),
-		
 		level = HexUtils.pixels2units(z),
 		world_pos = Vector3(world_pos.x, world_pos.y, z),
 		grade = Vector2(plane[0], plane[1])/plane[2], #gradient = (dz/dx, dz/dy)
@@ -117,7 +113,7 @@ func _calc_elevation_info(grid_cell):
 
 var _unsmoothed = {}
 
-const SHARPNESS = 6.0 #controls how much we smooth the elevation map
+const SHARPNESS = 0.2 #controls how much we smooth the elevation map
 func get_info(grid_cell):
 	if _info_cache.has(grid_cell):
 		return _info_cache[grid_cell]
@@ -128,8 +124,9 @@ func get_info(grid_cell):
 	var info = _unsmoothed[grid_cell]
 	if info:
 		## average with neighbors
-		var total = SHARPNESS
-		for neighbor_cell in HexUtils.get_axial_neighbors(grid_cell).values():
+		var neighbors = HexUtils.get_axial_neighbors(grid_cell).values()
+		var total = SHARPNESS*neighbors.size()
+		for neighbor_cell in neighbors:
 			if !_unsmoothed.has(neighbor_cell):
 				_unsmoothed[neighbor_cell] = _calc_elevation_info(neighbor_cell)
 			var neighbor_info = _unsmoothed[neighbor_cell]

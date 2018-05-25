@@ -16,8 +16,8 @@ func _update_text():
 	var terrain_id = terrain.terrain_id if terrain else "None"
 
 	var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
-	var elevation_info = world_map.elevation.get_info(grid_cell)
-	var elevation_str = "origin_hex:%s local_pos:%s raw_level:%s" % [ elevation_info.origin_hex, elevation_info.local_pos, elevation_info.raw_level ] if elevation_info else "N/A"
+	var el_info = world_map.elevation.get_info(grid_cell)
+	var elevation_str = "elevation:%s grade:%s " % [ el_info.level, el_info.grade ] if el_info else "N/A"
 	
 	var structure = world_map.get_structure_at_cell(grid_cell)
 	if structure:
