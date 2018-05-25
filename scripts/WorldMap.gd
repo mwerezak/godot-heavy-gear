@@ -82,18 +82,16 @@ func _ready():
 	
 	## setup terrain elevation 
 	## TODO move this into MapLoader, should just pull them out and add them
-#	elevation = ElevationMap.new(self)
-#	elevation.load_hex_map(map_loader.terrain_elevation)
-#
-#	for cell_pos in get_rect_cells(map_rect):
-#		var info = elevation.get_info(cell_pos)
-#		if info:
-#			var overlay = ElevationOverlay.instance()
-#			add_child(overlay)
-#
-#			var elevation_info = elevation.get_info(cell_pos)
-#			if elevation_info:
-#				overlay.setup(elevation_info)
+	elevation = ElevationMap.new(self)
+	elevation.load_elevation_map(map_loader.terrain_elevation)
+
+	for offset_cell in get_rect_cells(map_rect):
+		var grid_cell = unit_grid.offset_to_axial(offset_cell)
+		var info = elevation.get_info(grid_cell)
+		if info:
+			var overlay = ElevationOverlay.instance()
+			add_child(overlay)
+			overlay.setup(info)
 	
 	## setup structures
 	for offset_cell in map_loader.structures:
@@ -128,9 +126,6 @@ func get_bounding_rect():
 
 func get_grid_rect():
 	return unit_bounds
-
-func all_terrain_cells():
-	return terrain_tiles.values()
 
 func _setup_structure(structure, offset_cell):
 	structure.world_map = self
@@ -261,10 +256,10 @@ func get_neighbors(cell_pos):
 	return neighbors
 
 ## gets all grid cells overlapping a rectangle given in pixel coords
-#func get_rect_cells(world_rect):
-#	var ul = unit_grid.get_offset_cell(world_rect.position)
-#	var lr = unit_grid.get_offset_cell(world_rect.end)
-#	return HexUtils.get_rect(Rect2(ul, lr - ul))
+func get_rect_cells(world_rect):
+	var ul = unit_grid.get_offset_cell(world_rect.position)
+	var lr = unit_grid.get_offset_cell(world_rect.end)
+	return HexUtils.get_rect(Rect2(ul, lr - ul))
 
 ## Map Objects
 

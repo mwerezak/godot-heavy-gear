@@ -3,14 +3,9 @@ extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-const _COL = 0
-const _ROW = 1
-const _MIN = 0
-const _MAX = 1
-
 var world_map
-var terrain_grid
 
+## these are mapped using offset coords
 var _bounds = [{}, {}]
 var _elevation_map = {}
 
@@ -18,18 +13,20 @@ var _info_cache = {}
 
 func _init(world_map):
 	self.world_map = world_map
-	self.terrain_grid = world_map.terrain_grid
 
-func load_hex_map(raw_elevation):
+func load_elevation_map(raw_elevation):
 	_elevation_map.clear()
 	_bounds[0].clear()
 	_bounds[1].clear()
-	for hex_pos in world_map.all_terrain_cells():
-		var axial_cell = world_map.terrain_grid.offset_to_axial()
-		_elevation_map[hex_pos] = raw_elevation[hex_pos] if raw_elevation.has(hex_pos) else 0
-		_update_bounds(_COL, hex_pos.x, hex_pos.y)
-		_update_bounds(_ROW, hex_pos.y, hex_pos.x)
+	for offset_cell in world_map.terrain_tiles.values():
+		_elevation_map[offset_cell] = raw_elevation[offset_cell] if raw_elevation.has(offset_cell) else 0
+		_update_bounds(_COL, offset_cell.x, offset_cell.y)
+		_update_bounds(_ROW, offset_cell.y, offset_cell.x)
 
+const _COL = 0
+const _ROW = 1
+const _MIN = 0
+const _MAX = 1
 func _update_bounds(axis, index, value):
 	if _bounds[axis].has(index):
 		var bounds = _bounds[axis][index]
@@ -42,36 +39,33 @@ func _clamp_bounds(value, axis, index):
 	var bounds = _bounds[axis][index]
 	return clamp(value, bounds[_MIN], bounds[_MAX])
 
-func _get_hex_elevation(hex_pos):
-	if !_bounds[_COL].has(hex_pos.x) && !_bounds[_ROW].has(hex_pos.y):
+func _get_terrain_elevation(terrain_cell):
+	var hex_cell = world_map.terrain_grid.axial_to_offset(terrain_cell)
+	if !_bounds[_COL].has(hex_cell.x) && !_bounds[_ROW].has(hex_cell.y):
 		return null
 	
 	## repeated boundary conditions
-	elif !_bounds[_ROW].has(hex_pos.y):
-		hex_pos.y = _clamp_bounds(hex_pos.y, _COL, hex_pos.x)
-		hex_pos.x = _clamp_bounds(hex_pos.x, _ROW, hex_pos.y)
+	elif !_bounds[_ROW].has(hex_cell.y):
+		hex_cell.y = _clamp_bounds(hex_cell.y, _COL, hex_cell.x)
+		hex_cell.x = _clamp_bounds(hex_cell.x, _ROW, hex_cell.y)
 	else:
-		hex_pos.x = _clamp_bounds(hex_pos.x, _ROW, hex_pos.y)
-		hex_pos.y = _clamp_bounds(hex_pos.y, _COL, hex_pos.x)
+		hex_cell.x = _clamp_bounds(hex_cell.x, _ROW, hex_cell.y)
+		hex_cell.y = _clamp_bounds(hex_cell.y, _COL, hex_cell.x)
 	
-	return _elevation_map[hex_pos]
+	return _elevation_map[hex_cell]
 
-## elevation grid points are in the center of each terrain hex
-func _world_to_axial(world_pos):
-	return terrain_grid.world_to_axial(world_pos)
-
-func _axial_to_world(axial_pos):
-	return terrain_grid.axial_to_world(axial_pos)
-
+## each trapezoid consists of an upper triangle (x>y) and a lower triangle (y>x)
 const _UPPER_TRIANGLE = 0
 const _LOWER_TRIANGLE = 1
-func _calc_plane_coefficients(origin_hex):
-	## each trapezoid consists of an upper triangle (x>y) and a lower triangle (y>x)
-	var trap_hexes = [ origin_hex, HexUtils.get_step(origin_hex, 0), HexUtils.get_step(origin_hex, 2), HexUtils.get_step(origin_hex, 4) ]
+const TRAPEZOID = [
+	Vector2(0, 0), Vector2(1, 0), Vector2(1, 1), Vector2(0, 1),
+]
+func _calc_plane_coefficients(terrain_origin):
 	## get the elevation at each corner of the trapezoid
-	var trap_vec = [null, null, null, null]
+	var trapezoid = TRAPEZOID.duplicate()
 	for i in range(4):
-		var elevation = _get_hex_elevation(trap_hexes[i])
+		var terrain_cell = terrain_origin + trapezoid[i]
+		var elevation = _get_terrain_elevation(terrain_cell)
 		if elevation == null:
 			return null
 		
@@ -79,31 +73,30 @@ func _calc_plane_coefficients(origin_hex):
 		## to make all components have consistent units
 		var z = HexUtils.units2pixels(elevation)
 		
-		var pos = null #world_map.get_terrain_pos(trap_hexes[i]) #TODO
-		trap_vec[i] = Vector3(pos.x, pos.y, z)
+		var world_pos = world_map.terrain_grid.axial_to_world(terrain_cell)
+		trapezoid[i] = Vector3(world_pos.x, world_pos.y, z)
 	
 	return [
-		_calc_plane(trap_vec[0], trap_vec[1], trap_vec[2]), #upper triangle
-		_calc_plane(trap_vec[0], trap_vec[2], trap_vec[3]), #lower triangle
+		_calc_plane(trapezoid[0], trapezoid[1], trapezoid[2]), #upper triangle
+		_calc_plane(trapezoid[0], trapezoid[2], trapezoid[3]), #lower triangle
 	]
 
 func _calc_plane(plane_origin, p1, p2):
 	var plane_normal = (p1 - plane_origin).cross(p2 - plane_origin)
 	return [ plane_normal.x, plane_normal.y, plane_normal.z, -plane_normal.dot(plane_origin) ]
 
-func _calc_elevation_info(cell_pos):
+func _calc_elevation_info(grid_cell):
 	## get the elevation trapezoid containing cell_pos
-	var world_pos = null #world_map.get_grid_pos(cell_pos)
-	var axial_pos = _world_to_axial(world_pos)
-	var trap_origin = axial_pos.floor()
-	var origin_hex = null #world_map.get_terrain_hex(_axial_to_world(trap_origin)) #TODO
+	var world_pos = world_map.unit_grid.axial_to_world(grid_cell)
+	var axial_pos = world_map.terrain_grid.world_to_axial(world_pos)
+	var origin_hex = axial_pos.floor()
 	
 	var plane = _calc_plane_coefficients(origin_hex)
 	if !plane:
 		return null
 	
-	var trap_pos = axial_pos - trap_origin #axial position within the trapezoid
-	if trap_pos.x > trap_pos.y:
+	var local_pos = axial_pos - origin_hex #position within the trapezoid
+	if local_pos.x > local_pos.y:
 		plane = plane[_UPPER_TRIANGLE]
 	else:
 		plane = plane[_LOWER_TRIANGLE]
@@ -112,29 +105,40 @@ func _calc_elevation_info(cell_pos):
 	var z = -(plane[0]*world_pos.x + plane[1]*world_pos.y + plane[3])/plane[2]
 	
 	return {
+		origin_hex = world_map.terrain_grid.axial_to_offset(origin_hex),
+		local_pos = local_pos,
+		raw_level = _get_terrain_elevation(origin_hex),
+		
 		level = HexUtils.pixels2units(z),
 		world_pos = Vector3(world_pos.x, world_pos.y, z),
 		grade = Vector2(plane[0], plane[1])/plane[2], #gradient = (dz/dx, dz/dy)
 		normal = Vector3(plane[0], plane[1], plane[2]).normalized(),
 	}
 
+var _unsmoothed = {}
+
 const SHARPNESS = 6.0 #controls how much we smooth the elevation map
-func get_info(cell_pos):
-	if _info_cache.has(cell_pos):
-		return _info_cache[cell_pos]
+func get_info(grid_cell):
+	if _info_cache.has(grid_cell):
+		return _info_cache[grid_cell]
 	
-	var info = _calc_elevation_info(cell_pos)
+	if !_unsmoothed.has(grid_cell):
+		_unsmoothed[grid_cell] = _calc_elevation_info(grid_cell)
+	
+	var info = _unsmoothed[grid_cell]
 	if info:
+		## average with neighbors
 		var total = SHARPNESS
-		for neighbor_pos in HexUtils.get_neighbors(cell_pos).values():
-			## average with neighbors
-			var neighbor_info = _calc_elevation_info(neighbor_pos)
+		for neighbor_cell in HexUtils.get_axial_neighbors(grid_cell).values():
+			if !_unsmoothed.has(neighbor_cell):
+				_unsmoothed[neighbor_cell] = _calc_elevation_info(neighbor_cell)
+			var neighbor_info = _unsmoothed[neighbor_cell]
 			if neighbor_info:
 				info.level = (total*info.level + neighbor_info.level)/(total+1)
 				info.grade = (total*info.grade + neighbor_info.grade)/(total+1)
 				info.normal = (total*info.normal + neighbor_info.normal)/(total+1)
 				total += 1
 	
-	_info_cache[cell_pos] = info
+	_info_cache[grid_cell] = info
 	return info
 

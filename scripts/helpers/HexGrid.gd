@@ -30,8 +30,8 @@ func get_axial_cell(world_pos):
 	return (axial_pos + Vector2(0.5, 0.5)).floor()
 
 func get_offset_cell(world_pos):
-	var offset_pos = world_to_offset(world_pos)
-	return (offset_pos + Vector2(0.5, 0.5)).floor()
+	var axial_pos = get_axial_cell(world_pos)
+	return axial_to_offset(axial_pos)
 
 func snap_to_grid(world_pos):
 	var axial_pos = get_axial_cell(world_pos)
