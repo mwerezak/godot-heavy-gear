@@ -161,7 +161,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 	var move_count = cur_state.move_count
 	var hazard = cur_state.hazard
 	
-	var neighbors = HexUtils.get_neighbors(cur_pos)
+	var neighbors = HexUtils.get_axial_neighbors(cur_pos)
 	for move_dir in neighbors:
 		var next_pos = neighbors[move_dir]
 		var moves_remaining = cur_state.moves_remaining
