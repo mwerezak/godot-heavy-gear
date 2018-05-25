@@ -12,6 +12,7 @@ var facing = 0 setget set_facing, get_facing
 var altitude = 0 setget set_altitude, get_altitude
 
 var faction setget set_faction
+var player_owner setget set_player_owner
 var unit_info setget set_unit_info
 var crew_info setget set_crew_info
 
@@ -48,7 +49,7 @@ func _update_marker():
 	if map_marker:
 		map_marker.set_nato_symbol(unit_info.desc.symbol)
 		map_marker.set_facing_marker_visible(has_facing())
-		map_marker.set_colors(faction.primary_color, faction.secondary_color)
+		map_marker.set_colors(player_owner.primary_color, faction.secondary_color)
 
 func set_unit_info(info):
 	unit_info = info
@@ -56,6 +57,11 @@ func set_unit_info(info):
 
 func set_crew_info(crew):
 	crew_info = crew
+
+func set_player_owner(new_owner):
+	player_owner = new_owner
+	faction = player_owner.faction
+	_update_marker()
 
 func set_faction(new_faction):
 	faction = new_faction

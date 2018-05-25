@@ -5,6 +5,8 @@ onready var unit_info_panel = $GUILayer/UnitInfoPanel
 onready var camera = $Camera
 onready var world_map = $WorldMap
 
+onready var game_state = $GameState
+
 func _ready():
 	## seed
 	randomize()

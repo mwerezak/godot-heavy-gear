@@ -3,27 +3,37 @@ extends "ContextBase.gd"
 const Unit = preload("res://scripts/units/Unit.tscn")
 const Crew = preload("res://scripts/units/Crew.gd")
 
-onready var unit_model_button = $HBoxContainer/UnitModelButton
+onready var player_button = $HBoxContainer/PlayerButton
 onready var faction_button = $HBoxContainer/FactionButton
+onready var unit_model_button = $HBoxContainer/UnitModelButton
 
+var players = {}
 var factions = {}
 var unit_models = {}
 
 func _ready():
-	var i = 0
-	for faction_id in Factions.all_factions():
+	call_deferred("_ready_deferred")
+
+func _ready_deferred():
+	var root = get_tree().get_root().get_node("Main")
+	var all_players = root.game_state.get_all_players()
+	for i in range(all_players.size()):
+		var player = all_players[i]
+		player_button.add_item(player.display_name, i)
+		players[i] = player
+	
+	var faction_ids = Factions.all_factions()
+	for i in range(faction_ids.size()):
+		var faction_id = faction_ids[i]
 		var faction = Factions.get_info(faction_id)
 		faction_button.add_item(faction.name, i)
 		factions[i] = faction
 		
-		var j = 0
 		var models = {}
-		for model_id in faction.unit_models:
+		for j in range(faction.unit_models.size()):
+			var model_id = faction.unit_models[j]
 			models[j] = UnitModels.get_info(model_id)
-			j += 1
-		
 		unit_models[i] = models
-		i += 1
 	
 	_update_model_list(faction_button.get_selected_id())
 
@@ -40,11 +50,16 @@ func cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		var spawn_unit = Unit.instance()
 		
-		var i = faction_button.get_selected_id()
-		var j = unit_model_button.get_selected_id()
-		var faction = factions[i]
-		var unit_info = unit_models[i][j]
+		var player_idx = player_button.get_selected_id()
+		var player = players[player_idx]
+		
+		var faction_idx = faction_button.get_selected_id()
+		var faction = factions[faction_idx]
+		
+		var model_idx = unit_model_button.get_selected_id()
+		var unit_info = unit_models[faction_idx][model_idx]
 
+		spawn_unit.set_player_owner(player)
 		spawn_unit.set_faction(faction)
 		spawn_unit.set_unit_info(unit_info)
 		
@@ -67,3 +82,4 @@ func _input(event):
 
 func _done_button_pressed():
 	context_manager.deactivate()
+

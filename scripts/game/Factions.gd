@@ -63,6 +63,7 @@ var INFO = {
 		primary_color = Color("#707cb1"), #Steel Blue
 		secondary_color = Color("#b44545"), #Republic Red
 		
+		
 		namelists = {
 			surnames = "res://namelists/south_surnames.txt",
 			male = "res://namelists/south_male.txt",
