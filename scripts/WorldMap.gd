@@ -214,24 +214,20 @@ func get_terrain_cell(grid_cell):
 	var world_pos = unit_grid.axial_to_world(grid_cell)
 	return terrain_grid.get_axial_cell(world_pos)
 
-## gets the complete position of a cell in distance units including elevation
-func get_ground_location(cell_pos):
-	var info = get_terrain_at_cell(cell_pos)
-	return info.elevation.world_pos/HexUtils.UNIT_DISTANCE
-
 func get_angle_to(cell_from, cell_to):
 	var from_pos = unit_grid.axial_to_world(cell_from)
 	var to_pos = unit_grid.axial_to_world(cell_to)
 	return (to_pos - from_pos).angle()
 
-## gets the closest direction to get from one cell to another
-func get_dir_to(cell_from, cell_to):
-	return HexUtils.nearest_dir(get_angle_to(cell_from, cell_to))
+## gets the complete position of a cell in distance units including elevation
+func get_ground(cell_pos):
+	var info = get_terrain_at_cell(cell_pos)
+	return info.elevation.world_pos/HexUtils.UNIT_DISTANCE
 
 ## returns the distance betwen the centres of two cells, in distance units
 func distance_along_ground(cell1, cell2):
-	var pos1 = get_ground_location(cell1)
-	var pos2 = get_ground_location(cell2)
+	var pos1 = get_ground(cell1)
+	var pos2 = get_ground(cell2)
 	return (pos1 - pos2).length()
 
 func path_distance(cell_path):
@@ -279,9 +275,6 @@ func get_units_at_cell(grid_cell):
 func get_structure_at_cell(grid_cell):
 	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null
 
-func get_objects_at_cell(grid_cell):
-	return get_units_at_cell(grid_cell)
-
 func _unit_cell_position_changed(old_pos, new_pos, unit):
 	unit_locs.move(old_pos, new_pos, unit)
 	_update_object_position(unit, new_pos)
@@ -311,7 +304,7 @@ func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 		return false
 	
 	## make sure there are no objects that could block us
-	for object in get_objects_at_cell(to_cell):
+	for object in get_units_at_cell(to_cell):
 		if object != unit && !object.can_pass(unit):
 			return false
 
@@ -334,7 +327,7 @@ func unit_can_place(unit, dest_cell):
 	if !allowed: return false
 	
 	## make sure there are no objects that could block us
-	for object in get_objects_at_cell(dest_cell):
+	for object in get_units_at_cell(dest_cell):
 		if object != unit && !object.can_stack(unit):
 			return false
 	

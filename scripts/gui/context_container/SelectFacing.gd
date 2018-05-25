@@ -131,7 +131,7 @@ func cell_input(world_map, grid_cell, event):
 			if event.doubleclick:
 				cancel_rotation() #allow double-clicking on unit to leave facing as is
 		else:
-			var dir = world_map.get_dir_to(rotate_unit.cell_position, grid_cell)
+			var dir = world_map.unit_grid.get_axial_dir(rotate_unit.cell_position, grid_cell)
 			
 			if !allowed_dirs.has(dir):
 				dir = _get_closest_dir(dir, allowed_dirs) ## get the closest allowed dir
