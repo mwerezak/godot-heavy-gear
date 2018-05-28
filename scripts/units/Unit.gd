@@ -60,7 +60,8 @@ func set_crew_info(crew):
 
 func set_player_owner(new_owner):
 	player_owner = new_owner
-	faction = player_owner.faction
+	if !faction:
+		faction = player_owner.default_faction
 	_update_marker()
 
 func set_faction(new_faction):

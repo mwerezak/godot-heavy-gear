@@ -19,7 +19,8 @@ var INFO = {
 		adjective = "Northern",
 		
 		primary_color = Color("#aa7f2f"), 
-		secondary_color = Color("#795327"), 
+		#secondary_color = Color("#2f5aaa"), 
+		secondary_color = Color("#476192"), 
 		
 		namelists = {
 			surnames = "res://namelists/north_surnames.txt",
@@ -60,9 +61,8 @@ var INFO = {
 		full_name = "Allied Southern Territories",
 		adjective = "Southern",
 		
-		primary_color = Color("#707cb1"), #Steel Blue
+		primary_color = Color("#718888"), #Steel Blue
 		secondary_color = Color("#b44545"), #Republic Red
-		
 		
 		namelists = {
 			surnames = "res://namelists/south_surnames.txt",

@@ -9,6 +9,7 @@ onready var unit_model_button = $HBoxContainer/UnitModelButton
 
 var players = {}
 var factions = {}
+var faction_ids = {}
 var unit_models = {}
 
 func _ready():
@@ -22,12 +23,13 @@ func _ready_deferred():
 		player_button.add_item(player.display_name, i)
 		players[i] = player
 	
-	var faction_ids = Factions.all_factions()
-	for i in range(faction_ids.size()):
-		var faction_id = faction_ids[i]
+	var all_factions = Factions.all_factions()
+	for i in range(all_factions.size()):
+		var faction_id = all_factions[i]
 		var faction = Factions.get_info(faction_id)
 		faction_button.add_item(faction.name, i)
 		factions[i] = faction
+		faction_ids[faction_id] = i
 		
 		var models = {}
 		for j in range(faction.unit_models.size()):
@@ -36,6 +38,12 @@ func _ready_deferred():
 		unit_models[i] = models
 	
 	_update_model_list(faction_button.get_selected_id())
+
+func _player_button_item_selected(i):
+	var sel_faction = players[i].default_faction
+	var faction_idx = faction_ids[sel_faction.faction_id]
+	faction_button.select(faction_idx)
+	_update_model_list(faction_idx)
 
 func _faction_button_item_selected(i):
 	_update_model_list(i)
@@ -82,4 +90,3 @@ func _input(event):
 
 func _done_button_pressed():
 	context_manager.deactivate()
-

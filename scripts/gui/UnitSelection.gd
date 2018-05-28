@@ -13,6 +13,9 @@ func add(object, selected_overlay):
 func has(object):
 	return _selected_overlays.has(object)
 
+func size():
+	return _selected_overlays.size()
+
 ## updates this selection to include the contents of another selection
 func extend(selection):
 	for object in selection._selected_overlays:
