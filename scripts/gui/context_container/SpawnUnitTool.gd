@@ -23,10 +23,10 @@ func _ready_deferred():
 		player_button.add_item(player.display_name, i)
 		players[i] = player
 	
-	var all_factions = Factions.all_factions()
-	for i in range(all_factions.size()):
-		var faction_id = all_factions[i]
-		var faction = Factions.get_info(faction_id)
+	var all_faction_ids = GameData.all_faction_ids()
+	for i in range(all_faction_ids.size()):
+		var faction_id = all_faction_ids[i]
+		var faction = GameData.get_faction(faction_id)
 		faction_button.add_item(faction.name, i)
 		factions[i] = faction
 		faction_ids[faction_id] = i
@@ -34,7 +34,7 @@ func _ready_deferred():
 		var models = {}
 		for j in range(faction.unit_models.size()):
 			var model_id = faction.unit_models[j]
-			models[j] = UnitModels.get_info(model_id)
+			models[j] = GameData.get_unit_model(model_id)
 		unit_models[i] = models
 	
 	_update_model_list(faction_button.get_selected_id())

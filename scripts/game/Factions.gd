@@ -115,11 +115,6 @@ func get_info(faction_id):
 func all_factions():
 	return INFO.keys()
 
-func get_rank(faction_info, rank_spec):
-	var ladder = rank_spec[0]
-	var grade = rank_spec[1]
-	return faction_info.ranks[ladder][grade]
-
 ## reads in a name list from file
 static func load_namelist(path):
 	var names = []

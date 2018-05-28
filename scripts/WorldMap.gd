@@ -165,7 +165,7 @@ func raw_terrain_info(terrain_cell):
 	if tile_idx < 0: return null #outside of map
 	
 	var tile_id = terrain_tilemap.tile_set.tile_get_name(tile_idx)
-	return TerrainDefs.get_terrain_info(tile_id)
+	return GameData.get_terrain_by_tile(tile_id)
 
 func get_terrain_at_world(world_pos):
 	var grid_cell = unit_grid.get_axial_cell(world_pos)

@@ -1,5 +1,6 @@
 extends Reference
 
+const UnitModels = preload("res://scripts/game/UnitModels.gd")
 const MovementModes = preload("res://scripts/game/MovementModes.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
 

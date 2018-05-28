@@ -34,4 +34,6 @@ func _init(faction, crew_spec):
 	skills = crew_spec.skills
 
 func get_rank_desc():
-	return Factions.get_rank(parent_faction, rank)
+	var ladder = rank[0]
+	var grade = rank[1]
+	return parent_faction.ranks[ladder][grade]

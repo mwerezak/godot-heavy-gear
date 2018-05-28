@@ -9,7 +9,7 @@ export(Color) var secondary_color
 var default_faction setget set_faction
 
 func _ready():
-	 set_faction(Factions.get_info(faction_id))
+	 set_faction(GameData.get_faction(faction_id))
 
 func set_faction(new_faction):
 	faction_id = new_faction.faction_id

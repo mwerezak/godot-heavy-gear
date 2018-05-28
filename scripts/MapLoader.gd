@@ -54,7 +54,7 @@ func _generate_terrain(editor_terrain_map):
 		## generate terrain tile index
 		var editor_tile_idx = editor_terrain_map.get_cellv(hex_cell)
 		var terrain_id = editor_tileset.tile_get_name(editor_tile_idx)
-		var terrain_info = TerrainDefs.INFO[terrain_id]
+		var terrain_info = GameData.get_terrain(terrain_id)
 
 		var tile_id = RandomUtils.get_random_item(terrain_info.tile_ids.keys())
 		var terrain_tile_idx = terrain_tileset.find_tile_by_name(tile_id)
@@ -70,7 +70,7 @@ func _generate_structures(struct_map):
 	for cell_pos in struct_map.get_used_cells():
 		var index = struct_map.get_cellv(cell_pos)
 		var struct_id = struct_set.tile_get_name(index)
-		var struct_info = StructureDefs.get_info(struct_id)
+		var struct_info = GameData.get_structure_info(struct_id)
 		
 		var struct = Structure.instance()
 		struct.name = "%s_0" % struct_id
