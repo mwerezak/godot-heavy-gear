@@ -177,6 +177,8 @@ flat = false
 align = 1
 _sections_unfolded = [ "Size Flags" ]
 
+[connection signal="item_selected" from="HBoxContainer/PlayerButton" to="." method="_player_button_item_selected"]
+
 [connection signal="item_selected" from="HBoxContainer/FactionButton" to="." method="_faction_button_item_selected"]
 
 [connection signal="pressed" from="HBoxContainer/DoneButton" to="." method="_done_button_pressed"]

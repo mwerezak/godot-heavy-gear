@@ -1,14 +1,29 @@
 extends Node
 
-var root
-onready var local_players = get_children()
+const GameEvents = preload("res://scripts/events/GameEvents.gd")
 
-func start_game(root):
-	self.root = root
-	root.context_panel.activate("activate_unit")
+var players
+var current_turn
 
-func activation_phase():
-	pass
+## self-signals for yield
+signal _next_activation
 
-func get_all_players():
-	return local_players
+func start_game():
+	## setup players
+	players = get_children()
+	
+	EventDispatch.game_event("game_start", [self])
+	
+	var turn_counter = 0
+	while turn_counter == 0:
+		turn_counter += 1
+		current_turn = {
+			turn_count = turn_counter,
+			turn_order = players.duplicate(),
+		}
+	
+		EventDispatch.game_event("begin_turn", [self])
+		
+		for player in current_turn.turn_order:
+			pass
+

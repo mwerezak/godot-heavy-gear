@@ -13,16 +13,9 @@ var faction_ids = {}
 var unit_models = {}
 
 func _ready():
-	call_deferred("_ready_deferred")
-
-func _ready_deferred():
-	var main_scene = get_tree().get_current_scene()
-	var all_players = main_scene.game_state.get_all_players()
-	for i in range(all_players.size()):
-		var player = all_players[i]
-		player_button.add_item(player.display_name, i)
-		players[i] = player
+	EventDispatch.game_events.connect("game_start", self, "_game_start")
 	
+	faction_button.clear()
 	var all_faction_ids = GameData.all_faction_ids()
 	for i in range(all_faction_ids.size()):
 		var faction_id = all_faction_ids[i]
@@ -38,6 +31,15 @@ func _ready_deferred():
 		unit_models[i] = models
 	
 	_update_model_list(faction_button.get_selected_id())
+
+## refresh player lists whenever a new game is started
+func _game_start(game_state):
+	player_button.clear()
+	var all_players = game_state.players
+	for i in range(all_players.size()):
+		var player = all_players[i]
+		player_button.add_item(player.display_name, i)
+		players[i] = player
 
 func _player_button_item_selected(i):
 	var sel_faction = players[i].default_faction

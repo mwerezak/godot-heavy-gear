@@ -25,7 +25,7 @@ func _ready():
 	var help_dialog = $GUILayer/QuickHelp
 	help_dialog.popup_centered()
 	
-	game_state.start_game(self)
+	game_state.start_game()
 
 
 func _unhandled_input(event):

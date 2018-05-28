@@ -35,12 +35,16 @@ script = ExtResource( 2 )
 script = ExtResource( 3 )
 display_name = "Player 1"
 faction_id = "north"
+primary_color = null
+secondary_color = null
 
 [node name="LocalPlayer2" type="Node" parent="GameState" index="1"]
 
 script = ExtResource( 3 )
 display_name = "Player 2"
 faction_id = "south"
+primary_color = null
+secondary_color = null
 
 [node name="WorldMap" parent="." index="1" instance=ExtResource( 4 )]
 
@@ -87,7 +91,6 @@ _sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibilit
 
 [node name="GUILayer" type="CanvasLayer" parent="." index="3"]
 
-editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0

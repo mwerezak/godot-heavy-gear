@@ -17,6 +17,7 @@ config/icon="res://icons/structures/industrial1.png"
 [autoload]
 
 GameData="*res://scripts/game/GameData.gd"
+EventDispatch="*res://scripts/events/EventDispatch.gd"
 
 [display]
 
