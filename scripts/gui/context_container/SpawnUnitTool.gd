@@ -16,8 +16,8 @@ func _ready():
 	call_deferred("_ready_deferred")
 
 func _ready_deferred():
-	var root = get_tree().get_root().get_node("Main")
-	var all_players = root.game_state.get_all_players()
+	var main_scene = get_tree().get_current_scene()
+	var all_players = main_scene.game_state.get_all_players()
 	for i in range(all_players.size()):
 		var player = all_players[i]
 		player_button.add_item(player.display_name, i)

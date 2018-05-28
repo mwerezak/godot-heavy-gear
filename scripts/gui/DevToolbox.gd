@@ -1,6 +1,6 @@
 extends Control
 
-onready var ui_context = $"/root/Main".find_node("ContextContainer") #this sucks
+onready var context_panel = get_tree().get_current_scene().find_node('ContextContainer')
 
 var tool_data = [
 	{ name = "Spawn Unit", ui_context = "dev_spawn_unit" },
@@ -10,7 +10,7 @@ var tool_data = [
 onready var menu_button = $MenuButton
 
 func _ready():
-	assert(ui_context)
+	assert(context_panel)
 	var popup = menu_button.get_popup()
 	for item in tool_data:
 		popup.add_item(item.name)
@@ -18,6 +18,6 @@ func _ready():
 
 func _item_selected(i):
 	for item in tool_data:
-		ui_context.deactivate(item.ui_context)
-	ui_context.activate(tool_data[i].ui_context)
+		context_panel.deactivate(item.ui_context)
+	context_panel.activate(tool_data[i].ui_context)
 

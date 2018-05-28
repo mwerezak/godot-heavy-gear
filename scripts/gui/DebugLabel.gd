@@ -2,6 +2,7 @@ extends Label
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
+onready var main_scene = get_tree().get_current_scene()
 onready var world_map = $"/root/Main/WorldMap"
 onready var camera = $"/root/Main/Camera"
 
