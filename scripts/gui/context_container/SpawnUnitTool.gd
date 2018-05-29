@@ -81,7 +81,7 @@ func cell_input(world_map, cell_pos, event):
 			world_map.add_unit(spawn_unit)
 			
 			if spawn_unit.has_facing():
-				context_manager.activate("select_facing", { unit = spawn_unit, forced = true })
+				context_manager.activate("SelectFacing", { unit = spawn_unit, forced = true })
 			
 		else:
 			spawn_unit.queue_free()

@@ -12,7 +12,7 @@
 [ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=11]
 [ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=12]
-[ext_resource path="res://scripts/gui/context_container/ContextContainer.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=13]
 [ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scripts/gui/context_container/ActivateUnit.tscn" type="PackedScene" id=16]
@@ -145,30 +145,41 @@ size_flags_vertical = 1
 alignment = 2
 _sections_unfolded = [ "Grow Direction" ]
 
-[node name="ContextContainer" parent="GUILayer/LowerLeftPanel" index="0" instance=ExtResource( 13 )]
+[node name="ContextContainer" type="Container" parent="GUILayer/LowerLeftPanel" index="0"]
 
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 600.0
+margin_bottom = 40.0
 grow_vertical = 0
+rect_min_size = Vector2( 600, 40 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 13 )
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="SpawnUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="1" instance=ExtResource( 14 )]
+[node name="SpawnUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="0" instance=ExtResource( 14 )]
 
-visible = false
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="DeleteUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="2" instance=ExtResource( 15 )]
+[node name="DeleteUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="1" instance=ExtResource( 15 )]
 
-visible = false
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="ActivateUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="3" instance=ExtResource( 16 )]
+[node name="ActivateUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="2" instance=ExtResource( 16 )]
 
-visible = false
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
@@ -176,25 +187,21 @@ margin_bottom = 33.0
 hover_color = Color( 0.7, 0.7, 0.7, 0.5 )
 selected_color = Color( 0.35, 1, 0.35, 1 )
 
-[node name="MoveUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="4" instance=ExtResource( 17 )]
+[node name="MoveUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="3" instance=ExtResource( 17 )]
 
-visible = false
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="SelectFacing" parent="GUILayer/LowerLeftPanel/ContextContainer" index="5" instance=ExtResource( 18 )]
+[node name="SelectFacing" parent="GUILayer/LowerLeftPanel/ContextContainer" index="4" instance=ExtResource( 18 )]
 
-visible = false
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="UnitActions" parent="GUILayer/LowerLeftPanel/ContextContainer" index="6" instance=ExtResource( 19 )]
-
-visible = false
+[node name="UnitActions" parent="GUILayer/LowerLeftPanel/ContextContainer" index="5" instance=ExtResource( 19 )]
 
 [node name="SelectUnit" parent="GUILayer/LowerLeftPanel" index="1" instance=ExtResource( 20 )]
 

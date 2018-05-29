@@ -1,20 +1,14 @@
 extends Container
 
-onready var container = $VBoxContainer
-onready var world_map = get_tree().get_root().find_node("WorldMap", true, false)
-
-var ui_contexts = {}
 var context_stack = []
 
-func register(context_name, ui_context):
-	assert(!ui_contexts.has(context_name))
-	
-	ui_contexts[context_name] = ui_context
-	ui_context.context_manager = self
-	ui_context.name = context_name
+func _ready():
+	for context in get_children():
+		context.context_manager = self
+		context.hide()
 
 func get_context(context_name):
-	return ui_contexts[context_name]
+	return get_node(context_name)
 
 func activate(context_name, args = null):
 	args = args if args else {}
@@ -26,7 +20,7 @@ func activate(context_name, args = null):
 	if active_context:
 		active_context.suspended()
 	
-	var next_context = ui_contexts[context_name]
+	var next_context = get_node(context_name)
 	context_stack.push_back(next_context)
 	next_context.activated(args)
 	
@@ -36,7 +30,7 @@ func deactivate(context_name = null):
 	if !context_name:
 		return deactivate_current()
 	
-	var search_context = ui_contexts[context_name]
+	var search_context = get_node(context_name)
 	var idx = context_stack.find_last(search_context)
 	if idx >= 0:
 		search_context.deactivated()

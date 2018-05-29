@@ -267,6 +267,12 @@ func add_unit(unit):
 	_update_object_position(unit, unit.cell_position)
 	add_child(unit)
 
+func remove_unit(unit):
+	unit.world_map = null
+	unit.disconnect("cell_position_changed", self, "_unit_cell_position_changed")
+	unit_locs.remove(unit.cell_position, unit)
+	remove_child(unit)
+
 func get_units_at_cell(grid_cell):
 	if !unit_locs.has(grid_cell):
 		return []

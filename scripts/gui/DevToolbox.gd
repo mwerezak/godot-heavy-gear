@@ -3,8 +3,8 @@ extends Control
 onready var context_panel = get_tree().get_current_scene().find_node('ContextContainer')
 
 var tool_data = [
-	{ name = "Spawn Unit", ui_context = "dev_spawn_unit" },
-	{ name = "Delete Unit", ui_context = "dev_delete_unit" },
+	{ name = "Spawn Unit", ui_context = "SpawnUnit" },
+	{ name = "Delete Unit", ui_context = "DeleteUnit" },
 ]
 
 onready var menu_button = $MenuButton

@@ -1,10 +1,12 @@
 extends "ContextBase.gd"
 
-func map_markers_input(world_map, map_markers, event):
+func cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		var marker = map_markers.front()
-		var map_object = marker.get_parent()
-		map_object.queue_free()
+		var units = world_map.get_units_at_cell(cell_pos)
+		var unit = units.front()
+		if unit:
+			world_map.remove_unit(unit)
+			unit.queue_free()
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
