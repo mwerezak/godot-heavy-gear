@@ -10,12 +10,8 @@ const DirectionArc = preload("res://scripts/gui/DirectionArc.tscn")
 const HELP_TEXT = "Select a location to rotate towards (or click on the unit to leave as is)."
 const CONFIRM_TEXT = "Select a location to rotate towards (or again to confirm, or click on the unit to cancel)."
 
-const MARKER_COLOR = Color(0.4, 0.9, 0.3)
-const EXT_MARKER_COLOR = Color(0.9, 0.4, 0.3) #color for rotations that will take us into extended movement
-const TARGET_MARKER_TEX = preload("res://icons/move_marker_32.png")
-
-onready var turn_marker #shows available directions the unit can face
-onready var ext_turn_marker
+onready var turn_marker = $AllowedDirs #shows available directions the unit can face
+onready var ext_turn_marker = $ExtendedAllowedDirs
 onready var target_marker = $TargetMarker
 onready var done_button = $MarginContainer/HBoxContainer/DoneButton
 onready var label = $MarginContainer/HBoxContainer/Label
@@ -37,9 +33,10 @@ func _init():
 	}
 
 func _ready():
-	action_icon.modulate = MARKER_COLOR
-	
-	var world_map = get_tree().get_root().find_node("WorldMap", true, false)
+	call_deferred("_ready_deferred")
+
+func _ready_deferred():
+	var world_map = get_tree().get_current_scene().world_map
 	
 	target_marker.z_as_relative = false
 	target_marker.z_index = Constants.HUD_ZLAYER
@@ -47,16 +44,16 @@ func _ready():
 	remove_child(target_marker)
 	world_map.add_child(target_marker)
 	
-	turn_marker = DirectionArc.instance()
-	turn_marker.modulate = MARKER_COLOR
 	turn_marker.z_as_relative = false
 	turn_marker.z_index = Constants.HUD_ZLAYER
+	turn_marker.hide()
+	remove_child(turn_marker)
 	world_map.add_child(turn_marker)
 	
-	ext_turn_marker = DirectionArc.instance()
-	ext_turn_marker.modulate = EXT_MARKER_COLOR
 	ext_turn_marker.z_as_relative = false
 	ext_turn_marker.z_index = Constants.HUD_ZLAYER
+	ext_turn_marker.hide()
+	remove_child(ext_turn_marker)
 	world_map.add_child(ext_turn_marker)
 
 func _setup():

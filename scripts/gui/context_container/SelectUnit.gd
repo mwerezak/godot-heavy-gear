@@ -96,7 +96,6 @@ func _select_button_pressed():
 ## TODO split to another file
 const Constants = preload("res://scripts/Constants.gd")
 class OverlayFactory:
-	#const _overlay_texture = preload("res://icons/selection_marker_16.png")
 	const _overlay_scene = preload("res://scripts/gui/SelectionMarker.tscn")
 	var _modulate_color
 

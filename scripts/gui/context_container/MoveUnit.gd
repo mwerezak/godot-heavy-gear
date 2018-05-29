@@ -7,11 +7,11 @@ const MovementPathing = preload("res://scripts/units/MovementPathing.gd")
 signal move_selected(move_unit, move_cell, move_info)
 
 const HELP_TEXT = "Select a location to move to."
-const CONFIRM_TEXT = "Select a location to move to (or click again to confirm)."
+const CONFIRM_TEXT = "Select a location to move to (or double-click to confirm)."
 
 onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 onready var label = $MarginContainer/HBoxContainer/Label
-onready var move_display = $"/root/Main/WorldMap/MovementDisplay"
+onready var move_display = $MovementDisplay
 
 var move_unit = null
 var move_pos = null
@@ -21,6 +21,17 @@ func _init():
 	load_properties = {
 		move_unit = REQUIRED,
 	}
+
+func _ready():
+	call_deferred("_ready_deferred")
+
+func _ready_deferred():
+	var world_map = get_tree().get_current_scene().world_map
+	
+	move_display.set_world_map(world_map)
+	move_display.hide()
+	remove_child(move_display)
+	world_map.add_child(move_display)
 
 func _setup():
 	possible_moves = MovementPathing.calculate_movement(move_unit)

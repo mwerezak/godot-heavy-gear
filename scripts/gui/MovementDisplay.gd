@@ -16,7 +16,7 @@ onready var facing_marker = $MoveMarker/AllowedFacing
 onready var movement_tiles = $MovementTiles
 onready var move_path = $MovementPath
 
-onready var world_map = get_parent()
+onready var world_map setget set_world_map
 
 func _ready():
 	call_deferred("_deferred_ready")
@@ -24,7 +24,9 @@ func _ready():
 	z_as_relative = false
 	z_index = Constants.HUD_ZLAYER
 
-func _deferred_ready():
+func set_world_map(map):
+	world_map = map
+	
 	## align the movement tiles with the unit grid
 	movement_tiles.cell_size = world_map.unit_grid.cell_spacing
 	movement_tiles.position = world_map.unit_grid.position - movement_tiles.cell_size/2

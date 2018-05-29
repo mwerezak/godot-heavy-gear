@@ -1,27 +1,26 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://scripts/game/GameState.gd" type="Script" id=2]
 [ext_resource path="res://scripts/game/Player.gd" type="Script" id=3]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/gui/MovementDisplay.tscn" type="PackedScene" id=5]
-[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=6]
-[ext_resource path="res://scripts/gui/UnitCursor.gd" type="Script" id=7]
-[ext_resource path="res://scripts/gui/TerrainCursor.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scripts/gui/Camera.gd" type="Script" id=9]
-[ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=11]
-[ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=12]
-[ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=13]
-[ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=16]
-[ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=17]
-[ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=19]
-[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=20]
+[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=5]
+[ext_resource path="res://scripts/gui/UnitCursor.gd" type="Script" id=6]
+[ext_resource path="res://scripts/gui/TerrainCursor.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scripts/gui/Camera.gd" type="Script" id=8]
+[ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=10]
+[ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=12]
+[ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=19]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -48,19 +47,15 @@ secondary_color = null
 
 [node name="WorldMap" parent="." index="1" instance=ExtResource( 4 )]
 
-[node name="MovementDisplay" parent="WorldMap" index="2" instance=ExtResource( 5 )]
-
-visible = false
-
-[node name="UnitCursor" type="Sprite" parent="WorldMap" index="3"]
+[node name="UnitCursor" type="Sprite" parent="WorldMap" index="2"]
 
 modulate = Color( 1, 0.784314, 0.584314, 0.353608 )
 z_index = 1
-texture = ExtResource( 6 )
-script = ExtResource( 7 )
+texture = ExtResource( 5 )
+script = ExtResource( 6 )
 _sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
 
-[node name="TerrainCursor" parent="WorldMap" index="4" instance=ExtResource( 8 )]
+[node name="TerrainCursor" parent="WorldMap" index="3" instance=ExtResource( 7 )]
 
 [node name="Camera" type="Camera2D" parent="." index="2"]
 
@@ -86,18 +81,19 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-script = ExtResource( 9 )
+script = ExtResource( 8 )
 _sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
 
 [node name="GUILayer" type="CanvasLayer" parent="." index="3"]
 
+editor/display_folded = true
 layer = 1
 offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 transform = Transform2D( 1, 0, 0, 1, 0, 0 )
 
-[node name="QuickHelp" parent="GUILayer" index="0" instance=ExtResource( 10 )]
+[node name="QuickHelp" parent="GUILayer" index="0" instance=ExtResource( 9 )]
 
 visible = false
 
@@ -121,10 +117,10 @@ align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script = ExtResource( 11 )
+script = ExtResource( 10 )
 _sections_unfolded = [ "Grow Direction" ]
 
-[node name="DevToolbox" parent="GUILayer" index="2" instance=ExtResource( 12 )]
+[node name="DevToolbox" parent="GUILayer" index="2" instance=ExtResource( 11 )]
 
 [node name="LowerLeftPanel" type="VBoxContainer" parent="GUILayer" index="3"]
 
@@ -150,9 +146,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 38.0
 margin_right = 600.0
-margin_bottom = 78.0
+margin_bottom = 40.0
 grow_vertical = 0
 rect_min_size = Vector2( 600, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -161,40 +156,40 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 13 )
+script = ExtResource( 12 )
 _sections_unfolded = [ "Anchor", "Grow Direction", "Margin", "Rect" ]
 
-[node name="SpawnUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="0" instance=ExtResource( 14 )]
+[node name="SpawnUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="0" instance=ExtResource( 13 )]
 
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="DeleteUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="1" instance=ExtResource( 15 )]
+[node name="DeleteUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="1" instance=ExtResource( 14 )]
 
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="MoveUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="2" instance=ExtResource( 16 )]
+[node name="MoveUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="2" instance=ExtResource( 15 )]
 
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="SelectFacing" parent="GUILayer/LowerLeftPanel/ContextContainer" index="3" instance=ExtResource( 17 )]
+[node name="SelectFacing" parent="GUILayer/LowerLeftPanel/ContextContainer" index="3" instance=ExtResource( 16 )]
 
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 593.0
 margin_bottom = 33.0
 
-[node name="UnitActions" parent="GUILayer/LowerLeftPanel/ContextContainer" index="4" instance=ExtResource( 18 )]
+[node name="UnitActions" parent="GUILayer/LowerLeftPanel/ContextContainer" index="4" instance=ExtResource( 17 )]
 
-[node name="SelectUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="5" instance=ExtResource( 19 )]
+[node name="SelectUnit" parent="GUILayer/LowerLeftPanel/ContextContainer" index="5" instance=ExtResource( 18 )]
 
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -204,7 +199,7 @@ margin_bottom = 0.0
 grow_vertical = 0
 _sections_unfolded = [ "Anchor", "Grow Direction", "Rect", "Size Flags" ]
 
-[node name="UnitInfoPanel" parent="GUILayer" index="4" instance=ExtResource( 20 )]
+[node name="UnitInfoPanel" parent="GUILayer" index="4" instance=ExtResource( 19 )]
 
 anchor_left = 1.0
 anchor_top = 1.0

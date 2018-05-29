@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/gui/context_container/MoveUnit.gd" type="Script" id=1]
-[ext_resource path="res://icons/move_marker_16.png" type="Texture" id=2]
+[ext_resource path="res://scripts/gui/MovementDisplay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/gui/MovementDisplay.gd" type="Script" id=3]
+[ext_resource path="res://icons/move_marker_16.png" type="Texture" id=4]
 
-[node name="MoveUnit" type="PanelContainer" index="0"]
+[node name="MoveUnit" type="PanelContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -21,7 +23,13 @@ size_flags_vertical = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Rect", "Size Flags" ]
 
-[node name="MarginContainer" type="MarginContainer" parent="." index="0"]
+[node name="MovementDisplay" type="Node2D" parent="." index="0" instance=ExtResource( 2 )]
+
+visible = false
+script = ExtResource( 3 )
+_sections_unfolded = [ "Material", "Transform" ]
+
+[node name="MarginContainer" type="MarginContainer" parent="." index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -72,7 +80,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource( 2 )
+texture = ExtResource( 4 )
 stretch_mode = 0
 _sections_unfolded = [ "Rect", "Size Flags" ]
 
