@@ -13,7 +13,7 @@ var faction_ids = {}
 var unit_models = {}
 
 func _ready():
-	EventDispatch.game_events.connect("game_start", self, "_game_start")
+	EventDispatch.autoconnect(self)
 	
 	faction_button.clear()
 	var all_faction_ids = GameData.all_faction_ids()

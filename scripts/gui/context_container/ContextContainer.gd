@@ -13,6 +13,9 @@ func register(context_name, ui_context):
 	ui_context.context_manager = self
 	ui_context.name = context_name
 
+func get_context(context_name):
+	return ui_contexts[context_name]
+
 func activate(context_name, args = null):
 	args = args if args else {}
 	
@@ -26,6 +29,8 @@ func activate(context_name, args = null):
 	var next_context = ui_contexts[context_name]
 	context_stack.push_back(next_context)
 	next_context.activated(args)
+	
+	return get_active_context()
 
 func deactivate(context_name = null):
 	if !context_name:
@@ -38,6 +43,8 @@ func deactivate(context_name = null):
 		context_stack.remove(idx)
 		if idx != 0 && context_stack.size() == idx:
 			get_active_context().resumed()
+	
+	return get_active_context()
 
 func deactivate_current():
 	var active_context = get_active_context()
@@ -48,6 +55,8 @@ func deactivate_current():
 		var next_context = get_active_context()
 		if next_context:
 			next_context.resumed()
+	
+	return get_active_context()
 
 func is_active_or_suspended(context_name):
 	for context in context_stack:

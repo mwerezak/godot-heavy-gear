@@ -24,5 +24,9 @@ func _update_text():
 	if structure:
 		terrain_id += ":" + structure.get_structure_id()
 
+	var active_player = main_scene.game_state.active_player
+	var active_player_str = active_player.display_name if active_player else ""
+	
 	var zoom = camera.zoom.x
-	text = "cell:%s %s terrain:%s x%.2f" % [grid_cell, elevation_str, terrain_id, 1/zoom]
+	
+	text = "%s cell:%s %s terrain:%s x%.2f" % [active_player_str, grid_cell, elevation_str, terrain_id, 1/zoom]

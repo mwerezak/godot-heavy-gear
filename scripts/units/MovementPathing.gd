@@ -5,7 +5,7 @@ extends Reference
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
 const PriorityQueue = preload("res://scripts/helpers/PriorityQueue.gd")
-const MovementModes = preload("res://scripts/game/MovementModes.gd")
+const MovementModes = preload("res://scripts/game/data/MovementModes.gd")
 
 
 static func calculate_movement(move_unit):

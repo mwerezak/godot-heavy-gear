@@ -1,8 +1,8 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
-[ext_resource path="res://scripts/GameState.gd" type="Script" id=2]
-[ext_resource path="res://scripts/Player.gd" type="Script" id=3]
+[ext_resource path="res://scripts/game/GameState.gd" type="Script" id=2]
+[ext_resource path="res://scripts/game/Player.gd" type="Script" id=3]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scripts/gui/MovementDisplay.tscn" type="PackedScene" id=5]
 [ext_resource path="res://icons/unit_cursor.png" type="Texture" id=6]
@@ -19,9 +19,10 @@
 [ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=19]
-[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=20]
+[ext_resource path="res://scripts/gui/controls/SelectUnit.tscn" type="PackedScene" id=20]
+[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=21]
 
-[node name="Main" type="Node"]
+[node name="Main" type="Node" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -195,7 +196,13 @@ margin_bottom = 33.0
 
 visible = false
 
-[node name="UnitInfoPanel" parent="GUILayer" index="4" instance=ExtResource( 20 )]
+[node name="SelectUnit" parent="GUILayer/LowerLeftPanel" index="1" instance=ExtResource( 20 )]
+
+margin_top = 44.0
+margin_right = 600.0
+margin_bottom = 78.0
+
+[node name="UnitInfoPanel" parent="GUILayer" index="4" instance=ExtResource( 21 )]
 
 anchor_left = 1.0
 anchor_top = 1.0

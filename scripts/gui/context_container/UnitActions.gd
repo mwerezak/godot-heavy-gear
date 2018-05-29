@@ -10,6 +10,8 @@ var active_unit
 var current_activation
 var confirm_end_turn
 
+signal done
+
 func activated(args):
 	active_unit = args.unit
 	current_activation = UnitActivation.new(active_unit)
@@ -59,6 +61,7 @@ func _rotate_button_pressed():
 
 func _done_button_pressed():
 	if confirm_end_turn:
+		emit_signal("done")
 		context_manager.deactivate()
 	else:
 		confirm_end_turn = true

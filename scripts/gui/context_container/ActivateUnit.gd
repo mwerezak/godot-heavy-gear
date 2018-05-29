@@ -8,16 +8,16 @@ class OverlayFactory:
 	#const _overlay_texture = preload("res://icons/selection_marker_16.png")
 	const _overlay_scene = preload("res://scripts/gui/SelectionMarker.tscn")
 	var _modulate_color
-	
+
 	func _init(modulate_color):
 		_modulate_color = modulate_color
-	
+
 	func create_overlay_node(unit):
 		var overlay = _overlay_scene.instance()
 		overlay.modulate = _modulate_color
-		
+
 		overlay.text = unit.crew_info.last_name
-		
+
 		overlay.z_as_relative = false
 		overlay.z_index = Constants.HUD_ZLAYER
 		return overlay
@@ -26,7 +26,7 @@ export(Color) var hover_color = Color(0.7, 0.7, 0.7, 0.5)
 export(Color) var selected_color = Color(0.35, 1.0, 0.35, 1.0)
 
 var unit_selector = UnitSelectorSingle.new(
-	OverlayFactory.new(hover_color),  
+	OverlayFactory.new(hover_color),
 	OverlayFactory.new(selected_color)
 )
 
@@ -34,6 +34,8 @@ var selection = null setget set_selection
 
 onready var activate_button = $MarginContainer/HBoxContainer/Activate
 onready var label = $MarginContainer/HBoxContainer/Label
+
+signal unit_selected(unit, arg)
 
 func _ready():
 	set_selection(null)
@@ -58,17 +60,17 @@ func cell_input(world_map, cell_pos, event):
 
 	if !units.empty() && event.is_action_pressed("click_select"):
 		if selection: selection.cleanup()
-		
+
 		var new_selection = unit_selector.create_selection(units, selection)
-		
+
 		var highlight = []
 		for unit in units: if !new_selection.selected.has(unit): highlight.push_back(unit)
 		unit_selector.highlight_objects(highlight)
-		
+
 		var confirm_selection = new_selection.equals(selection)
 		set_selection(new_selection)
 		if confirm_selection: activate_selected()
-		
+
 	elif event is InputEventMouseMotion:
 		var cur_selected = selection.selected if selection else []
 		var highlight = []
@@ -85,8 +87,8 @@ func set_selection(s):
 
 func activate_selected():
 	var selected_unit = selection.selected.front()
-	
-	context_manager.activate("unit_actions", { unit = selected_unit })
+	emit_signal("unit_selected", selected_unit)
+	context_manager.deactivate()
 
 func _activate_button_pressed():
 	if selection: activate_selected()

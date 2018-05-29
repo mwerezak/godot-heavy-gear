@@ -1,7 +1,7 @@
 extends Node
 
-const MovementModes = preload("res://scripts/game/MovementModes.gd")
-const TerrainDefs = preload("res://scripts/game/TerrainDefs.gd")
+const MovementModes = preload("MovementModes.gd")
+const TerrainDefs = preload("TerrainDefs.gd")
 
 ## only infantry may enter buildings, by default
 const DEFAULT_BUILDING_TERRAIN = {

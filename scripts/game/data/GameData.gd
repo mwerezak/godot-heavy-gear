@@ -1,9 +1,9 @@
 extends Node
 
-var factions = preload("res://scripts/game/Factions.gd").new()
-var terrain = preload("res://scripts/game/TerrainDefs.gd").new()
-var structures = preload("res://scripts/game/StructureDefs.gd").new()
-var unit_models = preload("res://scripts/game/UnitModels.gd").new()
+var factions = preload("Factions.gd").new()
+var terrain = preload("TerrainDefs.gd").new()
+var structures = preload("StructureDefs.gd").new()
+var units = preload("UnitDefs.gd").new()
 
 ## Factions
 func all_faction_ids():
@@ -25,4 +25,4 @@ func get_structure_info(struct_id):
 
 ## Unit Models
 func get_unit_model(model_id):
-	return unit_models.get_info(model_id)
+	return units.get_model(model_id)

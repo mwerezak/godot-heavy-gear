@@ -1,8 +1,8 @@
 extends Node
 
-const MovementModes = preload("res://scripts/game/MovementModes.gd")
-const UnitInfo = preload("res://scripts/units/UnitInfo.gd")
-const Factions = preload("res://scripts/game/Factions.gd")
+const Factions = preload("Factions.gd")
+const MovementModes = preload("MovementModes.gd")
+const UnitModel = preload("UnitModel.gd")
 
 ## Unit types
 enum { TYPE_VEHICLE, TYPE_INFANTRY }
@@ -70,7 +70,7 @@ var INFO = {
 	}
 }
 
-var _CACHE = {}
+var _UNITMODEL_CACHE = {}
 
 func _apply_override(parent, child):
 	var result = parent.duplicate()
@@ -107,8 +107,8 @@ func _init():
 	
 	for model_id in all_models:
 		var resolved_info = resolve_cache[model_id]
-		_CACHE[model_id] = UnitInfo.new(resolved_info)
+		_UNITMODEL_CACHE[model_id] = UnitModel.new(resolved_info)
 
-func get_info(model_id):
-	return _CACHE[model_id]
+func get_model(model_id):
+	return _UNITMODEL_CACHE[model_id]
 

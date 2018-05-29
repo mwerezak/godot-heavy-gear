@@ -1,6 +1,6 @@
 extends Node
 
-const MovementModes = preload("res://scripts/game/MovementModes.gd")
+const MovementModes = preload("MovementModes.gd")
 
 ## TODO terrain elevation?
 

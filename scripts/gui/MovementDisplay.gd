@@ -4,7 +4,7 @@ extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
-const MovementModes = preload("res://scripts/game/MovementModes.gd")
+const MovementModes = preload("res://scripts/game/data/MovementModes.gd")
 
 const TILE_BLUE = 0
 const TILE_YELLOW = 1

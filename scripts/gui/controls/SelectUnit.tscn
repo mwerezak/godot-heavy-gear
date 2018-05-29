@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://scripts/gui/context_container/ActivateUnit.gd" type="Script" id=1]
+[ext_resource path="res://scripts/gui/controls/SelectUnit.gd" type="Script" id=1]
 
-[node name="ActivateUnit" type="PanelContainer"]
+[node name="SelectUnit" type="PanelContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -19,8 +19,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Rect", "Size Flags" ]
-hover_color = Color( 0.367188, 0.367188, 0.367188, 0.5 )
-selected_color = Color( 0.35, 1, 0.35, 0.883961 )
+hover_color = Color( 0.7, 0.7, 0.7, 0.5 )
+selected_color = Color( 0.35, 1, 0.35, 1 )
 
 [node name="MarginContainer" type="MarginContainer" parent="." index="0"]
 
@@ -65,7 +65,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 3.0
-margin_right = 341.0
+margin_right = 354.0
 margin_bottom = 17.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
@@ -73,19 +73,19 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 3
 size_flags_vertical = 4
-text = "Select a unit to activate."
+text = "Select a unit."
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="Activate" type="Button" parent="MarginContainer/HBoxContainer" index="1"]
+[node name="SelectButton" type="Button" parent="MarginContainer/HBoxContainer" index="1"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 345.0
+margin_left = 358.0
 margin_right = 409.0
 margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -100,10 +100,10 @@ toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
 group = null
-text = "Activate"
+text = "Select"
 flat = false
 align = 1
 
-[connection signal="pressed" from="MarginContainer/HBoxContainer/Activate" to="." method="_activate_button_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/SelectButton" to="." method="_select_button_pressed"]
 
 
