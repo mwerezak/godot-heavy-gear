@@ -3,6 +3,7 @@ extends Line2D
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
+const ROAD_WIDTH = 16
 const ROAD_COLOR = Color("#545454")
 
 var footprint
@@ -10,7 +11,7 @@ var footprint
 func _ready():
 	z_as_relative = false
 	z_index = Constants.ROAD_ZLAYER
-	width = 16
+	width = ROAD_WIDTH
 	default_color = ROAD_COLOR
 
 func setup(world_map, grid_cells):
