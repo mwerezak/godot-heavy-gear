@@ -1,7 +1,5 @@
 extends Node
 
-signal cell_input(world_map, grid_cell, event)
-
 onready var context_panel = $GUILayer/LowerLeftPanel/ContextContainer
 onready var unit_info_panel = $GUILayer/UnitInfoPanel
 onready var camera = $Camera
@@ -35,7 +33,6 @@ func _unhandled_input(event):
 		if world_map.point_on_map(mouse_pos):
 			var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
 			context_panel.cell_input_event(world_map, grid_cell, event)
-			emit_signal("cell_input", world_map, grid_cell, event)
 			_update_unit_info_panel(world_map.get_units_at_cell(grid_cell), event)
 
 func _update_unit_info_panel(units, event):

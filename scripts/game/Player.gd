@@ -24,12 +24,18 @@ func activate_player():
 	var current_scene = get_tree().get_current_scene()
 	var context_panel = current_scene.context_panel
 	
-	"""
-	var select_unit = current_scene.gui.select_unit
-	select_unit.setup()
+	var select_unit = context_panel.activate("SelectUnit", {
+		select_text = "Select a unit to activate.",
+		confirm_text = "Select a unit to activate (or double-click to confirm).",
+		button_text = "Activate",
+	})
 	var selection = yield(select_unit, "unit_selected")
 	assert(selection.size() == 1)
 	print(selection.selected.front())
+	"""
+	var select_unit = current_scene.gui.select_unit
+	select_unit.setup()
+
 	"""
 	
 	"""

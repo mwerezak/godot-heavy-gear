@@ -1,4 +1,4 @@
-extends PanelContainer
+extends "ContextBase.gd"
 
 const UnitSelectorSingle = preload("res://scripts/gui/UnitSelectorSingle.gd")
 
@@ -14,9 +14,9 @@ var unit_selector = UnitSelectorSingle.new(
 
 var selection = null setget set_selection
 
-var select_text = "Select a unit." setget set_select_text
-var confirm_text = "Select a unit (or double click to confirm)." setget set_confirm_text
-var button_text = "Select" setget set_button_text, get_button_text
+var select_text setget set_select_text
+var confirm_text setget set_confirm_text
+var button_text setget set_button_text, get_button_text
 
 onready var label = $MarginContainer/HBoxContainer/Label
 onready var select_button = $MarginContainer/HBoxContainer/SelectButton
@@ -24,17 +24,21 @@ onready var select_button = $MarginContainer/HBoxContainer/SelectButton
 func _ready():
 	hide()
 
-func setup():
-	set_selection(null)
+const DEFAULT = {
+	select_text = "Select a unit.",
+	confirm_text = "Select a unit (or double-click to confirm).",
+	button_text = "Select",
+}
+func activated(args):
+	for property in DEFAULT:
+		set(property, args[property] if args.has(property) else DEFAULT[property])
+	
+	.activated(args)
 	select_button.grab_focus()
-	set_process_cell_input(true)
-	show()
 
-func set_process_cell_input(process):
-	var args = ["cell_input", self, "_cell_input"]
-	var method = "connect" if process else "disconnect"
-	var current_scene = get_tree().get_current_scene()
-	current_scene.callv(method, args)
+func deactivated():
+	.deactivated()
+	set_selection(null)
 
 func set_selection(new_selection):
 	selection = new_selection
@@ -62,7 +66,7 @@ func _input(event):
 	if selection && (event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_select")):
 		finalize_selection()
 
-func _cell_input(world_map, grid_cell, event):
+func cell_input(world_map, grid_cell, event):
 	var units = world_map.get_units_at_cell(grid_cell)
 
 	if !units.empty() && event.is_action_pressed("click_select"):
@@ -85,14 +89,12 @@ func _cell_input(world_map, grid_cell, event):
 		unit_selector.highlight_objects(highlight)
 
 func finalize_selection():
-	emit_signal("unit_selected", selection)
-	set_selection(null)
-	set_process_cell_input(false)
-	hide()
+	var saved = selection
+	context_manager.deactivate()
+	emit_signal("unit_selected", saved)
 
 func _select_button_pressed():
 	if has_selection(): finalize_selection()
-
 
 ## TODO split to another file
 const Constants = preload("res://scripts/Constants.gd")
