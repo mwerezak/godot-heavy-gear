@@ -1,11 +1,11 @@
+## Returns the selected units as an array.
+
 extends "ContextBase.gd"
 
 const UnitSelectorSingle = preload("res://scripts/gui/UnitSelectorSingle.gd")
 
 export(Color) var hover_color = Color(0.7, 0.7, 0.7, 0.5)
 export(Color) var selected_color = Color(0.35, 1.0, 0.35, 1.0)
-
-signal unit_selected(selection)
 
 var unit_selector = UnitSelectorSingle.new(
 	OverlayFactory.new(hover_color),
@@ -21,19 +21,18 @@ var button_text setget set_button_text, get_button_text
 onready var label = $MarginContainer/HBoxContainer/Label
 onready var select_button = $MarginContainer/HBoxContainer/SelectButton
 
+func _init():
+	load_properties = {
+		select_text = "Select a unit.",
+		confirm_text = "Select a unit (or double-click to confirm).",
+		button_text = "Select",
+	}
+
 func _ready():
 	hide()
 
-const DEFAULT = {
-	select_text = "Select a unit.",
-	confirm_text = "Select a unit (or double-click to confirm).",
-	button_text = "Select",
-}
-func activated(args):
-	for property in DEFAULT:
-		set(property, args[property] if args.has(property) else DEFAULT[property])
-	
-	.activated(args)
+func _become_active():
+	._become_active()
 	select_button.grab_focus()
 
 func deactivated():
@@ -89,9 +88,7 @@ func cell_input(world_map, grid_cell, event):
 		unit_selector.highlight_objects(highlight)
 
 func finalize_selection():
-	var saved = selection
-	context_manager.deactivate()
-	emit_signal("unit_selected", saved)
+	context_return(selection.selected)
 
 func _select_button_pressed():
 	if has_selection(): finalize_selection()

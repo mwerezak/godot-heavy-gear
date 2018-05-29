@@ -1,6 +1,10 @@
+## Returns a dictionary { move_unit, move_cell, move_info }
+
 extends "ContextBase.gd"
 
 const MovementPathing = preload("res://scripts/units/MovementPathing.gd")
+
+signal move_selected(move_unit, move_cell, move_info)
 
 const HELP_TEXT = "Select a location to move to."
 const CONFIRM_TEXT = "Select a location to move to (or click again to confirm)."
@@ -13,12 +17,13 @@ var move_unit = null
 var move_pos = null
 var possible_moves = null
 
-func activated(args):
-	.activated(args)
-	move_unit = args.unit
-	
+func _init():
+	load_properties = {
+		move_unit = REQUIRED,
+	}
+
+func _setup():
 	possible_moves = MovementPathing.calculate_movement(move_unit)
-	
 	move_display.show_movement(possible_moves, move_unit.current_activation)
 	label.text = HELP_TEXT
 
@@ -61,17 +66,14 @@ func _reset():
 	label.text = HELP_TEXT
 
 func finalize_move():
-	var move_info = possible_moves[move_pos]
-	move_unit.current_activation.move(move_pos, move_info)
-	
-	context_manager.deactivate()
-	if move_unit.current_activation.can_rotate():
-		context_manager.activate("select_facing", { unit = move_unit })
+	context_return({
+		move_unit = move_unit,
+		move_cell = move_pos,
+		move_info = possible_moves[move_pos],
+	})
 
 func cancel_move():
-	context_manager.deactivate()
-	if move_unit.current_activation.can_rotate():
-		context_manager.activate("select_facing", { unit = move_unit })
+	context_return()
 
 func _move_button_pressed(): finalize_move()
 

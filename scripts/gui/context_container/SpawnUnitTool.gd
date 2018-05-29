@@ -73,7 +73,9 @@ func cell_input(world_map, cell_pos, event):
 		spawn_unit.set_faction(faction)
 		spawn_unit.set_unit_info(unit_info)
 		
-		if world_map.unit_can_place(spawn_unit, cell_pos):
+		if !world_map.unit_can_place(spawn_unit, cell_pos):
+			spawn_unit.queue_free()
+		else:
 			var crew = Crew.new(faction, unit_info.get_default_crew())
 			spawn_unit.set_crew_info(crew)
 			
@@ -81,14 +83,14 @@ func cell_input(world_map, cell_pos, event):
 			world_map.add_unit(spawn_unit)
 			
 			if spawn_unit.has_facing():
-				context_manager.activate("SelectFacing", { unit = spawn_unit, forced = true })
-			
-		else:
-			spawn_unit.queue_free()
+				var rotate_context = context_manager.activate("SelectFacing", { rotate_unit = spawn_unit, allow_any = true })
+				var rotate_info = yield(rotate_context, "context_return")
+				if rotate_info:
+					spawn_unit.set_facing(rotate_info.selected_dir)
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		context_manager.deactivate()
+		context_return()
 
 func _done_button_pressed():
-	context_manager.deactivate()
+	context_return()

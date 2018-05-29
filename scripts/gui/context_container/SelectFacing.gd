@@ -1,3 +1,5 @@
+## returns a dictionary { rotate_unit, rotate_mode, selected_dir }, or null if cancelled
+
 extends "ContextBase.gd"
 
 const Constants = preload("res://scripts/Constants.gd")
@@ -14,7 +16,7 @@ const TARGET_MARKER_TEX = preload("res://icons/move_marker_32.png")
 
 onready var turn_marker #shows available directions the unit can face
 onready var ext_turn_marker
-onready var target_marker #shows the location the unit is facing towards
+onready var target_marker = $TargetMarker
 onready var done_button = $MarginContainer/HBoxContainer/DoneButton
 onready var label = $MarginContainer/HBoxContainer/Label
 onready var action_icon = $MarginContainer/HBoxContainer/ActionIcon
@@ -22,23 +24,27 @@ onready var action_icon = $MarginContainer/HBoxContainer/ActionIcon
 var rotate_unit
 var rotate_mode
 
-var forced = false #if true, we set the unit's facing directly without spending any move actions
+var allow_any = false #if true, we set the unit's facing directly without spending any move actions
 
 var allowed_dirs = {}
 var facing_marker
 var selected_dir
+
+func _init():
+	load_properties = {
+		rotate_unit = REQUIRED,
+		allow_any = false,
+	}
 
 func _ready():
 	action_icon.modulate = MARKER_COLOR
 	
 	var world_map = get_tree().get_root().find_node("WorldMap", true, false)
 	
-	target_marker = Sprite.new()
-	target_marker.texture = TARGET_MARKER_TEX
-	target_marker.modulate = MARKER_COLOR
 	target_marker.z_as_relative = false
 	target_marker.z_index = Constants.HUD_ZLAYER
 	target_marker.hide()
+	remove_child(target_marker)
 	world_map.add_child(target_marker)
 	
 	turn_marker = DirectionArc.instance()
@@ -53,16 +59,12 @@ func _ready():
 	ext_turn_marker.z_index = Constants.HUD_ZLAYER
 	world_map.add_child(ext_turn_marker)
 
-func activated(args):
+func _setup():
 	label.text = HELP_TEXT
-	
-	rotate_unit = args.unit
-	forced = args.forced if args.has("forced") else false
-	.activated(args)
 	
 	var cur_activation = null
 	
-	if forced:
+	if allow_any:
 		## rotate any direction, for free
 		for dir in range(HexUtils.DIR_WRAP):
 			allowed_dirs[dir] = null
@@ -74,7 +76,7 @@ func activated(args):
 		
 		allowed_dirs.clear()
 		for dir in range(HexUtils.DIR_WRAP):
-			if forced || rotate_mode.free_rotate:
+			if allow_any || rotate_mode.free_rotate:
 				allowed_dirs[dir] = null
 			else:
 				var move_action_cost = cur_activation.get_rotation_cost(rotate_mode, dir).move_actions
@@ -158,14 +160,14 @@ func _get_closest_dir(dir, allowed_dirs):
 	return SortingUtils.get_min_item(allowed_dirs.keys(), comparer, "compare")
 
 func finalize_rotation():
-	if forced:
-		rotate_unit.set_facing(selected_dir)
-	else:
-		rotate_unit.current_activation.rotate(rotate_mode, selected_dir)
-	context_manager.deactivate()
+	context_return({
+		rotate_unit = rotate_unit,
+		rotate_mode = rotate_mode,
+		selected_dir = selected_dir,
+	})
 
 func cancel_rotation():
-	context_manager.deactivate()
+	context_return()
 
 func _done_button_pressed():
 	if selected_dir: finalize_rotation()

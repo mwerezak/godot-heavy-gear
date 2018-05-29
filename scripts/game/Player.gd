@@ -1,5 +1,7 @@
 extends Node
 
+const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
+
 export(String) var display_name
 export(String) var faction_id
 
@@ -24,14 +26,20 @@ func activate_player():
 	var current_scene = get_tree().get_current_scene()
 	var context_panel = current_scene.context_panel
 	
-	var select_unit = context_panel.activate("SelectUnit", {
+	var selected_units = yield(context_panel.activate("SelectUnit", {
 		select_text = "Select a unit to activate.",
 		confirm_text = "Select a unit to activate (or double-click to confirm).",
 		button_text = "Activate",
-	})
-	var selection = yield(select_unit, "unit_selected")
-	assert(selection.size() == 1)
-	print(selection.selected.front())
+	}), "context_return")
+	
+	assert(selected_units.size() == 1)
+	var selected_unit = selected_units.front()
+	
+	selected_unit.current_activation = UnitActivation.new(selected_unit)
+	yield(context_panel.activate("UnitActions", { active_unit = selected_unit }), "context_return")
+	
+	EventDispatch.fire_event(EventDispatch.PlayerPassed, [self])
+	
 	"""
 	var select_unit = current_scene.gui.select_unit
 	select_unit.setup()

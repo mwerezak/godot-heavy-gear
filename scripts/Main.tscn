@@ -21,7 +21,7 @@
 [ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=20]
 
-[node name="Main" type="Node" index="0"]
+[node name="Main" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/gui/context_container/SelectFacing.gd" type="Script" id=1]
 [ext_resource path="res://icons/move_marker_16.png" type="Texture" id=2]
+[ext_resource path="res://icons/move_marker_32.png" type="Texture" id=3]
 
 [node name="SelectFacing" type="PanelContainer" index="0"]
 
@@ -145,6 +146,12 @@ group = null
 text = "Cancel"
 flat = false
 align = 1
+
+[node name="TargetMarker" type="Sprite" parent="." index="1"]
+
+modulate = Color( 0.4, 0.9, 0.3, 1 )
+texture = ExtResource( 3 )
+_sections_unfolded = [ "Visibility" ]
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/DoneButton" to="." method="_done_button_pressed"]
 

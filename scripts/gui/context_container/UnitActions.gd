@@ -1,7 +1,5 @@
 extends "ContextBase.gd"
 
-const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
-
 onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 onready var rotate_button = $MarginContainer/HBoxContainer/RotateButton
 onready var done_button = $MarginContainer/HBoxContainer/MarginContainer/DoneButton
@@ -10,13 +8,14 @@ var active_unit
 var current_activation
 var confirm_end_turn
 
-signal done
+func _init():
+	load_properties = {
+		active_unit = REQUIRED,
+	}
 
-func activated(args):
-	active_unit = args.unit
-	current_activation = UnitActivation.new(active_unit)
-	active_unit.current_activation = current_activation
-	.activated(args)
+func _setup():
+	assert(active_unit.current_activation)
+	current_activation = active_unit.current_activation
 
 func resumed():
 	.resumed()
@@ -54,15 +53,19 @@ func _is_turn_over():
 	return !(_can_move() || _can_rotate() || current_activation.action_points > 0)
 
 func _move_button_pressed():
-	context_manager.activate("move_unit", { unit = active_unit })
+	if _can_move():
+		var move_context = context_manager.activate("MoveUnit", { move_unit = active_unit })
+		yield(move_context, "context_return")
+		if _can_rotate():
+			context_manager.activate("SelectFacing", { rotate_unit = active_unit })
 
 func _rotate_button_pressed():
-	context_manager.activate("select_facing", { unit = active_unit })
+	if _can_rotate():
+		context_manager.activate("SelectFacing", { rotate_unit = active_unit })
 
 func _done_button_pressed():
 	if confirm_end_turn:
-		emit_signal("done")
-		context_manager.deactivate()
+		context_return()
 	else:
 		confirm_end_turn = true
 		done_button.text = "Confirm? [Enter]"

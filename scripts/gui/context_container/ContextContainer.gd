@@ -11,6 +11,8 @@ func get_context(context_name):
 	return get_node(context_name)
 
 func activate(context_name, args = null):
+	assert(has_node(context_name))
+	
 	args = args if args else {}
 	
 	if is_active_or_suspended(context_name):
