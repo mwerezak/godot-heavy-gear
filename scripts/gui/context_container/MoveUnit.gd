@@ -77,9 +77,9 @@ func _reset():
 	label.text = HELP_TEXT
 
 func finalize_move():
+	assert( possible_moves[move_pos].path.back() == move_pos )
 	context_return({
 		move_unit = move_unit,
-		move_cell = move_pos,
 		move_info = possible_moves[move_pos],
 	})
 

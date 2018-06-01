@@ -85,24 +85,22 @@ func _init(unit, move_mode):
 	for cell_pos in visited:
 		if cell_pos != start_loc && _can_stop(cell_pos):
 			var move_info = visited[cell_pos]
-			
 			if movement_mode.reversed:
 				move_info.facing = HexUtils.reverse_dir(move_info.facing) ## un-reverse the facing
-			
 			possible_moves[cell_pos] = move_info
 
 
 ## setups a movement state for the beginning of a move action
-func _init_move_info(move_count, facing, move_path, init_moves=null, init_turns=null):
+func _new_move_info(move_count, facing, move_path):
 	return {
+		path = move_path,
 		move_count = move_count, #the number of move actions used
 		movement_mode = movement_mode,
 		facing = facing,
 		prev_facing = null,
-		moves_remaining = init_moves if init_moves != null else _movement_rate,
-		turns_remaining = init_turns if init_turns != null else _turning_rate,
+		moves_remaining = _movement_rate,
+		turns_remaining = _turning_rate,
 		hazard = false,
-		path = move_path,
 	}
 
 ## lower priority moves are explored first
@@ -116,11 +114,17 @@ func _explore_priority(move_state):
 func _search_possible_moves(start_loc, start_dir):
 	var cur_activation = move_unit.current_activation
 	var max_moves = cur_activation.move_actions
+	var init_state = _new_move_info(0, start_dir, [ start_loc ])
+
 	var init_moves = cur_activation.partial_moves
+	if init_moves != null:
+		init_state.moves_remaining = init_moves
+
 	var init_turns = cur_activation.partial_turns
-	var initial_state = _init_move_info(0, start_dir, [ start_loc ], init_moves, init_turns)
+	if init_turns != null:
+		init_state.turns_remaining = init_turns
 	
-	var visited = { start_loc: initial_state }
+	var visited = { start_loc: init_state }
 	var next_move = {}
 	
 	var move_queue = PriorityQueue.new()
@@ -220,7 +224,7 @@ func _visit_cell_neighbors(cur_pos, visited, next_move):
 			if _movement_rate + moves_remaining >= move_cost && (!_track_turns || _turning_rate + turns_remaining >= turn_cost):
 				## it's important that prev_facing is cleared when we reset turns_remaining
 				## that way on the next iteration we can't be refunded turns we haven't spent.
-				var next_state = _init_move_info(move_count + 1, move_dir, next_path)
+				var next_state = _new_move_info(move_count + 1, move_dir, next_path)
 				
 				## carry over remaining movement
 				next_state.moves_remaining += moves_remaining - move_cost

@@ -44,8 +44,8 @@ func can_rotate():
 
 ## active unit actions
 
-func move(move_pos, move_info):
-	active_unit.cell_position = move_pos
+func move(move_info):
+	active_unit.cell_position = move_info.path.back()
 	if move_info.facing != null:
 		active_unit.facing = move_info.facing
 	
