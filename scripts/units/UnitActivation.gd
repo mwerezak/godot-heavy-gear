@@ -6,19 +6,18 @@ extends Reference
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const WorldMap = preload("res://scripts/WorldMap.gd")
 
-## units with less than this many movement points left are consided
+## units with less than this amount of movement points left are consided
 ## to be performing extended movement, which can cause penalties
-const EXTENDED_MOVE = 1
+const EXTENDED_MOVE = 1.0
 
 var active_unit
 
 var action_points
-var move_actions
-var movement_mode
+var movement_points
+var rotation_used = 0
 
-## for partial move actions
-var partial_moves = 0
-var partial_turns = 0
+## once a unit uses a movement mode it must continue using that movement mode for the rest of the activation
+var movement_mode = null
 
 ## how far the unit has moved this activation
 ## a proxy for how fast the unit is moving
@@ -26,25 +25,29 @@ var partial_turns = 0
 var distance_moved = 0
 
 func _init(unit):
-	var unit_info = unit.unit_info
+	var unit_model = unit.unit_model
 	active_unit = unit
-	action_points = unit_info.max_action_points()
-	move_actions = unit_info.max_move_actions()
+	action_points = unit_model.max_action_points()
+	movement_points = unit_model.max_movement_points()
 
-func is_extended_movement():
-	return move_actions < EXTENDED_MOVE
 
+"""
 ## any moves left?
 func can_move():
+	assert(false) ##TODO
 	return move_actions + floor(partial_moves/WorldMap.UNITGRID_SIZE) > 0
 
 ## any turns left?
 func can_rotate():
+	assert(false) ##TODO
 	return active_unit.has_facing() && (move_actions + partial_turns > 0 || (movement_mode && movement_mode.free_rotate))
 
 ## active unit actions
 
 func move(move_info):
+	## pretty permissive for now
+	## unlike rotate(), we just use the results provided in move_info instead of simulating the move step by step
+
 	active_unit.cell_position = move_info.path.back()
 	if move_info.facing != null:
 		active_unit.facing = move_info.facing
@@ -83,3 +86,4 @@ func get_rotation_cost(rotate_mode, dir):
 		total_turn_cost = total_turn_cost,
 		move_actions = max(move_actions, 0),
 	}
+"""

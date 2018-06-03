@@ -32,7 +32,7 @@ func set_world_map(map):
 	movement_tiles.position = world_map.unit_grid.position - movement_tiles.cell_size/2
 
 func show_movement(possible_moves, current_activation):
-	var move_actions = current_activation.move_actions
+	var movement_points = current_activation.movement_points
 	
 	clear_move_marker()
 	movement_tiles.clear()
@@ -43,7 +43,7 @@ func show_movement(possible_moves, current_activation):
 		var tile_idx
 		if move_info.hazard:
 			tile_idx = TILE_RED
-		elif move_actions - move_info.move_count < current_activation.EXTENDED_MOVE:
+		elif movement_points - move_info.move_cost < current_activation.EXTENDED_MOVE:
 			tile_idx = TILE_YELLOW
 		else:
 			tile_idx = TILE_BLUE
@@ -64,14 +64,17 @@ func place_move_marker(possible_moves, move_pos):
 	
 	## facing
 	facing_marker.clear()
-	if !move_info.movement_mode.free_rotate && move_info.turns_remaining < HexUtils.DIR_WRAP/2:
-		var min_turn = move_info.facing - move_info.turns_remaining
-		var max_turn = move_info.facing + move_info.turns_remaining
-		facing_marker.set_arc(min_turn, max_turn, true)
+	if !move_info.movement_mode.free_rotate:
+		var turns_remaining = move_info.movement_mode.turn_rate - move_info.turn_cost
+		if turns_remaining < HexUtils.DIR_WRAP/2:
+			var facing = move_info.path.last_facing()
+			var min_turn = facing - turns_remaining
+			var max_turn = facing + turns_remaining
+			facing_marker.set_arc(min_turn, max_turn, true)
 
 	## move path
 	var path_points = PoolVector2Array()
-	for grid_cell in move_info.path:
+	for grid_cell in move_info.path.position:
 		path_points.push_back(world_map.unit_grid.axial_to_world(grid_cell))
 	move_path.points = path_points
 	move_path.show()

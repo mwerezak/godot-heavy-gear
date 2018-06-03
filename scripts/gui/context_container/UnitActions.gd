@@ -46,8 +46,8 @@ func cell_input(map, cell_pos, event):
 				_rotate_button_pressed()
 
 
-func _can_move(): return current_activation.can_move()
-func _can_rotate(): return current_activation.can_rotate()
+func _can_move(): return true#current_activation.can_move()
+func _can_rotate(): return true#current_activation.can_rotate()
 
 func _is_turn_over():
 	return !(_can_move() || _can_rotate() || current_activation.action_points > 0)

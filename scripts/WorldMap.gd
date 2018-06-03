@@ -325,7 +325,7 @@ func unit_can_place(unit, dest_cell):
 	## check that the terrain is passable
 	var allowed = false
 	var terrain_info = get_terrain_at_cell(dest_cell)
-	for movement_mode in unit.unit_info.get_movement_modes():
+	for movement_mode in unit.unit_model.get_movement_modes():
 		if !terrain_info.impassable.has(movement_mode.type_id):
 			allowed = true
 			break

@@ -13,7 +13,7 @@ var altitude = 0 setget set_altitude, get_altitude
 
 var faction setget set_faction
 var player_owner setget set_player_owner
-var unit_info setget set_unit_info
+var unit_model setget set_unit_model
 var crew_info setget set_crew_info
 
 onready var world_map
@@ -47,12 +47,12 @@ func get_base_location():
 
 func _update_marker():
 	if map_marker:
-		map_marker.set_nato_symbol(unit_info.desc.symbol)
+		map_marker.set_nato_symbol(unit_model.desc.symbol)
 		map_marker.set_facing_marker_visible(has_facing())
 		map_marker.set_colors(player_owner.primary_color, faction.secondary_color)
 
-func set_unit_info(info):
-	unit_info = info
+func set_unit_model(model):
+	unit_model = model
 	_update_marker()
 
 func set_crew_info(crew):
@@ -70,7 +70,7 @@ func set_faction(new_faction):
 
 ## not all units use facing. infantry, for example
 func has_facing():
-	return unit_info.use_facing()
+	return unit_model.use_facing()
 
 func set_facing(dir):
 	facing = HexUtils.normalize(dir)
@@ -83,11 +83,21 @@ func get_facing():
 
 ## the height of the unit - i.e. its silhouette for targeting purposes (probably more important once elevation is added)
 func get_height():
-	return unit_info.get_height()
+	return unit_model.get_height()
 
 ## return true if the other unit can pass through this one
 func can_pass(other):
-	return unit_info.is_infantry() || other.unit_info.is_infantry()
+	return unit_model.is_infantry() || other.unit_model.is_infantry()
 
 func can_stack(other):
 	return false ## currently units are never allowed to stack
+
+## returns the cost in movement points
+func get_move_cost(move_mode, from_cell, to_cell):
+	var from_world = world_map.unit_grid.axial_to_world(from_cell)
+	var to_world = world_map.unit_grid.axial_to_world(to_cell)
+	var midpoint = (from_world + to_world)/2.0
+
+	var terrain_info = world_map.get_terrain_at_world(midpoint)
+	var distance = world_map.distance_along_ground(from_cell, to_cell)
+	return distance/unit_model.get_move_speed_on_terrain(move_mode, terrain_info)

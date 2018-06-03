@@ -31,8 +31,8 @@ func clear_unit_info():
 	container.hide()
 
 func show_unit_info(unit):
-	var unit_info = unit.unit_info
-	var unit_desc = unit_info.desc
+	var unit_model = unit.unit_model
+	var unit_desc = unit_model.desc
 	var crew_info = unit.crew_info
 	var rank_desc = crew_info.get_rank_desc()
 	

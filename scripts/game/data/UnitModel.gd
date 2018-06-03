@@ -48,25 +48,23 @@ func is_vehicle(): return _info.unit_type == UnitDefs.TYPE_VEHICLE
 func is_infantry(): return _info.unit_type == UnitDefs.TYPE_INFANTRY
 
 func max_action_points(): return _info.action_points
-func max_move_actions(): return MAX_MOVE_ACTIONS
+func max_movement_points(): return MAX_MOVE_ACTIONS
 
 func get_movement_modes(): 
 	return _movement_modes
 func get_default_rotation():
 	return _default_rotation
 
-## returns a multiplier that is applied to the distance moved to get the cost.
-func get_move_cost_on_terrain(move_mode, terrain_info):
-	var type_id = move_mode.type_id
+## the distance that can be travelled per movement point
+func get_move_speed_on_terrain(move_mode, terrain_info):
+	var move_type = move_mode.type_id
 	var base_speed = move_mode.speed
 	
 	## roads bypass difficult terrain
 	if terrain_info.has_road:
-		return base_speed/(base_speed + move_mode.road_bonus)
+		return base_speed + move_mode.road_bonus
 	
-	if !terrain_info.difficult.has(type_id):
-		return 1.0
+	if terrain_info.difficult.has(move_type):
+		return min(base_speed, terrain_info.difficult[move_type]) #difficult terrain cannot make us move /faster/
 	
-	var speed_limit = min(base_speed, terrain_info.difficult[type_id]) #difficult terrain cannot make us move /faster/
-	return base_speed/speed_limit
-
+	return base_speed

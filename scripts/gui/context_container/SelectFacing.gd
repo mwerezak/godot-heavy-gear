@@ -66,10 +66,10 @@ func _setup():
 		for dir in range(HexUtils.DIR_WRAP):
 			allowed_dirs[dir] = null
 	else:
-		var unit_info = rotate_unit.unit_info
+		var unit_model = rotate_unit.unit_model
 		
 		cur_activation = rotate_unit.current_activation
-		rotate_mode = cur_activation.movement_mode if cur_activation.movement_mode else unit_info.get_default_rotation()
+		rotate_mode = cur_activation.movement_mode if cur_activation.movement_mode else unit_model.get_default_rotation()
 		
 		allowed_dirs.clear()
 		for dir in range(HexUtils.DIR_WRAP):

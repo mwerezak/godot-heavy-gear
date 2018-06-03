@@ -67,16 +67,16 @@ func cell_input(world_map, cell_pos, event):
 		var faction = factions[faction_idx]
 		
 		var model_idx = unit_model_button.get_selected_id()
-		var unit_info = unit_models[faction_idx][model_idx]
+		var unit_model = unit_models[faction_idx][model_idx]
 
 		spawn_unit.set_player_owner(player)
 		spawn_unit.set_faction(faction)
-		spawn_unit.set_unit_info(unit_info)
+		spawn_unit.set_unit_model(unit_model)
 		
 		if !world_map.unit_can_place(spawn_unit, cell_pos):
 			spawn_unit.queue_free()
 		else:
-			var crew = Crew.new(faction, unit_info.get_default_crew())
+			var crew = Crew.new(faction, unit_model.get_default_crew())
 			spawn_unit.set_crew_info(crew)
 			
 			spawn_unit.cell_position = cell_pos
