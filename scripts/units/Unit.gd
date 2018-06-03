@@ -96,8 +96,18 @@ func can_stack(other):
 func get_move_cost(move_mode, from_cell, to_cell):
 	var from_world = world_map.unit_grid.axial_to_world(from_cell)
 	var to_world = world_map.unit_grid.axial_to_world(to_cell)
-	var midpoint = (from_world + to_world)/2.0
 
-	var terrain_info = world_map.get_terrain_at_world(midpoint)
+	var from_terrain = world_map.get_terrain_at_cell(from_cell)
+	var to_terrain = world_map.get_terrain_at_cell(to_cell)
+	
+	var from_speed = unit_model.get_move_speed_on_terrain(move_mode, from_terrain)
+	var to_speed = unit_model.get_move_speed_on_terrain(move_mode, to_terrain)
+	
 	var distance = world_map.distance_along_ground(from_cell, to_cell)
-	return distance/unit_model.get_move_speed_on_terrain(move_mode, terrain_info)
+	return distance/( (from_speed + to_speed)/2.0 )
+
+func max_action_points():
+	return unit_model.max_action_points()
+
+func max_movement_points():
+	return unit_model.max_movement_points()

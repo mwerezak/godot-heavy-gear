@@ -34,7 +34,8 @@ func _ready_deferred():
 	world_map.add_child(move_display)
 
 func _setup():
-	possible_moves = MovementPathing.calculate_movement(move_unit)
+	var pathing = MovementPathing.new(move_unit)
+	possible_moves = pathing.possible_moves
 	move_display.show_movement(possible_moves, move_unit.current_activation)
 	label.text = HELP_TEXT
 
@@ -77,7 +78,7 @@ func _reset():
 	label.text = HELP_TEXT
 
 func finalize_move():
-	assert( possible_moves[move_pos].path.last_pos() == move_pos )
+	assert( possible_moves[move_pos].last_pos() == move_pos )
 	context_return({
 		move_unit = move_unit,
 		move_info = possible_moves[move_pos],

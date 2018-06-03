@@ -12,23 +12,35 @@ const EXTENDED_MOVE = 1.0
 
 var active_unit
 
-var action_points
-var movement_points
-var rotation_used = 0
+var actions_used = 0
 
-## once a unit uses a movement mode it must continue using that movement mode for the rest of the activation
-var movement_mode = null
-
-## how far the unit has moved this activation
-## a proxy for how fast the unit is moving
-## determines modifiers to hit and defend
-var distance_moved = 0
+var move_paths = [] ## list the moves made during this activation
 
 func _init(unit):
-	var unit_model = unit.unit_model
 	active_unit = unit
-	action_points = unit_model.max_action_points()
-	movement_points = unit_model.max_movement_points()
+
+func last_movement_path():
+	return move_paths.back()
+
+func current_move_mode():
+	var last_path = last_movement_path()
+	if last_path: 
+		return last_path.move_mode
+	return null
+
+## once we start using a movement mode, we can only use movement modes that share the same movement type for the rest of the activation
+func available_movement_modes():
+	var movement_modes = active_unit.unit_model.get_movement_modes()
+
+	var current_mode = current_move_mode()
+	if !current_mode:
+		return movement_modes
+
+	var rval = []
+	for move_mode in movement_modes:
+		if move_mode.type_id == current_mode.type_id:
+			rval.push_back(move_mode)
+	return rval
 
 
 """

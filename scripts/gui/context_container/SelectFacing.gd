@@ -69,16 +69,19 @@ func _setup():
 		var unit_model = rotate_unit.unit_model
 		
 		cur_activation = rotate_unit.current_activation
-		rotate_mode = cur_activation.movement_mode if cur_activation.movement_mode else unit_model.get_default_rotation()
+		rotate_mode = cur_activation.current_move_mode() 
+		if !rotate_mode:
+			rotate_mode = unit_model.get_default_rotation()
 		
 		allowed_dirs.clear()
 		for dir in range(HexUtils.DIR_WRAP):
 			if allow_any || rotate_mode.free_rotate:
 				allowed_dirs[dir] = null
 			else:
-				var move_action_cost = cur_activation.get_rotation_cost(rotate_mode, dir).move_actions
-				if move_action_cost <= cur_activation.move_actions:
-					allowed_dirs[dir] = move_action_cost
+				#var move_action_cost = cur_activation.get_rotation_cost(rotate_mode, dir).move_actions
+				#if move_action_cost <= cur_activation.move_actions:
+				#	allowed_dirs[dir] = move_action_cost
+				allowed_dirs[dir] = null ##TODO
 	
 	turn_marker.global_position = rotate_unit.map_marker.global_position
 	turn_marker.clear()
