@@ -24,14 +24,7 @@ func _init(move_unit):
 	## calculate pathing for each movement mode and then merge the results
 	possible_moves = {}
 	for move_mode in current_activation.available_movement_modes():
-		
-		#don't use reverse movement on units that don't have a facing
-		if !move_unit.has_facing() && move_mode.reversed:
-			continue
 
-		if move_mode.reversed:
-			continue ## TODO disabled for now
-		
 		var init_path = MovementPath.new(move_unit, move_mode)
 		if !last_path:
 			init_path.start_movement(move_unit.cell_position, move_unit.facing)
@@ -58,6 +51,7 @@ func _move_priority_lexical(move_path):
 		1 if !move_path.is_extended_movement() else -1, #prefer to avoid extended movement
 		-move_path.moves_used, #prefer fewer movement points used
 		-move_path.turns_used, #prefer fewer turns used
+		1 if !move_mode.reversed else -1, #prefer non-reversed movement, all else equal
 		hash(move_path), #lastly, sort by hash to ensure determinism
 	]
 
@@ -89,7 +83,7 @@ class MovementSearch:
 	## lower priority -> explored first
 	func _priority(move_path):
 		## TODO when implemented: avoid hazards
-		return move_path.moves_used
+		return move_path.moves_used + move_path.turns_used/1000.0
 
 	func _search_possible_moves(starting_path):
 		var move_queue = PriorityQueue.new()

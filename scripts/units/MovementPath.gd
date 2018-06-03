@@ -65,6 +65,9 @@ func prev_facing():
 ## next_facing is the direction turned BEFORE moving
 func extend(next_pos, next_facing):
 	var prev_moves = moves_used
+	
+	if move_mode.reversed:
+		next_facing = HexUtils.reverse_dir(next_facing) #face away from the desired direction when reversing
 
 	var costs = get_move_costs(next_pos, next_facing)
 	moves_used += costs.move_cost
@@ -72,8 +75,8 @@ func extend(next_pos, next_facing):
 	distance_moved += move_unit.world_map.distance_along_ground(last_pos(), next_pos)
 
 	## when we begin spending our next movement point, reset turns_used
-	if int(moves_used) > int(prev_moves):
-		turns_used = 0
+	if !_free_rotate() && int(moves_used) > int(prev_moves):
+		turns_used = max(turns_used - move_mode.turn_rate, 0)
 
 	position.push_back(next_pos)
 	facing.push_back(next_facing)

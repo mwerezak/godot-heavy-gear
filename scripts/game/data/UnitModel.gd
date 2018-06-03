@@ -26,7 +26,8 @@ func _init(info):
 		var move_mode = MovementModes.create(move_spec, move_spec.mode)
 		_movement_modes.push_back(move_mode)
 		
-		if move_spec.has("reverse"):
+		#don't use reverse movement on units that don't have a facing
+		if use_facing() && move_spec.has("reverse"):
 			var reversed_mode = MovementModes.create_reversed(move_spec, move_spec.mode)
 			_movement_modes.push_back(reversed_mode)
 	
