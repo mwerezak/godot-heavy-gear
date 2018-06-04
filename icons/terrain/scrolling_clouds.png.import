@@ -7,10 +7,10 @@ path="res://.import/scrolling_clouds.png-32d66d5fcef05685a0fbd454b1e1cc41.stex"
 [deps]
 
 source_file="res://icons/terrain/scrolling_clouds.png"
-source_md5="ff51bf154b0a94e3d6b81ff77ce38edd"
+source_md5="52edf9e1a540d49a80f1de364896599e"
 
 dest_files=[ "res://.import/scrolling_clouds.png-32d66d5fcef05685a0fbd454b1e1cc41.stex" ]
-dest_md5="ecc1312cf6e2c29310e6dec9ea396eee"
+dest_md5="3b3af9efb860b1da401b2794c0d02e1e"
 
 [params]
 
@@ -18,7 +18,7 @@ compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=1
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false

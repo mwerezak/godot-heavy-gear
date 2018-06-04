@@ -7,10 +7,10 @@ path="res://.import/road_texture.png-0d0b5f81c3353412a7f63e19598e0020.stex"
 [deps]
 
 source_file="res://icons/terrain/road_texture.png"
-source_md5="d1b2653e40cb35085279d5bae4593338"
+source_md5="4adc02f96ddaeb8b78df1ca6dc37483c"
 
 dest_files=[ "res://.import/road_texture.png-0d0b5f81c3353412a7f63e19598e0020.stex" ]
-dest_md5="fff2f8bed54a6402debc1505000ce819"
+dest_md5="2c4a2ecf32dc196da3aafb49406c3d88"
 
 [params]
 

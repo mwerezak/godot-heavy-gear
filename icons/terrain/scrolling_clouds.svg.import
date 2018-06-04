@@ -7,10 +7,10 @@ path="res://.import/scrolling_clouds.svg-27008466de9b86064a036799531b1127.stex"
 [deps]
 
 source_file="res://icons/terrain/scrolling_clouds.svg"
-source_md5="4f66a91b3fd75adc5fa0c88a9a5107a8"
+source_md5="8b805926c008f83e16d5f88cce8e70a9"
 
 dest_files=[ "res://.import/scrolling_clouds.svg-27008466de9b86064a036799531b1127.stex" ]
-dest_md5="51b9237bd43da9b496d78ec5846445cf"
+dest_md5="5eeb02c2117c76451a379a414f502b99"
 
 [params]
 
