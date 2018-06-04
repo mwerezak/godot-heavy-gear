@@ -1,12 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://icons/units/counter.png" type="Texture" id=1]
 [ext_resource path="res://scripts/units/NatoCounter.gd" type="Script" id=2]
 [ext_resource path="res://icons/units/infantry.png" type="Texture" id=3]
-[ext_resource path="res://icons/units/counter_stripe.png" type="Texture" id=4]
+[ext_resource path="res://icons/units/symbol_back.png" type="Texture" id=4]
+[ext_resource path="res://icons/units/counter_stripe.png" type="Texture" id=5]
 
-
-[node name="NatoCounter" type="Sprite"]
+[node name="NatoCounter" type="Sprite" index="0"]
 
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
@@ -18,10 +18,16 @@ position = Vector2( 0, -5 )
 texture = ExtResource( 3 )
 _sections_unfolded = [ "Offset", "Visibility" ]
 
+[node name="Background" type="Sprite" parent="Symbol" index="0"]
+
+show_behind_parent = true
+texture = ExtResource( 4 )
+_sections_unfolded = [ "Visibility", "Z Index" ]
+
 [node name="Stripe" type="Sprite" parent="." index="1"]
 
 visible = false
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Visibility" ]
 
 

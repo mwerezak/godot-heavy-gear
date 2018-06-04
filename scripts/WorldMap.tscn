@@ -12,7 +12,7 @@ render_priority = 0
 blend_mode = 2
 light_mode = 0
 
-[node name="WorldMap" type="YSort" index="0"]
+[node name="WorldMap" type="YSort"]
 
 sort_enabled = true
 script = ExtResource( 1 )

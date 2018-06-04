@@ -9,9 +9,11 @@ const SYMBOLS = {
 
 var primary_color setget set_primary_color
 var secondary_color setget set_secondary_color
+var symbol_color = Color(1,1,1) setget set_symbol_color
 var symbol setget set_symbol
 
 onready var sym_sprite = $Symbol
+onready var sym_back = $Symbol/Background
 onready var sec_stripe = $Stripe
 
 func set_symbol(symbol_id):
@@ -29,3 +31,7 @@ func set_secondary_color(color):
 		sec_stripe.show()
 	else:
 		sec_stripe.hide()
+
+func set_symbol_color(color):
+	symbol_color = color
+	sym_back.self_modulate = color

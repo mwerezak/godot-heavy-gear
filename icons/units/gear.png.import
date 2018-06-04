@@ -7,10 +7,10 @@ path="res://.import/gear.png-7ace574cf120f337116eef798a3bc973.stex"
 [deps]
 
 source_file="res://icons/units/gear.png"
-source_md5="36d0594066c8177622534de405b20a47"
+source_md5="8c8c16d49d878af3423c223252c74280"
 
 dest_files=[ "res://.import/gear.png-7ace574cf120f337116eef798a3bc973.stex" ]
-dest_md5="c4200b6ae8978bf29b9fbde14b8238dc"
+dest_md5="134455ae61ebad410fb7ca1139e4e107"
 
 [params]
 
@@ -20,8 +20,8 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
+flags/mipmaps=true
+flags/anisotropic=true
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false

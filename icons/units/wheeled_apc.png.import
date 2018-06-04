@@ -7,10 +7,10 @@ path="res://.import/wheeled_apc.png-9991970317132c99e55430ab31ea008d.stex"
 [deps]
 
 source_file="res://icons/units/wheeled_apc.png"
-source_md5="08490d40237dc337c4938e6218e6bec8"
+source_md5="fec26da80161623d97a87360c3923e7c"
 
 dest_files=[ "res://.import/wheeled_apc.png-9991970317132c99e55430ab31ea008d.stex" ]
-dest_md5="22c0f39335ae6fc1b868e5552523f37a"
+dest_md5="ea5427d3422f0089ed55faa67a3cf194"
 
 [params]
 
@@ -20,8 +20,8 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
-flags/anisotropic=false
+flags/mipmaps=true
+flags/anisotropic=true
 flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
