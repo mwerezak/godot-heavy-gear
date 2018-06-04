@@ -6,13 +6,12 @@ export(Color) var secondary_color = null setget set_secondary_color
 export(Color) var symbol_foreground_color = Color("#000000") setget set_symbol_foreground_color
 export(Color) var symbol_background_color = Color("#ffffff") setget set_symbol_background_color
 
-onready var sym_sprite = $Symbol
-onready var sym_back = $Symbol/Background
-onready var sec_stripe = $Stripe
+onready var icon = $SymbolIcon
+onready var stripe = $Stripe
 
-func set_symbol(symbol_id):
-	symbol = symbol_id
-	sym_sprite.texture = GameData.get_nato_icon(symbol_id)
+func _ready():
+	_update_icon()
+	_update_stripe()
 
 func set_primary_color(color):
 	primary_color = color
@@ -20,16 +19,28 @@ func set_primary_color(color):
 
 func set_secondary_color(color):
 	secondary_color = color
-	if color != null:
-		sec_stripe.self_modulate = secondary_color
-		sec_stripe.show()
+	if stripe: _update_stripe()
+
+func _update_stripe():
+	if secondary_color != null:
+		stripe.self_modulate = secondary_color
+		stripe.show()
 	else:
-		sec_stripe.hide()
+		stripe.hide()
+
+func set_symbol(symbol_id):
+	symbol = symbol_id
+	if icon: _update_icon()
 
 func set_symbol_foreground_color(color):
 	symbol_foreground_color = color
-	sym_sprite.self_modulate = color
+	if icon: _update_icon()
 
 func set_symbol_background_color(color):
 	symbol_background_color = color
-	sym_back.self_modulate = color
+	if icon: _update_icon()
+
+func _update_icon():
+	icon.set_symbol(symbol)
+	icon.set_foreground_color(symbol_foreground_color)
+	icon.set_background_color(symbol_background_color)

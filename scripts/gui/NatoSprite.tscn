@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://icons/units/infantry.png" type="Texture" id=1]
+[ext_resource path="res://icons/units/symbol_back.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Sprite
+
+export(String) var symbol = \"infantry\" setget set_symbol
+export(Color) var foreground_color = Color(\"#000000\") setget set_foreground_color
+export(Color) var background_color = Color(\"#ffffff\") setget set_background_color
+
+onready var back = $Background
+
+func set_symbol(symbol_id):
+	symbol = symbol_id
+	texture = GameData.get_nato_icon(symbol_id)
+
+func set_foreground_color(color):
+	foreground_color = color
+	self_modulate = color
+
+func set_background_color(color):
+	background_color = color
+	if back:
+		back.self_modulate = color"
+
+[node name="NatoIcon" type="Sprite"]
+
+texture = ExtResource( 1 )
+script = SubResource( 1 )
+_sections_unfolded = [ "Anchor" ]
+symbol = "infantry"
+foreground_color = Color( 0, 0, 0, 1 )
+background_color = Color( 1, 1, 1, 1 )
+
+[node name="Background" type="Sprite" parent="." index="0"]
+
+show_behind_parent = true
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Material", "Visibility" ]
+
+
