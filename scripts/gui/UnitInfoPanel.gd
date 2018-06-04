@@ -36,7 +36,7 @@ func show_unit_info(unit):
 	var crew_info = unit.crew_info
 	var rank_desc = crew_info.get_rank_desc()
 	
-	symbol_icon.texture = NatoCounter.SYMBOLS[unit_desc.symbol]
+	symbol_icon.set_symbol(unit_desc.symbol)
 	
 	name_label.text = "%s - %s" % [ unit_desc.name, unit_desc.short ]
 	desc_label.text = "%s %s %s" %[rank_desc.short, crew_info.first_name, crew_info.last_name ]

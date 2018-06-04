@@ -1,17 +1,10 @@
 extends Sprite
 
-const SYMBOLS = {
-	infantry = preload("res://icons/units/infantry.png"),
-	wheeled_apc = preload("res://icons/units/wheeled_apc.png"),
-	tank = preload("res://icons/units/tank.png"),
-	gear = preload("res://icons/units/gear.png"),
-}
-
-var primary_color setget set_primary_color
-var secondary_color setget set_secondary_color
-var symbol_foreground_color = Color("#000000") setget set_symbol_foreground_color
-var symbol_background_color = Color("#ffffff") setget set_symbol_background_color
-var symbol setget set_symbol
+export(String) var symbol = "infantry" setget set_symbol
+export(Color) var primary_color = Color("#ffffff") setget set_primary_color
+export(Color) var secondary_color = null setget set_secondary_color
+export(Color) var symbol_foreground_color = Color("#000000") setget set_symbol_foreground_color
+export(Color) var symbol_background_color = Color("#ffffff") setget set_symbol_background_color
 
 onready var sym_sprite = $Symbol
 onready var sym_back = $Symbol/Background
@@ -19,7 +12,7 @@ onready var sec_stripe = $Stripe
 
 func set_symbol(symbol_id):
 	symbol = symbol_id
-	sym_sprite.texture = SYMBOLS[symbol_id]
+	sym_sprite.texture = GameData.get_nato_icon(symbol_id)
 
 func set_primary_color(color):
 	primary_color = color

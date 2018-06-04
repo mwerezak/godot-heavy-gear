@@ -26,3 +26,7 @@ func get_structure_info(struct_id):
 ## Unit Models
 func get_unit_model(model_id):
 	return units.get_model(model_id)
+
+## Unit Symbols
+func get_nato_icon(symbol_id):
+	return units.NATO_SYMBOLS[symbol_id]

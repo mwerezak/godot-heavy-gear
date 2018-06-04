@@ -1,8 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scripts/gui/UnitInfoPanel.gd" type="Script" id=1]
-[ext_resource path="res://icons/units/infantry.png" type="Texture" id=2]
-
+[ext_resource path="res://scripts/gui/NatoIcon.tscn" type="PackedScene" id=2]
 
 [node name="UnitInfoPanel" type="PanelContainer" index="0"]
 
@@ -56,22 +55,7 @@ size_flags_vertical = 1
 alignment = 0
 _sections_unfolded = [ "Size Flags" ]
 
-[node name="SymbolIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer" index="0"]
-
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 30.0
-margin_bottom = 18.0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-texture = ExtResource( 2 )
-stretch_mode = 0
+[node name="SymbolIcon" parent="VBoxContainer/HBoxContainer" index="0" instance=ExtResource( 2 )]
 
 [node name="NameLabel" type="Label" parent="VBoxContainer/HBoxContainer" index="1"]
 
