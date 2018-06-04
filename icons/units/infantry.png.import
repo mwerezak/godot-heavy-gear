@@ -7,10 +7,10 @@ path="res://.import/infantry.png-511c45f93c91e908d7d48be78698271e.stex"
 [deps]
 
 source_file="res://icons/units/infantry.png"
-source_md5="dd27a6192cb3667ab51f0848c990fea1"
+source_md5="9fa827c49c5d2b31949771cca36e0e94"
 
 dest_files=[ "res://.import/infantry.png-511c45f93c91e908d7d48be78698271e.stex" ]
-dest_md5="6cc10c273e8ff60ec05f8a1bbf77d372"
+dest_md5="54ba6378df1c943034de1a9fea8513d9"
 
 [params]
 

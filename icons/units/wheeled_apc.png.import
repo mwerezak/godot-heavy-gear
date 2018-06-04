@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/infantry.png-3346b9aff2cc75c75a389621705fb107.stex"
+path="res://.import/wheeled_apc.png-9991970317132c99e55430ab31ea008d.stex"
 
 [deps]
 
-source_file="res://icons/units/nato/infantry.png"
-source_md5="603541feff36f631c8ca69bc227afdac"
+source_file="res://icons/units/wheeled_apc.png"
+source_md5="08490d40237dc337c4938e6218e6bec8"
 
-dest_files=[ "res://.import/infantry.png-3346b9aff2cc75c75a389621705fb107.stex" ]
-dest_md5="608bb28eb12e0c4a468bb69bc1403df4"
+dest_files=[ "res://.import/wheeled_apc.png-9991970317132c99e55430ab31ea008d.stex" ]
+dest_md5="22c0f39335ae6fc1b868e5552523f37a"
 
 [params]
 

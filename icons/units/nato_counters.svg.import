@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/counter.png-67dec393ad187bc15da63c2618bd3117.stex"
+path="res://.import/nato_counters.svg-29c2bd17973df618106dcc625826057d.stex"
 
 [deps]
 
-source_file="res://icons/units/nato/counter.png"
-source_md5="5ec401f4f3a5b10f1256fba915a21c15"
+source_file="res://icons/units/nato_counters.svg"
+source_md5="c5686f09532f55608aab73f103ede30e"
 
-dest_files=[ "res://.import/counter.png-67dec393ad187bc15da63c2618bd3117.stex" ]
-dest_md5="ec7816f893e4c437b8dacbfef84e2e5c"
+dest_files=[ "res://.import/nato_counters.svg-29c2bd17973df618106dcc625826057d.stex" ]
+dest_md5="a5b2b867a1e33f4b6a8ccac70d84d9b6"
 
 [params]
 

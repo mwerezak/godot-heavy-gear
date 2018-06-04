@@ -4,7 +4,8 @@ const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
 const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.gd")
 const SegmentBuilder = preload("res://scripts/terrain/SegmentBuilder.gd")
 const Structure = preload("res://scripts/structures/Structure.tscn")
-const Road = preload("res://scripts/terrain/Road.gd")
+const Road = preload("res://scripts/terrain/Road.tscn")
+const RoadComparer = preload("res://scripts/terrain/Road.gd").ConnectionComparer
 
 var source_map
 
@@ -35,10 +36,10 @@ func load_map(world_map, map_scene):
 	
 	## generate roads
 	var road_map = source_map.get_node("Roads")
-	var builder = SegmentBuilder.new(world_map.unit_grid, Road.ConnectionComparer)
+	var builder = SegmentBuilder.new(world_map.unit_grid, RoadComparer)
 	var road_segments = builder.build_segments(road_map)
 	for grid_cells in road_segments:
-		var road = Road.new()
+		var road = Road.instance()
 		road.setup(world_map, grid_cells)
 		roads.push_back(road)
 	

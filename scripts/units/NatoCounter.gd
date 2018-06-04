@@ -1,10 +1,10 @@
 extends Sprite
 
 const SYMBOLS = {
-	infantry = preload("res://icons/units/nato/infantry.png"),
-	wheeled_apc = preload("res://icons/units/nato/wheeled_apc.png"),
-	tank = preload("res://icons/units/nato/tank.png"),
-	gear = preload("res://icons/units/nato/gear.png"),
+	infantry = preload("res://icons/units/infantry.png"),
+	wheeled_apc = preload("res://icons/units/wheeled_apc.png"),
+	tank = preload("res://icons/units/tank.png"),
+	gear = preload("res://icons/units/gear.png"),
 }
 
 var primary_color setget set_primary_color
