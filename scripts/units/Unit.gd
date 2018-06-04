@@ -1,6 +1,7 @@
 extends Node2D
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
+const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
 
 signal cell_position_changed(old_position, new_position)
 
@@ -111,3 +112,6 @@ func max_action_points():
 
 func max_movement_points():
 	return unit_model.max_movement_points()
+
+func activate():
+	current_activation = UnitActivation.new(self)

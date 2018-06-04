@@ -15,6 +15,12 @@ func _ready():
 	hide()
 	set_process_input(false)
 
+## activates the context and returns a GDFunctionScriptState whose completed signal can be yielded on.
+func context_call(args_dict = {}):
+	context_manager.activate(name, args_dict)
+	var rval = yield(self, "context_return")
+	return rval
+
 ## deactivates the context and returns a value to anyone yielding on the context
 func context_return(rval = null):
 	context_manager.deactivate(name)

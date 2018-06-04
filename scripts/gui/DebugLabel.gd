@@ -3,13 +3,15 @@ extends Label
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
 onready var main_scene = get_tree().get_current_scene()
-onready var world_map = $"/root/Main/WorldMap"
-onready var camera = $"/root/Main/Camera"
 
 func _unhandled_input(event):
 	call_deferred("_update_text")
 
 func _update_text():
+	var world_map = main_scene.world_map
+	var camera = main_scene.camera
+	var game_state = main_scene.game_state
+	
 	var mouse_pos = world_map.get_global_mouse_position()
 	var terrain_cell = world_map.terrain_grid.get_axial_cell(mouse_pos)
 	
@@ -24,9 +26,14 @@ func _update_text():
 	if structure:
 		terrain_id += ":" + structure.get_structure_id()
 
-	var active_player = main_scene.game_state.active_player
-	var active_player_str = active_player.display_name if active_player else ""
+	var turn_str = "Not Started"
+	if game_state.current_turn:
+		var active_player = game_state.current_turn.active_player
+		turn_str = "Turn %d %s" % [
+			game_state.current_turn.turn_num if game_state.current_turn else "Not Started",
+			active_player.display_name if active_player else "",
+		]
 	
 	var zoom = camera.zoom.x
 	
-	text = "%s cell:%s %s terrain:%s x%.2f" % [active_player_str, grid_cell, elevation_str, terrain_id, 1/zoom]
+	text = "%s cell:%s %s terrain:%s x%.2f" % [turn_str, grid_cell, elevation_str, terrain_id, 1/zoom]

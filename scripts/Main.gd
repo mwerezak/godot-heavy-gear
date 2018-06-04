@@ -4,15 +4,11 @@ onready var context_panel = $GUILayer/LowerLeftPanel/ContextContainer
 onready var unit_info_panel = $GUILayer/UnitInfoPanel
 onready var camera = $Camera
 onready var world_map = $WorldMap
-
 onready var game_state = $GameState
 
+var ui_context = {}
+
 func _ready():
-	EventDispatch.autoconnect(self)
-	
-	## seed
-	randomize()
-	
 	## set camera limits
 	camera.set_limit_rect(world_map.get_bounding_rect())
 	

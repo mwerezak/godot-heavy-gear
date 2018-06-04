@@ -1,11 +1,17 @@
 extends Container
 
+const ContextBase = preload("ContextBase.gd")
+
 var context_stack = []
 
 func _ready():
-	for context in get_children():
-		context.context_manager = self
-		context.hide()
+	var current_scene = get_tree().get_current_scene()
+
+	for child in get_children():
+		if child is ContextBase:
+			current_scene.ui_context[child.name] = child
+			child.context_manager = self
+			child.hide()
 
 func get_context(context_name):
 	return get_node(context_name)

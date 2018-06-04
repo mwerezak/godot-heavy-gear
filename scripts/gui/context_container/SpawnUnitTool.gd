@@ -2,6 +2,7 @@ extends "ContextBase.gd"
 
 const Unit = preload("res://scripts/units/Unit.tscn")
 const Crew = preload("res://scripts/units/Crew.gd")
+const GameState = preload("res://scripts/game/GameState.gd")
 
 onready var player_button = $HBoxContainer/PlayerButton
 onready var faction_button = $HBoxContainer/FactionButton
@@ -13,7 +14,8 @@ var faction_ids = {}
 var unit_models = {}
 
 func _ready():
-	EventDispatch.autoconnect(self)
+	var game_state = GameState.get_instance(get_tree())
+	game_state.connect("game_started", self, "_game_start", [game_state], CONNECT_DEFERRED)
 	
 	faction_button.clear()
 	var all_faction_ids = GameData.all_faction_ids()
@@ -41,7 +43,19 @@ func _game_start(game_state):
 		player_button.add_item(player.display_name, i)
 		players[i] = player
 
+func _setup():
+	var game_state = GameState.get_instance(get_tree())
+	var active_player = game_state.get_active_player()
+	if active_player:
+		for i in players:
+			if players[i] == active_player:
+				player_button.select(i)
+				_set_player_faction(i)
+
 func _player_button_item_selected(i):
+	_set_player_faction(i)
+
+func _set_player_faction(i):
 	var sel_faction = players[i].default_faction
 	var faction_idx = faction_ids[sel_faction.faction_id]
 	faction_button.select(faction_idx)

@@ -19,6 +19,10 @@ var move_paths = [] ## list the moves made during this activation
 func _init(unit):
 	active_unit = unit
 
+func get_moves_used():
+	var last_path = last_movement_path()
+	return last_path.moves_used if last_path else 0.0
+
 func last_movement_path():
 	return move_paths.back()
 
