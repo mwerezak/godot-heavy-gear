@@ -6,12 +6,7 @@ onready var camera = $Camera
 onready var world_map = $WorldMap
 onready var game_state = $GameState
 
-var ui_contexts = {}
-
 func _ready():
-	for context in context_panel.get_children():
-		ui_contexts[context.name] = context
-
 	## set camera limits
 	camera.set_limit_rect(world_map.get_bounding_rect())
 	
@@ -21,7 +16,7 @@ func _ready():
 	
 	game_state.setup(world_map)
 
-	yield(ui_contexts.Wait.context_call({
+	yield(context_panel.activate("Wait", {
 		message_text = "Begin the game when ready.",
 		button_text = "Start Game",
 	}), "context_return")

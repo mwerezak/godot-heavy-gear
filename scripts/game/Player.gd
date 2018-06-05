@@ -34,8 +34,7 @@ func activation_turn(current_turn):
 	var current_scene = get_tree().get_current_scene()
 	var context_panel = current_scene.context_panel
 
-	var select_unit = context_panel.activate("SelectUnit",
-	{
+	var select_unit = context_panel.activate("SelectUnit", {
 		selectable_units = game_state.world_map.all_units(), #stub
 		select_text = "Select a unit to activate.",
 		confirm_text = "Select a unit to activate (or double-click to confirm).",
