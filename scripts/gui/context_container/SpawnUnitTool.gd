@@ -15,7 +15,7 @@ var unit_models = {}
 
 func _ready():
 	var game_state = GameState.get_instance(get_tree())
-	game_state.connect("game_started", self, "_game_start", [game_state], CONNECT_DEFERRED)
+	game_state.connect("game_setup", self, "_game_start", [game_state], CONNECT_DEFERRED)
 	
 	faction_button.clear()
 	var all_faction_ids = GameData.all_faction_ids()

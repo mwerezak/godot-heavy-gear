@@ -5,11 +5,8 @@ const ContextBase = preload("ContextBase.gd")
 var context_stack = []
 
 func _ready():
-	var current_scene = get_tree().get_current_scene()
-
 	for child in get_children():
 		if child is ContextBase:
-			current_scene.ui_context[child.name] = child
 			child.context_manager = self
 			child.hide()
 

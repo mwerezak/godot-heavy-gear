@@ -6,9 +6,12 @@ onready var camera = $Camera
 onready var world_map = $WorldMap
 onready var game_state = $GameState
 
-var ui_context = {}
+var ui_contexts = {}
 
 func _ready():
+	for context in context_panel.get_children():
+		ui_contexts[context.name] = context
+
 	## set camera limits
 	camera.set_limit_rect(world_map.get_bounding_rect())
 	
@@ -16,7 +19,14 @@ func _ready():
 	var help_dialog = $GUILayer/QuickHelp
 	help_dialog.popup_centered()
 	
-	game_state.start_game(world_map)
+	game_state.setup(world_map)
+
+	yield(ui_contexts.Wait.context_call({
+		message_text = "Begin the game when ready.",
+		button_text = "Start Game",
+	}), "context_return")
+
+	game_state.start_game()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("toggle_elevation"):

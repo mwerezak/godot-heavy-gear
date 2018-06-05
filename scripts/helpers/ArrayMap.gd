@@ -3,11 +3,9 @@
 extends Reference
 
 var _map = {}
-var _values = []
 
 func push_back(key, value):
 	var contents
-	_values.push_back(value)
 	if !_map.has(key):
 		_map[key] = [ value ]
 	else:
@@ -19,7 +17,6 @@ func remove(key, value):
 		var idx = contents.find(value)
 		if idx >= 0: 
 			contents.remove(idx)
-			_values.erase(value)
 			return true
 	return false
 
@@ -61,4 +58,7 @@ func keys():
 	return _map.keys()
 
 func all_values():
-	return _values.duplicate()
+	var rval = []
+	for arr in _map.values():
+		rval += arr
+	return rval

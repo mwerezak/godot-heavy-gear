@@ -3,6 +3,7 @@ extends Node
 const GameTurn = preload("GameTurn.gd")
 const Player = preload("Player.gd")
 
+signal game_setup
 signal game_started
 signal player_passed(player)
 
@@ -11,18 +12,19 @@ var players
 var current_turn
 var turn_history
 
-func _ready():
+func setup(world_map):
+	self.world_map = world_map
 	current_turn = null
 	turn_history = []
-
+	
 	players = []
 	for child in get_children():
 		if child is Player:
 			players.push_back(child)
 
-func start_game(world_map):
-	self.world_map = world_map
-	
+	emit_signal("game_setup")
+
+func start_game():
 	emit_signal("game_started")
 	run_game()
 
