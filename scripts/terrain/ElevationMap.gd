@@ -106,7 +106,7 @@ func _calc_elevation_info(grid_cell):
 	
 	return {
 		level = HexUtils.pixels2units(z),
-		world_pos = Vector3(world_pos.x, world_pos.y, z),
+		true_pos = HexUtils.pixels2units(Vector3(world_pos.x, world_pos.y, z)), #true position in distance units
 		grade = Vector2(plane[0], plane[1])/plane[2], #gradient = (dz/dx, dz/dy)
 		normal = Vector3(plane[0], plane[1], plane[2]).normalized(),
 	}

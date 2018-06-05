@@ -19,8 +19,6 @@ const TERRAIN_HEIGHT = 18*16 #288
 const UNITGRID_WIDTH = TERRAIN_WIDTH/4 #64
 const UNITGRID_HEIGHT = TERRAIN_HEIGHT/4 #72
 
-const UNITGRID_SIZE = UNITGRID_WIDTH/HexUtils.UNIT_DISTANCE # grid spacing in distance units
-
 export(PackedScene) var source_map
 
 onready var terrain_grid = $TerrainGrid
@@ -85,6 +83,7 @@ func _ready():
 	elevation = ElevationMap.new(self)
 	elevation.load_elevation_map(map_loader.terrain_elevation)
 
+	"""
 	var elevation_rect = Rect2(map_rect.position - unit_margins, map_rect.size + unit_margins*2)
 	for offset_cell in get_rect_cells(elevation_rect):
 		var grid_cell = unit_grid.offset_to_axial(offset_cell)
@@ -93,7 +92,8 @@ func _ready():
 			var overlay = ElevationOverlay.instance()
 			add_child(overlay)
 			overlay.setup(info)
-	
+	"""
+
 	## setup structures
 	for offset_cell in map_loader.structures:
 		var structure = map_loader.structures[offset_cell]
@@ -224,10 +224,10 @@ func get_angle_to(cell_from, cell_to):
 	var to_pos = unit_grid.axial_to_world(cell_to)
 	return (to_pos - from_pos).angle()
 
-## gets the complete position of a cell in distance units including elevation
-func get_ground(cell_pos):
+## gets the complete 3D position of a cell in distance units including elevation
+func get_true_position(cell_pos):
 	var info = get_terrain_at_cell(cell_pos)
-	return info.elevation.world_pos/HexUtils.UNIT_DISTANCE
+	return info.elevation.true_pos
 
 ## returns the distance betwen the centres of two cells, in distance units
 func distance_along_ground(cell1, cell2):

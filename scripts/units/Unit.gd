@@ -47,8 +47,8 @@ func get_altitude():
 	return altitude
 
 ## The location of the point attached to the bottom of the unit
-func true_position():
-	return world_map.get_ground_location(cell_position) + Vector3(0, 0, altitude)
+func get_true_position():
+	return world_map.get_true_position(cell_position) + Vector3(0, 0, altitude)
 
 func _update_marker():
 	if map_marker:

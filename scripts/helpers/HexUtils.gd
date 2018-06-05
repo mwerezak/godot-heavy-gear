@@ -9,6 +9,7 @@ const UNIT_DISTANCE = 32 ## length of a distance "unit" in pixels. 1 "unit" is e
 const UNIT_FEET = 12
 const UNIT_METRE = 3.6576
 
+## works with both scalars and vectors, thanks to dynamic typing :)
 static func units2pixels(distance):
 	return distance * UNIT_DISTANCE
 
