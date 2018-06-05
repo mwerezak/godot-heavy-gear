@@ -15,7 +15,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="QuickHelp" type="WindowDialog"]
+[node name="QuickHelp" type="WindowDialog" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -101,10 +101,10 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 3
 bbcode_enabled = true
-bbcode_text = "You can return to this window at any time by pressing F1.
+bbcode_text = "You can toggle this window at any time by pressing F1.
 
 [u]Controlling the Camera:[/u]
-To scroll the camera, click and drag using the Middle Mouse Button, or move the mouse while holding ALT.
+To scroll the camera, click and drag using the Right Mouse Button, or move the mouse while holding ALT.
 The camera can also be scrolled using WASD or the Arrow Keys.
 
 To zoom the camera, use the mousewheel or press LCTRL + '-' (minus) or LCTRL + '=' (equals sign).
@@ -129,10 +129,10 @@ visible_characters = -1
 percent_visible = 1.0
 meta_underlined = true
 tab_size = 4
-text = "You can return to this window at any time by pressing F1.
+text = "You can toggle this window at any time by pressing F1.
 
 Controlling the Camera:
-To scroll the camera, click and drag using the Middle Mouse Button, or move the mouse while holding ALT.
+To scroll the camera, click and drag using the Right Mouse Button, or move the mouse while holding ALT.
 The camera can also be scrolled using WASD or the Arrow Keys.
 
 To zoom the camera, use the mousewheel or press LCTRL + '-' (minus) or LCTRL + '=' (equals sign).
