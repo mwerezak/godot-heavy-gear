@@ -12,7 +12,7 @@ func _ready():
 
 func randomize_scroll():
 	var scroll_angle = deg2rad(rand_range(0.0, 360.0))
-	var scroll_speed = rand_range(2.5, 7.5) 
+	var scroll_speed = rand_range(2.5, 5.0) 
 	scroll_velocity = scroll_speed*Vector2(cos(scroll_angle), sin(scroll_angle))
 
 func set_display_rect(rect):
