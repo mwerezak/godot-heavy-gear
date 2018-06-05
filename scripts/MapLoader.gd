@@ -12,6 +12,7 @@ var source_map
 var map_extents
 var global_lighting
 var terrain_tileset
+var clouds_overlay
 
 var terrain_indexes = {}
 var terrain_elevation = {}
@@ -27,6 +28,8 @@ func load_map(world_map, map_scene):
 	terrain_tileset = source_map.terrain_tileset
 	
 	rand_seed(source_map.map_seed) #initialize seed
+	clouds_overlay = source_map.get_node("CloudsOverlay").duplicate()
+	clouds_overlay.randomize_scroll()
 	
 	var editor_map = source_map.get_node("Terrain")
 	_generate_terrain(editor_map)

@@ -26,7 +26,6 @@ export(PackedScene) var source_map
 onready var terrain_grid = $TerrainGrid
 onready var terrain_tilemap = $TerrainGrid/TileMap
 onready var unit_grid = $UnitGrid
-onready var clouds_overlay = $CloudsOverlay
 
 ## maps axial terrain cells -> offset terrain cells used by terrain_tilemap
 var terrain_tiles = {}
@@ -117,7 +116,9 @@ func _ready():
 	scatter_grid.queue_free()
 	
 	## setup clouds overlay
-	clouds_overlay.set_display_rect(map_rect)
+	var clouds = map_loader.clouds_overlay
+	clouds.set_display_rect(map_rect)
+	add_child(clouds)
 
 ## Initialization
 
