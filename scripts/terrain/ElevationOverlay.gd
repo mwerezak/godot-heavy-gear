@@ -23,7 +23,7 @@ const _X_AXIS = Vector3(1, 0, 0)
 const _Y_AXIS = Vector3(0, 1, 0)
 const _Z_AXIS = Vector3(0, 0, 1)
 func setup(elevation_info):
-	position = Vector2(elevation_info.world_pos.x, elevation_info.world_pos.y)
+	position = elevation_info.world_pos
 	
 	var lighting = _X_AXIS.rotated(_Y_AXIS, LIGHT_PITCH).rotated(_Z_AXIS, LIGHT_AZIMUTH)
 	var normal_bright = lighting.dot(elevation_info.normal) - lighting.dot(_Z_AXIS)

@@ -83,7 +83,6 @@ func _ready():
 	elevation = ElevationMap.new(self)
 	elevation.load_elevation_map(map_loader.terrain_elevation)
 
-	"""
 	var elevation_rect = Rect2(map_rect.position - unit_margins, map_rect.size + unit_margins*2)
 	for offset_cell in get_rect_cells(elevation_rect):
 		var grid_cell = unit_grid.offset_to_axial(offset_cell)
@@ -92,7 +91,6 @@ func _ready():
 			var overlay = ElevationOverlay.instance()
 			add_child(overlay)
 			overlay.setup(info)
-	"""
 
 	## setup structures
 	for offset_cell in map_loader.structures:
