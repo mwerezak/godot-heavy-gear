@@ -61,6 +61,14 @@ func _update_overlay(object):
 	else:
 		overlay.set_state(overlay.STATE_DISABLED)
 
+func show():
+	for overlay in _overlays.values():
+		overlay.show()
+
+func hide():
+	for overlay in _overlays.values():
+		overlay.hide()
+
 func clear():
 	_marked.clear()
 	_selected.clear()
