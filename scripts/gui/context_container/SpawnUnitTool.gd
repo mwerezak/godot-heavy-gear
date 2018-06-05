@@ -83,7 +83,7 @@ func cell_input(world_map, cell_pos, event):
 		var model_idx = unit_model_button.get_selected_id()
 		var unit_model = unit_models[faction_idx][model_idx]
 
-		spawn_unit.set_player_owner(player)
+		spawn_unit.set_player(player)
 		spawn_unit.set_faction(faction)
 		spawn_unit.set_unit_model(unit_model)
 		

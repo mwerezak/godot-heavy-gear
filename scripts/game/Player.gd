@@ -7,6 +7,7 @@ export(Color) var primary_color
 export(Color) var secondary_color
 
 var default_faction setget set_faction
+var units = []
 
 var game_state
 
@@ -22,6 +23,12 @@ func set_faction(new_faction):
 		primary_color = default_faction.primary_color
 	if !secondary_color:
 		secondary_color = default_faction.secondary_color
+
+func take_ownership(unit):
+	units.push_back(unit)
+
+func release_ownership(unit):
+	units.erase(unit)
 
 func activation_turn():
 	var current_scene = get_tree().get_current_scene()
