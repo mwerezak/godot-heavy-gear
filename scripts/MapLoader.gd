@@ -17,6 +17,7 @@ var clouds_overlay
 
 var terrain_indexes = {}
 var terrain_elevation = {}
+var overlay_colors = {}
 var scatter_spawners = {}
 var structures = {}
 var roads = []
@@ -66,6 +67,9 @@ func _generate_terrain(editor_terrain_map):
 		var lookup_id = terrain_info.lookup_ids[tile_id]
 		var terrain_tile_idx = terrain_tileset.find_tile_by_name(lookup_id)
 		terrain_indexes[hex_cell] = terrain_tile_idx
+		
+		var tile_info = GameData.get_tile(tile_id)
+		overlay_colors[hex_cell] = tile_info.overlay_color
 		
 		## generate terrain hex overlay
 		var scatter_seed = hash(hex_cell) ^ map_seed

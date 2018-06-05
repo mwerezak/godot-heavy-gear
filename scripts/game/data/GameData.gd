@@ -17,9 +17,12 @@ func get_faction(faction_id):
 func get_terrain(terrain_id):
 	return terrain.INFO[terrain_id]
 
-func get_terrain_by_tile(tile_id):
-	return terrain.get_terrain_info(tile_id)
-	
+func get_terrain_by_lookup_id(lookup_id):
+	return terrain.get_terrain_info(lookup_id)
+
+func get_tile(tile_id):
+	return terrain.get_tile_info(tile_id)
+
 func get_terrain_tileset():
 	return terrain.tileset
 

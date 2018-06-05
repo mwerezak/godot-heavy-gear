@@ -79,18 +79,24 @@ func _ready():
 	unit_bounds = Rect2(map_rect.position + unit_margins, map_rect.size - unit_margins*2)
 	
 	## setup terrain elevation 
-	## TODO move this into MapLoader, should just pull them out and add them
 	elevation = ElevationMap.new(self)
 	elevation.load_elevation_map(map_loader.terrain_elevation)
 
+	## setup elevation overlays
 	var elevation_rect = Rect2(map_rect.position - unit_margins, map_rect.size + unit_margins*2)
 	for offset_cell in get_rect_cells(elevation_rect):
 		var grid_cell = unit_grid.offset_to_axial(offset_cell)
-		var info = elevation.get_info(grid_cell)
-		if info:
+		var elevation_info = elevation.get_info(grid_cell)
+
+		var terrain_cell = get_terrain_cell(grid_cell)
+		var offset_terrain = terrain_grid.axial_to_offset(terrain_cell)
+		var overlay_color = map_loader.overlay_colors[offset_terrain] if map_loader.overlay_colors.has(offset_terrain) else null
+
+		if elevation_info && overlay_color:
 			var overlay = ElevationOverlay.instance()
+			overlay.set_color(overlay_color)
+			overlay.setup(elevation_info)
 			add_child(overlay)
-			overlay.setup(info)
 
 	## setup structures
 	for offset_cell in map_loader.structures:
@@ -167,8 +173,8 @@ func raw_terrain_info(terrain_cell):
 	
 	if tile_idx < 0: return null #outside of map
 	
-	var tile_id = terrain_tilemap.tile_set.tile_get_name(tile_idx)
-	return GameData.get_terrain_by_tile(tile_id)
+	var lookup_id = terrain_tilemap.tile_set.tile_get_name(tile_idx)
+	return GameData.get_terrain_by_lookup_id(lookup_id)
 
 func get_terrain_at_world(world_pos):
 	var grid_cell = unit_grid.get_axial_cell(world_pos)

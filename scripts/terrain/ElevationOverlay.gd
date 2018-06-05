@@ -12,7 +12,7 @@ const INTENSITY = 1.0
 const NORMAL_MULT = 1.0
 const LEVEL_MULT = 0.125
 
-var color = Color("#657e2a")
+var color = Color("#ffffff") setget set_color
 var brightness = 0 setget set_brightness
 
 func _ready():
@@ -30,9 +30,18 @@ func setup(elevation_info):
 	var total_bright = INTENSITY*( NORMAL_MULT*normal_bright + LEVEL_MULT*elevation_info.level)
 	set_brightness(total_bright)
 
+func set_color(new_color):
+	if color != new_color:
+		color = new_color
+		set_brightness(brightness)
+
 func set_brightness(value):
-	var modulate_color = color
-	modulate_color.a = abs(value)
-	self_modulate = modulate_color
-	material = ELEVATION_OVERLAY_MAT if value >= 0 else DEPTH_OVERLAY_MAT
 	brightness = value
+	if brightness == 0:
+		hide()
+	else:
+		var modulate_color = color
+		modulate_color.a = abs(value)
+		self_modulate = modulate_color
+		material = ELEVATION_OVERLAY_MAT if value >= 0 else DEPTH_OVERLAY_MAT
+		show()

@@ -58,14 +58,16 @@ func _init():
 		
 		terrain_info.terrain_id = terrain_id
 		terrain_info.lookup_ids = {}
+		terrain_info.tile_ids = {}
 		for tile_id in terrain_info.tiles:
-			var tile_info = TerrainTiles.get_info(tile_id)
+			var tile_info = get_tile_info(tile_id)
 			var lookup_id = "%s_%s" % [terrain_id, tile_id] #unique ID for lookup
 			terrain_info.lookup_ids[tile_id] = lookup_id
+			terrain_info.tile_ids[lookup_id] = tile_id
 			TERRAIN_LOOKUP[lookup_id] = terrain_id
 			
 			## create the tileset entry
-			var texture = TerrainTiles.get_texture(tile_info.texture)
+			var texture = tile_info.texture
 			var offset = Vector2(0, -texture.get_size().y/8)
 			
 			var idx = tileset.get_last_unused_tile_id()
@@ -74,9 +76,12 @@ func _init():
 			tileset.tile_set_texture(idx, texture)
 			tileset.tile_set_texture_offset(idx, offset)
 
-func get_terrain_info(tile_id):
-	if !TERRAIN_LOOKUP.has(tile_id):
+func get_terrain_info(lookup_id):
+	if !TERRAIN_LOOKUP.has(lookup_id):
 		return null
 	
-	var terrain_id = TERRAIN_LOOKUP[tile_id]
+	var terrain_id = TERRAIN_LOOKUP[lookup_id]
 	return INFO[terrain_id]
+
+func get_tile_info(tile_id):
+	return TerrainTiles.get_info(tile_id)

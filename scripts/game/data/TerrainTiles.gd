@@ -6,10 +6,6 @@ const Constants = preload("res://scripts/Constants.gd")
 
 enum { OFFSET_CENTER, OFFSET_ROOT }
 
-const TILE_TEXTURES = {
-	woodland0 = preload("res://icons/terrain/woodland/woodland0.png"),
-} 
-
 const SCATTERS = {
 	bush = {
 		offset_mode = OFFSET_ROOT,
@@ -75,7 +71,8 @@ const SCATTERS = {
 const TILES = {
 	## open field tiles
 	grassland0 = {
-		texture = "woodland0", #texture of the underlying hex
+		texture = preload("res://icons/terrain/woodland/woodland0.png"),
+		overlay_color = Color("#657e2a"),
 		density = 1.0, #scatter density
 		scatters = {
 			rocks = 1.0,
@@ -85,7 +82,8 @@ const TILES = {
 		},
 	},
 	grassland1 = {
-		texture = "woodland0",
+		texture = preload("res://icons/terrain/woodland/woodland0.png"),
+		overlay_color = Color("#657e2a"),
 		density = 1.5,
 		scatters = {
 			rocks = 0.5,
@@ -95,7 +93,8 @@ const TILES = {
 		},
 	},
 	grassland2 = {
-		texture = "woodland0",
+		texture = preload("res://icons/terrain/woodland/woodland0.png"),
+		overlay_color = Color("#657e2a"),
 		density = 2.0,
 		scatters = {
 			bush = 1.0,
@@ -105,7 +104,8 @@ const TILES = {
 	
 	## sparse forest tiles
 	sparse_forest0 = {
-		texture = "woodland0",
+		texture = preload("res://icons/terrain/woodland/woodland0.png"),
+		overlay_color = Color("#657e2a"),
 		density = 3.0,
 		scatters = {
 			pine_tree = 8.0,
@@ -114,7 +114,8 @@ const TILES = {
 		},
 	},
 	sparse_forest1 = {
-		texture = "woodland0",
+		texture = preload("res://icons/terrain/woodland/woodland0.png"),
+		overlay_color = Color("#657e2a"),
 		density = 3.5,
 		scatters = {
 			pine_tree = 8.0,
@@ -125,7 +126,8 @@ const TILES = {
 	
 	## dense forest tiles
 	dense_forest0 = {
-		texture = "woodland0",
+		texture = preload("res://icons/terrain/woodland/woodland0.png"),
+		overlay_color = Color("#657e2a"),
 		density = 6.0,
 		scatters = {
 			pine_tree = 28.0,
@@ -136,6 +138,3 @@ const TILES = {
 
 static func get_info(tile_id):
 	return TILES[tile_id]
-
-static func get_texture(texture_id):
-	return TILE_TEXTURES[texture_id]
