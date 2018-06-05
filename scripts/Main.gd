@@ -16,7 +16,7 @@ func _ready():
 	var help_dialog = $GUILayer/QuickHelp
 	help_dialog.popup_centered()
 	
-	game_state.start_game()
+	game_state.start_game(world_map)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("toggle_elevation"):

@@ -6,6 +6,7 @@ const Player = preload("Player.gd")
 signal game_started
 signal player_passed(player)
 
+var world_map
 var players
 var current_turn
 var turn_history
@@ -19,7 +20,9 @@ func _ready():
 		if child is Player:
 			players.push_back(child)
 
-func start_game():
+func start_game(world_map):
+	self.world_map = world_map
+	
 	emit_signal("game_started")
 	run_game()
 

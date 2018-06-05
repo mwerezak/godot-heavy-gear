@@ -22,7 +22,7 @@ func begin_turn():
 func do_turn():
 	for player in initiative_order:
 		active_player = player
-		active_player.activated()
+		active_player.activation_turn()
 
 		var passed = null
 		while passed != player:

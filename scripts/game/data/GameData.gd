@@ -1,5 +1,6 @@
 extends Node
 
+## someday all of this will be loaded from config files
 var factions = preload("Factions.gd").new()
 var terrain = preload("TerrainDefs.gd").new()
 var structures = preload("StructureDefs.gd").new()

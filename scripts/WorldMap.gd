@@ -285,6 +285,9 @@ func get_units_at_cell(grid_cell):
 func get_structure_at_cell(grid_cell):
 	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null
 
+func all_units():
+	return unit_locs.all_values()
+
 func _unit_cell_position_changed(old_pos, new_pos, unit):
 	unit_locs.move(old_pos, new_pos, unit)
 	_update_object_position(unit, new_pos)

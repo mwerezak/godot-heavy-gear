@@ -43,7 +43,7 @@ func get_altitude():
 	return altitude
 
 ## The location of the point attached to the bottom of the unit
-func get_base_location():
+func true_position():
 	return world_map.get_ground_location(cell_position) + Vector3(0, 0, altitude)
 
 func _update_marker():
@@ -51,6 +51,9 @@ func _update_marker():
 		map_marker.set_nato_symbol(unit_model.desc.symbol)
 		map_marker.set_facing_marker_visible(has_facing())
 		map_marker.set_colors(player_owner.primary_color, faction.secondary_color)
+
+func get_display_label():
+	return crew_info.last_name
 
 func set_unit_model(model):
 	unit_model = model
