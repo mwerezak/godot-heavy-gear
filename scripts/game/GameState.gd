@@ -40,10 +40,6 @@ func pass_player(player):
 func get_active_player():
 	if current_turn:
 		return current_turn.active_player
-	return null
 
 static func get_instance(scene_tree):
-	var current_scene = scene_tree.get_current_scene()
-	if current_scene.has_node("GameState"):
-		return current_scene.get_node("GameState")
-	return null
+	return scene_tree.get_current_scene().get_node("GameState")

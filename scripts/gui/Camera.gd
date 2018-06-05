@@ -12,6 +12,22 @@ var pan_speed = 800
 ## at the edges. Using the two together allows us to properly handle map limits while zooming.
 var limit_rect = null setget set_limit_rect
 
+## sets the camera position and zoom based on the given rect
+func set_view(view_rect):
+	## center the camera on the rect
+	var center = (view_rect.position + view_rect.end)/2.0
+	
+	## set zoom so that view_rect is just contained in the camera view
+	var view_size = get_tree().get_root().get_size()
+	var zoom_factor = max(view_rect.x/view_size.x, view_rect.y/view_size.y)
+	
+	position = center
+	zoom = zoom_factor*Vector2(1, 1)
+	
+	_snap_scroll_limits()
+	_snap_zoom_limits()
+	
+
 var _mouse_captured = false
 func _unhandled_input(event):
 	# mousewheel zoom
@@ -83,3 +99,6 @@ func set_limit_rect(rect):
 	limit_bottom = rect.end.y
 	_snap_scroll_limits()
 	_snap_zoom_limits()
+
+static func get_instance(scene_tree):
+	return scene_tree.get_current_scene().get_node("Camera")
