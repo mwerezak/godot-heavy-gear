@@ -10,7 +10,7 @@ source_file="res://icons/structures/industrial1.png"
 source_md5="981f10d8afe5f5f9e85629444ef5e46a"
 
 dest_files=[ "res://.import/industrial1.png-699a6543f842e76db4cb33493edb4a9d.stex" ]
-dest_md5="fface8e6aa3fcdb66151861d2ad4408f"
+dest_md5="854146a8cb51a4af8bce13a5e5b487d7"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

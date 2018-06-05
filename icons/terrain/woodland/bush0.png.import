@@ -10,7 +10,7 @@ source_file="res://icons/terrain/woodland/bush0.png"
 source_md5="56461eff8907806e51f7ec930bb60a09"
 
 dest_files=[ "res://.import/bush0.png-07bc334564ed06874c94b4dd42ccb070.stex" ]
-dest_md5="cd28210fd00bb660ed6843b71b5ecfcf"
+dest_md5="07ddc1aa3bae08bbf03e43bdebf03016"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

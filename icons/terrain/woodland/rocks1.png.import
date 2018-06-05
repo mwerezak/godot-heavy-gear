@@ -10,7 +10,7 @@ source_file="res://icons/terrain/woodland/rocks1.png"
 source_md5="1de207b3d7a9e552a474a8be482cbf3a"
 
 dest_files=[ "res://.import/rocks1.png-c9d62a8315fb0513f986309f84048837.stex" ]
-dest_md5="72265a16282799e41170ba3a3a38a7d4"
+dest_md5="6e1f2334a2a930dc3a4339e97d67fed1"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

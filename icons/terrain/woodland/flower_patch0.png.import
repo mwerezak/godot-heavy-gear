@@ -10,7 +10,7 @@ source_file="res://icons/terrain/woodland/flower_patch0.png"
 source_md5="abfe33ae1db20ba20832cc90a31e078c"
 
 dest_files=[ "res://.import/flower_patch0.png-7732097f08db5516cc307576d2e614fa.stex" ]
-dest_md5="2ec1cd13c91bd93dd77ead5d4e2bddd6"
+dest_md5="df7285b7d439e3c000d9906973cc922e"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

@@ -10,7 +10,7 @@ source_file="res://icons/terrain/woodland/pine0.png"
 source_md5="645ad3fa9e93d0850de28e06c9a740e4"
 
 dest_files=[ "res://.import/pine0.png-ead18aaffb20ecb70478d582d0e20097.stex" ]
-dest_md5="9238b07aca1d9c1506e26852ec29e0e0"
+dest_md5="a0000f66673a2a52f5b8d947f3832cc3"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

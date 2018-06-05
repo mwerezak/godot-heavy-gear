@@ -10,7 +10,7 @@ source_file="res://icons/terrain/woodland/tree2.png"
 source_md5="40b502a899619be1e185ab5afacb4252"
 
 dest_files=[ "res://.import/tree2.png-294b108114d8dbc9dc2ab7e561d1ecd2.stex" ]
-dest_md5="56446964ccf5d94efcec6aa228b4b357"
+dest_md5="a4be2f19a17e1805b2a6382b09be5f88"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

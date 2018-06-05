@@ -10,7 +10,7 @@ source_file="res://icons/structures/highrise0.png"
 source_md5="1b8957111849501de60333ad126865ac"
 
 dest_files=[ "res://.import/highrise0.png-8e40a73584436cdb091ebc2a5d7f7b50.stex" ]
-dest_md5="a87f322cf3f34cee5bd7edd0f58c8f7a"
+dest_md5="001423aa93015fa04999799ac232d7bc"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true

@@ -10,7 +10,7 @@ source_file="res://icons/terrain/woodland/flowers1.png"
 source_md5="e10905bfe4fceddd99e944c0186759bd"
 
 dest_files=[ "res://.import/flowers1.png-13436b87fb5ec7e00fe8fb965bfdf875.stex" ]
-dest_md5="4cd44de487036e691dacda23f728a737"
+dest_md5="83b6d255f4b0ed2e6c5d4149eed125bc"
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/normal_map=0
 flags/repeat=0
 flags/filter=true
-flags/mipmaps=false
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
