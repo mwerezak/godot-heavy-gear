@@ -1,7 +1,6 @@
 extends Node2D
 
-export(int) var map_seed = 0
-export(TileSet) var terrain_tileset
+export(String) var map_seed = "default"
 export(Color) var global_lighting = Color(1,1,1)
 
 ## a rectangle that describes the 'used' portion of the map, in tilemap coords (as seen when editing terrain tiles)

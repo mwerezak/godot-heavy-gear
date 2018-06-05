@@ -2,32 +2,21 @@ extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
-const TerrainTiles = preload("res://scripts/terrain/TerrainTiles.gd")
+const TerrainTiles = preload("res://scripts/game/data/TerrainTiles.gd")
 const TerrainScatter = preload("res://scripts/terrain/TerrainScatter.gd")
 
-var terrain_id
+var tile_id
 var random_seed = 0
 
-func _init(terrain_id, random_seed = 0):
-	self.terrain_id = terrain_id
+func _init(tile_id, random_seed = 0):
+	self.tile_id = tile_id
 	self.random_seed = random_seed
 
 func create_scatters(world_map, scatter_grid, scatter_radius):
-	
-	if !TerrainTiles.OVERLAYS.has(terrain_id):
-		return []
-	
 	rand_seed(random_seed)
 	
-	var overlay_info = TerrainTiles.OVERLAYS[terrain_id]
-	var randweights = {}
-	for item in overlay_info.scatters:
-		randweights[item] = item.randweight
-		
-	var placement_info = RandomUtils.get_weighted_random(randweights)
-	
 	var scatters = []
-	for scatter_data in _get_scatter_placement(scatter_grid, placement_info):
+	for scatter_data in _scatter_placement(scatter_grid):
 		if !inside_hex(scatter_data.position - scatter_grid.position, scatter_radius - scatter_data.info.base_radius):
 			continue
 		if !can_place_scatter(world_map, scatter_data):
@@ -38,13 +27,15 @@ func create_scatters(world_map, scatter_grid, scatter_radius):
 		scatters.push_back(scatter)
 	return scatters
 
-func _get_scatter_placement(scatter_grid, placement_info):
-	var scatter_scale = 1.0/placement_info.density
+func _scatter_placement(scatter_grid):
+	var tile_info = TerrainTiles.get_info(tile_id)
+	
+	var scatter_scale = 1.0/tile_info.density
 	scatter_grid.scale = scatter_scale*Vector2(1,1)
 	
 	var scatter_data = []
-	for scatter_cell in HexUtils.get_spiral(ceil(placement_info.density - 1)):
-		var scatter_id = RandomUtils.get_weighted_random(placement_info.scatters)
+	for scatter_cell in HexUtils.get_spiral(ceil(tile_info.density - 1)):
+		var scatter_id = RandomUtils.get_weighted_random(tile_info.scatters)
 		if scatter_id != "none":
 			var scatter_info = TerrainTiles.SCATTERS[scatter_id]
 			var scaled_base_radius = scatter_info.base_radius/(scatter_grid.cell_spacing.x * scatter_scale)
@@ -58,7 +49,6 @@ func _get_scatter_placement(scatter_grid, placement_info):
 
 
 ## I dont understand why a special transform is needed here, but nothing works unless I do this
-## needed since the expression below can't be in a const for some reason
 func get_axial_transform(edge_radius, origin=Vector2()):
 	return Transform2D(Vector2(edge_radius, 0), Vector2(0, edge_radius).rotated(deg2rad(30)), origin)
 

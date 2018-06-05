@@ -8,6 +8,7 @@ const Road = preload("res://scripts/terrain/Road.tscn")
 const RoadComparer = preload("res://scripts/terrain/Road.gd").ConnectionComparer
 
 var source_map
+var map_seed
 
 var map_extents
 var global_lighting
@@ -22,12 +23,13 @@ var roads = []
 
 func load_map(world_map, map_scene):
 	source_map = map_scene.instance()
+	map_seed = source_map.map_seed.hash()
+	rand_seed(map_seed) #initialize seed
 	
 	map_extents = source_map.map_extents
 	global_lighting = source_map.global_lighting
-	terrain_tileset = source_map.terrain_tileset
+	terrain_tileset = GameData.get_terrain_tileset() #source_map.terrain_tileset
 	
-	rand_seed(source_map.map_seed) #initialize seed
 	clouds_overlay = source_map.get_node("CloudsOverlay").duplicate()
 	clouds_overlay.randomize_scroll()
 	
@@ -60,13 +62,14 @@ func _generate_terrain(editor_terrain_map):
 		var terrain_id = editor_tileset.tile_get_name(editor_tile_idx)
 		var terrain_info = GameData.get_terrain(terrain_id)
 
-		var tile_id = RandomUtils.get_random_item(terrain_info.tile_ids.keys())
-		var terrain_tile_idx = terrain_tileset.find_tile_by_name(tile_id)
+		var tile_id = RandomUtils.get_weighted_random(terrain_info.tiles)
+		var lookup_id = terrain_info.lookup_ids[tile_id]
+		var terrain_tile_idx = terrain_tileset.find_tile_by_name(lookup_id)
 		terrain_indexes[hex_cell] = terrain_tile_idx
 		
 		## generate terrain hex overlay
-		var scatter_seed = hash(hex_cell) ^ source_map.map_seed
-		var spawner = ScatterSpawner.new(terrain_id, scatter_seed)
+		var scatter_seed = hash(hex_cell) ^ map_seed
+		var spawner = ScatterSpawner.new(tile_id, scatter_seed)
 		scatter_spawners[hex_cell] = spawner
 
 func _generate_structures(struct_map):

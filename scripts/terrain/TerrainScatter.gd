@@ -1,7 +1,7 @@
 extends Sprite
 
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
-const TerrainTiles = preload("res://scripts/terrain/TerrainTiles.gd")
+const TerrainTiles = preload("res://scripts/game/data/TerrainTiles.gd")
 
 var base_radius = 0
 var offset_mode = TerrainTiles.OFFSET_CENTER setget set_offset_mode

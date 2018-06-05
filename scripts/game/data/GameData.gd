@@ -19,6 +19,9 @@ func get_terrain(terrain_id):
 
 func get_terrain_by_tile(tile_id):
 	return terrain.get_terrain_info(tile_id)
+	
+func get_terrain_tileset():
+	return terrain.tileset
 
 ## Structures
 func get_structure_info(struct_id):
