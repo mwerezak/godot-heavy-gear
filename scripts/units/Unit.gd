@@ -1,7 +1,6 @@
 extends Node2D
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
-const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
 
 ## colors for ownerless units
 const DEFAULT_PRIMARY_COLOR = Color(0.8, 0.8, 0.8)
@@ -23,8 +22,6 @@ var crew_info setget set_crew_info
 
 onready var world_map
 onready var map_marker = $MapMarker
-
-var current_activation = null
 
 func _ready():
 	_update_marker()
@@ -118,16 +115,16 @@ func can_stack(other):
 
 ## returns the cost in movement points
 func get_move_cost(move_mode, from_cell, to_cell):
-	var from_world = world_map.unit_grid.axial_to_world(from_cell)
-	var to_world = world_map.unit_grid.axial_to_world(to_cell)
-
 	var from_terrain = world_map.get_terrain_at_cell(from_cell)
 	var to_terrain = world_map.get_terrain_at_cell(to_cell)
 	
 	var from_speed = unit_model.get_move_speed_on_terrain(move_mode, from_terrain)
 	var to_speed = unit_model.get_move_speed_on_terrain(move_mode, to_terrain)
 	
-	var distance = world_map.distance_along_ground(from_cell, to_cell)
+	var from_true = world_map.get_true_position(from_cell)
+	var to_true = world_map.get_true_position(to_cell)
+	
+	var distance = (from_true - to_true).length()
 	return distance/( (from_speed + to_speed)/2.0 )
 
 func max_action_points():
@@ -135,6 +132,3 @@ func max_action_points():
 
 func max_movement_points():
 	return unit_model.max_movement_points()
-
-func activate():
-	current_activation = UnitActivation.new(self)

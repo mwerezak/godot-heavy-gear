@@ -10,12 +10,11 @@ var confirm_end_turn
 
 func _init():
 	load_properties = {
-		active_unit = REQUIRED,
+		current_activation = REQUIRED,
 	}
 
 func _setup():
-	assert(active_unit.current_activation)
-	current_activation = active_unit.current_activation
+	active_unit = current_activation.active_unit
 
 func resumed():
 	.resumed()
@@ -41,9 +40,9 @@ func cell_input(map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if cell_pos == active_unit.cell_position:
 			if _can_move():
-				_move_button_pressed()
+				_move_action()
 			elif _can_rotate():
-				_rotate_button_pressed()
+				_rotate_action()
 
 
 func _can_move(): return true#current_activation.can_move()
@@ -52,16 +51,22 @@ func _can_rotate(): return true#current_activation.can_rotate()
 func _is_turn_over():
 	return !(_can_move() || _can_rotate() || current_activation.action_points > 0)
 
+func _move_action():
+	var move_context = context_manager.activate("MoveUnit", { unit_activation = current_activation })
+	yield(move_context, "context_return")
+	if _can_rotate():
+		_rotate_action()
+
+func _rotate_action():
+	context_manager.activate("SelectFacing", { rotate_unit = active_unit })
+
 func _move_button_pressed():
 	if _can_move():
-		var move_context = context_manager.activate("MoveUnit", { move_unit = active_unit })
-		yield(move_context, "context_return")
-		if _can_rotate():
-			context_manager.activate("SelectFacing", { rotate_unit = active_unit })
+		_move_action()
 
 func _rotate_button_pressed():
 	if _can_rotate():
-		context_manager.activate("SelectFacing", { rotate_unit = active_unit })
+		_rotate_action()
 
 func _done_button_pressed():
 	if confirm_end_turn:

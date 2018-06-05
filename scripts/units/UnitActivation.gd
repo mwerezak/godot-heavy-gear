@@ -23,6 +23,13 @@ func get_moves_used():
 	var last_path = last_movement_path()
 	return last_path.moves_used if last_path else 0.0
 
+func get_distance_moved():
+	var world_map = active_unit.world_map
+	var distance = 0
+	for path in move_paths:
+		distance += world_map.path_distance(path.positions)
+	return distance
+
 func last_movement_path():
 	return move_paths.back()
 
@@ -45,7 +52,6 @@ func available_movement_modes():
 		if move_mode.type_id == current_mode.type_id:
 			rval.push_back(move_mode)
 	return rval
-
 
 """
 ## any moves left?

@@ -97,7 +97,7 @@ func cell_input(world_map, cell_pos, event):
 			world_map.add_unit(spawn_unit)
 			
 			if spawn_unit.has_facing():
-				var rotate_context = context_manager.activate("SelectFacing", { rotate_unit = spawn_unit, allow_any = true })
+				var rotate_context = context_manager.activate("SelectFacing", { rotate_unit = spawn_unit })
 				var rotate_info = yield(rotate_context, "context_return")
 				if rotate_info:
 					spawn_unit.set_facing(rotate_info.selected_dir)

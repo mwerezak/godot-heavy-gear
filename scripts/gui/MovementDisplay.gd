@@ -74,7 +74,7 @@ func place_move_marker(possible_moves, move_pos):
 
 	## move path
 	var path_points = PoolVector2Array()
-	for grid_cell in move_path.position:
+	for grid_cell in move_path.positions:
 		path_points.push_back(world_map.unit_grid.axial_to_world(grid_cell))
 	move_path_display.points = path_points
 	move_path_display.show()

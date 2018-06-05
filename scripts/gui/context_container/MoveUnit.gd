@@ -13,13 +13,14 @@ onready var move_button = $MarginContainer/HBoxContainer/MoveButton
 onready var label = $MarginContainer/HBoxContainer/Label
 onready var move_display = $MovementDisplay
 
-var move_unit = null
+var move_unit
+var unit_activation
 var move_pos = null
 var possible_moves = null
 
 func _init():
 	load_properties = {
-		move_unit = REQUIRED,
+		unit_activation = REQUIRED,
 	}
 
 func _ready():
@@ -34,9 +35,9 @@ func _ready_deferred():
 	world_map.add_child(move_display)
 
 func _setup():
-	var pathing = MovementPathing.new(move_unit)
-	possible_moves = pathing.possible_moves
-	move_display.show_movement(possible_moves, move_unit.current_activation)
+	move_unit = unit_activation.active_unit
+	possible_moves = MovementPathing.calc_possible_moves(unit_activation)
+	move_display.show_movement(possible_moves, unit_activation)
 	label.text = HELP_TEXT
 
 func deactivated():

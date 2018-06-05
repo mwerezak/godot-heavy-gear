@@ -229,18 +229,13 @@ func get_true_position(cell_pos):
 	var info = get_terrain_at_cell(cell_pos)
 	return info.elevation.true_pos
 
-## returns the distance betwen the centres of two cells, in distance units
-func distance_along_ground(cell1, cell2):
-	var pos1 = get_ground(cell1)
-	var pos2 = get_ground(cell2)
-	return (pos1 - pos2).length()
-
+## cell_path should be an array of axial cell positions
 func path_distance(cell_path):
 	var distance = 0
 	var last_cell = null
 	for next_cell in cell_path:
 		if last_cell:
-			distance += distance_along_ground(last_cell, next_cell)
+			distance += (get_true_position(last_cell) - get_true_position(next_cell)).length()
 		last_cell = next_cell
 	return distance
 

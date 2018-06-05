@@ -3,18 +3,15 @@
 extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
-const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
 
 var move_unit
 var move_mode
 
-var position ## array of cells visited along the path
-var facing   ## array of directions at each position
+var positions ## array of cells visited along the path
+var facing   ## array of directions at each positions
 
 var moves_used ## movement points used
 var turns_used ## total direction steps turned
-
-var distance_moved = 0.0
 
 ## TODO hazards
 
@@ -22,36 +19,33 @@ func _init(move_unit, move_mode):
 	self.move_unit = move_unit
 	self.move_mode = move_mode
 
-## starts movement with a given position and facing
+## starts movement with a given positions and facing
 func start_movement(start_pos, start_facing):
-	position = [ start_pos ]
+	positions = [ start_pos ]
 	facing = [ start_facing ]
 	moves_used = 0.0
 	turns_used = 0
-	distance_moved = 0.0
 
 ## starts movement continuing from a given MovementPath
 func continue_movement(prev_path):
-	position = [ prev_path.last_pos() ]
+	positions = [ prev_path.last_pos() ]
 	facing = [ prev_path.last_facing() ]
 	moves_used = prev_path.moves_used
 	turns_used = prev_path.turns_used
-	distance_moved = prev_path.distance_moved
 
 func duplicate():
 	var copy = get_script().new(move_unit, move_mode)
-	copy.position = position.duplicate()
+	copy.positions = positions.duplicate()
 	copy.facing = facing.duplicate()
 	copy.moves_used = moves_used
 	copy.turns_used = turns_used
-	copy.distance_moved = distance_moved
 	return copy
 
 func size():
-	return position.size()
+	return positions.size()
 
 func last_pos():
-	return position.back()
+	return positions.back()
 
 func last_facing():
 	return facing.back()
@@ -61,9 +55,15 @@ func prev_facing():
 		return facing[max(facing.size()-2, 0)]
 	return null
 
-## return cost in movement points to reach next position.
+## return cost in movement points to reach next positions.
 ## next_facing is the direction turned BEFORE moving
-func extend(next_pos, next_facing):
+## returns a new MovementPath, without altering the current one
+func extended(next_pos, next_facing):
+	var extended = duplicate()
+	extended._extend(next_pos, next_facing)
+	return extended
+
+func _extend(next_pos, next_facing):
 	var prev_moves = moves_used
 	
 	if move_mode.reversed:
@@ -72,18 +72,13 @@ func extend(next_pos, next_facing):
 	var costs = get_move_costs(next_pos, next_facing)
 	moves_used += costs.move_cost
 	turns_used += costs.turn_cost
-	distance_moved += move_unit.world_map.distance_along_ground(last_pos(), next_pos)
 
 	## when we begin spending our next movement point, reset turns_used
 	if !_free_rotate() && int(moves_used) > int(prev_moves):
 		turns_used = max(turns_used - move_mode.turn_rate, 0)
 
-	position.push_back(next_pos)
+	positions.push_back(next_pos)
 	facing.push_back(next_facing)
-
-func reverse_facing():
-	for i in facing.size():
-		facing[i] = HexUtils.reverse_dir(facing[i])
 
 func _free_rotate():
 	return !move_unit.unit_model.use_facing() || move_mode.free_rotate
@@ -126,9 +121,6 @@ func _turn_cost(new_facing):
 		cost -= abs(HexUtils.get_shortest_turn(prev_facing(), last_facing()))
 
 	return cost
-
-func is_extended_movement():
-	return move_unit.max_movement_points() - moves_used < UnitActivation.EXTENDED_MOVE
 
 ## gets the next largest integer
 static func _next_int(value):

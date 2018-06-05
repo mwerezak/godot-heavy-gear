@@ -2,53 +2,46 @@
 
 extends Reference
 
-const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
-const PriorityQueue = preload("res://scripts/helpers/PriorityQueue.gd")
-const MovementModes = preload("res://scripts/game/data/MovementModes.gd")
 const MovementPath = preload("res://scripts/units/MovementPath.gd")
 
-## a dictionary of the grid positions this unit can reach from the start_loc
-## maps grid cells -> movement path ending in that cell.
-var possible_moves
-
-var move_unit
-
-func _init(move_unit):
-	assert(move_unit.current_activation)
-	self.move_unit = move_unit
-
-	var current_activation = move_unit.current_activation
+static func calc_possible_moves(current_activation):
+	var move_unit = current_activation.active_unit
 	var last_path = current_activation.last_movement_path()
 	
 	## calculate pathing for each movement mode and then merge the results
-	possible_moves = {}
+	var possible_moves = {}
 	for move_mode in current_activation.available_movement_modes():
-
 		var init_path = MovementPath.new(move_unit, move_mode)
 		if !last_path:
 			init_path.start_movement(move_unit.cell_position, move_unit.facing)
 		else:
 			init_path.continue_movement(last_path)
-
+		
 		var movement = MovementSearch.new(init_path)
 		for cell_pos in movement.possible_moves:
 			var complete_path = movement.possible_moves[cell_pos]
 			if !possible_moves.has(cell_pos) || _move_path_compare(possible_moves[cell_pos], complete_path):
 				possible_moves[cell_pos] = complete_path
 
+	return possible_moves
+
 ## compare movement modes to use for a given destination position
-func _move_path_compare(left, right):
+static func _move_path_compare(left, right):
 	return SortingUtils.lexical_sort(_move_priority_lexical(left), _move_priority_lexical(right))
 
-func _move_priority_lexical(move_path):
+const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
+
+static func _move_priority_lexical(move_path):
+	var move_unit = move_path.move_unit
 	var move_mode = move_path.move_mode
 	var moves_remaining = move_unit.max_movement_points() - move_path.moves_used
+	var is_extended_move = moves_remaining < UnitActivation.EXTENDED_MOVE
 
 	return [
 		#1 if !move_info.hazard else -1, #non-hazardous over hazardous moves
 		1 if move_mode.free_rotate else -1, #prefer free rotations
-		1 if !move_path.is_extended_movement() else -1, #prefer to avoid extended movement
+		1 if !is_extended_move else -1, #prefer to avoid extended movement
 		-move_path.moves_used, #prefer fewer movement points used
 		-move_path.turns_used, #prefer fewer turns used
 		1 if !move_mode.reversed else -1, #prefer non-reversed movement, all else equal
@@ -57,6 +50,9 @@ func _move_priority_lexical(move_path):
 
 
 ##### Movement Pathing Search #####
+
+const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
+const PriorityQueue = preload("res://scripts/helpers/PriorityQueue.gd")
 
 const MOVE_TOLERANCE = 0.025
 
@@ -72,7 +68,7 @@ class MovementSearch:
 		assert(starting_path.size() > 0) ## need a starting location
 		self.move_unit = starting_path.move_unit
 		self.move_mode = starting_path.move_mode
-		self.world_map = starting_path.get_world_map()
+		self.world_map = move_unit.world_map
 		
 		var start_pos = starting_path.last_pos()
 		var visited = _search_possible_moves(starting_path)
@@ -112,8 +108,7 @@ class MovementSearch:
 				continue ## can't go here
 			
 			## create a new move path that branches to the next_pos
-			var next_path = cur_path.duplicate()
-			next_path.extend(next_pos, move_dir)
+			var next_path = cur_path.extended(next_pos, move_dir)
 
 			## can we afford this move?
 			if next_path.moves_used <= move_unit.max_movement_points() + MOVE_TOLERANCE:

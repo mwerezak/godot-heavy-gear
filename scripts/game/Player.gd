@@ -30,28 +30,27 @@ func take_ownership(unit):
 func release_ownership(unit):
 	units.erase(unit)
 
-func activation_turn():
+func activation_turn(current_turn):
 	var current_scene = get_tree().get_current_scene()
-	var ui_contexts = current_scene.ui_contexts
+	var context_panel = current_scene.context_panel
 
-	var _context = ui_contexts.SelectUnit.context_call({
+	var select_unit = context_panel.activate("SelectUnit",
+	{
 		selectable_units = game_state.world_map.all_units(), #stub
 		select_text = "Select a unit to activate.",
 		confirm_text = "Select a unit to activate (or double-click to confirm).",
 		button_text = "Activate",
 	})
-	var selection_group = yield(_context, "context_return")
+	var selection_group = yield(select_unit, "context_return")
 	var selected = selection_group.get_selected()
 	
 	assert(selected.size() == 1)
 	var unit = selected.front()
-	activate_unit(unit)
+	var current_activation = current_turn.activate_unit(unit)
 	
-	yield(ui_contexts.UnitActions.context_call({ active_unit = unit }), "context_return")
+	yield(context_panel.activate("UnitActions", { current_activation = current_activation }), "context_return")
 	
 	selection_group.clear()
 
 	game_state.pass_player(self)
 
-func activate_unit(unit):
-	unit.activate()

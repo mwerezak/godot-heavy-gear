@@ -17,19 +17,18 @@ onready var done_button = $MarginContainer/HBoxContainer/DoneButton
 onready var label = $MarginContainer/HBoxContainer/Label
 onready var action_icon = $MarginContainer/HBoxContainer/ActionIcon
 
+var unit_activation
 var rotate_unit
 var rotate_mode
 
-var allow_any = false #if true, we set the unit's facing directly without spending any move actions
-
-var allowed_dirs = {}
+var allowed_dirs
 var facing_marker
 var selected_dir
 
 func _init():
 	load_properties = {
 		rotate_unit = REQUIRED,
-		allow_any = false,
+		allowed_dirs = null
 	}
 
 func _ready():
@@ -58,30 +57,29 @@ func _ready_deferred():
 
 func _setup():
 	label.text = HELP_TEXT
-	
-	var cur_activation = null
-	
-	if allow_any:
-		## rotate any direction, for free
+
+	if !allowed_dirs:
+		## allow any direction
+		allowed_dirs = {}
 		for dir in range(HexUtils.DIR_WRAP):
 			allowed_dirs[dir] = null
-	else:
+
+	"""
 		var unit_model = rotate_unit.unit_model
-		
-		cur_activation = rotate_unit.current_activation
-		rotate_mode = cur_activation.current_move_mode() 
+		rotate_mode = unit_activation.current_move_mode() 
 		if !rotate_mode:
 			rotate_mode = unit_model.get_default_rotation()
 		
 		allowed_dirs.clear()
 		for dir in range(HexUtils.DIR_WRAP):
-			if allow_any || rotate_mode.free_rotate:
+			if rotate_mode.free_rotate:
 				allowed_dirs[dir] = null
 			else:
 				#var move_action_cost = cur_activation.get_rotation_cost(rotate_mode, dir).move_actions
 				#if move_action_cost <= cur_activation.move_actions:
 				#	allowed_dirs[dir] = move_action_cost
 				allowed_dirs[dir] = null ##TODO
+	"""
 	
 	turn_marker.global_position = rotate_unit.map_marker.global_position
 	turn_marker.clear()
@@ -91,7 +89,7 @@ func _setup():
 	
 	for dir in allowed_dirs:
 		var move_action_cost = allowed_dirs[dir]
-		if move_action_cost == null || cur_activation.move_actions - move_action_cost >= cur_activation.EXTENDED_MOVE:
+		if move_action_cost == null || unit_activation.move_actions - move_action_cost >= unit_activation.EXTENDED_MOVE:
 			turn_marker.set_dir(dir, true)
 		else:
 			ext_turn_marker.set_dir(dir, true)
@@ -162,7 +160,6 @@ func _get_closest_dir(dir, allowed_dirs):
 func finalize_rotation():
 	context_return({
 		rotate_unit = rotate_unit,
-		rotate_mode = rotate_mode,
 		selected_dir = selected_dir,
 	})
 
