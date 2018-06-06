@@ -7,7 +7,7 @@ export(Color) var primary_color
 export(Color) var secondary_color
 
 var default_faction setget set_faction
-var units = []
+var owned_units = []
 
 var game_state
 
@@ -25,17 +25,24 @@ func set_faction(new_faction):
 		secondary_color = default_faction.secondary_color
 
 func take_ownership(unit):
-	units.push_back(unit)
+	owned_units.push_back(unit)
 
 func release_ownership(unit):
-	units.erase(unit)
+	owned_units.erase(unit)
 
-func activation_turn(current_turn):
+## for local players only
+func activation_turn(current_turn, available_units):
+	if available_units.empty():
+		game_state.pass_player(self)
+		return
+
 	var current_scene = get_tree().get_current_scene()
+	current_scene.camera.focus_objects(available_units)
+
 	var context_panel = current_scene.context_panel
 
 	var select_unit = context_panel.activate("SelectUnit", {
-		selectable_units = game_state.world_map.all_units(), #stub
+		select_from = available_units,
 		select_text = "Select a unit to activate.",
 		confirm_text = "Select a unit to activate (or double-click to confirm).",
 		button_text = "Activate",
@@ -44,6 +51,8 @@ func activation_turn(current_turn):
 	var selected = selection_group.get_selected()
 	
 	assert(selected.size() == 1)
+	assert(available_units.has(selected.front()))
+	
 	var unit = selected.front()
 	var current_activation = current_turn.activate_unit(unit)
 	

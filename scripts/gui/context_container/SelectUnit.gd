@@ -9,7 +9,7 @@ export(Color) var hover_color = Color(0.7, 0.7, 0.7, 0.5)
 export(Color) var selected_color = Color(0.35, 1.0, 0.35, 1.0)
 
 var selection_group
-#var restrict_units
+var select_from
 
 var select_text setget set_select_text
 var confirm_text setget set_confirm_text
@@ -20,7 +20,7 @@ onready var select_button = $MarginContainer/HBoxContainer/SelectButton
 
 func _init():
 	load_properties = {
-		#restrict_units = null,
+		select_from = null,
 		select_text = "Select a unit.",
 		confirm_text = "Select a unit (or double-click to confirm).",
 		button_text = "Select",
@@ -31,6 +31,10 @@ func _ready():
 
 func _setup():
 	selection_group = SelectionGroup.new(SelectionMarker)
+	if select_from:
+		for unit in select_from:
+			selection_group.mark_object(unit)
+
 	set_selection([])
 
 func _become_active():
@@ -67,7 +71,13 @@ func _input(event):
 		finalize_selection()
 
 func cell_input(world_map, grid_cell, event):
-	var units = world_map.get_units_at_cell(grid_cell)
+	var units = []
+	if select_from:
+		for unit in world_map.get_units_at_cell(grid_cell):
+			if select_from.has(unit):
+				units.push_back(unit)
+	else:
+		units = world_map.get_units_at_cell(grid_cell)
 
 	if !units.empty() && event.is_action_pressed("click_select"):
 		set_selection(units)

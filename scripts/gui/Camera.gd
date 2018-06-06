@@ -19,14 +19,24 @@ func set_view(view_rect):
 	
 	## set zoom so that view_rect is just contained in the camera view
 	var view_size = get_tree().get_root().get_size()
-	var zoom_factor = max(view_rect.x/view_size.x, view_rect.y/view_size.y)
+	var zoom_factor = max(view_rect.size.x/view_size.x, view_rect.size.y/view_size.y)
 	
 	position = center
 	zoom = zoom_factor*Vector2(1, 1)
 	
 	_snap_scroll_limits()
 	_snap_zoom_limits()
+
+## sets the view to focus on the given 2D objects
+func focus_objects(objects):
+	if objects.empty(): return
+
+	var view_rect = Rect2(objects.front().global_position, Vector2())
+	for object in objects:
+		view_rect = view_rect.expand(object.global_position)
 	
+	var margin = max(50, 0.2*max(view_rect.size.x, view_rect.size.y))
+	set_view(view_rect.grow(margin))
 
 var _mouse_captured = false
 func _unhandled_input(event):

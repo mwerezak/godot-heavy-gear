@@ -4,8 +4,7 @@
 [ext_resource path="res://scripts/gui/map_markers/SelectionMarker.gd" type="Script" id=2]
 [ext_resource path="res://fonts/hud_monospaced.tres" type="DynamicFont" id=3]
 
-
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=1]
 
 content_margin_left = -1.0
 content_margin_right = -1.0
@@ -33,7 +32,7 @@ shadow_size = 0
 anti_aliasing = true
 anti_aliasing_size = 1
 
-[node name="Sprite" type="Sprite"]
+[node name="Sprite" type="Sprite" index="0"]
 
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
@@ -55,7 +54,7 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 1 )
 _sections_unfolded = [ "Margin", "Mouse", "Rect", "Size Flags", "custom_styles" ]
 
 [node name="LocLabel" type="Label" parent="Transparent" index="0"]
