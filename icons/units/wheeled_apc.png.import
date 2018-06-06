@@ -7,10 +7,10 @@ path="res://.import/wheeled_apc.png-9991970317132c99e55430ab31ea008d.stex"
 [deps]
 
 source_file="res://icons/units/wheeled_apc.png"
-source_md5="fec26da80161623d97a87360c3923e7c"
+source_md5="9c63bddc0c7f9c1d7ba126600d60fd02"
 
 dest_files=[ "res://.import/wheeled_apc.png-9991970317132c99e55430ab31ea008d.stex" ]
-dest_md5="ea5427d3422f0089ed55faa67a3cf194"
+dest_md5="74fb996a3271b82c09e7280458559f41"
 
 [params]
 

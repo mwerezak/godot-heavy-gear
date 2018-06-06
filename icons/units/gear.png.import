@@ -7,10 +7,10 @@ path="res://.import/gear.png-7ace574cf120f337116eef798a3bc973.stex"
 [deps]
 
 source_file="res://icons/units/gear.png"
-source_md5="d1ccdfdb40b4d9cc9714eb621952d4f4"
+source_md5="ba44bb2391ae24d7e9625ad16f0fe150"
 
 dest_files=[ "res://.import/gear.png-7ace574cf120f337116eef798a3bc973.stex" ]
-dest_md5="29f35fec2152aa2e7310249cd11deccb"
+dest_md5="d6e9f883e709973a77ee6c7822e405ac"
 
 [params]
 
