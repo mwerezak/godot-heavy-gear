@@ -2,8 +2,8 @@
 
 extends "ContextBase.gd"
 
-const SelectionMarker = preload("res://scripts/gui/SelectionMarker.tscn")
-const SelectionGroup = preload("res://scripts/gui/SelectionGroup.gd")
+const SelectionMarker = preload("res://scripts/gui/map_markers/SelectionMarker.tscn")
+const SelectionGroup = preload("res://scripts/gui/map_markers/SelectionGroup.gd")
 
 export(Color) var hover_color = Color(0.7, 0.7, 0.7, 0.5)
 export(Color) var selected_color = Color(0.35, 1.0, 0.35, 1.0)
