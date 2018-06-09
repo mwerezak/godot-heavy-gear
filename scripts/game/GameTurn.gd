@@ -59,11 +59,8 @@ func do_turn():
 				break
 
 			active_player.activation_turn(self, activate_units)
+			yield(active_player, "pass_turn")
 			next_group.activations -= 1
-
-			var passed = null
-			while passed != active_player:
-				passed = yield(game_state, "player_passed")
 
 		active_player = null
 		if next_group.activations > 0:

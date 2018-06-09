@@ -8,9 +8,11 @@ func _unhandled_input(event):
 	call_deferred("_update_text")
 
 func _update_text():
+	if !main_scene.player_ui: return
+	
 	var world_map = main_scene.world_map
-	var camera = main_scene.camera
 	var game_state = main_scene.game_state
+	var camera = main_scene.player_ui.camera
 	
 	var mouse_pos = world_map.get_global_mouse_position()
 	var terrain_cell = world_map.terrain_grid.get_axial_cell(mouse_pos)

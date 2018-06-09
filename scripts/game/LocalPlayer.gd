@@ -6,6 +6,10 @@ export(String) var faction_id
 export(Color) var primary_color
 export(Color) var secondary_color
 
+onready var gui = $GUILayer/PlayerGUI
+
+signal pass_turn
+
 var default_faction setget set_faction
 var owned_units = []
 
@@ -14,6 +18,9 @@ var game_state
 func _ready():
 	game_state = get_parent()
 	set_faction(GameData.get_faction(faction_id))
+
+func setup(world_map):
+	gui.setup(world_map)
 
 func set_faction(new_faction):
 	default_faction = new_faction
@@ -30,18 +37,11 @@ func take_ownership(unit):
 func release_ownership(unit):
 	owned_units.erase(unit)
 
-## for local players only
 func activation_turn(current_turn, available_units):
-	if available_units.empty():
-		game_state.pass_player(self)
-		return
-
 	var current_scene = get_tree().get_current_scene()
 	current_scene.camera.focus_objects(available_units)
 
-	var context_panel = current_scene.context_panel
-
-	var select_unit = context_panel.activate("SelectUnit", {
+	var select_unit = gui.context_panel.activate("SelectUnit", {
 		select_from = available_units,
 		select_text = "Select a unit to activate.",
 		confirm_text = "Select a unit to activate (or double-click to confirm).",
@@ -56,9 +56,8 @@ func activation_turn(current_turn, available_units):
 	var unit = selected.front()
 	var current_activation = current_turn.activate_unit(unit)
 	
-	yield(context_panel.activate("UnitActions", { current_activation = current_activation }), "context_return")
+	yield(gui.context_panel.activate("UnitActions", { current_activation = current_activation }), "context_return")
 	
 	selection_group.clear()
 
-	game_state.pass_player(self)
-
+	emit_signal("action_passed")

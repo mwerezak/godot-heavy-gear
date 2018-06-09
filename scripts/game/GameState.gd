@@ -1,11 +1,9 @@
 extends Node
 
 const GameTurn = preload("GameTurn.gd")
-const Player = preload("Player.gd")
 
 signal game_setup
 signal game_started
-signal player_passed(player)
 
 var world_map
 var players
@@ -19,8 +17,8 @@ func setup(world_map):
 	
 	players = []
 	for child in get_children():
-		if child is Player:
-			players.push_back(child)
+		players.push_back(child)
+		child.setup(world_map)
 
 	emit_signal("game_setup")
 
@@ -35,9 +33,6 @@ func run_game():
 
 		yield(current_turn, "end_turn")
 		turn_history.push_back(current_turn)
-
-func pass_player(player):
-	emit_signal("player_passed", player)
 
 func get_active_player():
 	if current_turn:

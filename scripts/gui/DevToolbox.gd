@@ -1,6 +1,6 @@
 extends Control
 
-onready var context_panel = get_tree().get_current_scene().find_node('ContextContainer')
+onready var context_panel = get_parent().find_node('ContextContainer')
 
 var tool_data = [
 	{ name = "Spawn Unit", ui_context = "SpawnUnit" },
