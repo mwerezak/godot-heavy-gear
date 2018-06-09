@@ -12,6 +12,9 @@ var pan_speed = 800
 ## at the edges. Using the two together allows us to properly handle map limits while zooming.
 var limit_rect = null setget set_limit_rect
 
+func _ready():
+	set_current(false)
+
 ## sets the camera position and zoom based on the given rect
 func set_view(view_rect):
 	## center the camera on the rect
@@ -110,5 +113,7 @@ func set_limit_rect(rect):
 	_snap_scroll_limits()
 	_snap_zoom_limits()
 
-static func get_instance(scene_tree):
-	return scene_tree.get_current_scene().get_node("Camera")
+func set_current(active):
+	current = active
+	set_process(active)
+	set_process_unhandled_input(active)

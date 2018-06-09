@@ -5,7 +5,7 @@
 [ext_resource path="res://scripts/game/GameState.gd" type="Script" id=3]
 [ext_resource path="res://scripts/game/LocalPlayer.tscn" type="PackedScene" id=4]
 
-[node name="Main" type="Node" index="0"]
+[node name="Main" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
@@ -14,12 +14,16 @@ _sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="GameState" type="Node" parent="." index="1"]
 
-editor/display_folded = true
 script = ExtResource( 3 )
 
 [node name="Player1" parent="GameState" index="0" instance=ExtResource( 4 )]
 
 display_name = "Player 1"
 faction_id = "north"
+
+[node name="Player2" parent="GameState" index="1" instance=ExtResource( 4 )]
+
+display_name = "Player 2"
+faction_id = "south"
 
 

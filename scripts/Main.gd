@@ -1,6 +1,5 @@
 extends Node
 
-onready var camera = $Camera
 onready var world_map = $WorldMap
 onready var game_state = $GameState
 onready var player_ui = null
@@ -20,5 +19,9 @@ func _ready():
 
 ## sets the current hotseat player
 func set_active_player(player):
-	self.player_ui = player.gui
+	if player.gui != player_ui:
+		if player_ui:
+			player_ui.hide()
+		player_ui = player.gui
+		player_ui.show()
 

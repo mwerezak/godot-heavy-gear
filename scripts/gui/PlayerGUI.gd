@@ -13,9 +13,20 @@ func setup(world_map):
 	
 	## set camera limits
 	camera.set_limit_rect(world_map.get_bounding_rect())
+
+var help_dialog_shown = false
+func show():
+	.show()
+	camera.set_current(true)
 	
-	## show the help dialog
-	help_dialog.popup_centered()
+	## show the help dialog the first time we switch to this player
+	if !help_dialog_shown:
+		help_dialog.popup_centered()
+		help_dialog_shown = true
+
+func hide():
+	.hide()
+	camera.set_current(false)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("toggle_elevation"):

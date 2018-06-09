@@ -34,7 +34,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="LocalPlayer" type="Node"]
+[node name="LocalPlayer" type="Node" index="0"]
 
 script = ExtResource( 1 )
 display_name = null
@@ -61,7 +61,7 @@ _sections_unfolded = [ "Mouse" ]
 
 anchor_mode = 1
 rotating = false
-current = true
+current = false
 zoom = Vector2( 1, 1 )
 limit_left = -10000000
 limit_top = -10000000
@@ -118,12 +118,12 @@ margin_right = 600.0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 1
+mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 2
-_sections_unfolded = [ "Grow Direction" ]
+_sections_unfolded = [ "Grow Direction", "Mouse" ]
 
 [node name="ContextContainer" type="Container" parent="PlayerGUI/GUILayer/LowerLeftPanel" index="0"]
 
@@ -137,7 +137,7 @@ grow_vertical = 0
 rect_min_size = Vector2( 600, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
-mouse_filter = 0
+mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1

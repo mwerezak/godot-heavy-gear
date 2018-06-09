@@ -18,6 +18,7 @@ var game_state
 func _ready():
 	game_state = get_parent()
 	set_faction(GameData.get_faction(faction_id))
+	gui.hide()
 
 func setup(world_map):
 	gui.setup(world_map)
@@ -38,7 +39,9 @@ func release_ownership(unit):
 	owned_units.erase(unit)
 
 func activation_turn(current_turn, available_units):
-	gui.camera.focus_objects(available_units)
+	get_tree().get_current_scene().set_active_player(self)
+
+	#gui.camera.focus_objects(available_units)
 
 	var select_unit = gui.context_panel.activate("SelectUnit", {
 		select_from = available_units,
