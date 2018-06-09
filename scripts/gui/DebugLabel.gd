@@ -2,17 +2,16 @@ extends Label
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-onready var main_scene = get_tree().get_current_scene()
+onready var gui = $"../.."
+onready var player = gui.get_parent()
 
 func _unhandled_input(event):
 	call_deferred("_update_text")
 
 func _update_text():
-	if !main_scene.player_ui: return
-	
-	var world_map = main_scene.world_map
-	var game_state = main_scene.game_state
-	var camera = main_scene.player_ui.camera
+	var camera = gui.camera
+	var world_map = gui.world_map
+	var game_state = player.game_state
 	
 	var mouse_pos = world_map.get_global_mouse_position()
 	var terrain_cell = world_map.terrain_grid.get_axial_cell(mouse_pos)

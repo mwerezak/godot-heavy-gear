@@ -8,10 +8,17 @@ onready var player_ui = null
 func _ready():
 	game_state.setup(world_map)
 
-#	yield(context_panel.activate("Wait", {
-#		message_text = "Begin the game when ready.",
-#		button_text = "Start Game",
-#	}), "context_return")
+	if !game_state.players.empty():
+		set_active_player(game_state.players.front())
+		
+		yield(player_ui.context_panel.activate("Wait", {
+			message_text = "Begin the game when ready.",
+			button_text = "Start Game",
+		}), "context_return")
+		
+		game_state.start_game()
 
-	game_state.start_game()
+## sets the current hotseat player
+func set_active_player(player):
+	self.player_ui = player.gui
 

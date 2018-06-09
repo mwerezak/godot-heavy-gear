@@ -1,11 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://scripts/WorldMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/game/GameState.gd" type="Script" id=3]
 [ext_resource path="res://scripts/game/LocalPlayer.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=6]
 
 [node name="Main" type="Node" index="0"]
 
@@ -16,47 +14,12 @@ _sections_unfolded = [ "Anchor", "Margin" ]
 
 [node name="GameState" type="Node" parent="." index="1"]
 
+editor/display_folded = true
 script = ExtResource( 3 )
 
 [node name="Player1" parent="GameState" index="0" instance=ExtResource( 4 )]
 
 display_name = "Player 1"
 faction_id = "north"
-
-[node name="GUILayer" type="CanvasLayer" parent="." index="2"]
-
-editor/display_folded = true
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-
-[node name="QuickHelp" parent="GUILayer" index="0" instance=ExtResource( 5 )]
-
-visible = false
-
-[node name="DebugLabel" type="Label" parent="GUILayer" index="1"]
-
-anchor_left = 1.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-margin_left = -40.0
-margin_bottom = 14.0
-grow_horizontal = 0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 2
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 4
-text = "XXXX"
-align = 2
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-script = ExtResource( 6 )
-_sections_unfolded = [ "Grow Direction" ]
 
 

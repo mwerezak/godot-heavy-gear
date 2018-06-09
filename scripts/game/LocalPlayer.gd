@@ -38,8 +38,7 @@ func release_ownership(unit):
 	owned_units.erase(unit)
 
 func activation_turn(current_turn, available_units):
-	var current_scene = get_tree().get_current_scene()
-	current_scene.camera.focus_objects(available_units)
+	gui.camera.focus_objects(available_units)
 
 	var select_unit = gui.context_panel.activate("SelectUnit", {
 		select_from = available_units,
@@ -60,4 +59,4 @@ func activation_turn(current_turn, available_units):
 	
 	selection_group.clear()
 
-	emit_signal("action_passed")
+	emit_signal("pass_turn")

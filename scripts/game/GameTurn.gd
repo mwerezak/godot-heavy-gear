@@ -19,11 +19,12 @@ func roll_initiative():
 	initiative_queue = []
 	for player in game_state.players:
 		## TODO command groups
-		var initiative_group = {
-			player = player,
-			units = player.owned_units.duplicate() #stub
-		}
-		initiative_queue.push_back(initiative_group)
+		if !player.owned_units.empty():
+			var initiative_group = {
+				player = player,
+				units = player.owned_units.duplicate(),
+			}
+			initiative_queue.push_back(initiative_group)
 
 
 func begin_turn():

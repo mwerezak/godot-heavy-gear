@@ -1,7 +1,7 @@
 extends Container
 
 onready var camera = $Camera
-onready var context_panel = $GUILayer/ContextContainer
+onready var context_panel = $GUILayer/LowerLeftPanel/ContextContainer
 onready var unit_info_panel = $GUILayer/UnitInfoPanel
 onready var help_dialog = $GUILayer/QuickHelp
 
