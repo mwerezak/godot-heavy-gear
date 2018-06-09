@@ -1,10 +1,11 @@
 extends Container
 
 onready var camera = $Camera
-onready var context_panel = $LowerLeftPanel/ContextContainer
-onready var unit_info_panel = $UnitInfoPanel
-onready var help_dialog = $QuickHelp
+onready var context_panel = $GUILayer/ContextContainer
+onready var unit_info_panel = $GUILayer/UnitInfoPanel
+onready var help_dialog = $GUILayer/QuickHelp
 
+## someday we will use mapviews tht will be part of the player node, instead of a global world map
 var world_map = null
 
 func setup(world_map):

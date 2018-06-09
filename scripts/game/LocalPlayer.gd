@@ -6,7 +6,7 @@ export(String) var faction_id
 export(Color) var primary_color
 export(Color) var secondary_color
 
-onready var gui = $GUILayer/PlayerGUI
+onready var gui = $PlayerGUI
 
 signal pass_turn
 

@@ -1,19 +1,24 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scripts/game/LocalPlayer.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/PlayerGUI.gd" type="Script" id=2]
-[ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=4]
-[ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scripts/gui/context_container/WaitContext.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=12]
-[ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=13]
-[ext_resource path="res://scripts/gui/Camera.gd" type="Script" id=14]
+[ext_resource path="res://scripts/gui/Camera.gd" type="Script" id=3]
+[ext_resource path="res://icons/unit_cursor.png" type="Texture" id=4]
+[ext_resource path="res://scripts/gui/map_markers/UnitCursor.gd" type="Script" id=5]
+[ext_resource path="res://scripts/gui/map_markers/TerrainCursor.tscn" type="PackedScene" id=6]
+[ext_resource path="res://icons/terrain/hex_outline.png" type="Texture" id=7]
+[ext_resource path="res://scripts/gui/map_markers/TerrainCursor.gd" type="Script" id=8]
+[ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=10]
+[ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scripts/gui/context_container/WaitContext.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=19]
 
 [sub_resource type="GDScript" id=1]
 
@@ -30,7 +35,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="LocalPlayer" type="Node" index="0"]
+[node name="LocalPlayer" type="Node"]
 
 script = ExtResource( 1 )
 display_name = null
@@ -38,15 +43,7 @@ faction_id = null
 primary_color = null
 secondary_color = null
 
-[node name="GUILayer" type="CanvasLayer" parent="." index="0"]
-
-layer = 1
-offset = Vector2( 0, 0 )
-rotation = 0.0
-scale = Vector2( 1, 1 )
-transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-
-[node name="PlayerGUI" type="Container" parent="GUILayer" index="0"]
+[node name="PlayerGUI" type="Container" parent="." index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -61,124 +58,7 @@ size_flags_vertical = 1
 script = ExtResource( 2 )
 _sections_unfolded = [ "Mouse" ]
 
-[node name="QuickHelp" parent="GUILayer/PlayerGUI" index="0" instance=ExtResource( 3 )]
-
-visible = false
-script = SubResource( 1 )
-
-[node name="LowerLeftPanel" type="VBoxContainer" parent="GUILayer/PlayerGUI" index="1"]
-
-anchor_left = 0.0
-anchor_top = 1.0
-anchor_right = 0.0
-anchor_bottom = 1.0
-margin_top = -40.0
-margin_right = 600.0
-grow_vertical = 0
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 1
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-alignment = 2
-_sections_unfolded = [ "Grow Direction" ]
-
-[node name="ContextContainer" type="Container" parent="GUILayer/PlayerGUI/LowerLeftPanel" index="0"]
-
-editor/display_folded = true
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 600.0
-margin_bottom = 40.0
-grow_vertical = 0
-rect_min_size = Vector2( 600, 40 )
-rect_pivot_offset = Vector2( 0, 0 )
-rect_clip_content = false
-mouse_filter = 0
-mouse_default_cursor_shape = 0
-size_flags_horizontal = 1
-size_flags_vertical = 1
-script = ExtResource( 4 )
-_sections_unfolded = [ "Mouse" ]
-
-[node name="SpawnUnit" parent="GUILayer/PlayerGUI/LowerLeftPanel/ContextContainer" index="0" instance=ExtResource( 5 )]
-
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -34.0
-margin_right = 586.0
-margin_bottom = 0.0
-
-[node name="DeleteUnit" parent="GUILayer/PlayerGUI/LowerLeftPanel/ContextContainer" index="1" instance=ExtResource( 6 )]
-
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -34.0
-margin_right = 586.0
-margin_bottom = 0.0
-
-[node name="MoveUnit" parent="GUILayer/PlayerGUI/LowerLeftPanel/ContextContainer" index="2" instance=ExtResource( 7 )]
-
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -30.0
-margin_right = 586.0
-margin_bottom = 0.0
-
-[node name="SelectFacing" parent="GUILayer/PlayerGUI/LowerLeftPanel/ContextContainer" index="3" instance=ExtResource( 8 )]
-
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -30.0
-margin_right = 586.0
-margin_bottom = 0.0
-
-[node name="UnitActions" parent="GUILayer/PlayerGUI/LowerLeftPanel/ContextContainer" index="4" instance=ExtResource( 9 )]
-
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -34.0
-margin_bottom = 0.0
-
-[node name="SelectUnit" parent="GUILayer/PlayerGUI/LowerLeftPanel/ContextContainer" index="5" instance=ExtResource( 10 )]
-
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -68.0
-margin_right = 600.0
-margin_bottom = 0.0
-grow_vertical = 0
-_sections_unfolded = [ "Anchor", "Grow Direction", "Rect", "Size Flags" ]
-
-[node name="Wait" parent="GUILayer/PlayerGUI/LowerLeftPanel/ContextContainer" index="6" instance=ExtResource( 11 )]
-
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -34.0
-margin_bottom = 0.0
-
-[node name="UnitInfoPanel" parent="GUILayer/PlayerGUI" index="2" instance=ExtResource( 12 )]
-
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -102.0
-margin_top = -58.0
-margin_right = 0.0
-margin_bottom = 0.0
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_horizontal = 8
-size_flags_vertical = 8
-_sections_unfolded = [ "Grow Direction", "Margin", "Size Flags", "custom_styles" ]
-
-[node name="DevToolbox" parent="GUILayer/PlayerGUI" index="3" instance=ExtResource( 13 )]
-
-[node name="Camera" type="Camera2D" parent="GUILayer/PlayerGUI" index="4"]
+[node name="Camera" type="Camera2D" parent="PlayerGUI" index="0"]
 
 anchor_mode = 1
 rotating = false
@@ -202,7 +82,151 @@ drag_margin_bottom = 0.2
 editor_draw_screen = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-script = ExtResource( 14 )
+script = ExtResource( 3 )
 _sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
+
+[node name="UnitCursor" type="Sprite" parent="PlayerGUI" index="1"]
+
+modulate = Color( 1, 0.784314, 0.584314, 0.353608 )
+z_index = 1
+texture = ExtResource( 4 )
+script = ExtResource( 5 )
+_sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
+
+[node name="TerrainCursor" type="Sprite" parent="PlayerGUI" index="2" instance=ExtResource( 6 )]
+
+modulate = Color( 1, 0.787293, 0.585938, 0.784314 )
+position = Vector2( 1, 1 )
+z_index = 1
+texture = ExtResource( 7 )
+script = ExtResource( 8 )
+_sections_unfolded = [ "Offset", "Visibility", "Z Index" ]
+
+[node name="GUILayer" type="CanvasLayer" parent="PlayerGUI" index="3"]
+
+editor/display_folded = true
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+
+[node name="QuickHelp" parent="PlayerGUI/GUILayer" index="0" instance=ExtResource( 9 )]
+
+visible = false
+script = SubResource( 1 )
+
+[node name="LowerLeftPanel" type="VBoxContainer" parent="PlayerGUI/GUILayer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+margin_top = -40.0
+margin_right = 600.0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 1
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 2
+_sections_unfolded = [ "Grow Direction" ]
+
+[node name="ContextContainer" type="Container" parent="PlayerGUI/GUILayer" index="2"]
+
+editor/display_folded = true
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 728.0
+margin_right = 600.0
+margin_bottom = 768.0
+grow_vertical = 0
+rect_min_size = Vector2( 600, 40 )
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = ExtResource( 10 )
+_sections_unfolded = [ "Mouse" ]
+
+[node name="SpawnUnit" parent="PlayerGUI/GUILayer/ContextContainer" index="0" instance=ExtResource( 11 )]
+
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -34.0
+margin_right = 586.0
+margin_bottom = 0.0
+
+[node name="DeleteUnit" parent="PlayerGUI/GUILayer/ContextContainer" index="1" instance=ExtResource( 12 )]
+
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -34.0
+margin_right = 586.0
+margin_bottom = 0.0
+
+[node name="MoveUnit" parent="PlayerGUI/GUILayer/ContextContainer" index="2" instance=ExtResource( 13 )]
+
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -30.0
+margin_right = 586.0
+margin_bottom = 0.0
+
+[node name="SelectFacing" parent="PlayerGUI/GUILayer/ContextContainer" index="3" instance=ExtResource( 14 )]
+
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -30.0
+margin_right = 586.0
+margin_bottom = 0.0
+
+[node name="UnitActions" parent="PlayerGUI/GUILayer/ContextContainer" index="4" instance=ExtResource( 15 )]
+
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -34.0
+margin_bottom = 0.0
+
+[node name="SelectUnit" parent="PlayerGUI/GUILayer/ContextContainer" index="5" instance=ExtResource( 16 )]
+
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -68.0
+margin_right = 600.0
+margin_bottom = 0.0
+grow_vertical = 0
+_sections_unfolded = [ "Anchor", "Grow Direction", "Rect", "Size Flags" ]
+
+[node name="Wait" parent="PlayerGUI/GUILayer/ContextContainer" index="6" instance=ExtResource( 17 )]
+
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -34.0
+margin_bottom = 0.0
+
+[node name="UnitInfoPanel" parent="PlayerGUI/GUILayer" index="3" instance=ExtResource( 18 )]
+
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -102.0
+margin_top = -58.0
+margin_right = 0.0
+margin_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 8
+size_flags_vertical = 8
+_sections_unfolded = [ "Grow Direction", "Margin", "Size Flags", "custom_styles" ]
+
+[node name="DevToolbox" parent="PlayerGUI/GUILayer" index="4" instance=ExtResource( 19 )]
 
 
