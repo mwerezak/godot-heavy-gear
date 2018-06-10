@@ -34,7 +34,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="PlayerUI" type="Container" index="0"]
+[node name="PlayerUI" type="Container"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -123,8 +123,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 40.0
 margin_right = 600.0
-margin_bottom = 152.0
+margin_bottom = 128.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -137,7 +138,7 @@ _sections_unfolded = [ "Mouse" ]
 [node name="MessagePanel" parent="HUDLayer/LowerLeftPanel/VBoxContainer" index="0" instance=ExtResource( 7 )]
 
 margin_right = 450.0
-margin_bottom = 108.0
+margin_bottom = 44.0
 rect_min_size = Vector2( 450, 0 )
 size_flags_horizontal = 0
 
@@ -147,9 +148,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 112.0
+margin_top = 48.0
 margin_right = 600.0
-margin_bottom = 152.0
+margin_bottom = 88.0
 grow_vertical = 0
 rect_min_size = Vector2( 600, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
