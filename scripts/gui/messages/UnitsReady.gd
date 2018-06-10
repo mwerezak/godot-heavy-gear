@@ -18,8 +18,7 @@ func dispatch():
 func render(player):
 	if player != self.player: return null
 	
-	var gui = player.get("gui")
-	if !gui: return null
+	if !player.has_method("get_camera"): return null
 
 	var button = LinkButton.new()
 	button.text = "%d units are ready to be activated." % units.size()
@@ -28,10 +27,14 @@ func render(player):
 	button.connect("pressed", self, "_link_button_pressed", [player])
 
 	## store a view of the units, since they may move around or disappear in later turns
-	units_view[player] = gui.camera.get_objects_view(units)
+	var camera = player.get_camera()
+	units_view[player] = {
+		camera = camera,
+		view = camera.get_objects_view(units),
+	}
 
 	return button
 
 func _link_button_pressed(player):
-	var camera = player.gui.camera
-	camera.set_view_smooth(units_view[player])
+	var info = units_view[player]
+	info.camera.set_view_smooth(info.view)

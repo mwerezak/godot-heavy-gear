@@ -10,6 +10,9 @@ func _ready():
 func _setup():
 	gui.map_view = game_state.world_map
 
+func get_camera():
+	return gui.camera
+
 func render_message(message):
 	gui.message_panel.append(message, message.render(self))
 
