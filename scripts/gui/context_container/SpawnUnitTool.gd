@@ -83,7 +83,6 @@ func cell_input(world_map, cell_pos, event):
 		var model_idx = unit_model_button.get_selected_id()
 		var unit_model = unit_models[faction_idx][model_idx]
 
-		spawn_unit.set_player(player)
 		spawn_unit.set_faction(faction)
 		spawn_unit.set_unit_model(unit_model)
 		
@@ -92,6 +91,8 @@ func cell_input(world_map, cell_pos, event):
 		else:
 			var crew = Crew.new(faction, unit_model.get_default_crew())
 			spawn_unit.set_crew_info(crew)
+			
+			spawn_unit.set_player(player)
 			
 			spawn_unit.cell_position = cell_pos
 			world_map.add_unit(spawn_unit)
