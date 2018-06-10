@@ -1,10 +1,6 @@
 extends "Player.gd"
 
-onready var gui = $PlayerGUI
-
-func _ready():
-	._ready()
-	gui.hide()
+onready var gui = $PlayerUI
 
 func setup(world_map):
 	gui.setup(world_map)

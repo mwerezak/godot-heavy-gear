@@ -1,9 +1,9 @@
 extends Container
 
 onready var camera = $Camera
-onready var context_panel = $GUILayer/LowerLeftPanel/ContextContainer
-onready var unit_info_panel = $GUILayer/UnitInfoPanel
-onready var help_dialog = $GUILayer/QuickHelp
+onready var context_panel = $HUDLayer/LowerLeftPanel/ContextContainer
+onready var unit_info_panel = $HUDLayer/UnitInfoPanel
+onready var help_dialog = $HUDLayer/QuickHelp
 
 ## someday we will use mapviews tht will be part of the player node, instead of a global world map
 var world_map = null
