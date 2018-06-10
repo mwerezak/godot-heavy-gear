@@ -38,10 +38,7 @@ func set_view(view_rect):
 	_snap_zoom_limits()
 
 func get_view():
-	if !get_tree(): return null
-	
-	var view_size = get_tree().get_root().get_size() * zoom
-	return Rect2(global_position - view_size/2, view_size)
+	return get_point_view(global_position)
 
 func set_view_smooth(view_rect, speed = 1.0):
 	var cur_rect = get_view()
@@ -71,6 +68,13 @@ func get_objects_view(objects):
 	
 	var margin = max(50, 0.2*max(view_rect.size.x, view_rect.size.y))
 	return view_rect.grow(margin)
+
+## gets the view rect that will center the camera at a specific position, with an optional zoom level
+func get_point_view(center_pos, zoom_level = null):
+	if !get_tree(): return null
+
+	var view_size = get_tree().get_root().get_size() * (zoom_level * Vector2(1,1) if zoom_level else zoom)
+	return Rect2(center_pos - view_size/2, view_size)
 
 var _mouse_captured = false
 func _unhandled_input(event):

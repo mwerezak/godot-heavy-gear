@@ -28,7 +28,7 @@ func roll_initiative():
 
 
 func begin_turn():
-	Messages.global_message("It is now Turn %d" % turn_num)
+	Messages.global_message("It is now Turn %d." % turn_num)
 	roll_initiative()
 	do_turn()
 
