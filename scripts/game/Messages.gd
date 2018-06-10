@@ -17,6 +17,7 @@ func dispatch_message(message):
 ## helper functions for common message types
 const Colors = preload("res://scripts/Colors.gd")
 const GlobalMessage = preload("res://scripts/gui/messages/GlobalMessage.gd")
+const PlayerMessage = preload("res://scripts/gui/messages/PlayerMessage.gd")
 
 func system_message(message_text):
 	var message = GlobalMessage.new({
@@ -30,4 +31,18 @@ func global_message(message_text):
 		text = "* " + message_text,
 		modulate = Colors.GLOBAL_MESSAGE
 	})
+	dispatch_message(message)
+
+func player_message(player, message_text, other_text = null):
+	var message = PlayerMessage.new(
+		player,
+		{
+			text = message_text,
+			modulate = Colors.GAME_MESSAGE,
+		},
+		{
+			text = other_text,
+			modulate = Colors.GAME_MESSAGE,
+		} if other_text else null
+	)
 	dispatch_message(message)
