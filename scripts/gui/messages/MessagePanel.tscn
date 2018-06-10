@@ -30,8 +30,9 @@ shadow_color = Color( 0, 0, 0, 0.6 )
 shadow_size = 0
 anti_aliasing = true
 anti_aliasing_size = 1
+_sections_unfolded = [ "Border", "Border Width", "Corner Radius", "Expand Margin" ]
 
-[node name="MessagePanel" type="PanelContainer"]
+[node name="MessagePanel" type="PanelContainer" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -70,13 +71,12 @@ _sections_unfolded = [ "Mouse" ]
 
 [node name="TitleContainer" type="PanelContainer" parent="VBoxContainer" index="0"]
 
-editor/display_folded = true
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 419.0
-margin_bottom = 14.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
@@ -84,7 +84,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 custom_styles/panel = SubResource( 1 )
-_sections_unfolded = [ "Size Flags" ]
+_sections_unfolded = [ "Margin", "Size Flags" ]
 
 [node name="TitleButton" type="LinkButton" parent="VBoxContainer/TitleContainer" index="0"]
 
@@ -93,7 +93,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 419.0
-margin_bottom = 14.0
+margin_bottom = 20.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 hint_tooltip = "double click to shrink or expand the message log."
@@ -106,7 +106,6 @@ action_mode = 0
 enabled_focus_mode = 0
 shortcut = null
 group = null
-underline = 2
 _sections_unfolded = [ "Grow Direction", "Hint" ]
 
 [node name="Label" type="Label" parent="VBoxContainer/TitleContainer" index="1"]
@@ -115,8 +114,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 3.0
 margin_right = 419.0
-margin_bottom = 14.0
+margin_bottom = 17.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -128,7 +128,7 @@ align = 1
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-_sections_unfolded = [ "Mouse", "Size Flags" ]
+_sections_unfolded = [ "Margin", "Mouse", "Size Flags" ]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" index="1"]
 
@@ -136,7 +136,7 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 18.0
+margin_top = 24.0
 margin_right = 419.0
 margin_bottom = 169.0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -154,9 +154,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 131.0
+margin_top = 125.0
 margin_right = 19.0
-margin_bottom = 151.0
+margin_bottom = 145.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 hint_tooltip = "shrink or expand the message log."
@@ -174,15 +174,33 @@ flat = false
 align = 1
 _sections_unfolded = [ "Hint", "Size Flags" ]
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer" index="1"]
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer" index="1"]
 
+modulate = Color( 0, 0, 0, 0.2 )
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 23.0
+margin_right = 27.0
+margin_bottom = 145.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 0
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+_sections_unfolded = [ "Visibility" ]
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer" index="2"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 31.0
 margin_right = 419.0
-margin_bottom = 151.0
+margin_bottom = 145.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = true
 mouse_filter = 0
@@ -201,8 +219,8 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 396.0
-margin_bottom = 151.0
+margin_right = 388.0
+margin_bottom = 145.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 1
