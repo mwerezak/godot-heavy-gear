@@ -16,52 +16,6 @@ func setup(world_map, grid_cells):
 		var vertex = world_map.unit_grid.axial_to_world(grid_cell) - position
 		add_point(vertex)
 
-
-#const DASH_LENGTH = 8
-#func _create_dashes():
-#	var dashes = _get_dashes(DASH_LENGTH)
-#	for i in dashes.size():
-#		var dash = Line2D.new()
-#		dash.width = 2
-#		dash.default_color = Color(1.0, 1.0, 0.5, 0.2)
-#		dash.z_index = 1
-#
-#		for point in dashes[i]:
-#			dash.add_point(point)
-#
-#		add_child(dash)
-
-#func _get_dashes(pitch):
-#	var dashes = []
-#	var current_dash = null
-#
-#	var length = 0
-#	var last_length = 0 #length of last_point
-#	var last_point = null
-#	for next_point in points:
-#		if last_point:
-#			var segment_length = (next_point - last_point).length()
-#			var next_length = last_length + segment_length
-#
-#			while length < next_length:
-#				var t = (length - last_length)/segment_length
-#				var dash_point = last_point.linear_interpolate(next_point, t)
-#				if !current_dash:
-#					current_dash = [ dash_point ]
-#				else:
-#					current_dash.push_back(dash_point)
-#					dashes.push_back(current_dash)
-#					current_dash = null
-#				length += pitch
-#
-#			if current_dash:
-#				current_dash.push_back(next_point)
-#
-#			last_length += segment_length
-#		last_point = next_point
-#
-#	return dashes
-
 ## determines how roads connect by ordering available connections
 class ConnectionComparer:
 	var cell_pos
