@@ -24,3 +24,10 @@ func system_message(message_text):
 		modulate = Colors.SYSTEM_MESSAGE
 	})
 	dispatch_message(message)
+
+func global_message(message_text):
+	var message = GlobalMessage.new({
+		text = "* " + message_text,
+		modulate = Colors.GLOBAL_MESSAGE
+	})
+	dispatch_message(message)
