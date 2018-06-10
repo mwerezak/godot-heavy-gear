@@ -29,7 +29,6 @@ func roll_initiative():
 
 func begin_turn():
 	roll_initiative()
-
 	do_turn()
 
 func do_turn():

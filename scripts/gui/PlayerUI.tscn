@@ -33,7 +33,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="PlayerUI" type="Container"]
+[node name="PlayerUI" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -197,7 +197,7 @@ margin_right = 0.0
 margin_bottom = 0.0
 grow_horizontal = 0
 grow_vertical = 0
-_sections_unfolded = [ "Grow Direction", "Margin", "Size Flags", "custom_styles" ]
+_sections_unfolded = [ "Grow Direction", "Margin", "Rect", "Size Flags", "custom_styles" ]
 
 [node name="DevToolbox" parent="HUDLayer" index="3" instance=ExtResource( 16 )]
 

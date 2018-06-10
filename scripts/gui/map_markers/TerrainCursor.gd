@@ -12,7 +12,7 @@ func _ready():
 	z_index = Constants.HUD_ZLAYER
 
 func _unhandled_input(event):
-	var world_map = get_parent().world_map
+	var world_map = get_parent().map_view
 	if !world_map: return
 	
 	if event is InputEventMouseMotion:

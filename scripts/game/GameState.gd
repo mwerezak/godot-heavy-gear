@@ -18,7 +18,6 @@ func setup(world_map):
 	players = []
 	for child in get_children():
 		players.push_back(child)
-		child.setup(world_map)
 
 	emit_signal("game_setup")
 

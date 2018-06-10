@@ -6,13 +6,13 @@ onready var unit_info_panel = $HUDLayer/UnitInfoPanel
 onready var help_dialog = $HUDLayer/QuickHelp
 
 ## someday we will use mapviews tht will be part of the player node, instead of a global world map
-var world_map = null
+var map_view = null setget set_map_view
 
-func setup(world_map):
-	self.world_map = world_map
+func set_map_view(view):
+	map_view = view
 	
 	## set camera limits
-	camera.set_limit_rect(world_map.get_bounding_rect())
+	camera.set_limit_rect(map_view.get_bounding_rect())
 
 var help_dialog_shown = false
 func show():
@@ -34,6 +34,8 @@ func _unhandled_input(event):
 	
 	## capture any input events related to map objects and forward them to the context_panel
 	if event is InputEventMouse:
+		var world_map = map_view
+
 		## grid cell position events
 		var mouse_pos = world_map.get_global_mouse_position()
 		if world_map.point_on_map(mouse_pos):

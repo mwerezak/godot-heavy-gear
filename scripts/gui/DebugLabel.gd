@@ -10,7 +10,7 @@ func _unhandled_input(event):
 
 func _update_text():
 	var camera = gui.camera
-	var world_map = gui.world_map
+	var world_map = gui.map_view
 	var game_state = player.game_state
 	
 	var mouse_pos = world_map.get_global_mouse_position()

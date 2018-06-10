@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/gui/UnitInfoPanel.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/NatoIcon.tscn" type="PackedScene" id=2]
 
-[node name="UnitInfoPanel" type="PanelContainer" index="0"]
+[node name="UnitInfoPanel" type="PanelContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0

@@ -33,9 +33,5 @@ func release_ownership(unit):
 	owned_units.erase(unit)
 
 #override in subtype
-func setup(world_map):
-	pass
-
-#override in subtype
 func activation_turn(current_turn, available_units):
 	emit_signal("pass_turn")

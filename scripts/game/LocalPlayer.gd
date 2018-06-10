@@ -2,8 +2,12 @@ extends "Player.gd"
 
 onready var gui = $PlayerUI
 
-func setup(world_map):
-	gui.setup(world_map)
+func _ready():
+	._ready()
+	game_state.connect("game_setup", self, "_setup")
+
+func _setup():
+	gui.map_view = game_state.world_map
 
 func activation_turn(current_turn, available_units):
 	get_tree().get_current_scene().set_active_ui(gui)

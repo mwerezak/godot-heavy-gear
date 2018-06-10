@@ -58,7 +58,7 @@ func _unhandled_input(event):
 		_mouse_captured = false
 
 	if _mouse_captured && event is InputEventMouseMotion:
-		position -= event.relative * zoom #like we're grabbing the map
+		position -= event.relative * zoom #opposite to relative motion, like we're grabbing the map
 		_snap_scroll_limits()
 
 func _process(delta):
