@@ -16,7 +16,7 @@ func _init(player, units):
 		modulate = Colors.GAME_MESSAGE,
 	}
 	label_properties = {
-		text = "waiting for %s to activate units..." % player.display_name,
+		text = "%s is activating units..." % player.display_name,
 		modulate = Colors.SYSTEM_MESSAGE,
 	}
 
