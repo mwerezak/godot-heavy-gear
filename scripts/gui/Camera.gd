@@ -63,7 +63,7 @@ func set_view_smooth(view_rect, speed = 1.0):
 
 ## gets the view rect that will position the camera to view all of the given objects
 func get_objects_view(objects):
-	if objects.empty(): return
+	assert(!objects.empty())
 
 	var view_rect = Rect2(objects.front().global_position, Vector2())
 	for object in objects:

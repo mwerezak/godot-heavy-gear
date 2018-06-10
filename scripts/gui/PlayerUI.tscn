@@ -34,7 +34,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="PlayerUI" type="Container"]
+[node name="PlayerUI" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0

@@ -5,14 +5,15 @@ onready var message_container = $VBoxContainer/HBoxContainer/ScrollContainer/Mes
 onready var title_button = $VBoxContainer/TitleContainer/TitleButton
 onready var toggle_button = $VBoxContainer/HBoxContainer/ToggleSizeButton
 
-var input_handlers = {} #TODO input handling not implemented yet
+var messages = {} #cache messages displayed, since some of them may have event handlers
 
 func _ready():
 	self._height = 60
 
-func append(node, input_handler = null):
+func append(message, node):
 	message_container.add_child(node)
 	message_container.move_child(node, 0)
+	messages[node] = message
 
 ## shrink/expand panel
 
