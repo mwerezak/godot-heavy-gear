@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/terrain/Road.gd" type="Script" id=1]
 
-[node name="Road" type="Line2D" index="0"]
+[node name="Road" type="Line2D"]
 
 points = PoolVector2Array(  )
 width = 16.0
