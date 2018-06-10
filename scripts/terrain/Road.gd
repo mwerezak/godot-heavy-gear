@@ -3,22 +3,22 @@ extends Line2D
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-#const ROAD_WIDTH = 16
-#const ROAD_COLOR = Color("#545454")
+onready var centerline = $Centerline
 
 var footprint
 
 func _ready():
 	z_as_relative = false
 	z_index = Constants.ROAD_ZLAYER
-	#width = ROAD_WIDTH
-	#default_color = ROAD_COLOR
+	centerline.z_index = 1
+	centerline.points = points
 
 func setup(world_map, grid_cells):
 	footprint = grid_cells
 	position = world_map.unit_grid.axial_to_world(footprint.front())
 	for grid_cell in footprint:
-		add_point(world_map.unit_grid.axial_to_world(grid_cell) - position)
+		var vertex = world_map.unit_grid.axial_to_world(grid_cell) - position
+		add_point(vertex)
 
 ## determines how roads connect by ordering available connections
 class ConnectionComparer:
