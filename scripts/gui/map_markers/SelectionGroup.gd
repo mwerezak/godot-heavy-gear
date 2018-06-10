@@ -74,5 +74,6 @@ func clear():
 	_selected.clear()
 	_hovering.clear()
 	for overlay in _overlays.values():
+		overlay.get_parent().remove_child(overlay)
 		overlay.queue_free()
 	_overlays.clear()
