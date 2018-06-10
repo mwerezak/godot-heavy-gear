@@ -12,13 +12,7 @@ func _ready():
 
 func append(node, input_handler = null):
 	message_container.add_child(node)
-	call_deferred("scroll_to_end")
-
-## scrolling
-
-func scroll_to_end():
-	var max_scroll = message_container.rect_size.y - scroll_container.rect_size.y
-	scroll_container.set_v_scroll(max_scroll)
+	message_container.move_child(node, 0)
 
 ## shrink/expand panel
 
@@ -59,8 +53,6 @@ func _title_button_mouse_exited(): _has_mouse = false
 func _input(event):
 	if _mouse_captured && event is InputEventMouseMotion:
 		self._height -= event.relative.y
-	if _has_mouse && event.is_action_pressed("click_select"):
-		scroll_to_end()
 	if _has_mouse && event.is_action_pressed("click_select") && event.doubleclick:
 		toggle_expanded()
 
