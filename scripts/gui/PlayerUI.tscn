@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://scripts/gui/PlayerUI.gd" type="Script" id=1]
-[ext_resource path="res://scripts/gui/Camera.gd" type="Script" id=2]
+[ext_resource path="res://scripts/gui/Camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://icons/unit_cursor.png" type="Texture" id=3]
 [ext_resource path="res://scripts/gui/map_markers/UnitCursor.gd" type="Script" id=4]
 [ext_resource path="res://scripts/gui/map_markers/TerrainCursor.tscn" type="PackedScene" id=5]
@@ -18,7 +18,6 @@
 [ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=18]
-
 
 [sub_resource type="GDScript" id=1]
 
@@ -50,32 +49,7 @@ size_flags_vertical = 1
 script = ExtResource( 1 )
 _sections_unfolded = [ "Mouse" ]
 
-[node name="Camera" type="Camera2D" parent="." index="0"]
-
-anchor_mode = 1
-rotating = false
-current = false
-zoom = Vector2( 1, 1 )
-limit_left = -10000000
-limit_top = -10000000
-limit_right = 10000000
-limit_bottom = 10000000
-limit_smoothed = false
-drag_margin_h_enabled = false
-drag_margin_v_enabled = false
-smoothing_enabled = false
-smoothing_speed = 5.0
-offset_v = 0.0
-offset_h = 0.0
-drag_margin_left = 0.2
-drag_margin_top = 0.2
-drag_margin_right = 0.2
-drag_margin_bottom = 0.2
-editor_draw_screen = true
-editor_draw_limits = true
-editor_draw_drag_margin = true
-script = ExtResource( 2 )
-_sections_unfolded = [ "Drag Margin", "Editor", "Limit", "Smoothing", "Visibility" ]
+[node name="Camera" parent="." index="0" instance=ExtResource( 2 )]
 
 [node name="UnitCursor" type="Sprite" parent="." index="1"]
 

@@ -12,11 +12,18 @@ var pan_speed = 800
 ## at the edges. Using the two together allows us to properly handle map limits while zooming.
 var limit_rect = null setget set_limit_rect
 
+onready var _anim_player = $AnimationPlayer #for smooth transitions
+
 func _ready():
 	set_current(false)
+	_anim_player.playback_default_blend_time = 10
 
-## sets the camera position and zoom based on the given rect
+## sets the camera position and zoom based on the given rect (while respecting limits)
+## note that the view rect should be in global coordinates
+export(Rect2) var view_rect setget set_view, get_view
 func set_view(view_rect):
+	if !get_tree(): return
+	
 	## center the camera on the rect
 	var center = (view_rect.position + view_rect.end)/2.0
 	
@@ -24,14 +31,38 @@ func set_view(view_rect):
 	var view_size = get_tree().get_root().get_size()
 	var zoom_factor = max(view_rect.size.x/view_size.x, view_rect.size.y/view_size.y)
 	
-	position = center
+	global_position = center
 	zoom = zoom_factor*Vector2(1, 1)
 	
 	_snap_scroll_limits()
 	_snap_zoom_limits()
 
-## sets the view to focus on the given 2D objects
-func focus_objects(objects):
+func get_view():
+	if !get_tree(): return null
+	
+	var view_size = get_tree().get_root().get_size() * zoom
+	return Rect2(global_position - view_size/2, view_size)
+
+func set_view_smooth(view_rect, speed = 1.0):
+	var cur_rect = get_view()
+	if view_rect == cur_rect: return
+
+	if _anim_player.is_playing():
+		_anim_player.stop()
+
+	var view_anim = _anim_player.get_animation("SetViewSmooth")
+	var track_idx = view_anim.find_track(".:view_rect")
+	view_anim.track_set_key_value(track_idx, 0, cur_rect)
+	view_anim.track_set_key_value(track_idx, 1, view_rect)
+	_anim_player.playback_speed = speed
+	_anim_player.play("SetViewSmooth")
+
+	yield(_anim_player, "animation_finished")
+
+	_anim_player.stop()
+
+## gets the view rect that will position the camera to view all of the given objects
+func get_objects_view(objects):
 	if objects.empty(): return
 
 	var view_rect = Rect2(objects.front().global_position, Vector2())
@@ -39,7 +70,7 @@ func focus_objects(objects):
 		view_rect = view_rect.expand(object.global_position)
 	
 	var margin = max(50, 0.2*max(view_rect.size.x, view_rect.size.y))
-	set_view(view_rect.grow(margin))
+	return view_rect.grow(margin)
 
 var _mouse_captured = false
 func _unhandled_input(event):

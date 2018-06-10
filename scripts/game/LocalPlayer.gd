@@ -19,6 +19,8 @@ func activation_turn(current_turn, available_units):
 	get_tree().get_current_scene().set_active_ui(gui)
 
 	#gui.camera.focus_objects(available_units)
+	var focus_view = gui.camera.get_objects_view(available_units)
+	gui.camera.set_view_smooth(focus_view)
 
 	var select_unit = gui.context_panel.activate("SelectUnit", {
 		select_from = available_units,
