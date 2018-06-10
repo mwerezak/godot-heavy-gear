@@ -14,7 +14,7 @@ render_priority = 0
 blend_mode = 2
 light_mode = 0
 
-[node name="DefaultMap" type="Node2D" index="0"]
+[node name="DefaultMap" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]

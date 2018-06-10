@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/gui/context_container/WaitContext.gd" type="Script" id=1]
 
-[node name="WaitContext" type="PanelContainer" index="0"]
+[node name="WaitContext" type="PanelContainer"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -100,6 +100,7 @@ group = null
 text = "Done"
 flat = false
 align = 1
+_sections_unfolded = [ "Mouse" ]
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/DoneButton" to="." method="_done_button_pressed"]
 
