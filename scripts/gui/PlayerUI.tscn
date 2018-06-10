@@ -1,22 +1,23 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
-[ext_resource path="res://scripts/gui/PlayerGUI.gd" type="Script" id=1]
+[ext_resource path="res://scripts/gui/PlayerUI.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/Camera.gd" type="Script" id=2]
 [ext_resource path="res://icons/unit_cursor.png" type="Texture" id=3]
 [ext_resource path="res://scripts/gui/map_markers/UnitCursor.gd" type="Script" id=4]
 [ext_resource path="res://scripts/gui/map_markers/TerrainCursor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=7]
-[ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=12]
-[ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=13]
-[ext_resource path="res://scripts/gui/context_container/WaitContext.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=16]
-[ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=17]
+[ext_resource path="res://scripts/gui/message_log/MessagePanel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=8]
+[ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scripts/gui/context_container/MoveUnit.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scripts/gui/context_container/WaitContext.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=18]
 
 [sub_resource type="GDScript" id=1]
 
@@ -33,7 +34,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="PlayerUI" type="Container"]
+[node name="PlayerUI" type="Container" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -114,16 +115,40 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 2
-_sections_unfolded = [ "Grow Direction", "Mouse" ]
+_sections_unfolded = [ "Grow Direction", "Margin", "Mouse" ]
 
-[node name="ContextContainer" type="Container" parent="HUDLayer/LowerLeftPanel" index="0"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/LowerLeftPanel" index="0"]
 
 anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 600.0
-margin_bottom = 40.0
+margin_bottom = 88.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+alignment = 0
+_sections_unfolded = [ "Mouse" ]
+
+[node name="MessagePanel" parent="HUDLayer/LowerLeftPanel/VBoxContainer" index="0" instance=ExtResource( 7 )]
+
+margin_right = 600.0
+margin_bottom = 44.0
+_sections_unfolded = [ "Mouse", "Rect", "Size Flags", "custom_styles" ]
+
+[node name="ContextContainer" type="Container" parent="HUDLayer/LowerLeftPanel/VBoxContainer" index="1"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 48.0
+margin_right = 600.0
+margin_bottom = 88.0
 grow_vertical = 0
 rect_min_size = Vector2( 600, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
@@ -132,45 +157,45 @@ mouse_filter = 2
 mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
-script = ExtResource( 7 )
+script = ExtResource( 8 )
 _sections_unfolded = [ "Mouse" ]
 
-[node name="SpawnUnit" parent="HUDLayer/LowerLeftPanel/ContextContainer" index="0" instance=ExtResource( 8 )]
+[node name="SpawnUnit" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="0" instance=ExtResource( 9 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="DeleteUnit" parent="HUDLayer/LowerLeftPanel/ContextContainer" index="1" instance=ExtResource( 9 )]
+[node name="DeleteUnit" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="1" instance=ExtResource( 10 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="MoveUnit" parent="HUDLayer/LowerLeftPanel/ContextContainer" index="2" instance=ExtResource( 10 )]
+[node name="MoveUnit" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="2" instance=ExtResource( 11 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="SelectFacing" parent="HUDLayer/LowerLeftPanel/ContextContainer" index="3" instance=ExtResource( 11 )]
+[node name="SelectFacing" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="3" instance=ExtResource( 12 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="UnitActions" parent="HUDLayer/LowerLeftPanel/ContextContainer" index="4" instance=ExtResource( 12 )]
+[node name="UnitActions" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="4" instance=ExtResource( 13 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="SelectUnit" parent="HUDLayer/LowerLeftPanel/ContextContainer" index="5" instance=ExtResource( 13 )]
+[node name="SelectUnit" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="5" instance=ExtResource( 14 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -178,14 +203,14 @@ margin_right = 0.0
 margin_bottom = 0.0
 grow_vertical = 0
 
-[node name="Wait" parent="HUDLayer/LowerLeftPanel/ContextContainer" index="6" instance=ExtResource( 14 )]
+[node name="Wait" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="6" instance=ExtResource( 15 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = 0.0
 margin_bottom = 0.0
 
-[node name="UnitInfoPanel" parent="HUDLayer" index="2" instance=ExtResource( 15 )]
+[node name="UnitInfoPanel" parent="HUDLayer" index="2" instance=ExtResource( 16 )]
 
 anchor_left = 1.0
 anchor_top = 1.0
@@ -199,7 +224,7 @@ grow_horizontal = 0
 grow_vertical = 0
 _sections_unfolded = [ "Grow Direction", "Margin", "Rect", "Size Flags", "custom_styles" ]
 
-[node name="DevToolbox" parent="HUDLayer" index="3" instance=ExtResource( 16 )]
+[node name="DevToolbox" parent="HUDLayer" index="3" instance=ExtResource( 17 )]
 
 [node name="DebugLabel" type="Label" parent="HUDLayer" index="4"]
 
@@ -221,7 +246,7 @@ align = 2
 percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
-script = ExtResource( 17 )
+script = ExtResource( 18 )
 _sections_unfolded = [ "Grow Direction" ]
 
 

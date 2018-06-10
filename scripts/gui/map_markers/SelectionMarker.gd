@@ -9,8 +9,8 @@ enum {
 	STATE_DISABLED,
 }
 
-const DEFAULT_COLOR = Color(0.7, 0.7, 0.7, 0.8)
-const SELECTED_COLOR = Color(0.35, 1.0, 0.35, 1.0)
+const DEFAULT_COLOR = Color("#ccffc995")
+const SELECTED_COLOR = Color("#ff59ff59")
 
 var selection_state = STATE_DISABLED setget set_state
 
