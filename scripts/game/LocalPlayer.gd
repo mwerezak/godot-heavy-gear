@@ -16,7 +16,7 @@ func render_message(message):
 func activation_turn(current_turn, available_units):
 	get_tree().get_current_scene().set_active_ui(gui)
 
-	Messages.dispatch("UnitsReady", [self, available_units])
+	Messages.UnitsReady.new(self, available_units).dispatch()
 
 	var select_unit = gui.context_panel.activate("SelectUnit", {
 		select_from = available_units,

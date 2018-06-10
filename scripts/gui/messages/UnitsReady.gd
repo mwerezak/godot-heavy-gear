@@ -12,6 +12,9 @@ func _init(player, units):
 	self.player = player
 	self.units = units
 
+func dispatch():
+	Messages.dispatch_message(self)
+
 func render(player):
 	if player != self.player: return null
 	

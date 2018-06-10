@@ -11,6 +11,9 @@ func _init(player, player_message, other_message = null):
 	self.player_message = player_message
 	self.other_message = other_message
 
+func dispatch():
+	Messages.dispatch_message(self)
+
 func render(player):
 	if player == self.player:
 		return _create_label(player_message)

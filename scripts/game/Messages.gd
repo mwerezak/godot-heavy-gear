@@ -2,12 +2,10 @@ extends Node
 
 const GameState = preload("res://scripts/game/GameState.gd")
 
-## message types registry
-const TYPES = {
-	Global = preload("res://scripts/gui/messages/GlobalMessage.gd"),
-	Player = preload("res://scripts/gui/messages/PlayerMessage.gd"),
-	UnitsReady = preload("res://scripts/gui/messages/UnitsReady.gd"),
-}
+## message types
+const GlobalMessage = preload("res://scripts/gui/messages/GlobalMessage.gd")
+const PlayerMessage = preload("res://scripts/gui/messages/PlayerMessage.gd")
+const UnitsReady = preload("res://scripts/gui/messages/UnitsReady.gd")
 
 ## core send message function
 ## sends a message object to all players that can render messages
@@ -19,31 +17,31 @@ func dispatch_message(message):
 		if player.has_method("render_message"):
 			player.render_message(message)
 
-## helper function for dynamic message types
+## helper functions
 
-func dispatch(message_type, args):
-	var message = TYPES[message_type].callv("new", args)
+func dispatch_dynamic(message_type, message_args):
+	var message = message_type.callv("new", message_args)
 	dispatch_message(message)
 
 ## helper functions for common message types
 const Colors = preload("res://scripts/Colors.gd")
 
 func system_message(message_text):
-	var message = TYPES.Global.new({
+	var message = GlobalMessage.new({
 		text = message_text,
 		modulate = Colors.SYSTEM_MESSAGE
 	})
 	dispatch_message(message)
 
 func global_message(message_text):
-	var message = TYPES.Global.new({
+	var message = GlobalMessage.new({
 		text = "* " + message_text,
 		modulate = Colors.GLOBAL_MESSAGE
 	})
 	dispatch_message(message)
 
 func player_message(player, message_text, other_text = null):
-	var message = TYPES.Player.new(
+	var message = PlayerMessage.new(
 		player,
 		{
 			text = message_text,
