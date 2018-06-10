@@ -18,6 +18,8 @@ var help_dialog_shown = false
 func show():
 	.show()
 	camera.set_current(true)
+	for child in $HUDLayer.get_children():
+		child.show()
 	
 	## show the help dialog the first time we switch to this player
 	if !help_dialog_shown:
@@ -27,6 +29,8 @@ func show():
 func hide():
 	.hide()
 	camera.set_current(false)
+	for child in $HUDLayer.get_children():
+		child.hide()
 
 func _unhandled_input(event):
 	if event.is_action_pressed("toggle_elevation"):

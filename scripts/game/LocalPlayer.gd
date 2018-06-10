@@ -5,6 +5,7 @@ onready var gui = $PlayerUI
 func _ready():
 	._ready()
 	game_state.connect("game_setup", self, "_setup")
+	gui.hide()
 
 func _setup():
 	gui.map_view = game_state.world_map

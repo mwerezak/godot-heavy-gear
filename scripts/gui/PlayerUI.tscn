@@ -6,7 +6,7 @@
 [ext_resource path="res://scripts/gui/map_markers/UnitCursor.gd" type="Script" id=4]
 [ext_resource path="res://scripts/gui/map_markers/TerrainCursor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scripts/gui/message_log/MessagePanel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scripts/gui/MessagePanel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=8]
 [ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=10]
@@ -18,6 +18,7 @@
 [ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=18]
+
 
 [sub_resource type="GDScript" id=1]
 
@@ -34,7 +35,7 @@ func _close_button_pressed():
 	hide()
 "
 
-[node name="PlayerUI" type="Container" index="0"]
+[node name="PlayerUI" type="Container"]
 
 anchor_left = 0.0
 anchor_top = 0.0
@@ -105,7 +106,7 @@ anchor_left = 0.0
 anchor_top = 1.0
 anchor_right = 0.0
 anchor_bottom = 1.0
-margin_top = -40.0
+margin_top = -128.0
 margin_right = 600.0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 0, 0 )
@@ -115,7 +116,7 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 alignment = 2
-_sections_unfolded = [ "Grow Direction", "Margin", "Mouse" ]
+_sections_unfolded = [ "Grow Direction", "Margin", "Mouse", "Rect" ]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUDLayer/LowerLeftPanel" index="0"]
 
@@ -124,7 +125,7 @@ anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 600.0
-margin_bottom = 88.0
+margin_bottom = 128.0
 rect_pivot_offset = Vector2( 0, 0 )
 rect_clip_content = false
 mouse_filter = 2
@@ -136,9 +137,10 @@ _sections_unfolded = [ "Mouse" ]
 
 [node name="MessagePanel" parent="HUDLayer/LowerLeftPanel/VBoxContainer" index="0" instance=ExtResource( 7 )]
 
-margin_right = 600.0
-margin_bottom = 44.0
-_sections_unfolded = [ "Mouse", "Rect", "Size Flags", "custom_styles" ]
+margin_right = 450.0
+margin_bottom = 84.0
+rect_min_size = Vector2( 450, 0 )
+size_flags_horizontal = 0
 
 [node name="ContextContainer" type="Container" parent="HUDLayer/LowerLeftPanel/VBoxContainer" index="1"]
 
@@ -146,9 +148,9 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 48.0
+margin_top = 88.0
 margin_right = 600.0
-margin_bottom = 88.0
+margin_bottom = 128.0
 grow_vertical = 0
 rect_min_size = Vector2( 600, 40 )
 rect_pivot_offset = Vector2( 0, 0 )
