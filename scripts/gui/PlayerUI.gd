@@ -16,11 +16,12 @@ func set_map_view(view):
 	camera.set_limit_rect(map_view.get_bounding_rect())
 
 var help_dialog_shown = false
+var _saved_visibility = {}
 func show():
 	.show()
 	camera.set_current(true)
-	for child in $HUDLayer.get_children():
-		child.show()
+	for child in _saved_visibility:
+		child.visible = _saved_visibility[child]
 	
 	## show the help dialog the first time we switch to this player
 	if !help_dialog_shown:
@@ -31,6 +32,7 @@ func hide():
 	.hide()
 	camera.set_current(false)
 	for child in $HUDLayer.get_children():
+		_saved_visibility[child] = child.visible
 		child.hide()
 
 func _unhandled_input(event):
