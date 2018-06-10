@@ -11,13 +11,4 @@ sharp_limit = 2.0
 round_precision = 8
 script = ExtResource( 1 )
 
-[node name="Centerline" type="Line2D" parent="." index="0"]
-
-points = PoolVector2Array(  )
-width = 2.0
-default_color = Color( 1, 1, 1, 0.1 )
-texture_mode = 1116209152
-sharp_limit = 2.0
-round_precision = 8
-
 
