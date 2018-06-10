@@ -5,8 +5,10 @@ onready var message_window = $VBoxContainer/ScrollContainer
 onready var message_container = $VBoxContainer/ScrollContainer/MessageContainer
 onready var toggle_button = $VBoxContainer/ToggleSizeButton
 
-func append(item):
-	message_container.add_child(item)
+var input_handlers = {}
+
+func append(node, input_handler = null):
+	message_container.add_child(node)
 
 var _height = 60 setget _set_height, _get_height
 func _set_height(h): 

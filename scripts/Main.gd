@@ -6,6 +6,7 @@ onready var player_ui = null
 
 func _ready():
 	game_state.setup(world_map)
+	Messages.system_message("Game setup complete.")
 
 	if !game_state.players.empty():
 		set_active_ui(game_state.players.front().gui) ##stub
@@ -15,6 +16,7 @@ func _ready():
 			button_text = "Start Game",
 		}), "context_return")
 		
+		Messages.system_message("Starting game...")
 		game_state.start_game()
 
 ## sets the current hotseat player

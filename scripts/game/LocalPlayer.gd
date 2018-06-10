@@ -10,6 +10,11 @@ func _ready():
 func _setup():
 	gui.map_view = game_state.world_map
 
+func render_message(message):
+	var message_node = message.render(self)
+	var input_handler = message if message.has_method("handle_input") else null
+	gui.message_panel.append(message_node, input_handler)
+
 func activation_turn(current_turn, available_units):
 	get_tree().get_current_scene().set_active_ui(gui)
 
