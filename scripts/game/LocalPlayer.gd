@@ -1,14 +1,16 @@
 extends "Player.gd"
 
-onready var gui = $PlayerUI
+const PlayerUI = preload("res://scripts/gui/PlayerUI.tscn")
+
+var gui
 
 func _ready():
-	._ready()
-	game_state.connect("game_setup", self, "_setup")
+	gui = PlayerUI.instance()
+	add_child(gui)
 	gui.hide()
 
 func _setup():
-	gui.map_view = game_state.world_map
+	gui.attach_map_view(game_state.world_map)
 
 func get_camera():
 	return gui.camera

@@ -15,7 +15,13 @@ var game_state
 
 func _ready():
 	game_state = get_parent()
+	game_state.connect("game_setup", self, "_setup")
+
 	set_faction(GameData.get_faction(faction_id))
+
+## called after the world map is loaded
+func _setup():
+	pass
 
 func set_faction(new_faction):
 	default_faction = new_faction

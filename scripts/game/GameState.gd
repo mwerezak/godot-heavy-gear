@@ -15,6 +15,7 @@ func _ready():
 	for child in get_children():
 		players.push_back(child)
 
+## called once the world map is loaded
 func setup(world_map):
 	self.world_map = world_map
 	current_turn = null

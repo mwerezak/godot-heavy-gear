@@ -31,8 +31,7 @@ func load_map(world_map, map_scene):
 	global_lighting = source_map.global_lighting
 	terrain_tileset = GameData.get_terrain_tileset() #source_map.terrain_tileset
 	
-	clouds_overlay = source_map.get_node("CloudsOverlay").duplicate()
-	clouds_overlay.randomize_scroll()
+	clouds_overlay = preload("res://scripts/terrain/CloudsOverlay.gd")
 	
 	var editor_map = source_map.get_node("Terrain")
 	_generate_terrain(editor_map)

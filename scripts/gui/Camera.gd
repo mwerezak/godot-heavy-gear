@@ -22,13 +22,13 @@ func _ready():
 ## note that the view rect should be in global coordinates
 export(Rect2) var view_rect setget set_view, get_view
 func set_view(view_rect):
-	if !get_tree(): return
+	if !is_inside_tree(): return
 	
 	## center the camera on the rect
 	var center = (view_rect.position + view_rect.end)/2.0
 	
 	## set zoom so that view_rect is just contained in the camera view
-	var view_size = get_tree().get_root().get_size()
+	var view_size = get_viewport().get_size()
 	var zoom_factor = max(view_rect.size.x/view_size.x, view_rect.size.y/view_size.y)
 	
 	global_position = center

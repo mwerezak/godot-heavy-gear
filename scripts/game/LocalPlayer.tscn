@@ -1,18 +1,13 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://scripts/game/LocalPlayer.gd" type="Script" id=1]
-[ext_resource path="res://scripts/gui/PlayerUI.tscn" type="PackedScene" id=2]
 
-[node name="LocalPlayer" type="Node" index="0"]
+[node name="LocalPlayer" type="Node"]
 
 script = ExtResource( 1 )
 display_name = null
 faction_id = null
 primary_color = null
 secondary_color = null
-
-[node name="PlayerUI" parent="." index="0" instance=ExtResource( 2 )]
-
-visible = false
 
 

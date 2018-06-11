@@ -9,11 +9,11 @@ func _unhandled_input(event):
 	call_deferred("_update_text")
 
 func _update_text():
-	var camera = gui.camera
-	var world_map = gui.map_view
 	var game_state = player.game_state
+	var camera = gui.camera
+	var world_map = gui.map_view.world_map
+	var mouse_pos = gui.map_view.get_global_mouse_position()
 	
-	var mouse_pos = world_map.get_global_mouse_position()
 	var terrain_cell = world_map.terrain_grid.get_axial_cell(mouse_pos)
 	
 	var terrain = world_map.raw_terrain_info(terrain_cell)

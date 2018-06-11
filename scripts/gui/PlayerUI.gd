@@ -1,19 +1,26 @@
 extends Container
 
+const MapView = preload("res://scripts/MapView.tscn")
+
 onready var camera = $Camera
 onready var context_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer
 onready var message_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/MessagePanel
 onready var unit_info_panel = $HUDLayer/UnitInfoPanel
 onready var help_dialog = $HUDLayer/QuickHelp
+onready var map_view = null
 
-## someday we will use mapviews tht will be part of the player node, instead of a global world map
-var map_view = null setget set_map_view
+func attach_map_view(world_map):
+	if map_view:
+		remove_child(map_view)
+		map_view.queue_free()
 
-func set_map_view(view):
-	map_view = view
+	map_view = MapView.instance()
+
+	add_child(map_view)
+	world_map.setup_map_view(map_view)
 	
 	## set camera limits
-	camera.set_limit_rect(map_view.get_bounding_rect())
+	camera.set_limit_rect(map_view.display_rect)
 
 var help_dialog_shown = false
 var _saved_visibility = {}
@@ -41,10 +48,10 @@ func _unhandled_input(event):
 	
 	## capture any input events related to map objects and forward them to the context_panel
 	if event is InputEventMouse:
-		var world_map = map_view
+		var mouse_pos = map_view.get_global_mouse_position()
+		var world_map = map_view.world_map
 
 		## grid cell position events
-		var mouse_pos = world_map.get_global_mouse_position()
 		if world_map.point_on_map(mouse_pos):
 			var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
 			context_panel.cell_input_event(world_map, grid_cell, event)

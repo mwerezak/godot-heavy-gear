@@ -7,11 +7,11 @@ func _ready():
 	z_index = Constants.HUD_ZLAYER
 
 func _unhandled_input(event):
-	var world_map = get_parent().map_view
-	if !world_map: return
+	var map_view = get_node("../MapView")
+	if !map_view: return
 	
 	if event is InputEventMouseMotion:
-		var mouse_pos = world_map.get_global_mouse_position()
-		if world_map.point_on_map(mouse_pos):
-			position = world_map.unit_grid.snap_to_grid(mouse_pos)
+		var mouse_pos = map_view.get_global_mouse_position()
+		if map_view.display_rect.has_point(mouse_pos):
+			position = map_view.unit_grid.snap_to_grid(mouse_pos)
 
