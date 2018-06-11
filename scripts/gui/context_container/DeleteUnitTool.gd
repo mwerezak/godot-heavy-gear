@@ -10,7 +10,7 @@ func cell_input(world_map, cell_pos, event):
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		context_manager.deactivate()
+		context_return()
 
 func _done_button_pressed():
-	context_manager.deactivate()
+	context_return()

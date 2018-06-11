@@ -7,6 +7,9 @@ var tool_data = [
 	{ name = "Delete Unit", ui_context = "DeleteUnit" },
 ]
 
+#emulate modal group
+var active_tool = null
+
 onready var menu_button = $MenuButton
 
 func _ready():
@@ -17,7 +20,7 @@ func _ready():
 	popup.connect("index_pressed", self, "_item_selected")
 
 func _item_selected(i):
-	for item in tool_data:
-		context_panel.deactivate(item.ui_context)
-	context_panel.activate(tool_data[i].ui_context)
+	if active_tool:
+		context_panel.deactivate(active_tool) 
+	active_tool = context_panel.activate(tool_data[i].ui_context)
 

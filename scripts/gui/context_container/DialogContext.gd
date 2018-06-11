@@ -1,4 +1,4 @@
-## a context that returns when the player indicates they are done
+## a simple context that displays a message to the player
 
 extends "ContextBase.gd"
 

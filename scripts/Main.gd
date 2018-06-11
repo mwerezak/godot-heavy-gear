@@ -10,12 +10,12 @@ func _ready():
 
 	if !game_state.players.empty():
 		set_active_ui(game_state.players.front().gui) ##stub
-		
-		yield(player_ui.context_panel.activate("Wait", {
+
+		yield(player_ui.context_panel.activate("Dialog", {
 			message_text = "Begin the game when ready.",
 			button_text = "Start Game",
 		}), "context_return")
-		
+
 		Messages.system_message("Starting game...")
 		game_state.start_game()
 

@@ -14,7 +14,7 @@
 [ext_resource path="res://scripts/gui/context_container/SelectFacing.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scripts/gui/context_container/UnitActions.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scripts/gui/context_container/SelectUnit.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scripts/gui/context_container/WaitContext.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scripts/gui/context_container/DialogContext.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=18]
@@ -180,7 +180,7 @@ margin_right = 0.0
 margin_bottom = 0.0
 grow_vertical = 0
 
-[node name="Wait" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="6" instance=ExtResource( 15 )]
+[node name="Dialog" parent="HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer" index="6" instance=ExtResource( 15 )]
 
 anchor_right = 1.0
 anchor_bottom = 1.0

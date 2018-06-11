@@ -2,8 +2,7 @@
 
 extends Control
 
-signal context_return(rval)
-
+var context_frame
 var context_manager
 
 var REQUIRED = Reference.new() ## marker for required arguments
@@ -17,10 +16,11 @@ func _ready():
 
 ## deactivates the context and returns a value to anyone yielding on the context
 func context_return(rval = null):
-	context_manager.deactivate(name)
-	emit_signal("context_return", rval)
+	context_frame.context_return(rval)
 
-func activated(args):
+func activated(frame, args):
+	context_frame = frame
+	context_manager = frame.container
 	for property in load_properties:
 		var default = load_properties[property]
 		assert( !(typeof(default) == TYPE_OBJECT && default == REQUIRED && !args.has(property)) )
@@ -54,3 +54,13 @@ func _become_inactive():
 func cell_input(world_map, cell_pos, event):
 	pass
 
+func export_state():
+	var state = {}
+	for info in get_property_list():
+		state[info.name] = get(info.name)
+	return state
+
+func import_state(state):
+	for key in state:
+		set(key, state[key])
+	
