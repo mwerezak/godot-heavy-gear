@@ -5,7 +5,7 @@ extends "ContextBase.gd"
 const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const SortingUtils = preload("res://scripts/helpers/SortingUtils.gd")
-const DirectionArc = preload("res://scripts/gui/map_markers/DirectionArc.tscn")
+const DirectionArc = preload("res://scripts/gui/map/DirectionArc.tscn")
 
 const HELP_TEXT = "Select a location to rotate towards (or click on the unit to leave as is)."
 const CONFIRM_TEXT = "Select a location to rotate towards (or again to confirm, or click on the unit to cancel)."

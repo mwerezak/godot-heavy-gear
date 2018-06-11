@@ -3,7 +3,8 @@
 [ext_resource path="res://icons/units/counter.png" type="Texture" id=1]
 [ext_resource path="res://scripts/units/NatoCounter.gd" type="Script" id=2]
 [ext_resource path="res://icons/units/counter_stripe.png" type="Texture" id=3]
-[ext_resource path="res://scripts/gui/map_markers/NatoSprite.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/gui/map/NatoSprite.tscn" type="PackedScene" id=4]
+
 
 
 [node name="NatoCounter" type="Sprite" index="0"]

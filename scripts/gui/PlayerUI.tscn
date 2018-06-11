@@ -3,8 +3,8 @@
 [ext_resource path="res://scripts/gui/PlayerUI.gd" type="Script" id=1]
 [ext_resource path="res://scripts/gui/Camera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://icons/unit_cursor.png" type="Texture" id=3]
-[ext_resource path="res://scripts/gui/map_markers/UnitCursor.gd" type="Script" id=4]
-[ext_resource path="res://scripts/gui/map_markers/TerrainCursor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/gui/map/UnitCursor.gd" type="Script" id=4]
+[ext_resource path="res://scripts/gui/map/TerrainCursor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scripts/gui/messages/MessagePanel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=8]
@@ -18,6 +18,7 @@
 [ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=18]
+
 
 [sub_resource type="GDScript" id=1]
 
