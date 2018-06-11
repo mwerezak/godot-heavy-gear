@@ -87,12 +87,13 @@ func _ready():
 	for offset_cell in get_rect_cells(elevation_rect):
 		var grid_cell = unit_grid.offset_to_axial(offset_cell)
 		var elevation_info = elevation.get_info(grid_cell)
-
 		var terrain_cell = get_terrain_cell(grid_cell)
-		var offset_terrain = terrain_grid.axial_to_offset(terrain_cell)
-		var overlay_color = map_loader.overlay_colors[offset_terrain] if map_loader.overlay_colors.has(offset_terrain) else null
+		
+		if elevation_info && terrain_tiles.has(terrain_cell):
+			var terrain_tile = terrain_tiles[terrain_cell]
+			var offset_terrain = terrain_grid.axial_to_offset(terrain_cell)
+			var overlay_color = map_loader.overlay_colors[offset_terrain] if map_loader.overlay_colors.has(offset_terrain) else null
 
-		if elevation_info && overlay_color:
 			var overlay = ElevationOverlay.instance()
 			overlay.set_color(overlay_color)
 			overlay.setup(elevation_info)
@@ -212,9 +213,8 @@ func point_on_map(world_pos):
 	if !unit_bounds.has_point(world_pos):
 		return false
 	
-	var offset_cell = terrain_grid.get_offset_cell(world_pos)
-	var tile_id = terrain_tilemap.get_cellv(offset_cell)
-	return tile_id >= 0
+	var terrain_cell = terrain_grid.get_axial_cell(world_pos)
+	return terrain_tiles.has(terrain_cell)
 
 ## Unit Grid Cells
 
@@ -245,8 +245,6 @@ func path_distance(cell_path):
 
 func grid_cell_on_map(cell_pos):
 	var world_pos = unit_grid.axial_to_world(cell_pos)
-	if !unit_bounds.has_point(world_pos):
-		return false
 	return point_on_map(world_pos)
 
 func get_neighbors(cell_pos):
