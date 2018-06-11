@@ -33,10 +33,14 @@ var map_extents #describes the terrain hexes used by the map, in offset coords
 var map_rect  #the displayable boundary of the map
 var unit_bounds #the "game" boundary of the map
 
-## data structures to map position -> object
-var structure_locs = {} #1-to-1
-var road_cells = {}
+var units = {}
 var unit_locs = ArrayMap.new() #1-to-many
+
+var structures = {}
+var structure_locs = {} #1-to-1
+
+var roads = {}
+var road_cells = {}
 
 ## elevation map object
 var elevation
@@ -103,13 +107,15 @@ func _ready():
 	for offset_cell in map_loader.structures:
 		var structure = map_loader.structures[offset_cell]
 		_setup_structure(structure, offset_cell)
-	
+
 	## setup roads
 	for road in map_loader.roads:
 		add_child(road)
+
+		roads[road] = road.footprint
 		for grid_cell in road.footprint:
-			road_cells[grid_cell] = true
-	
+			road_cells[grid_cell] = road
+
 	## setup scatters
 	var scatter_grid = HexGrid.new()
 	scatter_grid.cell_size = terrain_grid.cell_size
@@ -161,6 +167,8 @@ func _setup_structure(structure, offset_cell):
 	
 	_update_object_position(structure, anchor_cell)
 	add_child(structure)
+
+	structures[structure] = footprint_cells
 	for grid_cell in footprint_cells:
 		structure_locs[grid_cell] = structure
 
@@ -265,14 +273,21 @@ func get_rect_cells(world_rect):
 func add_unit(unit):
 	unit.world_map = self
 	unit.connect("cell_position_changed", self, "_unit_cell_position_changed", [unit])
-	unit_locs.push_back(unit.cell_position, unit)
-	_update_object_position(unit, unit.cell_position)
+	
+	var cell_pos = unit.cell_position
+	units[unit] = cell_pos
+	unit_locs.push_back(cell_pos, unit)
+	_update_object_position(unit, cell_pos)
+
 	add_child(unit)
 
 func remove_unit(unit):
 	unit.world_map = null
 	unit.disconnect("cell_position_changed", self, "_unit_cell_position_changed")
+
+	units.erase(unit)
 	unit_locs.remove(unit.cell_position, unit)
+
 	remove_child(unit)
 
 func get_units_at_cell(grid_cell):
@@ -284,9 +299,10 @@ func get_structure_at_cell(grid_cell):
 	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null
 
 func all_units():
-	return unit_locs.all_values()
+	return units.keys()
 
 func _unit_cell_position_changed(old_pos, new_pos, unit):
+	units[unit] = new_pos
 	unit_locs.move(old_pos, new_pos, unit)
 	_update_object_position(unit, new_pos)
 
