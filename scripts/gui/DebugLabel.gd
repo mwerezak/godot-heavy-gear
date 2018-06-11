@@ -19,9 +19,10 @@ func _update_text():
 	var terrain = world_map.raw_terrain_info(terrain_cell)
 	var terrain_id = terrain.terrain_id if terrain else "None"
 
+	var axial_pos = world_map.unit_grid.world_to_axial(mouse_pos)
 	var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
 	var el_info = world_map.elevation.get_info(grid_cell)
-	var elevation_str = "elevation:%s grade:%s " % [ el_info.level, el_info.grade ] if el_info else "N/A"
+	var elevation_str = "z:%s " % el_info.level if el_info else "N/A"
 	
 	var structure = world_map.get_structure_at_cell(grid_cell)
 	if structure:
@@ -37,4 +38,4 @@ func _update_text():
 	
 	var zoom = camera.zoom.x
 	
-	text = "%s cell:%s %s terrain:%s x%.2f" % [turn_str, grid_cell, elevation_str, terrain_id, 1/zoom]
+	text = "%s mouse:%s %s cell:%s terrain:%s %s" % [turn_str, mouse_pos, axial_pos, grid_cell, terrain_id, elevation_str]

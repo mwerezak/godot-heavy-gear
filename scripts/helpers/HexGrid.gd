@@ -27,7 +27,22 @@ func set_cell_size(size):
 ## obtains the cell containing a given world position: in axial, offset, and world flavours
 func get_axial_cell(world_pos):
 	var axial_pos = world_to_axial(world_pos)
-	return (axial_pos + Vector2(0.5, 0.5)).floor()
+
+	## this is the nearest cell in AXIAL space, but we want the nearest cell in euclidean space
+	var init_guess = (axial_pos + Vector2(0.5, 0.5)).floor()
+	return _get_nearest_cell(world_pos, init_guess)
+
+func _get_nearest_cell(world_pos, init_guess):
+	var nearest = init_guess
+	var nearest_world = axial_to_world(init_guess)
+	var nearest_dist = (world_pos - nearest_world).length_squared()
+	for axial_cell in HexUtils.get_axial_neighbors(init_guess).values():
+		var this_world = axial_to_world(axial_cell)
+		var this_dist = (world_pos - this_world).length_squared()
+		if this_dist < nearest_dist:
+			nearest = axial_cell
+	return nearest
+
 
 func get_offset_cell(world_pos):
 	var axial_pos = get_axial_cell(world_pos)
