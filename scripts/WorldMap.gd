@@ -18,9 +18,8 @@ var unit_grid
 var terrain_tiles = {}
 
 ## These are all Rect2s in world coordinates (i.e. pixels)
-var map_extents #describes the terrain hexes used by the map, in offset coords
-var map_rect  #the displayable boundary of the map
-var unit_bounds #the "game" boundary of the map
+var display_rect
+var map_bounds
 
 var units = {}
 var unit_locs = ArrayMap.new() #1-to-many
@@ -40,11 +39,9 @@ func set_coordinate_system(coords):
 	unit_grid = coords.unit_grid
 
 func load_map(map_loader):
+	map_bounds = map_loader.map_bounds
+	display_rect = map_loader.display_rect
 	modulate = map_loader.global_lighting
-	
-	map_extents = map_loader.map_extents
-	unit_bounds = map_loader.map_bounds
-	map_rect = map_loader.display_rect
 
 	## setup terrain tiles
 	terrain_tilemap.z_as_relative = false
@@ -58,14 +55,14 @@ func load_map(map_loader):
 		var axial_cell = world_coords.terrain_grid.offset_to_axial(offset_cell)
 		terrain_tiles[axial_cell] = offset_cell
 
-		var idx = map_loader.terrain_indexes[offset_cell]
-		terrain_tilemap.set_cellv(offset_cell, idx)
+		var tile_idx = map_loader.terrain_indexes[offset_cell]
+		terrain_tilemap.set_cellv(offset_cell, tile_idx)
 
 	## setup terrain elevation and elevation overlays
 	elevation = map_loader.terrain_elevation
 
-	var ul = world_coords.unit_grid.get_offset_cell(map_rect.position)
-	var lr = world_coords.unit_grid.get_offset_cell(map_rect.end + world_coords.unit_grid.cell_size)
+	var ul = world_coords.unit_grid.get_offset_cell(display_rect.position)
+	var lr = world_coords.unit_grid.get_offset_cell(display_rect.end + world_coords.unit_grid.cell_size)
 	var elevation_overlay_cells = HexUtils.get_rect(Rect2(ul, lr - ul))
 	for offset_cell in elevation_overlay_cells:
 		var grid_cell = world_coords.unit_grid.offset_to_axial(offset_cell)
@@ -106,21 +103,8 @@ func load_map(map_loader):
 	
 	## setup clouds overlay
 	var clouds = map_loader.clouds_overlay
-	clouds.set_display_rect(map_rect)
+	clouds.set_display_rect(display_rect)
 	add_child(clouds)
-
-## Initialization
-
-## returns the bounding rectangle in offset cell coords
-func get_map_extents():
-	return map_extents
-
-## returns the bounding rectangle in world coords
-func get_bounding_rect():
-	return map_rect
-
-func get_grid_rect():
-	return unit_bounds
 
 ## Terrain Cells
 
@@ -168,7 +152,7 @@ func refresh_terrain(terrain_cell):
 	_terrain_cache.erase(terrain_cell)
 
 func has_point(world_pos):
-	if !unit_bounds.has_point(world_pos):
+	if !map_bounds.has_point(world_pos):
 		return false
 	
 	var terrain_cell = world_coords.terrain_grid.get_axial_cell(world_pos)

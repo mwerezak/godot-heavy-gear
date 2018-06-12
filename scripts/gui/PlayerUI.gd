@@ -13,7 +13,7 @@ func set_map_view(view):
 	map_view = view
 	
 	## set camera limits
-	camera.set_limit_rect(map_view.get_bounding_rect())
+	camera.set_limit_rect(map_view.display_rect)
 
 var help_dialog_shown = false
 var _saved_visibility = {}
