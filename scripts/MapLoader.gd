@@ -13,7 +13,10 @@ const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 var source_map
 var map_seed
 
-var map_extents
+var map_extents #map rect in offset coords
+var map_bounds  #playable area of the map in pixel coords
+var display_rect #displayable area of the map in pixel coords
+
 var global_lighting
 var terrain_tileset
 var clouds_overlay
@@ -32,16 +35,29 @@ func _init(world_coords, map_scene):
 	map_seed = source_map.map_seed.hash()
 	rand_seed(map_seed) #initialize seed
 	
-	map_extents = source_map.map_extents
 	global_lighting = source_map.global_lighting
 	terrain_tileset = GameData.get_terrain_tileset() #source_map.terrain_tileset
 	
-	clouds_overlay = source_map.get_node("CloudsOverlay").duplicate()
+	clouds_overlay = source_map.get_node("CloudsOverlay").duplicate() #TODO avoid duplicating nodes
 	clouds_overlay.randomize_scroll()
+
+	## determine the map bounds
+	map_extents = source_map.map_extents
+
+	var vertical_margin = Vector2(0, world_coords.terrain_grid.cell_size.y/4) #extend the margin so that only the point parts are cut off
+	var map_ul = world_coords.terrain_grid.offset_to_world(map_extents.position) - vertical_margin
+	var map_lr = world_coords.terrain_grid.offset_to_world(map_extents.end) + vertical_margin
+	display_rect = Rect2(map_ul, map_lr - map_ul)
+
+	#unit cells must be entirely contained within the map bounds
+	var unit_margins = world_coords.unit_grid.cell_size
+	map_bounds = Rect2(display_rect.position + unit_margins, display_rect.size - unit_margins*2)
 	
+	## extract terrain data
 	var editor_map = source_map.get_node("Terrain")
 	_generate_terrain(editor_map)
 	
+	## structures
 	var struct_map = source_map.get_node("Structures")
 	structures = _generate_structures(struct_map)
 	

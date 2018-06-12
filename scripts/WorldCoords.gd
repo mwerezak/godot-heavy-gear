@@ -21,11 +21,6 @@ func _ready():
 	terrain_grid.cell_size = Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT)
 	unit_grid.cell_size = Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT)
 
-func get_offset_rect(world_rect):
-	var ul = unit_grid.get_offset_cell(world_rect.position)
-	var lr = unit_grid.get_offset_cell(world_rect.end)
-	return HexUtils.get_rect(Rect2(ul, lr - ul))
-
 ## obtains the terrain cell that contains this grid cell
 func get_terrain_cell(grid_cell):
 	var world_pos = unit_grid.axial_to_world(grid_cell)
