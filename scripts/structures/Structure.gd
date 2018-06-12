@@ -1,6 +1,5 @@
-extends Node
+extends Reference
 
-const Constants = preload("res://scripts/Constants.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
 var _info
@@ -34,16 +33,9 @@ func get_footprint():
 		footprint = footprint_cells.keys()
 	return footprint
 
-func create_sprite():
-	var sprite = Sprite.new()
-
-	sprite.z_as_relative = false
-	sprite.z_index = Constants.STRUCTURE_ZLAYER
-
-	## info.offset specifies the LL corner, but sprites are placed at the UL corner
-	sprite.texture = _info.texture
-	sprite.offset = Vector2(0, -_info.texture.get_size().y) + _info.position_offset
-	sprite.centered = false
-
-	sprite.position = world_map.unit_grid.axial_to_world(cell_position)
-	return sprite
+func icon_appearance_data():
+	var world_pos = world_map.unit_grid.axial_to_world(cell_position)
+	return {
+		texture = _info.texture,
+		position = world_pos + _info.position_offset
+	}

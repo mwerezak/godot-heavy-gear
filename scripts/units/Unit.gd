@@ -1,10 +1,7 @@
-extends Node2D
+extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
-
-## colors for ownerless units
-const DEFAULT_PRIMARY_COLOR = Color(0.8, 0.8, 0.8)
-const DEFAULT_SECONDARY_COLOR = Color(0.6, 0.6, 0.6)
+const UnitIcon = preload("UnitIcon.tscn")
 
 signal cell_position_changed(old_position, new_position)
 
@@ -20,11 +17,7 @@ var player_owner setget set_player
 var unit_model setget set_unit_model
 var crew_info setget set_crew_info
 
-onready var world_map
-onready var map_marker = $MapMarker
-
-func _ready():
-	_update_marker()
+var world_map
 
 func set_world_map(map):
 	world_map = map
@@ -36,6 +29,7 @@ func set_cell_position(cell_pos):
 	var old_pos = cell_position
 	cell_position = cell_pos
 	emit_signal("cell_position_changed", old_pos, cell_pos)
+	emit_signal("update_icon_position")
 
 func set_altitude(alt):
 	altitude = alt
@@ -47,25 +41,12 @@ func get_altitude():
 func get_true_position():
 	return world_map.get_true_position(cell_position) + Vector3(0, 0, altitude)
 
-func _update_marker():
-	if map_marker:
-		map_marker.set_nato_symbol(unit_model.desc.symbol)
-		map_marker.set_facing_marker_visible(has_facing())
-
-		var primary_color = DEFAULT_PRIMARY_COLOR
-		var secondary_color = DEFAULT_SECONDARY_COLOR
-		if player_owner:
-			var faction = get_faction()
-			primary_color = player_owner.primary_color
-			secondary_color = faction.secondary_color if faction else null
-		map_marker.set_colors(primary_color, secondary_color)
-
 func get_display_label():
 	return crew_info.last_name
 
 func set_unit_model(model):
 	unit_model = model
-	_update_marker()
+	emit_signal("update_icon_appearance")
 
 func set_crew_info(crew):
 	crew_info = crew
@@ -79,11 +60,11 @@ func set_player(new_owner):
 			new_owner.take_ownership(self)
 
 		player_owner = new_owner
-		_update_marker()
+		emit_signal("update_icon_appearance")
 
 func set_faction(new_faction):
 	faction = new_faction
-	_update_marker()
+	emit_signal("update_icon_appearance")
 
 func get_faction():
 	if faction: return faction
@@ -95,8 +76,7 @@ func has_facing():
 
 func set_facing(dir):
 	facing = HexUtils.normalize(dir)
-	if map_marker:
-		map_marker.set_facing(HexUtils.dir2rad(dir))
+	emit_signal("update_icon_facing")
 
 func get_facing():
 	if !has_facing(): return null
@@ -132,3 +112,23 @@ func max_action_points():
 
 func max_movement_points():
 	return unit_model.max_movement_points()
+
+## icon updates
+func icon_appearance_data():
+	var primary_color = null
+	if player_owner:
+		primary_color = player_owner.primary_color
+	
+	var secondary_color = null
+	var faction = get_faction()
+	if faction:
+		secondary_color = faction.secondary_color
+	elif player_owner:
+		secondary_color = player_owner.primary_color
+	
+	return {
+		has_facing = has_facing(),
+		unit_symbol = unit_model.desc.symbol,
+		primary_color = primary_color,
+		secondary_color = secondary_color,
+	}

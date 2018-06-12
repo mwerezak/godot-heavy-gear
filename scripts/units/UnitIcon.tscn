@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://scripts/units/Unit.gd" type="Script" id=1]
-[ext_resource path="res://scripts/units/MapMarker.gd" type="Script" id=2]
-[ext_resource path="res://scripts/units/NatoCounter.tscn" type="PackedScene" id=3]
-[ext_resource path="res://icons/facing_marker_16.png" type="Texture" id=4]
+[ext_resource path="res://scripts/units/UnitIcon.gd" type="Script" id=1]
+[ext_resource path="res://scripts/units/NatoCounter.tscn" type="PackedScene" id=2]
+[ext_resource path="res://icons/units/counter.png" type="Texture" id=3]
+[ext_resource path="res://scripts/units/NatoCounter.gd" type="Script" id=4]
+[ext_resource path="res://icons/facing_marker_16.png" type="Texture" id=5]
+
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -35,17 +37,11 @@ func _draw_circle(center, radius, color, numpts=32):
 		points.push_back(point)
 	draw_colored_polygon(points, color, PoolVector2Array(), null, null, true)"
 
-[node name="Unit" type="Node2D" index="0"]
+[node name="UnitIcon" type="Node2D"]
 
 script = ExtResource( 1 )
 
-[node name="MapMarker" type="Node2D" parent="." index="0" groups=[
-"map_markers",
-]]
-
-script = ExtResource( 2 )
-
-[node name="MouseCatcher" type="Area2D" parent="MapMarker" index="0"]
+[node name="MouseCatcher" type="Area2D" parent="." index="0"]
 
 input_pickable = true
 gravity_vec = Vector2( 0, 1 )
@@ -58,35 +54,44 @@ audio_bus_override = false
 audio_bus_name = "Master"
 _sections_unfolded = [ "Collision", "Pickable" ]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapMarker/MouseCatcher" index="0"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseCatcher" index="0"]
 
 shape = SubResource( 1 )
 
-[node name="BaseFootprint" type="Node2D" parent="MapMarker" index="1"]
+[node name="BaseFootprint" type="Node2D" parent="." index="1"]
 
 visible = false
 modulate = Color( 0.282353, 0.282353, 0.282353, 0.12549 )
 script = SubResource( 2 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="NatoCounter" parent="MapMarker" index="2" instance=ExtResource( 3 )]
+[node name="NatoCounter" type="Sprite" parent="." index="2" instance=ExtResource( 2 )]
 
-[node name="Facing" type="Sprite" parent="MapMarker" index="3"]
+texture = ExtResource( 3 )
+script = ExtResource( 4 )
+_sections_unfolded = [ "Offset", "Visibility" ]
+symbol = "infantry"
+primary_color = Color( 1, 1, 1, 1 )
+secondary_color = null
+symbol_foreground_color = Color( 0, 0, 0, 1 )
+symbol_background_color = Color( 1, 1, 1, 1 )
+
+[node name="Facing" type="Sprite" parent="." index="3"]
 
 visible = false
 modulate = Color( 0.792969, 0.173462, 0.173462, 0.862745 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[node name="TempFacing" type="Sprite" parent="MapMarker" index="4"]
+[node name="TempFacing" type="Sprite" parent="." index="4"]
 
 visible = false
 modulate = Color( 0.4, 0.901961, 0.282353, 0.862745 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
-[connection signal="mouse_entered" from="MapMarker/MouseCatcher" to="MapMarker" method="_on_mouse_entered"]
+[connection signal="mouse_entered" from="MouseCatcher" to="." method="_on_mouse_entered"]
 
-[connection signal="mouse_exited" from="MapMarker/MouseCatcher" to="MapMarker" method="_on_mouse_exited"]
+[connection signal="mouse_exited" from="MouseCatcher" to="." method="_on_mouse_exited"]
 
 

@@ -4,8 +4,9 @@ const Constants = preload("res://scripts/Constants.gd")
 
 const FOOTPRINT_RADIUS = 24 #pixels
 
-signal mouse_entered
-signal mouse_exited
+## colors for ownerless units
+const DEFAULT_PRIMARY_COLOR = Color(0.8, 0.8, 0.8)
+const DEFAULT_SECONDARY_COLOR = Color(0.6, 0.6, 0.6)
 
 var has_mouse = false
 var facing_marker_visible = false setget set_facing_marker_visible
@@ -21,20 +22,27 @@ onready var nato_counter = $NatoCounter
 func _ready():
 	z_as_relative = false
 	z_index = Constants.UNIT_MARKER_ZLAYER
-	
 	set_footprint_radius(FOOTPRINT_RADIUS)
+
+func update(data):
+	for key in data:
+		set(key, data[key])
 
 func _on_mouse_entered():
 	has_mouse = true
-	emit_signal("mouse_entered")
 
 func _on_mouse_exited():
 	has_mouse = false
-	emit_signal("mouse_exited")
 
-func set_colors(primary_color, secondary_color=null):
-	nato_counter.primary_color = primary_color
-	nato_counter.secondary_color = secondary_color
+var primary_color setget set_primary_color, get_primary_color
+var secondary_color setget set_secondary_color, get_secondary_color
+var unit_symbol setget set_nato_symbol
+
+func set_primary_color(color):
+	nato_counter.primary_color = color if color else DEFAULT_PRIMARY_COLOR
+
+func set_secondary_color(color):
+	nato_counter.secondary_color = color if color else DEFAULT_SECONDARY_COLOR
 
 func get_primary_color():
 	return nato_counter.primary_color

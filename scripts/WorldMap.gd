@@ -3,7 +3,6 @@ extends Node2D
 const Constants = preload("res://scripts/Constants.gd")
 const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
-const HexGrid = preload("res://scripts/helpers/HexGrid.gd")
 
 const ElevationOverlay = preload("res://scripts/terrain/ElevationOverlay.tscn")
 
@@ -15,7 +14,8 @@ var terrain_grid
 var unit_grid
 
 ## maps axial terrain cells -> offset terrain cells used by terrain_tilemap
-var terrain_tiles = {}
+var terrain_lookup = {}
+var scatter_spawners = {}
 
 ## These are all Rect2s in world coordinates (i.e. pixels)
 var display_rect
@@ -46,38 +46,40 @@ func load_map(map_loader):
 	## setup terrain tiles
 	terrain_tilemap.z_as_relative = false
 	terrain_tilemap.z_index = Constants.TERRAIN_ZLAYER
-	terrain_tilemap.cell_size = world_coords.terrain_grid.cell_spacing
-	terrain_tilemap.position = world_coords.terrain_grid.position - world_coords.terrain_grid.cell_spacing/2 #center tiles on grid points
+	terrain_tilemap.cell_size = terrain_grid.cell_spacing
+	terrain_tilemap.position = terrain_grid.position - terrain_grid.cell_spacing/2 #center tiles on grid points
 	terrain_tilemap.cell_half_offset = TileMap.HALF_OFFSET_X
 	terrain_tilemap.tile_set = map_loader.terrain_tileset
 	
-	for offset_cell in map_loader.terrain_indexes:
-		var axial_cell = world_coords.terrain_grid.offset_to_axial(offset_cell)
-		terrain_tiles[axial_cell] = offset_cell
+	for offset_cell in map_loader.terrain_data:
+		var terrain_data = map_loader.terrain_data[offset_cell]
+		terrain_tilemap.set_cellv(offset_cell, terrain_data.tile_idx)
 
-		var tile_idx = map_loader.terrain_indexes[offset_cell]
-		terrain_tilemap.set_cellv(offset_cell, tile_idx)
+		var axial_cell = terrain_grid.offset_to_axial(offset_cell)
+		terrain_lookup[axial_cell] = terrain_data.lookup_id
+		scatter_spawners[axial_cell] = terrain_data.scatter_spawner
 
 	## setup terrain elevation and elevation overlays
 	elevation = map_loader.terrain_elevation
 
-	var ul = world_coords.unit_grid.get_offset_cell(display_rect.position)
-	var lr = world_coords.unit_grid.get_offset_cell(display_rect.end + world_coords.unit_grid.cell_size)
+	var ul = unit_grid.get_offset_cell(display_rect.position)
+	var lr = unit_grid.get_offset_cell(display_rect.end + unit_grid.cell_size)
 	var elevation_overlay_cells = HexUtils.get_rect(Rect2(ul, lr - ul))
-	for offset_cell in elevation_overlay_cells:
-		var grid_cell = world_coords.unit_grid.offset_to_axial(offset_cell)
+	for offset_grid_cell in elevation_overlay_cells:
+		var grid_cell = unit_grid.offset_to_axial(offset_grid_cell)
 		var elevation_info = elevation.get_info(grid_cell)
-		var terrain_cell = world_coords.get_terrain_cell(grid_cell)
 		
-		if terrain_tiles.has(terrain_cell):
-			var terrain_tile = terrain_tiles[terrain_cell]
-			var offset_terrain = world_coords.terrain_grid.axial_to_offset(terrain_cell)
-			var overlay_color = map_loader.overlay_colors[offset_terrain] if map_loader.overlay_colors.has(offset_terrain) else null
+		var terrain_cell = world_coords.get_terrain_cell(grid_cell)
+		var offset_cell = terrain_grid.axial_to_offset(terrain_cell)
 
-			var overlay = ElevationOverlay.instance()
-			overlay.set_color(overlay_color)
-			overlay.setup(elevation_info)
-			elevation_overlays.add_child(overlay)
+		var overlay_color = null
+		if map_loader.terrain_data.has(offset_cell):
+			overlay_color = map_loader.terrain_data[offset_cell].overlay_color
+
+		var overlay = ElevationOverlay.instance()
+		overlay.set_color(overlay_color)
+		overlay.setup(elevation_info)
+		elevation_overlays.add_child(overlay)
 
 	## setup structures
 	for structure in map_loader.structures:
@@ -92,6 +94,8 @@ func load_map(map_loader):
 			road_cells[grid_cell] = road
 
 	## setup scatters
+	#scatter_spawners = map_loader.scatter_spawners
+	"""
 	var scatter_grid = HexGrid.new()
 	scatter_grid.cell_size = world_coords.terrain_grid.cell_size
 	for hex_pos in map_loader.scatter_spawners:
@@ -100,6 +104,7 @@ func load_map(map_loader):
 		for scatter in spawner.create_scatters(self, scatter_grid, world_coords.terrain_grid.cell_spacing.x/2.0):
 			add_child(scatter)
 	scatter_grid.queue_free()
+	"""
 	
 	## setup clouds overlay
 	var clouds = map_loader.clouds_overlay
@@ -109,18 +114,13 @@ func load_map(map_loader):
 ## Terrain Cells
 
 func raw_terrain_info(terrain_cell):
-	if !terrain_tiles.has(terrain_cell): return null
-	
-	var offset_cell = terrain_tiles[terrain_cell]
-	var tile_idx = terrain_tilemap.get_cellv(offset_cell)
-	
-	if tile_idx < 0: return null #outside of map
-	
-	var lookup_id = terrain_tilemap.tile_set.tile_get_name(tile_idx)
+	if !terrain_lookup.has(terrain_cell): return null
+
+	var lookup_id = terrain_lookup[terrain_cell]
 	return GameData.get_terrain_by_lookup_id(lookup_id)
 
 func get_terrain_at_world(world_pos):
-	var grid_cell = world_coords.unit_grid.get_axial_cell(world_pos)
+	var grid_cell = unit_grid.get_axial_cell(world_pos)
 	return get_terrain_at_cell(grid_cell)
 
 var _terrain_cache = {}
@@ -156,7 +156,7 @@ func has_point(world_pos):
 		return false
 	
 	var terrain_cell = world_coords.terrain_grid.get_axial_cell(world_pos)
-	return terrain_tiles.has(terrain_cell)
+	return terrain_lookup.has(terrain_cell)
 
 ## Unit Grid Cells
 
@@ -241,8 +241,6 @@ func add_structure(struct):
 	structures[struct] = struct.footprint
 	for grid_cell in struct.footprint:
 		structure_locs[grid_cell] = struct
-
-	add_child(struct.create_sprite()) ##temporary
 
 func get_structure_at_cell(grid_cell):
 	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null

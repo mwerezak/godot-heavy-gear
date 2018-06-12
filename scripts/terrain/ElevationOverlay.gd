@@ -32,7 +32,7 @@ func setup(elevation_info):
 
 func set_color(new_color):
 	if color != new_color:
-		color = new_color
+		color = new_color if new_color else Color("#ffffff")
 		set_brightness(brightness)
 
 func set_brightness(value):

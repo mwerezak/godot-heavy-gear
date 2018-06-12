@@ -3,7 +3,7 @@ extends Reference
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
 
 const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.gd")
-const Structure = preload("res://scripts/structures/Structure.tscn")
+const Structure = preload("res://scripts/structures/Structure.gd")
 
 const SegmentBuilder = preload("res://scripts/terrain/SegmentBuilder.gd")
 const RoadComparer = preload("res://scripts/terrain/Road.gd").ConnectionComparer
@@ -23,10 +23,7 @@ var global_lighting
 var terrain_tileset
 var clouds_overlay
 
-var terrain_indexes = {}
-var overlay_colors = {}
-var scatter_spawners = {}
-
+var terrain_data
 var terrain_elevation
 
 var structures
@@ -59,7 +56,7 @@ func _init(world_coords, map_scene):
 	
 	## extract terrain data
 	var editor_map = source_map.get_node("Terrain")
-	_generate_terrain(editor_map)
+	terrain_data = _generate_terrain(editor_map)
 	
 	## structures
 	var struct_map = source_map.get_node("Structures")
@@ -81,7 +78,7 @@ func _init(world_coords, map_scene):
 	var raw_elevation = _extract_elevation(elevation_map)
 
 	var axial_elevation = {}
-	for offset_cell in terrain_indexes:
+	for offset_cell in terrain_data:
 		var axial_cell = world_coords.terrain_grid.offset_to_axial(offset_cell)
 		axial_elevation[axial_cell] = (
 			raw_elevation[offset_cell] 
@@ -95,6 +92,7 @@ func _init(world_coords, map_scene):
 func _generate_terrain(editor_terrain_map):
 	var editor_tileset = editor_terrain_map.get_tileset()
 	
+	var terrain_data = {}
 	for hex_cell in editor_terrain_map.get_used_cells():
 		## generate terrain tile index
 		var editor_tile_idx = editor_terrain_map.get_cellv(hex_cell)
@@ -104,15 +102,19 @@ func _generate_terrain(editor_terrain_map):
 		var tile_id = RandomUtils.get_weighted_random(terrain_info.tiles)
 		var lookup_id = terrain_info.lookup_ids[tile_id]
 		var terrain_tile_idx = terrain_tileset.find_tile_by_name(lookup_id)
-		terrain_indexes[hex_cell] = terrain_tile_idx
-		
 		var tile_info = GameData.get_tile(tile_id)
-		overlay_colors[hex_cell] = tile_info.overlay_color
 		
 		## generate terrain hex overlay
 		var scatter_seed = hash(hex_cell) ^ map_seed
 		var spawner = ScatterSpawner.new(tile_id, scatter_seed)
-		scatter_spawners[hex_cell] = spawner
+
+		terrain_data[hex_cell] = {
+			lookup_id = lookup_id,
+			tile_idx = terrain_tile_idx,
+			overlay_color = tile_info.overlay_color,
+			scatter_spawner = spawner,
+		}
+	return terrain_data
 
 func _generate_structures(struct_map):
 	var struct_set = struct_map.get_tileset()
@@ -123,8 +125,7 @@ func _generate_structures(struct_map):
 		var struct_id = struct_set.tile_get_name(index)
 		var struct_info = GameData.get_structure_info(struct_id)
 		
-		var struct = Structure.instance()
-		struct.name = "%s_0" % struct_id
+		var struct = Structure.new()
 		struct.set_structure_info(struct_info)
 
 		var anchor_cell = world_coords.unit_grid.offset_to_axial(cell_pos)

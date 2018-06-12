@@ -1,6 +1,6 @@
 extends "ContextBase.gd"
 
-const Unit = preload("res://scripts/units/Unit.tscn")
+const Unit = preload("res://scripts/units/Unit.gd")
 const Crew = preload("res://scripts/units/Crew.gd")
 const GameState = preload("res://scripts/game/GameState.gd")
 
