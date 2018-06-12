@@ -1,6 +1,7 @@
 extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
+const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const HexGrid = preload("res://scripts/helpers/HexGrid.gd")
 const ElevationOverlay = preload("res://scripts/terrain/ElevationOverlay.tscn")
 
@@ -13,26 +14,30 @@ var terrain_grid
 var unit_grid
 var display_rect
 
-func setup(world_map, map_loader):
-	self.world_map = world_map
+func load_map(world_map, map_loader):
+	set_world_map(world_map)
+	display_rect = map_loader.display_rect
+
 	modulate = map_loader.global_lighting
 
 	_setup_terrain(map_loader.terrain_tileset, map_loader.terrain_indexes)
 	_setup_elevation_overlays(world_map.elevation, map_loader.overlay_colors)
 	_setup_scatters(map_loader.scatter_spawners)
 
-	for structure in world_map.structures:
+	for structure in map_loader.structures.values():
 		map_objects.add_child(structure)
 	
-	for road in world_map.roads:
+	for road in map_loader.roads:
 		map_objects.add_child(road)
 
 	## setup clouds overlay
-	var clouds = map_loader.clouds_overlay.new()
-	clouds.randomize_scroll()
+	var clouds_overlay = map_loader.clouds_overlay
 	
+	var clouds = clouds_overlay.type.new()
+	clouds.display_rect = map_loader.display_rect
+	clouds.texture = clouds_overlay.texture
+	clouds.drift_velocity = clouds_overlay.drift_velocity
 	add_child(clouds)
-	clouds.set_display_rect(display_rect)
 
 ## setup terrain tiles
 func _setup_terrain(terrain_tileset, terrain_indexes):
@@ -52,7 +57,7 @@ func _setup_terrain(terrain_tileset, terrain_indexes):
 func _setup_elevation_overlays(elevation, overlay_colors):
 	var terrain_tiles = world_map.terrain_tiles
 
-	for offset_cell in world_map.get_rect_cells(display_rect):
+	for offset_cell in get_rect_cells(display_rect):
 		var grid_cell = unit_grid.offset_to_axial(offset_cell)
 		var elevation_info = elevation.get_info(grid_cell)
 		var terrain_cell = world_map.get_terrain_cell(grid_cell)
@@ -84,4 +89,9 @@ func set_world_map(map):
 	world_map = map
 	terrain_grid = map.terrain_grid
 	unit_grid = map.unit_grid
-	display_rect = map.display_rect
+
+## gets all grid cells overlapping a rectangle given in pixel coords
+func get_rect_cells(world_rect):
+	var ul = unit_grid.get_offset_cell(world_rect.position)
+	var lr = unit_grid.get_offset_cell(world_rect.end)
+	return HexUtils.get_rect(Rect2(ul, lr - ul))

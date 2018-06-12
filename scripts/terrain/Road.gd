@@ -9,11 +9,11 @@ func _ready():
 	z_as_relative = false
 	z_index = Constants.ROAD_ZLAYER
 
-func setup(world_map, grid_cells):
+func setup(world_grid, grid_cells):
 	footprint = grid_cells
-	position = world_map.unit_grid.axial_to_world(footprint.front())
+	position = world_grid.unit_grid.axial_to_world(footprint.front())
 	for grid_cell in footprint:
-		var vertex = world_map.unit_grid.axial_to_world(grid_cell) - position
+		var vertex = world_grid.unit_grid.axial_to_world(grid_cell) - position
 		add_point(vertex)
 
 ## determines how roads connect by ordering available connections

@@ -9,8 +9,8 @@ func _ready():
 	add_child(gui)
 	gui.hide()
 
-func _setup():
-	gui.attach_map_view(game_state.world_map)
+func load_map(world_map, map_loader):
+	gui.load_map(world_map, map_loader)
 
 func get_camera():
 	return gui.camera

@@ -1,10 +1,25 @@
 extends Node
 
+const MapLoader = preload("res://scripts/MapLoader.gd")
+export(PackedScene) var source_map
+
+onready var world_grid = $WorldGrid
 onready var world_map = $WorldMap
 onready var game_state = $GameState
 onready var player_ui = null
 
 func _ready():
+	var map_loader = MapLoader.new()
+	map_loader.set_world_grid(world_grid)
+	map_loader.load_map(source_map)
+
+	world_map.set_world_grid(world_grid)
+	world_map.load_map(map_loader)
+
+	for player in game_state.players:
+		if player.has_method("load_map"):
+			player.load_map(world_map, map_loader)
+
 	game_state.setup(world_map)
 	Messages.system_message("Game setup complete.")
 

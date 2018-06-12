@@ -1,24 +1,28 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://scripts/editor_tools/EditorMap.gd" type="Script" id=1]
-[ext_resource path="res://tilesets/EditorTiles.tres" type="TileSet" id=2]
-[ext_resource path="res://tilesets/EditorElevation.tres" type="TileSet" id=3]
-[ext_resource path="res://tilesets/EditorRoads.tres" type="TileSet" id=4]
-[ext_resource path="res://tilesets/EditorStructures.tres" type="TileSet" id=5]
+[ext_resource path="res://scripts/editor_tools/SceneMap.gd" type="Script" id=1]
+[ext_resource path="res://scripts/terrain/CloudsOverlay.gd" type="Script" id=2]
+[ext_resource path="res://icons/terrain/scrolling_clouds.png" type="Texture" id=3]
+[ext_resource path="res://tilesets/EditorTiles.tres" type="TileSet" id=4]
+[ext_resource path="res://tilesets/EditorElevation.tres" type="TileSet" id=5]
+[ext_resource path="res://tilesets/EditorRoads.tres" type="TileSet" id=6]
+[ext_resource path="res://tilesets/EditorStructures.tres" type="TileSet" id=7]
 
-[node name="DefaultMap" type="Node2D" index="0"]
+[node name="DefaultMap" type="Node2D"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Transform", "Visibility" ]
 map_seed = "default"
 global_lighting = Color( 1, 1, 1, 1 )
+clouds_type = ExtResource( 2 )
+clouds_texture = ExtResource( 3 )
 map_extents = Rect2( 0, 0, 11, 11 )
 
 [node name="Terrain" type="TileMap" parent="." index="0"]
 
 position = Vector2( 0, -1.00002 )
 mode = 0
-tile_set = ExtResource( 2 )
+tile_set = ExtResource( 4 )
 cell_size = Vector2( 256, 222 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -43,7 +47,7 @@ __meta__ = {
 
 position = Vector2( 0, -1.00002 )
 mode = 0
-tile_set = ExtResource( 3 )
+tile_set = ExtResource( 5 )
 cell_size = Vector2( 256, 222 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -68,7 +72,7 @@ __meta__ = {
 
 position = Vector2( 96, 81 )
 mode = 0
-tile_set = ExtResource( 4 )
+tile_set = ExtResource( 6 )
 cell_size = Vector2( 64, 54 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
@@ -93,7 +97,7 @@ __meta__ = {
 
 position = Vector2( 96, 81 )
 mode = 0
-tile_set = ExtResource( 5 )
+tile_set = ExtResource( 7 )
 cell_size = Vector2( 64, 54 )
 cell_quadrant_size = 16
 cell_custom_transform = Transform2D( 1, 0, 0, 1, 0, 0 )

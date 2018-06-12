@@ -3,24 +3,15 @@ extends Container
 const MapView = preload("res://scripts/MapView.tscn")
 
 onready var camera = $Camera
+onready var map_view = $MapView
 onready var context_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer
 onready var message_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/MessagePanel
 onready var unit_info_panel = $HUDLayer/UnitInfoPanel
 onready var help_dialog = $HUDLayer/QuickHelp
-onready var map_view = null
 
-func attach_map_view(world_map):
-	if map_view:
-		remove_child(map_view)
-		map_view.queue_free()
-
-	map_view = MapView.instance()
-
-	add_child(map_view)
-	world_map.setup_map_view(map_view)
-	
-	## set camera limits
-	camera.set_limit_rect(map_view.display_rect)
+func load_map(world_map, map_loader):
+	map_view.load_map(world_map, map_loader)
+	camera.set_limit_rect(map_loader.display_rect)
 
 var help_dialog_shown = false
 var _saved_visibility = {}
