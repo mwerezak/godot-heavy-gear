@@ -34,7 +34,7 @@ func _ready_deferred():
 	move_display.world_coords = world_coords
 	move_display.hide()
 	remove_child(move_display)
-	world_map.add_child(move_display) ##TODO attach to map view NOT world map
+	#world_map.add_child(move_display) ##TODO attach to map view NOT world map
 
 func _setup():
 	move_unit = unit_activation.active_unit

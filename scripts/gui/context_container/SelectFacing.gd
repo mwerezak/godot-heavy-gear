@@ -41,19 +41,19 @@ func _ready_deferred():
 	target_marker.z_index = Constants.HUD_ZLAYER
 	target_marker.hide()
 	remove_child(target_marker)
-	world_map.add_child(target_marker)
+	#world_map.add_child(target_marker)
 	
 	turn_marker.z_as_relative = false
 	turn_marker.z_index = Constants.HUD_ZLAYER
 	turn_marker.hide()
 	remove_child(turn_marker)
-	world_map.add_child(turn_marker)
+	#world_map.add_child(turn_marker)
 	
 	ext_turn_marker.z_as_relative = false
 	ext_turn_marker.z_index = Constants.HUD_ZLAYER
 	ext_turn_marker.hide()
 	remove_child(ext_turn_marker)
-	world_map.add_child(ext_turn_marker)
+	#world_map.add_child(ext_turn_marker)
 
 func _setup():
 	label.text = HELP_TEXT

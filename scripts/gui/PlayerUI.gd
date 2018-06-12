@@ -36,6 +36,8 @@ func hide():
 		child.hide()
 
 func _unhandled_input(event):
+	return
+	
 	if event.is_action_pressed("toggle_elevation"):
 		get_tree().call_group("elevation_overlays", "toggle_labels")
 	

@@ -9,6 +9,8 @@ func _unhandled_input(event):
 	call_deferred("_update_text")
 
 func _update_text():
+	return
+	
 	var camera = gui.camera
 	var world_map = gui.map_view
 	var world_coords = gui.map_view.world_coords

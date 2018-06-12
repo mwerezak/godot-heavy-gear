@@ -39,8 +39,12 @@ func _init(world_coords, map_scene):
 	global_lighting = source_map.global_lighting
 	terrain_tileset = GameData.get_terrain_tileset() #source_map.terrain_tileset
 	
-	clouds_overlay = source_map.get_node("CloudsOverlay").duplicate() #TODO avoid duplicating nodes
-	clouds_overlay.randomize_scroll()
+	clouds_overlay = {
+		type = preload("res://scripts/terrain/CloudsOverlay.gd"),
+		texture = source_map.clouds_texture,
+		transform = Transform2D(source_map.clouds_transform.x, source_map.clouds_transform.y, Vector2()),
+		drift_velocity = _randomize_drift_velocity(),
+	}
 
 	## determine the map bounds
 	map_extents = source_map.map_extents
@@ -150,3 +154,8 @@ func _extract_elevation(elevation_map):
 		var elevation = raw_str.split("=", true, 1)[1].to_float()
 		raw_elevation[hex_cell] = elevation
 	return raw_elevation
+
+func _randomize_drift_velocity():
+	var drift_angle = deg2rad(rand_range(0.0, 360.0))
+	var drift_speed = rand_range(2.5, 5.0) 
+	return drift_speed*Vector2(cos(drift_angle), sin(drift_angle))

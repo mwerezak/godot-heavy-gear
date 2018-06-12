@@ -7,6 +7,8 @@ func _ready():
 	z_index = Constants.HUD_ZLAYER
 
 func _unhandled_input(event):
+	return
+	
 	##TODO attach to map view instead
 	var world_map = get_parent().map_view
 	if !world_map: return
