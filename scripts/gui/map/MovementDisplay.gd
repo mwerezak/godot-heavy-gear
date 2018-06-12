@@ -16,7 +16,7 @@ onready var facing_marker = $MoveMarker/AllowedFacing
 onready var movement_tiles = $MovementTiles
 onready var move_path_display = $MovementPath
 
-onready var world_map setget set_world_map
+onready var world_coords setget set_coordinate_system
 
 func _ready():
 	call_deferred("_deferred_ready")
@@ -24,12 +24,12 @@ func _ready():
 	z_as_relative = false
 	z_index = Constants.HUD_ZLAYER
 
-func set_world_map(map):
-	world_map = map
+func set_coordinate_system(coords):
+	world_coords = coords
 	
 	## align the movement tiles with the unit grid
-	movement_tiles.cell_size = world_map.unit_grid.cell_spacing
-	movement_tiles.position = world_map.unit_grid.position - movement_tiles.cell_size/2
+	movement_tiles.cell_size = world_coords.unit_grid.cell_spacing
+	movement_tiles.position = world_coords.unit_grid.position - movement_tiles.cell_size/2
 
 func show_movement(possible_moves, current_activation):
 	var movement_points = current_activation.active_unit.max_movement_points()
@@ -48,7 +48,7 @@ func show_movement(possible_moves, current_activation):
 		else:
 			tile_idx = TILE_BLUE
 
-		var tile_cell = world_map.unit_grid.axial_to_offset(grid_cell)
+		var tile_cell = world_coords.unit_grid.axial_to_offset(grid_cell)
 		movement_tiles.set_cellv(tile_cell, tile_idx)
 
 func place_move_marker(possible_moves, move_pos):
@@ -59,7 +59,7 @@ func place_move_marker(possible_moves, move_pos):
 	var move_mode = move_path.move_mode
 
 	move_marker.show()
-	move_marker.position = world_map.unit_grid.axial_to_world(move_pos)
+	move_marker.position = world_coords.unit_grid.axial_to_world(move_pos)
 	mode_label.text = move_mode.name
 	
 	## facing
@@ -75,7 +75,7 @@ func place_move_marker(possible_moves, move_pos):
 	## move path
 	var path_points = PoolVector2Array()
 	for grid_cell in move_path.positions:
-		path_points.push_back(world_map.unit_grid.axial_to_world(grid_cell))
+		path_points.push_back(world_coords.unit_grid.axial_to_world(grid_cell))
 	move_path_display.points = path_points
 	move_path_display.show()
 

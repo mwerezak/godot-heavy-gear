@@ -27,12 +27,14 @@ func _ready():
 	call_deferred("_ready_deferred")
 
 func _ready_deferred():
-	var world_map = get_tree().get_current_scene().world_map
+	var current_scene = get_tree().get_current_scene()
+	var world_coords = current_scene.world_coords
+	var world_map = current_scene.world_map
 	
-	move_display.set_world_map(world_map)
+	move_display.world_coords = world_coords
 	move_display.hide()
 	remove_child(move_display)
-	world_map.add_child(move_display)
+	world_map.add_child(move_display) ##TODO attach to map view NOT world map
 
 func _setup():
 	move_unit = unit_activation.active_unit

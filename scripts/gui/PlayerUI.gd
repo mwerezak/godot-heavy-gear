@@ -41,12 +41,12 @@ func _unhandled_input(event):
 	
 	## capture any input events related to map objects and forward them to the context_panel
 	if event is InputEventMouse:
-		var world_map = map_view
-
 		## grid cell position events
-		var mouse_pos = world_map.get_global_mouse_position()
-		if world_map.point_on_map(mouse_pos):
-			var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
+		var mouse_pos = map_view.get_global_mouse_position()
+
+		var world_map = map_view
+		if world_map.has_point(mouse_pos):
+			var grid_cell = map_view.world_coords.unit_grid.get_axial_cell(mouse_pos)
 			context_panel.cell_input_event(world_map, grid_cell, event)
 			_update_unit_info_panel(world_map.get_units_at_cell(grid_cell), event)
 

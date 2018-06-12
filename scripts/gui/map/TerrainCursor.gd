@@ -19,10 +19,12 @@ func _unhandled_input(event):
 		var mouse_pos = world_map.get_global_mouse_position()
 		
 		## don't snap to blank hexes
-		if world_map.point_on_map(mouse_pos):
-			position = world_map.terrain_grid.snap_to_grid(mouse_pos)
-			var offset_cell = world_map.terrain_grid.get_offset_cell(mouse_pos)
-			hex_coords_label.text = _format_hexloc(world_map, offset_cell)
+		if world_map.has_point(mouse_pos):
+			## TODO obtain coords from map view NOT world map
+			var world_coords = world_map.world_coords
+			position = world_coords.terrain_grid.snap_to_grid(mouse_pos)
+			var offset_cell = world_coords.terrain_grid.get_offset_cell(mouse_pos)
+			#hex_coords_label.text = _format_hexloc(world_map, offset_cell)
 
 			#var terrain = world_map.get_terrain_at_world(mouse_pos)
 			#if terrain && terrain.elevation && terrain.elevation.level:
@@ -32,7 +34,7 @@ func _unhandled_input(event):
 			#	elevation_panel.hide()
 
 func _format_hexloc(world_map, hex_coords):
-	var map_rect = world_map.terrain_tilemap.get_used_rect()
+	var map_rect = world_map.terrain_tiles.values()
 	var map_origin = map_rect.position
 	var padding = ("%d" % max(map_rect.size.x - 1, map_rect.size.y - 1)).length()
 	return "%0*d%0*d" % [ padding, hex_coords.x - map_origin.x, padding, hex_coords.y - map_origin.y ]

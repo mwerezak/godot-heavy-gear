@@ -5,12 +5,11 @@ const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const HexGrid = preload("res://scripts/helpers/HexGrid.gd")
 
-const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 const ElevationOverlay = preload("res://scripts/terrain/ElevationOverlay.tscn")
 
-onready var terrain_grid
 onready var terrain_tilemap = $TileMap
-onready var unit_grid
+
+var world_coords setget set_coordinate_system
 
 ## maps axial terrain cells -> offset terrain cells used by terrain_tilemap
 var terrain_tiles = {}
@@ -32,23 +31,22 @@ var road_cells = {}
 ## elevation map object
 var elevation
 
-func setup(world_coords, map_loader):
-	## temporary
-	terrain_grid = world_coords.terrain_grid 
-	unit_grid = world_coords.unit_grid
-	
+func set_coordinate_system(coords):
+	world_coords = coords
+
+func load_map(map_loader):
 	modulate = map_loader.global_lighting
 	
 	## setup terrain tiles
 	terrain_tilemap.z_as_relative = false
 	terrain_tilemap.z_index = Constants.TERRAIN_ZLAYER
-	terrain_tilemap.cell_size = terrain_grid.cell_spacing
-	terrain_tilemap.position = -terrain_grid.cell_spacing/2 #center tiles on grid points
+	terrain_tilemap.cell_size = world_coords.terrain_grid.cell_spacing
+	terrain_tilemap.position = world_coords.terrain_grid.position - world_coords.terrain_grid.cell_spacing/2 #center tiles on grid points
 	terrain_tilemap.cell_half_offset = TileMap.HALF_OFFSET_X
 	terrain_tilemap.tile_set = map_loader.terrain_tileset
 	
 	for offset_cell in map_loader.terrain_indexes:
-		var axial_cell = terrain_grid.offset_to_axial(offset_cell)
+		var axial_cell = world_coords.terrain_grid.offset_to_axial(offset_cell)
 		terrain_tiles[axial_cell] = offset_cell
 
 		var idx = map_loader.terrain_indexes[offset_cell]
@@ -58,28 +56,27 @@ func setup(world_coords, map_loader):
 	map_extents = map_loader.map_extents
 	
 	var vertical_margin = Vector2(0, world_coords.terrain_grid.cell_size.y/4) #extend the margin so that only the point parts are cut off
-	var map_ul = terrain_grid.offset_to_world(map_extents.position) - vertical_margin
-	var map_lr = terrain_grid.offset_to_world(map_extents.end) + vertical_margin
+	var map_ul = world_coords.terrain_grid.offset_to_world(map_extents.position) - vertical_margin
+	var map_lr = world_coords.terrain_grid.offset_to_world(map_extents.end) + vertical_margin
 	map_rect = Rect2(map_ul, map_lr - map_ul)
 	
 	#unit cells must be entirely contained within the map bounds
-	var unit_margins = unit_grid.cell_size
+	var unit_margins = world_coords.unit_grid.cell_size
 	unit_bounds = Rect2(map_rect.position + unit_margins, map_rect.size - unit_margins*2)
 	
 	## setup terrain elevation 
-	elevation = ElevationMap.new(self)
-	elevation.load_elevation_map(map_loader.terrain_elevation)
+	elevation = map_loader.terrain_elevation
 
 	## setup elevation overlays
 	var elevation_rect = Rect2(map_rect.position - unit_margins, map_rect.size + unit_margins*2)
 	for offset_cell in get_rect_cells(elevation_rect):
-		var grid_cell = unit_grid.offset_to_axial(offset_cell)
+		var grid_cell = world_coords.unit_grid.offset_to_axial(offset_cell)
 		var elevation_info = elevation.get_info(grid_cell)
-		var terrain_cell = get_terrain_cell(grid_cell)
+		var terrain_cell = world_coords.get_terrain_cell(grid_cell)
 		
-		if elevation_info && terrain_tiles.has(terrain_cell):
+		if terrain_tiles.has(terrain_cell):
 			var terrain_tile = terrain_tiles[terrain_cell]
-			var offset_terrain = terrain_grid.axial_to_offset(terrain_cell)
+			var offset_terrain = world_coords.terrain_grid.axial_to_offset(terrain_cell)
 			var overlay_color = map_loader.overlay_colors[offset_terrain] if map_loader.overlay_colors.has(offset_terrain) else null
 
 			var overlay = ElevationOverlay.instance()
@@ -102,11 +99,11 @@ func setup(world_coords, map_loader):
 
 	## setup scatters
 	var scatter_grid = HexGrid.new()
-	scatter_grid.cell_size = terrain_grid.cell_size
+	scatter_grid.cell_size = world_coords.terrain_grid.cell_size
 	for hex_pos in map_loader.scatter_spawners:
-		scatter_grid.position = terrain_grid.offset_to_world(hex_pos)
+		scatter_grid.position = world_coords.terrain_grid.offset_to_world(hex_pos)
 		var spawner = map_loader.scatter_spawners[hex_pos]
-		for scatter in spawner.create_scatters(self, scatter_grid, terrain_grid.cell_spacing.x/2.0):
+		for scatter in spawner.create_scatters(self, scatter_grid, world_coords.terrain_grid.cell_spacing.x/2.0):
 			add_child(scatter)
 	scatter_grid.queue_free()
 	
@@ -131,16 +128,16 @@ func get_grid_rect():
 func _setup_structure(structure, offset_cell):
 	structure.world_map = self
 	
-	var anchor_cell = unit_grid.offset_to_axial(offset_cell)
+	var anchor_cell = world_coords.unit_grid.offset_to_axial(offset_cell)
 	structure.cell_position = anchor_cell
 	
 	var footprint_cells = []
 	for rect in structure.get_footprint():
 		var shifted_rect = Rect2(rect.position + offset_cell, rect.size)
 		for offset_cell in HexUtils.get_rect(shifted_rect):
-			var grid_cell = unit_grid.offset_to_axial(offset_cell)
+			var grid_cell = world_coords.unit_grid.offset_to_axial(offset_cell)
 			footprint_cells.push_back(grid_cell)
-			if !grid_cell_on_map(grid_cell):
+			if !has_grid_cell(grid_cell):
 				print("WARNING: structure extends off map at ", offset_cell)
 				return
 			
@@ -170,7 +167,7 @@ func raw_terrain_info(terrain_cell):
 	return GameData.get_terrain_by_lookup_id(lookup_id)
 
 func get_terrain_at_world(world_pos):
-	var grid_cell = unit_grid.get_axial_cell(world_pos)
+	var grid_cell = world_coords.unit_grid.get_axial_cell(world_pos)
 	return get_terrain_at_cell(grid_cell)
 
 var _terrain_cache = {}
@@ -201,24 +198,14 @@ func get_terrain_at_cell(grid_cell):
 func refresh_terrain(terrain_cell):
 	_terrain_cache.erase(terrain_cell)
 
-func point_on_map(world_pos):
+func has_point(world_pos):
 	if !unit_bounds.has_point(world_pos):
 		return false
 	
-	var terrain_cell = terrain_grid.get_axial_cell(world_pos)
+	var terrain_cell = world_coords.terrain_grid.get_axial_cell(world_pos)
 	return terrain_tiles.has(terrain_cell)
 
 ## Unit Grid Cells
-
-## obtains the terrain cell that contains this grid cell
-func get_terrain_cell(grid_cell):
-	var world_pos = unit_grid.axial_to_world(grid_cell)
-	return terrain_grid.get_axial_cell(world_pos)
-
-func get_angle_to(cell_from, cell_to):
-	var from_pos = unit_grid.axial_to_world(cell_from)
-	var to_pos = unit_grid.axial_to_world(cell_to)
-	return (to_pos - from_pos).angle()
 
 ## gets the complete 3D position of a cell in distance units including elevation
 func get_true_position(cell_pos):
@@ -235,21 +222,21 @@ func path_distance(cell_path):
 		last_cell = next_cell
 	return distance
 
-func grid_cell_on_map(cell_pos):
-	var world_pos = unit_grid.axial_to_world(cell_pos)
-	return point_on_map(world_pos)
+func has_grid_cell(cell_pos):
+	var world_pos = world_coords.unit_grid.axial_to_world(cell_pos)
+	return has_point(world_pos)
 
 func get_neighbors(cell_pos):
 	var neighbors = []
 	for other_pos in HexUtils.get_neighbors(cell_pos).values():
-		if grid_cell_on_map(other_pos):
+		if has_grid_cell(other_pos):
 			neighbors.push_back(other_pos)
 	return neighbors
 
 ## gets all grid cells overlapping a rectangle given in pixel coords
 func get_rect_cells(world_rect):
-	var ul = unit_grid.get_offset_cell(world_rect.position)
-	var lr = unit_grid.get_offset_cell(world_rect.end)
+	var ul = world_coords.unit_grid.get_offset_cell(world_rect.position)
+	var lr = world_coords.unit_grid.get_offset_cell(world_rect.end)
 	return HexUtils.get_rect(Rect2(ul, lr - ul))
 
 ## Map Objects
@@ -291,7 +278,7 @@ func _unit_cell_position_changed(old_pos, new_pos, unit):
 	_update_object_position(unit, new_pos)
 
 func _update_object_position(object, grid_cell):
-	var world_pos = unit_grid.axial_to_world(grid_cell)
+	var world_pos = world_coords.unit_grid.axial_to_world(grid_cell)
 	if object.has_method("get_position_offset"):
 		world_pos += object.get_position_offset()
 	object.position = world_pos
@@ -299,10 +286,10 @@ func _update_object_position(object, grid_cell):
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 	## check that to_cell is actually on the map
-	var to_world = unit_grid.axial_to_world(to_cell)
-	var from_world = unit_grid.axial_to_world(from_cell)
+	var to_world = world_coords.unit_grid.axial_to_world(to_cell)
+	var from_world = world_coords.unit_grid.axial_to_world(from_cell)
 	var midpoint = 0.5*(to_world + from_world)
-	if !point_on_map(to_world) || !point_on_map(midpoint):
+	if !has_point(to_world) || !has_point(midpoint):
 		return false
 	
 	## check that the terrain is passable
@@ -324,7 +311,7 @@ func unit_can_pass(unit, movement_mode, from_cell, to_cell):
 ## return true if a unit can stop (i.e. finish movement) in a given cell
 func unit_can_place(unit, dest_cell):
 	## check that dest_cell is actually on the map
-	if !grid_cell_on_map(dest_cell):
+	if !has_grid_cell(dest_cell):
 		return false
 	
 	## check that the terrain is passable

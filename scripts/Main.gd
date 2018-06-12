@@ -10,10 +10,10 @@ onready var game_state = $GameState
 onready var player_ui = null
 
 func _ready():
-	var map_loader = MapLoader.new()
-	map_loader.load_map(world_coords, map_scene)
+	var map_loader = MapLoader.new(world_coords, map_scene)
 
-	world_map.setup(world_coords, map_loader)
+	world_map.world_coords = world_coords
+	world_map.load_map(map_loader)
 
 	game_state.setup(world_map)
 	Messages.system_message("Game setup complete.")

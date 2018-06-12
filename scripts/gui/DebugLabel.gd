@@ -11,18 +11,19 @@ func _unhandled_input(event):
 func _update_text():
 	var camera = gui.camera
 	var world_map = gui.map_view
+	var world_coords = world_map.world_coords
 	var game_state = player.game_state
 	
-	var mouse_pos = world_map.get_global_mouse_position()
-	var terrain_cell = world_map.terrain_grid.get_axial_cell(mouse_pos)
+	var mouse_pos = gui.map_view.get_global_mouse_position()
+	var terrain_cell = world_coords.terrain_grid.get_axial_cell(mouse_pos)
 	
 	var terrain = world_map.raw_terrain_info(terrain_cell)
 	var terrain_id = terrain.terrain_id if terrain else "None"
 
-	var axial_pos = world_map.unit_grid.world_to_axial(mouse_pos)
-	var grid_cell = world_map.unit_grid.get_axial_cell(mouse_pos)
+	var axial_pos = world_coords.unit_grid.world_to_axial(mouse_pos)
+	var grid_cell = world_coords.unit_grid.get_axial_cell(mouse_pos)
 	var el_info = world_map.elevation.get_info(grid_cell)
-	var elevation_str = "z:%s " % el_info.level if el_info else "N/A"
+	var elevation_str = "z:%s " % el_info.level
 	
 	var structure = world_map.get_structure_at_cell(grid_cell)
 	if structure:

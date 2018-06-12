@@ -3,30 +3,38 @@ extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-var world_map
+var world_coords
 
 ## these are mapped using offset coords
-var _bounds = [{}, {}]
+var _bounds
 var _elevation_map = {}
 
 var _info_cache = {}
 
-func _init(world_map):
-	self.world_map = world_map
+func _init(world_coords):
+	self.world_coords = world_coords
 
 func load_elevation_map(raw_elevation):
 	_elevation_map.clear()
-	_bounds[0].clear()
-	_bounds[1].clear()
-	for offset_cell in world_map.terrain_tiles.values():
-		_elevation_map[offset_cell] = raw_elevation[offset_cell] if raw_elevation.has(offset_cell) else 0
+	_elevation_map = raw_elevation.duplicate()
+
+	_init_bounds()
+	for offset_cell in raw_elevation:
+		#update row/col specific bounds
 		_update_bounds(_COL, offset_cell.x, offset_cell.y)
 		_update_bounds(_ROW, offset_cell.y, offset_cell.x)
+
+		#update overall bounds
+		_update_bounds(_COL, null, offset_cell.y)
+		_update_bounds(_ROW, null, offset_cell.x)
 
 const _COL = 0
 const _ROW = 1
 const _MIN = 0
 const _MAX = 1
+func _init_bounds():
+	_bounds = [{}, {}]
+
 func _update_bounds(axis, index, value):
 	if _bounds[axis].has(index):
 		var bounds = _bounds[axis][index]
@@ -35,24 +43,19 @@ func _update_bounds(axis, index, value):
 	else:
 		_bounds[axis][index] = [ value, value ]
 
-func _clamp_bounds(value, axis, index):
-	var bounds = _bounds[axis][index]
+#valid column/row indices for a given row/column
+func _get_bounds(axis, index):
+	return _bounds[axis][index] if _bounds[axis].has(index) else _bounds[axis][null]
+
+func _clamp_bounds(value, bounds):
 	return clamp(value, bounds[_MIN], bounds[_MAX])
 
 func _get_terrain_elevation(terrain_cell):
-	var hex_cell = world_map.terrain_grid.axial_to_offset(terrain_cell)
-	if !_bounds[_COL].has(hex_cell.x) && !_bounds[_ROW].has(hex_cell.y):
-		return null
-	
-	## repeated boundary conditions
-	elif !_bounds[_ROW].has(hex_cell.y):
-		hex_cell.y = _clamp_bounds(hex_cell.y, _COL, hex_cell.x)
-		hex_cell.x = _clamp_bounds(hex_cell.x, _ROW, hex_cell.y)
-	else:
-		hex_cell.x = _clamp_bounds(hex_cell.x, _ROW, hex_cell.y)
-		hex_cell.y = _clamp_bounds(hex_cell.y, _COL, hex_cell.x)
-	
-	return _elevation_map[hex_cell]
+	## boundary conditions
+	terrain_cell.x = _clamp_bounds(terrain_cell.x, _get_bounds(_ROW, terrain_cell.y))
+	terrain_cell.y = _clamp_bounds(terrain_cell.y, _get_bounds(_COL, terrain_cell.x))
+
+	return _elevation_map[terrain_cell]
 
 ## each trapezoid consists of an upper triangle (x>y) and a lower triangle (y>x)
 const _UPPER_TRIANGLE = 0
@@ -66,14 +69,12 @@ func _calc_plane_coefficients(terrain_origin):
 	for i in range(4):
 		var terrain_cell = terrain_origin + trapezoid[i]
 		var elevation = _get_terrain_elevation(terrain_cell)
-		if elevation == null:
-			return null
 		
 		## x,y are in pixels, so it's probably a good idea
 		## to make all components have consistent units
 		var z = HexUtils.units2pixels(elevation)
 		
-		var world_pos = world_map.terrain_grid.axial_to_world(terrain_cell)
+		var world_pos = world_coords.terrain_grid.axial_to_world(terrain_cell)
 		trapezoid[i] = Vector3(world_pos.x, world_pos.y, z)
 	
 	return [
@@ -87,13 +88,11 @@ func _calc_plane(plane_origin, p1, p2):
 
 func _calc_elevation_info(grid_cell):
 	## get the elevation trapezoid containing cell_pos
-	var world_pos = world_map.unit_grid.axial_to_world(grid_cell)
-	var axial_pos = world_map.terrain_grid.world_to_axial(world_pos)
+	var world_pos = world_coords.unit_grid.axial_to_world(grid_cell)
+	var axial_pos = world_coords.terrain_grid.world_to_axial(world_pos)
 	var origin_hex = axial_pos.floor()
 	
 	var plane = _calc_plane_coefficients(origin_hex)
-	if !plane:
-		return null
 	
 	var local_pos = axial_pos - origin_hex #position within the trapezoid
 	if local_pos.x > local_pos.y:

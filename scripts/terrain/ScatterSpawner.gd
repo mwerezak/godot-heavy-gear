@@ -59,7 +59,7 @@ func inside_hex(world_pos, radius):
 
 func can_place_scatter(world_map, scatter_data):
 	var world_pos = scatter_data.position
-	var grid_cell = world_map.unit_grid.get_axial_cell(world_pos)
+	var grid_cell = world_map.world_coords.unit_grid.get_axial_cell(world_pos)
 	
 	## don't place scatters on roads
 	if world_map.road_cells.has(grid_cell):
