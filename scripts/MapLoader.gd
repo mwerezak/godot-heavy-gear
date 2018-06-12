@@ -1,6 +1,7 @@
 extends Reference
 
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
+
 const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.gd")
 const Structure = preload("res://scripts/structures/Structure.tscn")
 
@@ -11,6 +12,7 @@ const Road = preload("res://scripts/terrain/Road.tscn")
 const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 
 var source_map
+var world_coords
 var map_seed
 
 var map_extents #map rect in offset coords
@@ -31,6 +33,8 @@ var structures
 var roads
 
 func _init(world_coords, map_scene):
+	self.world_coords = world_coords
+
 	source_map = map_scene.instance()
 	map_seed = source_map.map_seed.hash()
 	rand_seed(map_seed) #initialize seed
@@ -113,7 +117,7 @@ func _generate_terrain(editor_terrain_map):
 func _generate_structures(struct_map):
 	var struct_set = struct_map.get_tileset()
 
-	var structures = {}
+	var structures = []
 	for cell_pos in struct_map.get_used_cells():
 		var index = struct_map.get_cellv(cell_pos)
 		var struct_id = struct_set.tile_get_name(index)
@@ -122,8 +126,18 @@ func _generate_structures(struct_map):
 		var struct = Structure.instance()
 		struct.name = "%s_0" % struct_id
 		struct.set_structure_info(struct_info)
-		structures[cell_pos] = struct
+
+		var anchor_cell = world_coords.unit_grid.offset_to_axial(cell_pos)
+		struct.cell_position = anchor_cell
+		structures.push_back(struct)
 	return structures
+
+## TODO MOVE THIS TO STRUCTURE
+func _get_structure_footprint(structure, offset_cell, anchor_cell):
+	var footprint_cells = []
+
+
+	return footprint_cells
 
 func _extract_elevation(elevation_map):
 	var elevation_tileset = elevation_map.get_tileset()

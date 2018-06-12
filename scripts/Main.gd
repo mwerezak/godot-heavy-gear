@@ -12,7 +12,7 @@ onready var player_ui = null
 func _ready():
 	var map_loader = MapLoader.new(world_coords, map_scene)
 
-	world_map.world_coords = world_coords
+	world_map.set_coordinate_system(world_coords)
 	world_map.load_map(map_loader)
 
 	game_state.setup(world_map)

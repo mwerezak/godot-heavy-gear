@@ -11,6 +11,8 @@ onready var terrain_tilemap = $TileMap
 onready var elevation_overlays = $ElevationOverlays
 
 var world_coords setget set_coordinate_system
+var terrain_grid
+var unit_grid
 
 ## maps axial terrain cells -> offset terrain cells used by terrain_tilemap
 var terrain_tiles = {}
@@ -34,6 +36,8 @@ var elevation
 
 func set_coordinate_system(coords):
 	world_coords = coords
+	terrain_grid = coords.terrain_grid
+	unit_grid = coords.unit_grid
 
 func load_map(map_loader):
 	modulate = map_loader.global_lighting
@@ -79,9 +83,8 @@ func load_map(map_loader):
 			elevation_overlays.add_child(overlay)
 
 	## setup structures
-	for offset_cell in map_loader.structures:
-		var structure = map_loader.structures[offset_cell]
-		_setup_structure(structure, offset_cell)
+	for structure in map_loader.structures:
+		add_structure(structure)
 
 	## setup roads
 	for road in map_loader.roads:
@@ -118,34 +121,6 @@ func get_bounding_rect():
 
 func get_grid_rect():
 	return unit_bounds
-
-func _setup_structure(structure, offset_cell):
-	structure.world_map = self
-	
-	var anchor_cell = world_coords.unit_grid.offset_to_axial(offset_cell)
-	structure.cell_position = anchor_cell
-	
-	var footprint_cells = []
-	for rect in structure.get_footprint():
-		var shifted_rect = Rect2(rect.position + offset_cell, rect.size)
-		for offset_cell in HexUtils.get_rect(shifted_rect):
-			var grid_cell = world_coords.unit_grid.offset_to_axial(offset_cell)
-			footprint_cells.push_back(grid_cell)
-			if !has_grid_cell(grid_cell):
-				print("WARNING: structure extends off map at ", offset_cell)
-				return
-			
-			if structure_locs.has(grid_cell):
-				print("WARNING: structure already present at cell ", offset_cell)
-				structure.queue_free()
-				return
-	
-	_update_object_position(structure, anchor_cell)
-	add_child(structure)
-
-	structures[structure] = footprint_cells
-	for grid_cell in footprint_cells:
-		structure_locs[grid_cell] = structure
 
 ## Terrain Cells
 
@@ -254,9 +229,6 @@ func get_units_at_cell(grid_cell):
 		return []
 	return unit_locs.get_values(grid_cell)
 
-func get_structure_at_cell(grid_cell):
-	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null
-
 func all_units():
 	return units.keys()
 
@@ -267,9 +239,29 @@ func _unit_cell_position_changed(old_pos, new_pos, unit):
 
 func _update_object_position(object, grid_cell):
 	var world_pos = world_coords.unit_grid.axial_to_world(grid_cell)
-	if object.has_method("get_position_offset"):
-		world_pos += object.get_position_offset()
 	object.position = world_pos
+
+func add_structure(struct):
+	struct.world_map = self
+
+	## first check that we can add this structure
+	for grid_cell in struct.footprint:
+		if !has_grid_cell(grid_cell):
+			print("WARNING: structure extends off map at ", unit_grid.axial_to_offset(grid_cell))
+			return
+		
+		if structure_locs.has(grid_cell):
+			print("WARNING: structure already present at cell ", unit_grid.axial_to_offset(grid_cell))
+			return
+
+	structures[struct] = struct.footprint
+	for grid_cell in struct.footprint:
+		structure_locs[grid_cell] = struct
+
+	add_child(struct.create_sprite()) ##temporary
+
+func get_structure_at_cell(grid_cell):
+	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null
 
 ## return true if a unit can pass from a given cell into another
 func unit_can_pass(unit, movement_mode, from_cell, to_cell):

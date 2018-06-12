@@ -11,7 +11,7 @@ func _unhandled_input(event):
 func _update_text():
 	var camera = gui.camera
 	var world_map = gui.map_view
-	var world_coords = world_map.world_coords
+	var world_coords = gui.map_view.world_coords
 	var game_state = player.game_state
 	
 	var mouse_pos = gui.map_view.get_global_mouse_position()
