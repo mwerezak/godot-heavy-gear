@@ -22,7 +22,7 @@ var scatter_spawners = {}
 var structures = {}
 var roads = []
 
-func load_map(world_map, map_scene):
+func load_map(coords, map_scene):
 	source_map = map_scene.instance()
 	map_seed = source_map.map_seed.hash()
 	rand_seed(map_seed) #initialize seed
@@ -42,11 +42,11 @@ func load_map(world_map, map_scene):
 	
 	## generate roads
 	var road_map = source_map.get_node("Roads")
-	var builder = SegmentBuilder.new(world_map.unit_grid, RoadComparer)
+	var builder = SegmentBuilder.new(coords.unit_grid, RoadComparer)
 	var road_segments = builder.build_segments(road_map)
 	for grid_cells in road_segments:
 		var road = Road.instance()
-		road.setup(world_map, grid_cells)
+		road.setup(coords, grid_cells)
 		roads.push_back(road)
 	
 	## extract elevation data

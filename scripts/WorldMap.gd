@@ -5,25 +5,12 @@ const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const HexGrid = preload("res://scripts/helpers/HexGrid.gd")
 
-const MapLoader = preload("res://scripts/MapLoader.gd")
 const ElevationMap = preload("res://scripts/terrain/ElevationMap.gd")
 const ElevationOverlay = preload("res://scripts/terrain/ElevationOverlay.tscn")
 
-## dimensions of terrain hexes
-## it is important that these are all multiples of 16, due to the geometry of hex grids
-## and the fact that the unit grid must fit exactly into the terrain grid
-## note that for regular hexagons, w = sqrt(3)/2 * h
-const TERRAIN_WIDTH  = 16*16 #256
-const TERRAIN_HEIGHT = 18*16 #288
-
-const UNITGRID_WIDTH = TERRAIN_WIDTH/4 #64
-const UNITGRID_HEIGHT = TERRAIN_HEIGHT/4 #72
-
-export(PackedScene) var source_map
-
-onready var terrain_grid = $TerrainGrid
-onready var terrain_tilemap = $TerrainGrid/TileMap
-onready var unit_grid = $UnitGrid
+onready var terrain_grid
+onready var terrain_tilemap = $TileMap
+onready var unit_grid
 
 ## maps axial terrain cells -> offset terrain cells used by terrain_tilemap
 var terrain_tiles = {}
@@ -45,13 +32,10 @@ var road_cells = {}
 ## elevation map object
 var elevation
 
-func _ready():
-	terrain_grid.cell_size = Vector2(TERRAIN_WIDTH, TERRAIN_HEIGHT)
-	unit_grid.cell_size = Vector2(UNITGRID_WIDTH, UNITGRID_HEIGHT)
-	
-	## load the source map
-	var map_loader = MapLoader.new()
-	map_loader.load_map(self, source_map)
+func setup(world_coords, map_loader):
+	## temporary
+	terrain_grid = world_coords.terrain_grid 
+	unit_grid = world_coords.unit_grid
 	
 	modulate = map_loader.global_lighting
 	
@@ -73,7 +57,7 @@ func _ready():
 	## determine the map bounds
 	map_extents = map_loader.map_extents
 	
-	var vertical_margin = Vector2(0, TERRAIN_HEIGHT/4) #extend the margin so that only the point parts are cut off
+	var vertical_margin = Vector2(0, world_coords.terrain_grid.cell_size.y/4) #extend the margin so that only the point parts are cut off
 	var map_ul = terrain_grid.offset_to_world(map_extents.position) - vertical_margin
 	var map_lr = terrain_grid.offset_to_world(map_extents.end) + vertical_margin
 	map_rect = Rect2(map_ul, map_lr - map_ul)
