@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://scripts/WorldCoords.gd" type="Script" id=1]
+[ext_resource path="res://scripts/map/WorldCoords.gd" type="Script" id=1]
 [ext_resource path="res://scripts/helpers/HexGrid.gd" type="Script" id=2]
+
 
 [node name="WorldCoords" type="Node2D"]
 

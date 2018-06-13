@@ -1,8 +1,8 @@
 extends Node
 
-const MapLoader = preload("res://scripts/MapLoader.gd")
-const WorldMap = preload("res://scripts/WorldMap.gd")
-const TerrainView = preload("res://scripts/TerrainView.tscn")
+const MapLoader = preload("res://scripts/map/MapLoader.gd")
+const WorldMap = preload("res://scripts/map/WorldMap.gd")
+const TerrainView = preload("res://scripts/map/TerrainView.tscn")
 
 export(PackedScene) var map_scene
 

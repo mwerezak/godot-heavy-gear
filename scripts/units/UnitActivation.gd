@@ -4,7 +4,6 @@
 extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
-const WorldMap = preload("res://scripts/WorldMap.gd")
 
 ## units with less than this amount of movement points left are consided
 ## to be performing extended movement, which can cause penalties
