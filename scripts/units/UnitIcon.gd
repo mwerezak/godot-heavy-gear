@@ -8,35 +8,31 @@ const FOOTPRINT_RADIUS = 24 #pixels
 const DEFAULT_PRIMARY_COLOR = Color(0.8, 0.8, 0.8)
 const DEFAULT_SECONDARY_COLOR = Color(0.6, 0.6, 0.6)
 
-var has_mouse = false
-var facing_marker_visible = false setget set_facing_marker_visible
 var temp_facing_enabled = false setget set_temp_facing_enabled
 
 onready var mouse_catcher = $MouseCatcher/CollisionShape2D
 onready var base_footprint = $BaseFootprint
 onready var facing_marker = $Facing
 onready var temp_facing = $TempFacing
-
 onready var nato_counter = $NatoCounter
+
+var show_facing = false setget set_facing_marker_visible
+var facing = 0 setget set_facing
+var primary_color setget set_primary_color, get_primary_color
+var secondary_color setget set_secondary_color, get_secondary_color
+var unit_symbol setget set_nato_symbol
 
 func _ready():
 	z_as_relative = false
 	z_index = Constants.UNIT_MARKER_ZLAYER
 	set_footprint_radius(FOOTPRINT_RADIUS)
 
-func update(data):
-	for key in data:
-		set(key, data[key])
-
+var has_mouse = false
 func _on_mouse_entered():
 	has_mouse = true
 
 func _on_mouse_exited():
 	has_mouse = false
-
-var primary_color setget set_primary_color, get_primary_color
-var secondary_color setget set_secondary_color, get_secondary_color
-var unit_symbol setget set_nato_symbol
 
 func set_primary_color(color):
 	nato_counter.primary_color = color if color else DEFAULT_PRIMARY_COLOR
@@ -77,7 +73,7 @@ func set_facing(radians):
 	facing_marker.rotation = radians
 
 func set_facing_marker_visible(show_marker):
-	facing_marker_visible = show_marker
+	show_facing = show_marker
 	if show_marker:
 		facing_marker.show()
 	else:
@@ -92,3 +88,17 @@ func set_temp_facing_enabled(enabled):
 		temp_facing.show()
 	else:
 		temp_facing.hide()
+
+## whitelist of properties that can be updated remotely
+const UPDATE_PROPERTIES = [
+	"unit_symbol",
+	"primary_color",
+	"secondary_color",
+	"show_facing",
+	"facing",
+	"position",
+]
+func update(data):
+	for key in UPDATE_PROPERTIES:
+		if data.has(key):
+			set(key, data[key])

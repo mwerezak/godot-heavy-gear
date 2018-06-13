@@ -2,6 +2,7 @@ extends Node
 
 const MapLoader = preload("res://scripts/map/MapLoader.gd")
 const WorldMap = preload("res://scripts/map/WorldMap.gd")
+const IconManager = preload("res://scripts/map/IconManager.gd")
 const TerrainView = preload("res://scripts/map/TerrainView.tscn")
 
 export(PackedScene) var map_scene
@@ -17,8 +18,12 @@ var active_ui #the PlayerUI of the active hotseat player
 func _ready():
 	var map_loader = MapLoader.new(world_coords, map_scene)
 
+	var icon_manager = IconManager.new()
+	## TODO will prob need to access players and game state
+
 	world_map = WorldMap.new()
 	world_map.set_coordinate_system(world_coords)
+	world_map.set_icon_manager(icon_manager)
 	world_map.load_map(map_loader)
 
 	terrain_view = TerrainView.instance()

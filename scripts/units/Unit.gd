@@ -3,7 +3,9 @@ extends Reference
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const UnitIcon = preload("UnitIcon.tscn")
 
-signal cell_position_changed(old_position, new_position)
+signal cell_position_changed(old_pos, new_pos)
+signal update_icon(update_data)
+
 
 ## the grid cell that the unit is located in
 var cell_position setget set_cell_position, get_cell_position
@@ -29,7 +31,7 @@ func set_cell_position(cell_pos):
 	var old_pos = cell_position
 	cell_position = cell_pos
 	emit_signal("cell_position_changed", old_pos, cell_pos)
-	emit_signal("update_icon_position")
+	update_icon_position()
 
 func set_altitude(alt):
 	altitude = alt
@@ -46,7 +48,8 @@ func get_display_label():
 
 func set_unit_model(model):
 	unit_model = model
-	emit_signal("update_icon_appearance")
+	update_icon_appearance()
+	update_icon_facing()
 
 func set_crew_info(crew):
 	crew_info = crew
@@ -60,11 +63,11 @@ func set_player(new_owner):
 			new_owner.take_ownership(self)
 
 		player_owner = new_owner
-		emit_signal("update_icon_appearance")
+		update_icon_appearance()
 
 func set_faction(new_faction):
 	faction = new_faction
-	emit_signal("update_icon_appearance")
+	update_icon_appearance()
 
 func get_faction():
 	if faction: return faction
@@ -76,7 +79,7 @@ func has_facing():
 
 func set_facing(dir):
 	facing = HexUtils.normalize(dir)
-	emit_signal("update_icon_facing")
+	update_icon_facing()
 
 func get_facing():
 	if !has_facing(): return null
@@ -114,7 +117,25 @@ func max_movement_points():
 	return unit_model.max_movement_points()
 
 ## icon updates
-func icon_appearance_data():
+func update_icon():
+	update_icon_appearance()
+	update_icon_position()
+	update_icon_facing()
+
+func update_icon_position():
+	var icon_pos = world_map.unit_grid.axial_to_world(cell_pos)
+	emit_signal("update_icon", { position = icon_pos })
+
+func update_icon_facing():
+	var update_data
+	if has_facing():
+		var icon_facing = HexUtils.dir2radians(facing)
+		update_data = { has_facing = true, facing = icon_facing }
+	else:
+		update_data = { has_facing = false }
+	emit_signal("update_icon", update_data)
+
+func update_icon_appearance():
 	var primary_color = null
 	if player_owner:
 		primary_color = player_owner.primary_color
@@ -126,9 +147,10 @@ func icon_appearance_data():
 	elif player_owner:
 		secondary_color = player_owner.primary_color
 	
-	return {
+	var update_data = {
 		has_facing = has_facing(),
 		unit_symbol = unit_model.desc.symbol,
 		primary_color = primary_color,
 		secondary_color = secondary_color,
 	}
+	emit_signal("update_icon", update_data)
