@@ -1,18 +1,27 @@
-extends "Player.gd"
+extends Node
 
-onready var gui = $PlayerUI
+const PlayerUI = preload("res://scripts/gui/PlayerUI.tscn")
+
+var display_name
+var faction_id
+
+## normally the player color should be taken from the player's faction, but these can be used to override that
+var primary_color = null
+var secondary_color = null
+
+onready var gui = $PlayerUI setget , get_gui
 
 func _ready():
-	._ready()
-	game_state.connect("game_setup", self, "_setup")
+	name = display_name
 	gui.hide()
 
-func _setup():
-	gui.map_view = game_state.world_map
+func make_active():
+	gui.show()
 
-func get_camera():
-	return gui.camera
+func get_gui():
+	return gui
 
+"""
 func render_message(message):
 	gui.message_panel.append(message, message.render(self))
 
@@ -41,3 +50,4 @@ func activation_turn(current_turn, available_units):
 	selection_group.clear()
 	
 	emit_signal("pass_turn")
+"""

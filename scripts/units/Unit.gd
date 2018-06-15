@@ -123,7 +123,7 @@ func update_icon():
 	update_icon_facing()
 
 func update_icon_position():
-	var icon_pos = world_map.unit_grid.axial_to_world(cell_pos)
+	var icon_pos = world_map.unit_grid.axial_to_world(cell_position)
 	emit_signal("update_icon", { position = icon_pos })
 
 func update_icon_facing():

@@ -5,6 +5,7 @@ const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const ElevationOverlay = preload("res://scripts/terrain/ElevationOverlay.tscn")
 
 var world_coords setget set_coordinate_system
+var display_rect
 
 onready var terrain_tilemap = $TileMap
 
@@ -21,6 +22,7 @@ func set_coordinate_system(coords):
 	terrain_tilemap.position = terrain_grid.position - terrain_grid.cell_spacing/2 #center tiles on grid points
 
 func load_terrain(map_loader):
+	display_rect = map_loader.display_rect
 	modulate = map_loader.global_lighting
 
 	## setup terran tiles

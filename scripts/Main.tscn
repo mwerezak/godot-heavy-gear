@@ -1,31 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scripts/Main.gd" type="Script" id=1]
 [ext_resource path="res://maps/DefaultMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/map/WorldCoords.tscn" type="PackedScene" id=3]
-[ext_resource path="res://scripts/game/GameState.gd" type="Script" id=4]
-[ext_resource path="res://scripts/game/LocalPlayer.tscn" type="PackedScene" id=5]
 
-[node name="Main" type="Node" index="0"]
+[node name="Main" type="Node"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Anchor", "Margin" ]
 map_scene = ExtResource( 2 )
 
 [node name="WorldCoords" parent="." index="0" instance=ExtResource( 3 )]
-
-[node name="GameState" type="Node" parent="." index="1"]
-
-script = ExtResource( 4 )
-
-[node name="Player1" parent="GameState" index="0" instance=ExtResource( 5 )]
-
-display_name = "Player 1"
-faction_id = "north"
-
-[node name="Player2" parent="GameState" index="1" instance=ExtResource( 5 )]
-
-display_name = "Player 2"
-faction_id = "south"
 
 

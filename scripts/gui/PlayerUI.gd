@@ -6,15 +6,7 @@ onready var message_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/MessagePanel
 onready var unit_info_panel = $HUDLayer/UnitInfoPanel
 onready var help_dialog = $HUDLayer/QuickHelp
 
-## someday we will use mapviews tht will be part of the player node, instead of a global world map
-var map_view = null setget set_map_view
-
-func set_map_view(view):
-	map_view = view
-	
-	## set camera limits
-	camera.set_limit_rect(map_view.display_rect)
-
+## Switching the active player for hotseat
 var help_dialog_shown = false
 var _saved_visibility = {}
 func show():
@@ -35,6 +27,9 @@ func hide():
 		_saved_visibility[child] = child.visible
 		child.hide()
 
+## Player input handling
+
+"""
 func _unhandled_input(event):
 	return
 	
@@ -52,8 +47,21 @@ func _unhandled_input(event):
 			context_panel.cell_input_event(world_map, grid_cell, event)
 			_update_unit_info_panel(world_map.get_units_at_cell(grid_cell), event)
 
+##TODO move this into info panel
 func _update_unit_info_panel(units, event):
 	if event.is_action_pressed("click_select"):
 		unit_info_panel.select_units(units)
 	elif event is InputEventMouseMotion:
 		unit_info_panel.hover_units(units)
+"""
+
+"""
+## someday we will use mapviews tht will be part of the player node, instead of a global world map
+var map_view = null setget set_map_view
+
+func set_map_view(view):
+	map_view = view
+	
+	## set camera limits
+	camera.set_limit_rect(map_view.display_rect)
+"""

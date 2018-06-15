@@ -2,7 +2,7 @@ extends Camera2D
 
 var zoom_step = 0.1
 var min_zoom = 0.5
-var max_zoom = 2.0
+var max_zoom = 10.0
 
 var pan_speed = 800
 

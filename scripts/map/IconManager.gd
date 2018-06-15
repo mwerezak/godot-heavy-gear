@@ -3,10 +3,12 @@
 
 extends Reference
 
-var object_icons = {}
+## temporary. eventually object ids will be provided by WorldMap when networking is implemented
+var object_ids = {}
 
-func register_icon(object, icon_type):
-	pass
+func register_icon(object, icon_type_id):
+	var oid = object_ids.size()
+	object_ids[object] = oid
 
 func unregister_icon(object):
 	pass
