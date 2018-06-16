@@ -2,6 +2,7 @@ extends Reference
 
 const RandomUtils = preload("res://scripts/helpers/RandomUtils.gd")
 
+const HexGrid = preload("res://scripts/helpers/HexGrid.gd")
 const ScatterSpawner = preload("res://scripts/terrain/ScatterSpawner.gd")
 const Structure = preload("res://scripts/structures/Structure.gd")
 
@@ -23,7 +24,10 @@ var global_lighting
 var terrain_tileset
 var clouds_overlay
 
-var terrain_data
+var tile_ids
+var tile_indices
+var terrain_lookup
+var terrain_scatters
 var terrain_elevation
 
 var structures
@@ -58,9 +62,39 @@ func _init(world_coords, map_scene):
 	var unit_margins = world_coords.unit_grid.cell_size
 	map_bounds = Rect2(display_rect.position + unit_margins, display_rect.size - unit_margins*2)
 	
-	## extract terrain data
+	## extract elevation data
+	var elevation_map = source_map.get_node("Elevation")
+	var raw_elevation = _extract_elevation(elevation_map)
+
+	## extract terrain data and setup elevation map
+	var scatter_grid = HexGrid.new()
+	scatter_grid.cell_size = world_coords.terrain_grid.cell_size
+
+	terrain_elevation = ElevationMap.new(world_coords)
+	var axial_elevation = {}
+
+	tile_ids = {}
+	tile_indices = {}
+	terrain_lookup = {}
+	terrain_scatters = []
+
 	var editor_map = source_map.get_node("Terrain")
-	terrain_data = _generate_terrain(editor_map)
+	for terrain_data in _generate_terrain(editor_map, scatter_grid):
+		var hex_cell = terrain_data.hex_cell
+		tile_ids[hex_cell] = terrain_data.tile_id
+		tile_indices[hex_cell] = terrain_data.tile_idx
+		terrain_lookup[hex_cell] = terrain_data.lookup_id
+		for scatter in terrain_data.scatters:
+			terrain_scatters.push_back(scatter)
+
+		var axial_cell = world_coords.terrain_grid.offset_to_axial(hex_cell)
+		axial_elevation[axial_cell] = (
+			raw_elevation[hex_cell] if raw_elevation.has(hex_cell) else 0
+		)
+
+	terrain_elevation.load_elevation_map(axial_elevation)
+
+	scatter_grid.queue_free()
 	
 	## structures
 	var struct_map = source_map.get_node("Structures")
@@ -76,27 +110,13 @@ func _init(world_coords, map_scene):
 		var road = Road.instance()
 		road.setup(world_coords, grid_cells)
 		roads.push_back(road)
-	
-	## extract elevation data
-	var elevation_map = source_map.get_node("Elevation")
-	var raw_elevation = _extract_elevation(elevation_map)
 
-	var axial_elevation = {}
-	for offset_cell in terrain_data:
-		var axial_cell = world_coords.terrain_grid.offset_to_axial(offset_cell)
-		axial_elevation[axial_cell] = (
-			raw_elevation[offset_cell] 
-			if raw_elevation.has(offset_cell) else 0
-		)
-
-	terrain_elevation = ElevationMap.new(world_coords)
-	terrain_elevation.load_elevation_map(axial_elevation)
 
 ## rebuild cached terrain indexes and overlays
-func _generate_terrain(editor_terrain_map):
+func _generate_terrain(editor_terrain_map, scatter_grid):
 	var editor_tileset = editor_terrain_map.get_tileset()
 	
-	var terrain_data = {}
+	var terrain_data = []
 	for hex_cell in editor_terrain_map.get_used_cells():
 		## generate terrain tile index
 		var editor_tile_idx = editor_terrain_map.get_cellv(hex_cell)
@@ -106,18 +126,21 @@ func _generate_terrain(editor_terrain_map):
 		var tile_id = RandomUtils.get_weighted_random(terrain_info.tiles)
 		var lookup_id = terrain_info.lookup_ids[tile_id]
 		var terrain_tile_idx = terrain_tileset.find_tile_by_name(lookup_id)
-		var tile_info = GameData.get_tile(tile_id)
 		
 		## generate terrain hex overlay
 		var scatter_seed = hash(hex_cell) ^ map_seed
-		var spawner = ScatterSpawner.new(tile_id, scatter_seed)
+		var scatter_spawner = ScatterSpawner.new(world_coords, tile_id, scatter_seed)
+		
+		scatter_grid.position = world_coords.terrain_grid.offset_to_world(hex_cell)
+		var scatters = scatter_spawner.spawn_scatters(scatter_grid)
 
-		terrain_data[hex_cell] = {
+		terrain_data.push_back({
+			hex_cell = hex_cell,
 			lookup_id = lookup_id,
+			tile_id = tile_id,
 			tile_idx = terrain_tile_idx,
-			overlay_color = tile_info.overlay_color,
-			scatter_spawner = spawner,
-		}
+			scatters = scatters,
+		})
 	return terrain_data
 
 func _generate_structures(struct_map):
@@ -136,13 +159,6 @@ func _generate_structures(struct_map):
 		struct.cell_position = anchor_cell
 		structures.push_back(struct)
 	return structures
-
-## TODO MOVE THIS TO STRUCTURE
-func _get_structure_footprint(structure, offset_cell, anchor_cell):
-	var footprint_cells = []
-
-
-	return footprint_cells
 
 func _extract_elevation(elevation_map):
 	var elevation_tileset = elevation_map.get_tileset()

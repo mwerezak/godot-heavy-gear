@@ -37,7 +37,6 @@ func get_footprint():
 
 func update_icon():
 	var world_pos = world_map.unit_grid.axial_to_world(cell_position)
-	print(world_pos)
 	emit_signal("icon_update", {
 		texture = _info.texture,
 		position = world_pos + _info.position_offset,

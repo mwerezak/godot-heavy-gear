@@ -1,5 +1,7 @@
 extends Node2D
 
+const TerrainScatter = preload("res://scripts/terrain/TerrainScatter.gd")
+
 const ICON_TYPES = {
 	UnitIcon = preload("res://scripts/units/UnitIcon.gd"),
 	StructureIcon = preload("res://scripts/structures/StructureIcon.gd"),
@@ -32,17 +34,8 @@ func delete_icon(icon_id):
 	remove_child(icon)
 	icon.queue_free()
 
-
-const HexGrid = preload("res://scripts/helpers/HexGrid.gd")
-
-func create_scatters(world_map):
-	var terrain_grid = world_map.world_coords.terrain_grid
-
-	var scatter_grid = HexGrid.new()
-	scatter_grid.cell_size = terrain_grid.cell_size
-	for terrain_cell in world_map.scatter_spawners:
-		scatter_grid.position = terrain_grid.axial_to_world(terrain_cell)
-		var spawner = world_map.scatter_spawners[terrain_cell]
-		for scatter in spawner.create_scatters(world_map, scatter_grid, terrain_grid.cell_spacing.x/2.0):
-			add_child(scatter)
-	scatter_grid.queue_free()
+func create_scatter_icons(scatters):
+	for scatter_data in scatters:
+		var scatter = TerrainScatter.new(scatter_data.info)
+		scatter.position = scatter_data.position
+		add_child(scatter)

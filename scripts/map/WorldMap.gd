@@ -12,7 +12,7 @@ var unit_grid
 
 ## maps axial terrain cells -> offset terrain cells used by terrain_tilemap
 var terrain_lookup = {}
-var scatter_spawners = {}
+var terrain_scatters = []
 
 ## These are all Rect2s in world coordinates (i.e. pixels)
 var display_rect
@@ -42,12 +42,10 @@ func load_map(map_loader):
 	map_bounds = map_loader.map_bounds
 	display_rect = map_loader.display_rect
 
-	## terrain data and scatters
-	for offset_cell in map_loader.terrain_data:
-		var terrain_data = map_loader.terrain_data[offset_cell]
+	## terrain data lookup
+	for offset_cell in map_loader.terrain_lookup:
 		var axial_cell = terrain_grid.offset_to_axial(offset_cell)
-		terrain_lookup[axial_cell] = terrain_data.lookup_id
-		scatter_spawners[axial_cell] = terrain_data.scatter_spawner
+		terrain_lookup[axial_cell] = map_loader.terrain_lookup[offset_cell]
 
 	## terrain elevation
 	elevation = map_loader.terrain_elevation
@@ -62,6 +60,10 @@ func load_map(map_loader):
 		for grid_cell in road.footprint:
 			road_cells[grid_cell] = road
 
+	## scatters
+	for scatter in map_loader.terrain_scatters:
+		if can_place_scatter(scatter.position):
+			terrain_scatters.push_back(scatter)
 
 ## Terrain
 
@@ -109,6 +111,20 @@ func has_point(world_pos):
 	
 	var terrain_cell = world_coords.terrain_grid.get_axial_cell(world_pos)
 	return terrain_lookup.has(terrain_cell)
+
+func can_place_scatter(world_pos):
+	var grid_cell = unit_grid.get_axial_cell(world_pos)
+	
+	## don't place scatters on roads
+	if road_cells.has(grid_cell):
+		return false
+	
+	## check if there are any structures that exclude scatters
+	var structure = get_structure_at_cell(grid_cell)
+	if structure && structure.exclude_scatters():
+		return false
+	
+	return true
 
 ## Units
 

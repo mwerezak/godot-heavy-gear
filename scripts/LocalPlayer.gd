@@ -18,10 +18,6 @@ func _ready():
 func make_active():
 	gui.show()
 
-func setup_map_view(world_map):
-	gui.camera.set_limit_rect(world_map.display_rect)
-	gui.icon_view.create_scatters(world_map)
-
 ## Forward icon view updates to gui
 func create_icon(icon_id, icon_type):
 	gui.icon_view.create_icon(icon_id, icon_type)
