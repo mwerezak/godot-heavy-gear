@@ -2,6 +2,7 @@ extends Container
 
 onready var camera = $Camera
 onready var icon_view = $IconView
+onready var terrain_cursor = $TerrainCursor
 onready var context_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer
 onready var message_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/MessagePanel
 onready var unit_info_panel = $HUDLayer/UnitInfoPanel
@@ -27,6 +28,12 @@ func hide():
 	for child in $HUDLayer.get_children():
 		_saved_visibility[child] = child.visible
 		child.hide()
+
+func setup_map_view(world_map):
+	camera.set_limit_rect(world_map.display_rect)
+	icon_view.create_scatter_icons(world_map.terrain_scatters)
+	terrain_cursor.setup(world_map)
+
 
 ## Player input handling
 

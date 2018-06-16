@@ -101,6 +101,9 @@ func get_terrain_at_cell(grid_cell):
 	_terrain_cache[grid_cell] = info
 	return info
 
+func all_terrain_cells():
+	return terrain_lookup.keys()
+
 ## should be called after anything that modifies terrain
 func refresh_terrain(terrain_cell):
 	_terrain_cache.erase(terrain_cell)

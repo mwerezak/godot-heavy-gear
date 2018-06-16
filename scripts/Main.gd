@@ -20,9 +20,7 @@ func _ready():
 	## setup local players' UI
 	for player in GameSession.all_players():
 		if player.has_node("PlayerUI"):
-			var gui = player.get_node("PlayerUI")
-			gui.camera.set_limit_rect(terrain_view.display_rect)
-			gui.icon_view.create_scatter_icons(world_map.terrain_scatters)
+			player.get_node("PlayerUI").setup_map_view(world_map)
 
 func setup_server():
 	game_state = GameState.new()

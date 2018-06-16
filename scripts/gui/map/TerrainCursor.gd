@@ -11,22 +11,39 @@ func _ready():
 	z_as_relative = false
 	z_index = Constants.HUD_ZLAYER
 
+var world_map
+var min_cell
+var padding
+
+func setup(world_map):
+	self.world_map = world_map
+
+	var min_cell
+	var max_cell
+	for terrain_cell in world_map.all_terrain_cells():
+		var offset_cell = world_map.terrain_grid.axial_to_offset(terrain_cell)
+		if !min_cell: min_cell = offset_cell
+		if !max_cell: max_cell = offset_cell
+		min_cell.x = min(min_cell.x, offset_cell.x)
+		min_cell.y = min(min_cell.y, offset_cell.y)
+		max_cell.x = max(max_cell.x, offset_cell.x)
+		max_cell.y = max(max_cell.y, offset_cell.y)
+
+	self.min_cell = min_cell
+	max_cell -= min_cell
+	print(max_cell)
+	padding = ("%d" % max(max_cell.x, max_cell.y)).length()
+
 func _unhandled_input(event):
-	return
-	
-	var world_map = get_parent().map_view
-	if !world_map: return
-	
 	if event is InputEventMouseMotion:
-		var mouse_pos = world_map.get_global_mouse_position()
+		var mouse_pos = get_global_mouse_position()
 		
 		## don't snap to blank hexes
-		if world_map.has_point(mouse_pos):
-			## TODO obtain coords from map view NOT world map
-			var world_coords = world_map.world_coords
-			position = world_coords.terrain_grid.snap_to_grid(mouse_pos)
-			var offset_cell = world_coords.terrain_grid.get_offset_cell(mouse_pos)
-			#hex_coords_label.text = _format_hexloc(world_map, offset_cell)
+		if world_map && world_map.has_point(mouse_pos):
+			position = world_map.terrain_grid.snap_to_grid(mouse_pos)
+			
+			var terrain_cell = world_map.terrain_grid.get_offset_cell(mouse_pos)
+			hex_coords_label.text = _format_hexloc(terrain_cell)
 
 			#var terrain = world_map.get_terrain_at_world(mouse_pos)
 			#if terrain && terrain.elevation && terrain.elevation.level:
@@ -35,8 +52,5 @@ func _unhandled_input(event):
 			#else:
 			#	elevation_panel.hide()
 
-func _format_hexloc(world_map, hex_coords):
-	var map_rect = world_map.terrain_tiles.values()
-	var map_origin = map_rect.position
-	var padding = ("%d" % max(map_rect.size.x - 1, map_rect.size.y - 1)).length()
-	return "%0*d%0*d" % [ padding, hex_coords.x - map_origin.x, padding, hex_coords.y - map_origin.y ]
+func _format_hexloc(hex_coords):
+	return "%0*d%0*d" % [ padding, hex_coords.x - min_cell.x, padding, hex_coords.y - min_cell.y ]
