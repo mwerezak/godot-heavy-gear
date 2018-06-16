@@ -1,6 +1,7 @@
 extends Container
 
 onready var camera = $Camera
+onready var icon_view = $IconView
 onready var context_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/ContextContainer
 onready var message_panel = $HUDLayer/LowerLeftPanel/VBoxContainer/MessagePanel
 onready var unit_info_panel = $HUDLayer/UnitInfoPanel

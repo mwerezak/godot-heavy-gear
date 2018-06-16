@@ -9,7 +9,7 @@ var faction_id
 var primary_color = null
 var secondary_color = null
 
-onready var gui = $PlayerUI setget , get_gui
+onready var gui = $PlayerUI
 
 func _ready():
 	name = display_name
@@ -18,8 +18,19 @@ func _ready():
 func make_active():
 	gui.show()
 
-func get_gui():
-	return gui
+func setup_map_view(world_map):
+	gui.camera.set_limit_rect(world_map.display_rect)
+	gui.icon_view.create_scatters(world_map)
+
+## Forward icon view updates to gui
+func create_icon(icon_id, icon_type):
+	gui.icon_view.create_icon(icon_id, icon_type)
+
+func update_icon(icon_id, update_data):
+	gui.icon_view.update_icon(icon_id, update_data)
+
+func delete_icon(icon_id):
+	pass
 
 """
 func render_message(message):

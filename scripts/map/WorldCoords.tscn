@@ -3,13 +3,13 @@
 [ext_resource path="res://scripts/map/WorldCoords.gd" type="Script" id=1]
 [ext_resource path="res://scripts/helpers/HexGrid.gd" type="Script" id=2]
 
-
-[node name="WorldCoords" type="Node2D"]
+[node name="WorldCoords" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
 [node name="UnitGrid" type="Node2D" parent="." index="0"]
 
+position = Vector2( 96, 81 )
 script = ExtResource( 2 )
 _sections_unfolded = [ "Transform" ]
 cell_size = Vector2( 0, 0 )
@@ -17,6 +17,7 @@ cell_size = Vector2( 0, 0 )
 [node name="TerrainGrid" type="Node2D" parent="." index="1"]
 
 script = ExtResource( 2 )
+_sections_unfolded = [ "Transform" ]
 cell_size = Vector2( 0, 0 )
 
 

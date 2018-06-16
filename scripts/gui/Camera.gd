@@ -22,7 +22,7 @@ func _ready():
 ## note that the view rect should be in global coordinates
 export(Rect2) var view_rect setget set_view, get_view
 func set_view(view_rect):
-	if !get_tree(): return
+	if !is_inside_tree(): return
 	
 	## center the camera on the rect
 	var center = (view_rect.position + view_rect.end)/2.0

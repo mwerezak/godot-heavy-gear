@@ -19,8 +19,8 @@ func _ready():
 
 	## setup local players' UI
 	for player in GameSession.all_players():
-		if player.has_method("get_gui"):
-			player.get_gui().camera.set_limit_rect(terrain_view.display_rect)
+		if player.has_method("setup_map_view"):
+			player.setup_map_view(world_map)
 
 func setup_server():
 	game_state = GameState.new()

@@ -2,6 +2,8 @@ extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
+signal icon_update(update_data)
+
 var _info
 
 var world_map
@@ -33,9 +35,10 @@ func get_footprint():
 		footprint = footprint_cells.keys()
 	return footprint
 
-func icon_appearance_data():
+func update_icon():
 	var world_pos = world_map.unit_grid.axial_to_world(cell_position)
-	return {
+	print(world_pos)
+	emit_signal("icon_update", {
 		texture = _info.texture,
-		position = world_pos + _info.position_offset
-	}
+		position = world_pos + _info.position_offset,
+	})

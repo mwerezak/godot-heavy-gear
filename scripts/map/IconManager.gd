@@ -4,14 +4,22 @@
 extends Reference
 
 ## temporary. eventually object ids will be provided by WorldMap when networking is implemented
-var object_ids = {}
+var icon_ids = {}
 
-func register_icon(object, icon_type_id):
-	var oid = object_ids.size()
-	object_ids[object] = oid
-
-func unregister_icon(object):
+func create_unit_icon(unit):
 	pass
 
-func _icon_updated(update_data, object):
-	pass
+func create_structure_icon(struct):
+	var icon_id = icon_ids.size()
+	icon_ids[struct] = icon_id
+
+	for player in GameSession.all_players():
+		player.create_icon(icon_id, "StructureIcon")
+
+	struct.connect("icon_update", self, "_icon_update", [struct])
+	struct.call_deferred("update_icon")
+
+func _icon_update(update_data, object):
+	var icon_id = icon_ids[object]
+	for player in GameSession.all_players():
+		player.update_icon(icon_id, update_data)
