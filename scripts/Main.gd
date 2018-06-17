@@ -27,7 +27,7 @@ func setup_server():
 	for player in GameSession.all_players():
 		game_state.add_player(player)
 
-	#Messages.system_message("Loading map...")
+	Messages.system("Loading map...")
 	var map_loader = MapLoader.new(world_coords, map_scene)
 
 	var icon_manager = IconManager.new()
@@ -46,7 +46,7 @@ func setup_server():
 	terrain_view.load_elevation(map_loader)
 
 	game_state.setup(world_map)
-	#Messages.system_message("Game setup complete.")
+	Messages.system("Game setup complete.")
 
 	GameSession.all_players().front().make_active()
 

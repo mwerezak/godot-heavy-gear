@@ -2,6 +2,8 @@ extends Node
 
 const PlayerUI = preload("res://scripts/gui/PlayerUI.tscn")
 
+var id setget set_id
+
 var display_name
 var faction_id
 
@@ -11,8 +13,11 @@ var secondary_color = null
 
 onready var gui = $PlayerUI
 
+func set_id(new_id):
+	name = new_id
+	id = name
+
 func _ready():
-	name = display_name
 	gui.hide()
 
 func make_active():
@@ -28,14 +33,23 @@ func update_icon(icon_id, update_data):
 func delete_icon(icon_id):
 	pass
 
-"""
-func render_message(message):
-	gui.message_panel.append(message, message.render(self))
+func render_message(node, handler = null):
+	gui.message_panel.append(node, handler)
 
+"""
 func activation_turn(current_turn, available_units):
 	get_tree().get_current_scene().set_active_ui(gui)
 
-	Messages.UnitsReady.new(self, available_units).dispatch()
+	var unit_pos = []
+	for unit in available_units:
+		unit_pos.push_back(unit.global_position)
+
+	var message_text = "%d %s ready to be activated." % [ available_units.size(), "units are" if available_units.size() > 1 else "unit is" ]
+	Messages.dispatch_player(
+		self, 
+		Messages.message_view_pos(unit_pos, message_text, Colors.GAME_MESSAGE),
+		Messages.message_label("%s is activating units..." % player.display_name, Colors.PASSIVE_MESSAGE),
+	)
 
 	var select_unit = gui.context_panel.activate("SelectUnit", {
 		select_from = available_units,

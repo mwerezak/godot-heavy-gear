@@ -58,17 +58,6 @@ func set_view_smooth(view_rect, speed = 1.0):
 
 	_anim_player.stop()
 
-## gets the view rect that will position the camera to view all of the given objects
-func get_objects_view(objects):
-	assert(!objects.empty())
-
-	var view_rect = Rect2(objects.front().global_position, Vector2())
-	for object in objects:
-		view_rect = view_rect.expand(object.global_position)
-	
-	var margin = max(50, 0.2*max(view_rect.size.x, view_rect.size.y))
-	return view_rect.grow(margin)
-
 ## gets the view rect that will center the camera at a specific position, with an optional zoom level
 func get_point_view(center_pos, zoom_level = null):
 	if !get_tree(): return null

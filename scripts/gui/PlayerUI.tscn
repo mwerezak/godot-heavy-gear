@@ -7,7 +7,7 @@
 [ext_resource path="res://scripts/gui/map/UnitCursor.gd" type="Script" id=5]
 [ext_resource path="res://scripts/gui/map/TerrainCursor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scripts/gui/QuickHelp.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scripts/gui/messages/MessagePanel.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/gui/MessagePanel.tscn" type="PackedScene" id=8]
 [ext_resource path="res://scripts/gui/context_container/ContextContainer.gd" type="Script" id=9]
 [ext_resource path="res://scripts/gui/context_container/SpawnUnitTool.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scripts/gui/context_container/DeleteUnitTool.tscn" type="PackedScene" id=11]
@@ -19,6 +19,7 @@
 [ext_resource path="res://scripts/gui/UnitInfoPanel.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scripts/gui/DevToolbox.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scripts/gui/DebugLabel.gd" type="Script" id=19]
+
 
 [sub_resource type="GDScript" id=1]
 
