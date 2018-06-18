@@ -14,10 +14,6 @@ var faction_ids = {}
 var unit_models = {}
 
 func _ready():
-	return
-	var game_state = GameState.get_instance(get_tree())
-	game_state.connect("game_setup", self, "_game_start", [game_state], CONNECT_DEFERRED)
-	
 	faction_button.clear()
 	var all_faction_ids = GameData.all_faction_ids()
 	for i in range(all_faction_ids.size()):
@@ -35,16 +31,14 @@ func _ready():
 	
 	_update_model_list(faction_button.get_selected_id())
 
-## refresh player lists whenever a new game is started
-func _game_start(game_state):
+func _setup():
 	player_button.clear()
-	var all_players = game_state.players
+	var all_players = GameSession.all_players()
 	for i in range(all_players.size()):
 		var player = all_players[i]
 		player_button.add_item(player.display_name, i)
 		players[i] = player
 
-func _setup():
 	var game_state = GameState.get_instance(get_tree())
 	var active_player = game_state.get_active_player()
 	if active_player:
@@ -57,10 +51,13 @@ func _player_button_item_selected(i):
 	_set_player_faction(i)
 
 func _set_player_faction(i):
-	var sel_faction = players[i].default_faction
-	var faction_idx = faction_ids[sel_faction.faction_id]
+	var game_state = GameState.get_instance(get_tree())
+	if !game_state: return
+	
+	var player_data = game_state.get_player_data(players[i])
+	var faction_idx = faction_ids[player_data.default_faction.faction_id]
 	faction_button.select(faction_idx)
-	_update_model_list(faction_idx)
+	_faction_button_item_selected(faction_idx)
 
 func _faction_button_item_selected(i):
 	_update_model_list(i)

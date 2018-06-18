@@ -30,7 +30,7 @@ func render_message(node, handler = null):
 	gui.message_panel.append(node, handler)
 
 func activation_turn(ready_units):
-	var game_state = GameState.get_instance()
+	var game_state = GameState.get_instance(get_tree())
 	var activation = PlayerActivation.new(self, game_state.current_turn, ready_units)
 	gui.show()
 

@@ -7,12 +7,15 @@ signal game_setup
 signal game_started
 
 var world_map
-var players = {} #map player nodes -> player data
+var player_data = {} #map player nodes -> player data
 var current_turn
 var turn_history
 
 func add_player(new_player, seat_info):
-	players[new_player] = PlayerData.new(self, new_player, seat_info)
+	player_data[new_player] = PlayerData.new(self, new_player, seat_info)
+
+func get_player_data(player):
+	return player_data[player]
 
 func setup(world_map):
 	self.world_map = world_map
@@ -31,6 +34,10 @@ func run_game():
 
 		yield(current_turn, "end_turn")
 		turn_history.push_back(current_turn)
+
+func get_active_player():
+	if current_turn:
+		return current_turn.active_player
 
 static func get_instance(scene_tree):
 	return scene_tree.get_current_scene().game_state

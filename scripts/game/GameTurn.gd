@@ -17,12 +17,12 @@ func _init(game_state, turn_num):
 
 func roll_initiative():
 	initiative_queue = []
-	for player in game_state.players:
+	for player_data in game_state.player_data.values():
 		## TODO command groups
-		if !player.owned_units.empty():
+		if !player_data.owned_units.empty():
 			var initiative_group = {
-				player = player,
-				units = player.owned_units.duplicate(),
+				player = player_data.player,
+				units = player_data.owned_units.duplicate(),
 			}
 			initiative_queue.push_back(initiative_group)
 

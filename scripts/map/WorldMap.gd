@@ -158,7 +158,7 @@ func add_unit(unit):
 	units[unit] = cell_pos
 	unit_locs.push_back(cell_pos, unit)
 
-	icon_manager.add_icon_for_unit(unit)
+	icon_manager.create_unit_icon(unit)
 
 func remove_unit(unit):
 	unit.world_map = null
@@ -167,7 +167,7 @@ func remove_unit(unit):
 	units.erase(unit)
 	unit_locs.remove(unit.cell_position, unit)
 
-	icon_manager.unregister_icon(unit)
+	icon_manager.delete_icon(unit)
 
 func get_units_at_cell(grid_cell):
 	if !unit_locs.has(grid_cell):

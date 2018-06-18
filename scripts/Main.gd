@@ -59,6 +59,6 @@ func setup_server():
 		button_text = "Start Game",
 	}), "context_return")
 
-	#Messages.system_message("Starting game...")
-	#game_state.start_game(
+	#Messages.system("Starting game...")
+	#game_state.start_game()
 
