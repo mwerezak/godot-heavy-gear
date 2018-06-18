@@ -13,6 +13,7 @@ var help_dialog_shown = false
 var _saved_visibility = {}
 func show():
 	.show()
+	set_process_input(true)
 	camera.set_current(true)
 	for child in _saved_visibility:
 		child.visible = _saved_visibility[child]
@@ -24,6 +25,7 @@ func show():
 
 func hide():
 	.hide()
+	set_process_input(false)
 	camera.set_current(false)
 	for child in $HUDLayer.get_children():
 		_saved_visibility[child] = child.visible

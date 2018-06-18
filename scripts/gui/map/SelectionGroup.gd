@@ -61,6 +61,12 @@ func _update_overlay(object):
 	else:
 		overlay.set_state(overlay.STATE_DISABLED)
 
+func _attach_overlay(object, overlay):
+	pass
+
+func _detach_overlay(object, overlay):
+	pass
+
 func show():
 	for overlay in _overlays.values():
 		overlay.show()

@@ -24,8 +24,11 @@ func _ready():
 
 func setup_server():
 	game_state = GameState.new()
-	for player in GameSession.all_players():
-		game_state.add_player(player)
+	
+	## TODO this should be obtained from the game lobby once that's added
+	## for now just hardcode
+	game_state.add_player(GameSession.get_player("0"), { faction_id = "north" })
+	game_state.add_player(GameSession.get_player("1"), { faction_id = "south" })
 
 	Messages.system("Loading map...")
 	var map_loader = MapLoader.new(world_coords, map_scene)
@@ -48,17 +51,14 @@ func setup_server():
 	game_state.setup(world_map)
 	Messages.system("Game setup complete.")
 
-	GameSession.all_players().front().make_active()
+	##TODO
+	var first_player = GameSession.all_players().front()
+	first_player.gui.show()
+	yield(first_player.gui.context_panel.activate("Dialog", {
+		message_text = "Begin the game when ready.",
+		button_text = "Start Game",
+	}), "context_return")
 
-	"""
-	if !game_state.players.empty():
-		set_active_ui(game_state.players.front().gui) ##stub
+	#Messages.system_message("Starting game...")
+	#game_state.start_game(
 
-		yield(active_ui.context_panel.activate("Dialog", {
-			message_text = "Begin the game when ready.",
-			button_text = "Start Game",
-		}), "context_return")
-
-		#Messages.system_message("Starting game...")
-		game_state.start_game()
-	"""

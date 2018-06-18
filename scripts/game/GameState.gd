@@ -11,8 +11,8 @@ var players = {} #map player nodes -> player data
 var current_turn
 var turn_history
 
-func add_player(new_player):
-	players[new_player] = PlayerData.new(self, new_player)
+func add_player(new_player, seat_info):
+	players[new_player] = PlayerData.new(self, new_player, seat_info)
 
 func setup(world_map):
 	self.world_map = world_map

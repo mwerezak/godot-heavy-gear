@@ -7,14 +7,13 @@ const LocalPlayer = preload("res://scripts/LocalPlayer.tscn")
 
 func _ready():
 	## for now, just create a couple of local players for testing
-	_debug_create_player("0", "Player 1", "north")
-	_debug_create_player("1", "Player 2", "south")
+	_debug_create_player("0", "Player 1")
+	_debug_create_player("1", "Player 2")
 
-func _debug_create_player(id, name, faction):
+func _debug_create_player(id, name):
 	var player = LocalPlayer.instance()
 	player.id = id
 	player.display_name = name
-	player.faction_id = faction
 	add_child(player)
 	print(player.name)
 

@@ -3,27 +3,29 @@ extends Node
 var game_state
 
 var player
-var default_faction
-
 var owned_units = {} setget , get_units
 
-func _init(game_state, player):
+## color overrides, otherwise default_faction is used for colors
+var default_faction
+var primary_color = null setget get_primary_color
+var secondary_color = null setget get_secondary_color
+
+func _init(game_state, player, seat_info):
 	self.game_state = game_state
 	self.player = player
-	self.default_faction = GameData.get_faction(player.faction_id)
+
+	self.default_faction = GameData.get_faction(seat_info.faction_id)
+	primary_color = seat_info.primary_color if seat_info.has("primary_color") else null
+	secondary_color = seat_info.secondary_color if seat_info.has("secondary_color") else null
 
 func get_player_name(): 
 	return player.display_name
 
 func get_primary_color():
-	if player.primary_color:
-		return player.primary_color
-	return default_faction.primary_color
+	return primary_color if primary_color else default_faction.primary_color
 
 func get_secondary_color():
-	if player.secondary_color:
-		return player.secondary_color
-	return default_faction.secondary_color
+	return secondary_color if secondary_color else default_faction.secondary_color
 
 func take_ownership(unit):
 	owned_units[unit] = true
@@ -34,9 +36,3 @@ func release_ownership(unit):
 func get_units():
 	return owned_units.keys()
 
-## Turn Control
-
-signal pass_turn
-
-func activation_turn(current_turn, available_units):
-	emit_signal("pass_turn") #override in subtype

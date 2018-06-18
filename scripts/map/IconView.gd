@@ -7,10 +7,11 @@ const ICON_TYPES = {
 	StructureIcon = preload("res://scripts/structures/StructureIcon.gd"),
 }
 
-var icons = {}
+var object_icons = {}
+var scatter_icons = []
 
-func create_icon(icon_id, icon_type_id):
-	assert(!icons.has(icon_id))
+func create_icon(object, icon_type_id):
+	if object_icons.has(object): return
 
 	var icon_type = ICON_TYPES[icon_type_id]
 	var icon
@@ -21,16 +22,20 @@ func create_icon(icon_id, icon_type_id):
 	else:
 		assert(false)
 
-	icon.name = "Icon#%d"%icon_id
-	icons[icon_id] = icon
+	icon.name = "Icon#%d"%hash(object) ##temp
+	object_icons[object] = icon
 	add_child(icon)
 
-func update_icon(icon_id, update_data):
-	icons[icon_id].update(update_data)
+func update_icon(object, update_data):
+	object_icons[object].update(update_data)
 
-func delete_icon(icon_id):
-	var icon = icons[icon_id]
-	icons.erase(icon)
+func get_icon(object):
+	if object_icons.has(object):
+		return object_icons[object]
+
+func delete_icon(object):
+	var icon = object_icons[object]
+	object_icons.erase(object)
 	remove_child(icon)
 	icon.queue_free()
 
@@ -38,4 +43,5 @@ func create_scatter_icons(scatters):
 	for scatter_data in scatters:
 		var scatter = TerrainScatter.new(scatter_data.info)
 		scatter.position = scatter_data.position
+		scatter_icons.push_back(scatter)
 		add_child(scatter)
