@@ -1,6 +1,7 @@
 extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
+const StructureIntel = preload("StructureIntel.gd")
 
 signal icon_update(update_data)
 
@@ -10,16 +11,27 @@ var world_map
 var cell_position setget set_cell_position
 var footprint setget , get_footprint
 
+var oid
+
+func _init():
+	oid = get_instance_id()
+
 func set_structure_info(info):
 	_info = info
 
-func get_structure_id(): return _info.structure_id
+func get_structure_type(): return _info.structure_id
 func exclude_scatters(): return _info.exclude_scatters
 func get_terrain_info(): return _info.terrain_info
 
 func set_cell_position(new_pos):
 	cell_position = new_pos
 	footprint = null
+
+func get_true_position():
+	return world_map.get_true_position(cell_position)
+
+func create_blank_intel():
+	return StructureIntel.new(oid)
 
 ## returns the grid cells on the map occupied by this structure
 func get_footprint():
@@ -41,3 +53,4 @@ func update_icon():
 		texture = _info.texture,
 		position = world_pos + _info.position_offset,
 	})
+

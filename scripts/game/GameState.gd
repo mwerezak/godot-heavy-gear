@@ -19,12 +19,15 @@ const ForceSide = preload("ForceSide.gd")
 
 class GameState:
 	var world_map
+	var vision_net
+
 	var sides = {} #map player nodes -> side
 	var current_turn
 	var turn_history
 
 	func _init(world_map):
 		self.world_map = world_map
+		self.vision_net = VisionNet.new(world_map)
 		current_turn = null
 		turn_history = []
 
@@ -36,6 +39,10 @@ class GameState:
 
 	func has_player(player):
 		return sides.has(player)
+
+	func add_unit(unit):
+		world_map.add_unit(unit)
+		vision_net.add_unit(unit)
 
 	func run_game():
 		while true:

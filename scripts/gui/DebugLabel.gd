@@ -29,7 +29,7 @@ func _update_text():
 	
 	var structure = world_map.get_structure_at_cell(grid_cell)
 	if structure:
-		terrain_id += ":" + structure.get_structure_id()
+		terrain_id += ":" + structure.get_structure_type()
 
 	var turn_str = "Not Started"
 	if game_state.current_turn:

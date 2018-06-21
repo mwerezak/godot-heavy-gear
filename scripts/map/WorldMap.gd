@@ -248,3 +248,6 @@ func add_structure(struct):
 
 func get_structure_at_cell(grid_cell):
 	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null
+
+func all_structures():
+	return structures.keys()

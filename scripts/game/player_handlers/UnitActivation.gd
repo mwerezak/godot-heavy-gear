@@ -27,3 +27,4 @@ func next_active_unit(ready_units):
 	})
 	var selection_group = yield(select_unit, "context_return")
 	return selection_group.get_selected()
+

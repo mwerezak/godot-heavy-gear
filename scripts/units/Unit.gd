@@ -2,6 +2,7 @@ extends Reference
 
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 const UnitIcon = preload("UnitIcon.tscn")
+const UnitIntel = preload("UnitIntel.gd")
 
 signal cell_position_changed(old_pos, new_pos)
 signal update_icon(update_data)
@@ -21,10 +22,10 @@ var crew_info setget set_crew_info
 
 var world_map
 
-var uid #unqiue ID used to reference units remotely
+var oid #unqiue ID used to reference units remotely
 
 func _init():
-	uid = get_instance_id()
+	oid = get_instance_id()
 
 func set_world_map(map):
 	world_map = map
@@ -123,6 +124,9 @@ func max_action_points():
 
 func max_movement_points():
 	return unit_model.max_movement_points()
+
+func create_blank_intel():
+	return UnitIntel.new(oid)
 
 ## icon updates
 func update_icon():

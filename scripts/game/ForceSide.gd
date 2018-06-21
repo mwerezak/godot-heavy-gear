@@ -2,13 +2,16 @@ extends Node
 
 var game_state
 
-var player
-var owned_units = {} setget , get_units
-
 ## color overrides, otherwise default_faction is used for colors
 var default_faction
 var primary_color = null setget , get_primary_color
 var secondary_color = null setget , get_secondary_color
+
+var player
+var owned_units = {} setget , get_units
+
+var object_intel = {}
+var _intel_cache = {}
 
 func _init(game_state, player, seat_info):
 	self.game_state = game_state
@@ -36,3 +39,16 @@ func release_ownership(unit):
 func get_units():
 	return owned_units.keys()
 
+func set_intel_level(seen_object, new_level):
+	var old_level = get_intel_level(seen_object)
+	if new_level != old_level:
+		if !object_intel.has(seen_object):
+			object_intel[seen_object] = seen_object.create_blank_intel()
+		var intel = object_intel[seen_object]
+		intel.update(seen_object, new_level)
+		player.update_intel(intel)
+
+func get_intel_level(seen_object):
+	if !object_intel.has(seen_object):
+		return
+	return object_intel[seen_unit] 

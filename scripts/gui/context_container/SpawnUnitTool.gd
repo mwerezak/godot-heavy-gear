@@ -86,9 +86,7 @@ func _spawn_unit(world_map, cell_pos):
 
 		spawn_unit.set_faction(faction)
 		spawn_unit.set_unit_model(unit_model)
-		if !world_map.unit_can_place(spawn_unit, cell_pos):
-			spawn_unit.queue_free()
-		else:
+		if world_map.unit_can_place(spawn_unit, cell_pos):
 			var crew = Crew.new(faction, unit_model.get_default_crew())
 			spawn_unit.set_crew_info(crew)
 			
