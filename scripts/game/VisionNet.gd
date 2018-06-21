@@ -26,7 +26,7 @@ func _init(world_map):
 	self.world_map = world_map
 
 func add_side(force_side):
-	_extra_contacts[force_side] = {}
+	_force_contacts[force_side] = {}
 	for unit in _tracked_objects:
 		update_intel(force_side, unit)
 	
@@ -46,14 +46,14 @@ func add_unit(new_unit):
 		set_contact_level(new_unit, struct, Contact.OBSERVED)
 
 	## force has command contact with its units
-	set_force_contact(new_unit.owner_side, Contact.COMMAND)
+	set_force_contact(new_unit.owner_side, new_unit, Contact.COMMAND)
 
 func add_structure(struct):
 	## for now, structures are always observed
 	for unit in _tracked_objects:
 		set_contact_level(unit, struct, Contact.OBSERVED)
-	for force_side in _extra_contacts:
-		set_force_contact(force_side, Contact.OBSERVED)
+	for force_side in _force_contacts:
+		set_force_contact(force_side, struct, Contact.OBSERVED)
 
 ## Contact Level
 
@@ -85,11 +85,11 @@ func assign_force_contact(force_side, seen_object, level):
 		update_intel_level(force_side, seen_object)
 
 func set_force_contact(force_side, seen_object, bitflag):
-	var new_level = bitflag | get_contact_level(force_side, seen_object)
+	var new_level = bitflag | get_force_contact(force_side, seen_object)
 	assign_force_contact(force_side, seen_object, new_level)
 
 func unset_force_contact(force_side, seen_object, bitflag):
-	var new_level = ~(bitflag) & get_contact_level(force_side, seen_object)
+	var new_level = ~(bitflag) & get_force_contact(force_side, seen_object)
 	assign_force_contact(force_side, seen_object, new_level)
 
 func get_force_contact(force_side, seen_object):

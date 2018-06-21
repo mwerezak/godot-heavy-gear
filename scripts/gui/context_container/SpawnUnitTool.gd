@@ -67,39 +67,41 @@ func _update_model_list(i):
 
 func cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		_spawn_unit(world_map, cell_pos)
+		_spawn_unit(cell_pos)
 
-func _spawn_unit(world_map, cell_pos):
-		var spawn_unit = Unit.new()
+func _spawn_unit(cell_pos):
+	var current_game = GameState.current_game
 
-		var player_idx = player_button.get_selected_id()
-		var player = players[player_idx]
+	var spawn_unit = Unit.new()
 
-		var force_side = GameState.current_game.get_player_side(player)
-		if !force_side: return
+	var player_idx = player_button.get_selected_id()
+	var player = players[player_idx]
+
+	var force_side = current_game.get_player_side(player)
+	if !force_side: return
+	
+	var faction_idx = faction_button.get_selected_id()
+	var faction = factions[faction_idx]
+	
+	var model_idx = unit_model_button.get_selected_id()
+	var unit_model = unit_models[faction_idx][model_idx]
+
+	spawn_unit.set_faction(faction)
+	spawn_unit.set_unit_model(unit_model)
+	if current_game.world_map.unit_can_place(spawn_unit, cell_pos):
+		var crew = Crew.new(faction, unit_model.get_default_crew())
+		spawn_unit.set_crew_info(crew)
 		
-		var faction_idx = faction_button.get_selected_id()
-		var faction = factions[faction_idx]
+		spawn_unit.set_side(force_side)
 		
-		var model_idx = unit_model_button.get_selected_id()
-		var unit_model = unit_models[faction_idx][model_idx]
-
-		spawn_unit.set_faction(faction)
-		spawn_unit.set_unit_model(unit_model)
-		if world_map.unit_can_place(spawn_unit, cell_pos):
-			var crew = Crew.new(faction, unit_model.get_default_crew())
-			spawn_unit.set_crew_info(crew)
-			
-			spawn_unit.set_side(force_side)
-			
-			spawn_unit.cell_position = cell_pos
-			world_map.add_unit(spawn_unit)
-			
-			if spawn_unit.has_facing():
-				var rotate_context = context_manager.activate("SelectFacing", { rotate_unit = spawn_unit })
-				var rotate_info = yield(rotate_context, "context_return")
-				if rotate_info:
-					spawn_unit.set_facing(rotate_info.selected_dir)
+		spawn_unit.cell_position = cell_pos
+		current_game.add_unit(spawn_unit)
+		
+		if spawn_unit.has_facing():
+			var rotate_context = context_manager.activate("SelectFacing", { rotate_unit = spawn_unit })
+			var rotate_info = yield(rotate_context, "context_return")
+			if rotate_info:
+				spawn_unit.set_facing(rotate_info.selected_dir)
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):

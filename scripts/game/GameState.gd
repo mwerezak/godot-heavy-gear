@@ -16,6 +16,7 @@ func get_current_game():
 
 const GameTurn = preload("GameTurn.gd")
 const ForceSide = preload("ForceSide.gd")
+const VisionNet = preload("VisionNet.gd")
 
 class GameState:
 	var world_map
@@ -32,7 +33,9 @@ class GameState:
 		turn_history = []
 
 	func create_side(new_player, side_info):
-		sides[new_player] = ForceSide.new(self, new_player, side_info)
+		var new_side = ForceSide.new(self, new_player, side_info)
+		sides[new_player] = new_side
+		vision_net.add_side(new_side)
 
 	func get_player_side(player):
 		return sides[player]
@@ -43,6 +46,10 @@ class GameState:
 	func add_unit(unit):
 		world_map.add_unit(unit)
 		vision_net.add_unit(unit)
+
+	func add_structure(struct):
+		world_map.add_structure(struct)
+		vision_net.add_structure(struct)
 
 	func run_game():
 		while true:

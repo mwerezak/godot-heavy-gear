@@ -1,6 +1,7 @@
 extends Node2D
 
 const Constants = preload("res://scripts/Constants.gd")
+const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
 const FOOTPRINT_RADIUS = 24 #pixels
 
@@ -89,16 +90,23 @@ func set_temp_facing_enabled(enabled):
 	else:
 		temp_facing.hide()
 
-## whitelist of properties that can be updated remotely
-const UPDATE_PROPERTIES = [
-	"unit_symbol",
-	"primary_color",
-	"secondary_color",
-	"show_facing",
-	"facing",
-	"position",
-]
-func update(data):
-	for key in UPDATE_PROPERTIES:
-		if data.has(key):
-			set(key, data[key])
+func update(unit_intel):
+	if unit_intel.unit_model:
+		var unit_model = GameData.get_unit_model(unit_intel.unit_model)
+		self.show_facing = unit_model.use_facing()
+		self.unit_symbol = unit_model.desc.symbol
+
+	if unit_intel.owner_side:
+		self.primary_color = unit_intel.owner_side.primary_color
+	
+	if unit_intel.faction:
+		var faction = GameData.get_faction(unit_intel.faction)
+		self.secondary_color = faction.secondary_color
+	elif unit_intel.owner_side:
+		self.secondary_color = unit_intel.owner_side.primary_color
+
+	if unit_intel.draw_position:
+		self.position = unit_intel.draw_position
+
+	if unit_intel.facing && show_facing:
+		self.facing = HexUtils.dir2rad(unit_intel.facing)

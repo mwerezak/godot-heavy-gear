@@ -17,6 +17,7 @@ onready var _anim_player = $AnimationPlayer #for smooth transitions
 func _ready():
 	set_current(false)
 	_anim_player.playback_default_blend_time = 10
+	get_tree().get_root().connect("size_changed", self, "_snap_view_limits")
 
 ## sets the camera position and zoom based on the given rect (while respecting limits)
 ## note that the view rect should be in global coordinates
@@ -127,6 +128,10 @@ func _snap_zoom_limits():
 	zoom.x = clamp(zoom.x, min_zoom, max_zoom_limit)
 	zoom.y = clamp(zoom.y, min_zoom, max_zoom_limit)
 
+func _snap_view_limits():
+	_snap_scroll_limits()
+	_snap_zoom_limits()
+
 func set_limit_rect(rect):
 	limit_rect = rect
 	
@@ -134,8 +139,7 @@ func set_limit_rect(rect):
 	limit_top = rect.position.y
 	limit_right = rect.end.x
 	limit_bottom = rect.end.y
-	_snap_scroll_limits()
-	_snap_zoom_limits()
+	_snap_view_limits()
 
 func set_current(active):
 	current = active

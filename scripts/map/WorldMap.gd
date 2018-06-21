@@ -4,8 +4,6 @@ const Constants = preload("res://scripts/Constants.gd")
 const ArrayMap = preload("res://scripts/helpers/ArrayMap.gd")
 const HexUtils = preload("res://scripts/helpers/HexUtils.gd")
 
-var icon_manager
-
 var world_coords setget set_coordinate_system
 var terrain_grid
 var unit_grid
@@ -30,9 +28,6 @@ var road_cells = {}
 ## elevation map object
 var elevation
 
-func set_icon_manager(manager):
-	icon_manager = manager
-
 func set_coordinate_system(coords):
 	world_coords = coords
 	terrain_grid = coords.terrain_grid
@@ -49,10 +44,6 @@ func load_map(map_loader):
 
 	## terrain elevation
 	elevation = map_loader.terrain_elevation
-
-	## setup structures
-	for structure in map_loader.structures:
-		add_structure(structure)
 
 	## setup roads
 	for road in map_loader.roads:
@@ -158,16 +149,12 @@ func add_unit(unit):
 	units[unit] = cell_pos
 	unit_locs.push_back(cell_pos, unit)
 
-	icon_manager.create_unit_icon(unit)
-
 func remove_unit(unit):
 	unit.world_map = null
 	unit.disconnect("cell_position_changed", self, "_unit_cell_position_changed")
 
 	units.erase(unit)
 	unit_locs.remove(unit.cell_position, unit)
-
-	icon_manager.delete_icon(unit)
 
 func get_units_at_cell(grid_cell):
 	if !unit_locs.has(grid_cell):
@@ -243,8 +230,6 @@ func add_structure(struct):
 	structures[struct] = struct.footprint
 	for grid_cell in struct.footprint:
 		structure_locs[grid_cell] = struct
-
-	icon_manager.create_structure_icon(struct)
 
 func get_structure_at_cell(grid_cell):
 	return structure_locs[grid_cell] if structure_locs.has(grid_cell) else null

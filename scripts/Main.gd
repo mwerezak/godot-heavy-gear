@@ -2,7 +2,6 @@ extends Node
 
 const MapLoader = preload("res://scripts/map/MapLoader.gd")
 const WorldMap = preload("res://scripts/map/WorldMap.gd")
-const IconManager = preload("res://scripts/map/IconManager.gd")
 const TerrainView = preload("res://scripts/map/TerrainView.tscn")
 
 export(PackedScene) var map_scene
@@ -19,12 +18,8 @@ func setup_server():
 	Messages.system("Loading map...")
 	var map_loader = MapLoader.new(world_coords, map_scene)
 
-	var icon_manager = IconManager.new()
-	## TODO will prob need to access players and game state
-
 	world_map = WorldMap.new()
 	world_map.set_coordinate_system(world_coords)
-	world_map.set_icon_manager(icon_manager)
 	world_map.load_map(map_loader)
 
 	terrain_view = TerrainView.instance()
@@ -39,6 +34,10 @@ func setup_server():
 	GameState.create_new_game(world_map)
 	GameState.current_game.create_side(GameSession.get_player("0"), { faction_id = "north" })
 	GameState.current_game.create_side(GameSession.get_player("1"), { faction_id = "south" })
+
+	## setup structures
+	for structure in map_loader.structures:
+		GameState.current_game.add_structure(structure)
 
 	Messages.system("Game setup complete.")
 

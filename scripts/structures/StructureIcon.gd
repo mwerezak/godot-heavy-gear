@@ -2,22 +2,27 @@ extends Sprite
 
 const Constants = preload("res://scripts/Constants.gd")
 
+## Need to apply an offset to the structure sprite as specified by the structure type
+## however this offset needs to be applied to position (not texture offset) in order
+## for Y-sorting to work correctly
+var _position_offset = Vector2()
+
 func _ready():
 	centered = false
 	z_as_relative = false
 	z_index = Constants.STRUCTURE_ZLAYER
-	connect("texture_changed", self, "_texture_changed")
+	connect("texture_changed", self, "_update_offset")
 
-func _texture_changed():
-	## structure sprites are anchored at the LL corner instead of the UL
+## structure sprites are anchored at the LL corner instead of the UL
+func _update_offset():
 	offset = Vector2(0, -texture.get_size().y)
 
-## whitelist of properties that can be updated remotely
-const UPDATE_PROPERTIES = [
-	"texture",
-	"position",
-]
-func update(data):
-	for key in UPDATE_PROPERTIES:
-		if data.has(key):
-			set(key, data[key])
+func update(struct_intel):
+	if struct_intel.structure_type:
+		var struct_info = GameData.get_structure_info(struct_intel.structure_type)
+		_position_offset = struct_info.position_offset
+		set_texture(struct_info.texture)
+
+	if struct_intel.draw_position:
+		position = struct_intel.draw_position + _position_offset
+

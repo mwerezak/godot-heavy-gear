@@ -47,10 +47,12 @@ func get_footprint():
 		footprint = footprint_cells.keys()
 	return footprint
 
+"""
 func update_icon():
 	var world_pos = world_map.unit_grid.axial_to_world(cell_position)
 	emit_signal("icon_update", {
 		texture = _info.texture,
 		position = world_pos + _info.position_offset,
 	})
+"""
 

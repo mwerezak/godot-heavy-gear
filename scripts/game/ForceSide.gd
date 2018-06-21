@@ -46,9 +46,9 @@ func set_intel_level(seen_object, new_level):
 			object_intel[seen_object] = seen_object.create_blank_intel()
 		var intel = object_intel[seen_object]
 		intel.update(seen_object, new_level)
-		player.update_intel(intel)
+		player.update_view(intel)
 
 func get_intel_level(seen_object):
 	if !object_intel.has(seen_object):
 		return
-	return object_intel[seen_unit] 
+	return object_intel[seen_object].intel_level
