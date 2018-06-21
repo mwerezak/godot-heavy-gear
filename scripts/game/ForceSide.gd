@@ -7,8 +7,8 @@ var owned_units = {} setget , get_units
 
 ## color overrides, otherwise default_faction is used for colors
 var default_faction
-var primary_color = null setget get_primary_color
-var secondary_color = null setget get_secondary_color
+var primary_color = null setget , get_primary_color
+var secondary_color = null setget , get_secondary_color
 
 func _init(game_state, player, seat_info):
 	self.game_state = game_state

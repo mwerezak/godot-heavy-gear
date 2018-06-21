@@ -9,14 +9,14 @@ func create_unit_icon(unit):
 	for player in GameSession.all_players():
 		player.create_icon(unit, "UnitIcon")
 
-	unit.connect("icon_update", self, "_icon_update", [unit])
+	unit.connect("update_icon", self, "_icon_update", [unit])
 	unit.call_deferred("update_icon")
 
 func create_structure_icon(struct):
 	for player in GameSession.all_players():
 		player.create_icon(struct, "StructureIcon")
 
-	struct.connect("icon_update", self, "_icon_update", [struct])
+	struct.connect("update_icon", self, "_icon_update", [struct])
 	struct.call_deferred("update_icon")
 
 func _icon_update(update_data, object):

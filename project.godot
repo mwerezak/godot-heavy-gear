@@ -18,6 +18,7 @@ config/icon="res://icons/structures/industrial1.png"
 
 GameData="*res://scripts/game/data/GameData.gd"
 GameSession="*res://scripts/GameSession.gd"
+GameState="*res://scripts/game/GameState.gd"
 Messages="*res://scripts/game/Messages.gd"
 
 [display]

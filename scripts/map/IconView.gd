@@ -3,7 +3,7 @@ extends Node2D
 const TerrainScatter = preload("res://scripts/terrain/TerrainScatter.gd")
 
 const ICON_TYPES = {
-	UnitIcon = preload("res://scripts/units/UnitIcon.gd"),
+	UnitIcon = preload("res://scripts/units/UnitIcon.tscn"),
 	StructureIcon = preload("res://scripts/structures/StructureIcon.gd"),
 }
 

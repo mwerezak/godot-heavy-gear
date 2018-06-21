@@ -82,7 +82,7 @@ func get_terrain_at_cell(grid_cell):
 	if _terrain_cache.has(grid_cell):
 		return _terrain_cache[grid_cell]
 	
-	var terrain_cell = get_terrain_cell(grid_cell)
+	var terrain_cell = world_coords.get_terrain_cell(grid_cell)
 	
 	var info = raw_terrain_info(terrain_cell)
 	if !info: return null

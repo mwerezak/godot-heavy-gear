@@ -1,6 +1,5 @@
 extends Node
 
-const GameState = preload("res://scripts/game/GameState.gd")
 const MapLoader = preload("res://scripts/map/MapLoader.gd")
 const WorldMap = preload("res://scripts/map/WorldMap.gd")
 const IconManager = preload("res://scripts/map/IconManager.gd")
@@ -10,26 +9,13 @@ export(PackedScene) var map_scene
 
 onready var world_coords = $WorldCoords
 
-var game_state
 var world_map
 var terrain_view #terrain view shared by all local players
 
 func _ready():
 	setup_server()
 
-	## setup local players' UI
-	for player in GameSession.all_players():
-		if player.has_node("PlayerUI"):
-			player.get_node("PlayerUI").setup_map_view(world_map)
-
 func setup_server():
-	game_state = GameState.new()
-	
-	## TODO this should be obtained from the game lobby once that's added
-	## for now just hardcode
-	game_state.add_player(GameSession.get_player("0"), { faction_id = "north" })
-	game_state.add_player(GameSession.get_player("1"), { faction_id = "south" })
-
 	Messages.system("Loading map...")
 	var map_loader = MapLoader.new(world_coords, map_scene)
 
@@ -48,7 +34,12 @@ func setup_server():
 	terrain_view.load_terrain(map_loader)
 	terrain_view.load_elevation(map_loader)
 
-	game_state.setup(world_map)
+	## TODO this should be obtained from the game lobby once that's added
+	## for now just hardcode
+	GameState.create_new_game(world_map)
+	GameState.current_game.create_side(GameSession.get_player("0"), { faction_id = "north" })
+	GameState.current_game.create_side(GameSession.get_player("1"), { faction_id = "south" })
+
 	Messages.system("Game setup complete.")
 
 	##TODO
@@ -60,5 +51,5 @@ func setup_server():
 	}), "context_return")
 
 	#Messages.system("Starting game...")
-	#game_state.start_game()
+	#game_state.run_game()
 

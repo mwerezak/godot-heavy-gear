@@ -15,11 +15,16 @@ var facing = 0 setget set_facing, get_facing
 var altitude = 0 setget set_altitude, get_altitude
 
 var faction setget set_faction, get_faction
-var player_owner setget set_player
+var owner_side setget set_side
 var unit_model setget set_unit_model
 var crew_info setget set_crew_info
 
 var world_map
+
+var uid #unqiue ID used to reference units remotely
+
+func _init():
+	uid = get_instance_id()
 
 func set_world_map(map):
 	world_map = map
@@ -54,16 +59,19 @@ func set_unit_model(model):
 func set_crew_info(crew):
 	crew_info = crew
 
-func set_player(new_owner):
-	var prev_owner = player_owner
+func set_side(new_owner):
+	var prev_owner = owner_side
 	if prev_owner != new_owner:
 		if prev_owner:
 			prev_owner.release_ownership(self)
 		if new_owner:
 			new_owner.take_ownership(self)
 
-		player_owner = new_owner
+		owner_side = new_owner
 		update_icon_appearance()
+
+func get_player_owner():
+	return owner_side.player if owner_side else null
 
 func set_faction(new_faction):
 	faction = new_faction
@@ -71,7 +79,7 @@ func set_faction(new_faction):
 
 func get_faction():
 	if faction: return faction
-	if player_owner: return player_owner.default_faction
+	if owner_side: return owner_side.default_faction
 
 ## not all units use facing. infantry, for example
 func has_facing():
@@ -123,29 +131,33 @@ func update_icon():
 	update_icon_facing()
 
 func update_icon_position():
+	if !world_map: return
+	
 	var icon_pos = world_map.unit_grid.axial_to_world(cell_position)
 	emit_signal("update_icon", { position = icon_pos })
 
 func update_icon_facing():
 	var update_data
 	if has_facing():
-		var icon_facing = HexUtils.dir2radians(facing)
+		var icon_facing = HexUtils.dir2rad(facing)
 		update_data = { has_facing = true, facing = icon_facing }
 	else:
 		update_data = { has_facing = false }
 	emit_signal("update_icon", update_data)
 
 func update_icon_appearance():
+	if !unit_model: return
+	
 	var primary_color = null
-	if player_owner:
-		primary_color = player_owner.primary_color
+	if owner_side:
+		primary_color = owner_side.primary_color
 	
 	var secondary_color = null
 	var faction = get_faction()
 	if faction:
 		secondary_color = faction.secondary_color
-	elif player_owner:
-		secondary_color = player_owner.primary_color
+	elif owner_side:
+		secondary_color = owner_side.primary_color
 	
 	var update_data = {
 		has_facing = has_facing(),

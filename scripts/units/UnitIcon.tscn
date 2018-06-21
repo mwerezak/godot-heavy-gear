@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/units/UnitIcon.gd" type="Script" id=1]
 [ext_resource path="res://scripts/units/NatoCounter.tscn" type="PackedScene" id=2]
-[ext_resource path="res://icons/units/counter.png" type="Texture" id=3]
-[ext_resource path="res://scripts/units/NatoCounter.gd" type="Script" id=4]
-[ext_resource path="res://icons/facing_marker_16.png" type="Texture" id=5]
-
+[ext_resource path="res://icons/facing_marker_16.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -37,7 +34,7 @@ func _draw_circle(center, radius, color, numpts=32):
 		points.push_back(point)
 	draw_colored_polygon(points, color, PoolVector2Array(), null, null, true)"
 
-[node name="UnitIcon" type="Node2D"]
+[node name="UnitIcon" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 
@@ -65,29 +62,20 @@ modulate = Color( 0.282353, 0.282353, 0.282353, 0.12549 )
 script = SubResource( 2 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="NatoCounter" type="Sprite" parent="." index="2" instance=ExtResource( 2 )]
-
-texture = ExtResource( 3 )
-script = ExtResource( 4 )
-_sections_unfolded = [ "Offset", "Visibility" ]
-symbol = "infantry"
-primary_color = Color( 1, 1, 1, 1 )
-secondary_color = null
-symbol_foreground_color = Color( 0, 0, 0, 1 )
-symbol_background_color = Color( 1, 1, 1, 1 )
+[node name="NatoCounter" parent="." index="2" instance=ExtResource( 2 )]
 
 [node name="Facing" type="Sprite" parent="." index="3"]
 
 visible = false
 modulate = Color( 0.792969, 0.173462, 0.173462, 0.862745 )
-texture = ExtResource( 5 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [node name="TempFacing" type="Sprite" parent="." index="4"]
 
 visible = false
 modulate = Color( 0.4, 0.901961, 0.282353, 0.862745 )
-texture = ExtResource( 5 )
+texture = ExtResource( 3 )
 _sections_unfolded = [ "Offset", "Transform", "Visibility" ]
 
 [connection signal="mouse_entered" from="MouseCatcher" to="." method="_on_mouse_entered"]

@@ -2,7 +2,6 @@ extends "ContextBase.gd"
 
 const Unit = preload("res://scripts/units/Unit.gd")
 const Crew = preload("res://scripts/units/Crew.gd")
-const GameState = preload("res://scripts/game/GameState.gd")
 
 onready var player_button = $HBoxContainer/PlayerButton
 onready var faction_button = $HBoxContainer/FactionButton
@@ -39,8 +38,7 @@ func _setup():
 		player_button.add_item(player.display_name, i)
 		players[i] = player
 
-	var game_state = GameState.get_instance(get_tree())
-	var active_player = game_state.get_active_player()
+	var active_player = GameState.current_game.get_active_player()
 	if active_player:
 		for i in players:
 			if players[i] == active_player:
@@ -51,13 +49,12 @@ func _player_button_item_selected(i):
 	_set_player_faction(i)
 
 func _set_player_faction(i):
-	var game_state = GameState.get_instance(get_tree())
-	if !game_state: return
-	
-	var player_data = game_state.get_player_data(players[i])
-	var faction_idx = faction_ids[player_data.default_faction.faction_id]
-	faction_button.select(faction_idx)
-	_faction_button_item_selected(faction_idx)
+	var player = players[i]
+	if GameState.current_game.has_player(player):
+		var force_side = GameState.current_game.get_player_side(player)
+		var faction_idx = faction_ids[force_side.default_faction.faction_id]
+		faction_button.select(faction_idx)
+		_faction_button_item_selected(faction_idx)
 
 func _faction_button_item_selected(i):
 	_update_model_list(i)
@@ -70,10 +67,16 @@ func _update_model_list(i):
 
 func cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
-		var spawn_unit = Unit.instance()
-		
+		_spawn_unit(world_map, cell_pos)
+
+func _spawn_unit(world_map, cell_pos):
+		var spawn_unit = Unit.new()
+
 		var player_idx = player_button.get_selected_id()
 		var player = players[player_idx]
+
+		var force_side = GameState.current_game.get_player_side(player)
+		if !force_side: return
 		
 		var faction_idx = faction_button.get_selected_id()
 		var faction = factions[faction_idx]
@@ -83,14 +86,13 @@ func cell_input(world_map, cell_pos, event):
 
 		spawn_unit.set_faction(faction)
 		spawn_unit.set_unit_model(unit_model)
-		
 		if !world_map.unit_can_place(spawn_unit, cell_pos):
 			spawn_unit.queue_free()
 		else:
 			var crew = Crew.new(faction, unit_model.get_default_crew())
 			spawn_unit.set_crew_info(crew)
 			
-			spawn_unit.set_player(player)
+			spawn_unit.set_side(force_side)
 			
 			spawn_unit.cell_position = cell_pos
 			world_map.add_unit(spawn_unit)

@@ -62,7 +62,7 @@ func _input(event):
 	if move_pos && (event.is_action_pressed("ui_accept") || event.is_action_pressed("ui_select")):
 		finalize_move()
 
-func cell_input(map, cell_pos, event):
+func cell_input(world_map, cell_pos, event):
 	if event.is_action_pressed("click_select"):
 		if !possible_moves.has(cell_pos) && event.doubleclick:
 			cancel_move() #double click outside possible moves to cancel

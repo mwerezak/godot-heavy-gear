@@ -1,12 +1,38 @@
 extends Reference
 
-const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
+#const UnitActivation = preload("res://scripts/units/UnitActivation.gd")
 
-signal end_turn
+class InitiativeGroup:
+	var turn
+	var player
+	var units
+
+	func _init(current_turn, player, units):
+		self.turn = current_turn
+		self.player = player
+		self.units = units.duplicate()
+
+	func get_ready_units():
+		var rval = []
+		for unit in units:
+			## TODO, count unfinished activations as well
+			if !turn.unit_activations.has(unit):
+				rval.push_back(unit)
+		return rval
+
+	func count_ready_units():
+		var count = 0
+		for unit in units:
+			## TODO, count unfinished activations as well
+			if !turn.unit_activations.has(unit):
+				count += 1
+		return count
+
+## GameTurn
 
 var turn_num
 var game_state 
-var initiative_queue
+var init_queue = []
 
 var active_player
 var unit_activations = {}
@@ -16,60 +42,46 @@ func _init(game_state, turn_num):
 	self.turn_num = turn_num
 
 func roll_initiative():
-	initiative_queue = []
-	for player_data in game_state.player_data.values():
-		## TODO command groups
-		if !player_data.owned_units.empty():
-			var initiative_group = {
-				player = player_data.player,
-				units = player_data.owned_units.duplicate(),
-			}
-			initiative_queue.push_back(initiative_group)
-
-
-func begin_turn():
-	Messages.global("* It is now Turn %d." % turn_num)
-	roll_initiative()
-	do_turn()
+	## create initiative groups and determine initiative order
+	init_queue.clear()
+	for side in game_state.side.values():
+		var init_group = InitiativeGroup.new(self, side.player, side.owned_units)
+		if init_group.count_ready_units() > 0:
+			init_queue.push_back(init_group)
 
 func do_turn():
-	## set number of activations for each group
-	for init_group in initiative_queue:
-		init_group.activations = init_group.units.size()
+	Messages.global("* It is now Turn %d." % turn_num)
+	roll_initiative()
 
-	while !initiative_queue.empty():
-		var next_group = initiative_queue.pop_front()
+	## Activation Phase
+	
+	while !init_queue.empty():
+		## consider the next group at the front of the queue
+		var next_group = init_queue.pop_front()
 
-		## count the number of activations of all other initiative groups
-		var other_activations = 0
-		for other_group in initiative_queue:
-			other_activations += other_group.activations
+		## for each group in the queue, activate once, then continue activating as long as 
+		## that group has >= twice the number of ready units as all other groups
+		var other_ready = 0
+		for other_group in init_queue:
+			other_ready += other_group.count_ready_units()
 
 		var i = 0
-		active_player = next_group.player
-		while next_group.activations > 0 && (i == 0 || next_group.activations >= 2*other_activations):
+		while i == 0 || next_group.count_ready_units() >= 2*other_ready:
 			i += 1
+			yield(activate_group(next_group), "complete")
 
-			var activate_units = []
-			for unit in next_group.units:
-				if can_activate(unit):
-					activate_units.push_back(unit)
+		## replace the group back at the end of the queue as long as it has ready units left
+		if next_group.count_ready_units() > 0:
+			init_queue.push_back(next_group)
 
-			if activate_units.empty():
-				next_group.activations = 0
-				break
-
-			active_player.activation_turn(self, activate_units)
-			yield(active_player, "pass_turn")
-			next_group.activations -= 1
-
-		active_player = null
-		if next_group.activations > 0:
-			initiative_queue.push_back(next_group)
-
-	emit_signal("end_turn")
+func activate_group(init_group):
+	var ready_units = init_group.get_ready_units()
+	var handler = init_group.player.get_unit_activation_handler()
+	var next_unit = yield(handler.next_active_unit(ready_units), "complete")
 
 
+
+"""
 func can_activate(unit):
 	return !unit_activations.has(unit) ## stub
 
@@ -77,3 +89,5 @@ func activate_unit(unit):
 	if !unit_activations.has(unit):
 		unit_activations[unit] = UnitActivation.new(unit)
 	return unit_activations[unit]
+"""
+

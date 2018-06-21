@@ -1,7 +1,5 @@
 extends Node
 
-const GameState = preload("res://scripts/game/GameState.gd")
-const PlayerActivation = preload("res://scripts/game/PlayerActivation.gd")
 const PlayerUI = preload("res://scripts/gui/PlayerUI.tscn")
 
 var id setget set_id
@@ -14,6 +12,10 @@ func set_id(new_id):
 
 func _ready():
 	gui.hide()
+	GameState.connect("new_game", self, "_setup", [], CONNECT_ONESHOT)
+
+func _setup():
+	gui.setup_map_view(GameState.current_game.world_map)
 
 ## Forward icon view updates to gui
 ## TODO icon_id -> object conversion
@@ -26,12 +28,9 @@ func update_icon(icon_id, update_data):
 func delete_icon(icon_id):
 	gui.icon_view.delete_icon(icon_id)
 
-func render_message(node, handler = null):
-	gui.message_panel.append(node, handler)
+func render_message(node, message_handler = null):
+	gui.message_panel.append(node, message_handler)
 
-func activation_turn(ready_units):
-	var game_state = GameState.get_instance(get_tree())
-	var activation = PlayerActivation.new(self, game_state.current_turn, ready_units)
-	gui.show()
-
-	var active_unit = activation.next_active_unit()
+## temp
+func get_unit_activation_handler():
+	return preload("res://scripts/game/player_handlers/UnitActivation.gd").new(self)
