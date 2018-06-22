@@ -17,12 +17,12 @@ func _ready():
 func _update_offset():
 	offset = Vector2(0, -texture.get_size().y)
 
-func update(struct_intel):
-	if struct_intel.structure_type:
-		var struct_info = GameData.get_structure_info(struct_intel.structure_type)
+func update(data):
+	if data.has("structure_type"):
+		var struct_info = GameData.get_structure_info(data.structure_type)
 		_position_offset = struct_info.position_offset
 		set_texture(struct_info.texture)
 
-	if struct_intel.draw_position:
-		position = struct_intel.draw_position + _position_offset
+	if data.has("draw_position"):
+		position = data.draw_position + _position_offset
 

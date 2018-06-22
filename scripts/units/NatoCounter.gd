@@ -1,6 +1,6 @@
 extends Sprite
 
-export(String) var symbol = "infantry" setget set_symbol
+export(String) var symbol = "unknown" setget set_symbol
 export(Color) var primary_color = Color("#ffffff") setget set_primary_color
 export(Color) var secondary_color = null setget set_secondary_color
 export(Color) var symbol_foreground_color = Color("#000000") setget set_symbol_foreground_color

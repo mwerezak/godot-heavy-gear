@@ -33,8 +33,8 @@ func delete_icon(icon_id):
 	gui.icon_view.delete_icon(icon_id)
 """
 
-func update_view(object_intel):
-	gui.icon_view.update_icon(object_intel)
+func update_view(update_data):
+	gui.icon_view.update_icon(update_data.object_id, update_data.object_type, update_data.update_data)
 
 ## temp
 func get_unit_activation_handler():

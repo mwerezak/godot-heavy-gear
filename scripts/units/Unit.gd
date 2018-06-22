@@ -22,10 +22,10 @@ var crew_info setget set_crew_info
 
 var world_map
 
-var oid #unqiue ID used to reference units remotely
+var object_id #unqiue ID used to reference units remotely
 
 func _init():
-	oid = get_instance_id()
+	object_id = get_instance_id()
 
 func set_world_map(map):
 	world_map = map
@@ -124,9 +124,6 @@ func max_action_points():
 
 func max_movement_points():
 	return unit_model.max_movement_points()
-
-func create_blank_intel():
-	return UnitIntel.new(oid)
 
 ## icon updates
 func update_icon():

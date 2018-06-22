@@ -4,26 +4,21 @@ const UnitIcon = preload("res://scripts/units/UnitIcon.tscn")
 const StructureIcon = preload("res://scripts/structures/StructureIcon.gd")
 const TerrainScatter = preload("res://scripts/terrain/TerrainScatter.gd")
 
-const UnitIntel = preload("res://scripts/units/UnitIntel.gd")
-const StructureIntel = preload("res://scripts/structures/StructureIntel.gd")
-
+const OBJECT_ICON_TYPES = {
+	preload("res://scripts/units/Unit.gd"): UnitIcon,
+	preload("res://scripts/structures/Structure.gd"): StructureIcon
+}
 
 var object_icons = {}
 var scatter_icons = []
 
-func update_icon(object_intel):
-	var oid = object_intel.get_object_id()
-	if !object_icons.has(oid):
-		var icon = _create_icon(object_intel)
-		object_icons[oid] = icon
+func update_icon(object_id, object_type, update_data):
+	if !object_icons.has(object_id):
+		var icon_type = OBJECT_ICON_TYPES[object_type]
+		var icon = icon_type.instance() if icon_type is PackedScene else icon_type.new()
+		object_icons[object_id] = icon
 		add_child(icon)
-	object_icons[oid].update(object_intel)
-
-func _create_icon(object_intel):
-	if object_intel is StructureIntel:
-		return StructureIcon.new()
-	if object_intel is UnitIntel:
-		return UnitIcon.instance()
+	object_icons[object_id].update(update_data)
 
 func create_scatter_icons(scatters):
 	for scatter_data in scatters:

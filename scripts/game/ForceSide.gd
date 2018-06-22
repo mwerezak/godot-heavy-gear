@@ -1,5 +1,7 @@
 extends Node
 
+const ObjectIntel = preload("ObjectIntel.gd")
+
 var game_state
 
 ## color overrides, otherwise default_faction is used for colors
@@ -42,11 +44,24 @@ func get_units():
 func set_intel_level(seen_object, new_level):
 	var old_level = get_intel_level(seen_object)
 	if new_level != old_level:
+		var intel
+		var update_data
 		if !object_intel.has(seen_object):
-			object_intel[seen_object] = seen_object.create_blank_intel()
-		var intel = object_intel[seen_object]
-		intel.update(seen_object, new_level)
-		player.update_view(intel)
+			intel = ObjectIntel.create_intel(seen_object, new_level)
+			object_intel[seen_object] = intel
+			update_data = intel.get_data()
+		else:
+			intel = object_intel[seen_object]
+			update_data = intel.get_update_delta(seen_object, new_level)
+			intel.apply_delta(update_data)
+			intel.set_intel_level(new_level)
+		
+		player.update_view({
+			object_id = intel.object_id,
+			object_type = intel.object_type,
+			intel_level = intel.intel_level,
+			update_data = update_data,
+		})
 
 func get_intel_level(seen_object):
 	if !object_intel.has(seen_object):

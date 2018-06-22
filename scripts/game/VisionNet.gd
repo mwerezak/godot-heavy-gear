@@ -1,11 +1,6 @@
 extends Reference
 
-enum IntelLevel {
-	HIDDEN = 0,
-	UNIDENT,
-	OBSERVED,
-	FULL,
-}
+const ObjectIntel = preload("res://scripts/game/ObjectIntel.gd")
 
 ## bitflag? e.g. sensor type
 enum Contact {
@@ -108,10 +103,10 @@ func get_overall_contact(force_side, seen_object):
 func update_intel_level(force_side, seen_object):
 	var contact_level = get_overall_contact(force_side, seen_object)
 
-	var intel_level = IntelLevel.HIDDEN
+	var intel_level = ObjectIntel.LEVEL_HIDDEN
 	if contact_level & Contact.COMMAND:
-		intel_level = IntelLevel.FULL
+		intel_level = ObjectIntel.LEVEL_FULL
 	elif contact_level > Contact.NONE:
-		intel_level = IntelLevel.OBSERVED
+		intel_level = ObjectIntel.LEVEL_OBSERVED
 
 	force_side.set_intel_level(seen_object, intel_level)

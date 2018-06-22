@@ -7,7 +7,7 @@ const FOOTPRINT_RADIUS = 24 #pixels
 
 ## colors for ownerless units
 const DEFAULT_PRIMARY_COLOR = Color(0.8, 0.8, 0.8)
-const DEFAULT_SECONDARY_COLOR = Color(0.6, 0.6, 0.6)
+const DEFAULT_SECONDARY_COLOR = Color(0.7, 0.7, 0.7)
 
 var temp_facing_enabled = false setget set_temp_facing_enabled
 
@@ -27,6 +27,10 @@ func _ready():
 	z_as_relative = false
 	z_index = Constants.UNIT_MARKER_ZLAYER
 	set_footprint_radius(FOOTPRINT_RADIUS)
+
+	self.unit_symbol = "unknown"
+	self.primary_color = DEFAULT_PRIMARY_COLOR
+	self.secondary_color = DEFAULT_SECONDARY_COLOR
 
 var has_mouse = false
 func _on_mouse_entered():
@@ -90,23 +94,23 @@ func set_temp_facing_enabled(enabled):
 	else:
 		temp_facing.hide()
 
-func update(unit_intel):
-	if unit_intel.unit_model:
-		var unit_model = GameData.get_unit_model(unit_intel.unit_model)
+func update(data):
+	if data.has("unit_model"):
+		var unit_model = GameData.get_unit_model(data.unit_model)
 		self.show_facing = unit_model.use_facing()
 		self.unit_symbol = unit_model.desc.symbol
 
-	if unit_intel.owner_side:
-		self.primary_color = unit_intel.owner_side.primary_color
+	if data.has("owner_side"):
+		self.primary_color = data.owner_side.primary_color
 	
-	if unit_intel.faction:
-		var faction = GameData.get_faction(unit_intel.faction)
+	if data.has("faction"):
+		var faction = GameData.get_faction(data.faction)
 		self.secondary_color = faction.secondary_color
-	elif unit_intel.owner_side:
-		self.secondary_color = unit_intel.owner_side.primary_color
+	elif data.has("owner_side"):
+		self.secondary_color = data.owner_side.primary_color
 
-	if unit_intel.draw_position:
-		self.position = unit_intel.draw_position
+	if data.has("draw_position"):
+		self.position = data.draw_position
 
-	if unit_intel.facing && show_facing:
-		self.facing = HexUtils.dir2rad(unit_intel.facing)
+	if data.has("facing") && show_facing:
+		self.facing = HexUtils.dir2rad(data.facing)

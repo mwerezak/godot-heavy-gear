@@ -6,6 +6,7 @@ const UnitModel = preload("UnitModel.gd")
 
 ## NATO symbol textures
 const NATO_SYMBOLS = {
+	unknown = preload("res://icons/units/unknown.png"),
 	infantry = preload("res://icons/units/infantry.png"),
 	wheeled_apc = preload("res://icons/units/wheeled_apc.png"),
 	tank = preload("res://icons/units/tank.png"),
