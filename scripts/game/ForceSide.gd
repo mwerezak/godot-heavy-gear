@@ -33,7 +33,12 @@ func get_secondary_color():
 	return secondary_color if secondary_color else default_faction.secondary_color
 
 func take_ownership(unit):
-	owned_units[unit] = true
+	var prev_owner = unit.owner_side
+	if prev_owner != self:
+		if prev_owner:
+			prev_owner.release_ownership(self)
+		unit.set_side(self)
+		owned_units[unit] = true
 
 func release_ownership(unit):
 	owned_units.erase(unit)

@@ -61,15 +61,8 @@ func set_crew_info(crew):
 	crew_info = crew
 
 func set_side(new_owner):
-	var prev_owner = owner_side
-	if prev_owner != new_owner:
-		if prev_owner:
-			prev_owner.release_ownership(self)
-		if new_owner:
-			new_owner.take_ownership(self)
-
-		owner_side = new_owner
-		update_icon_appearance()
+	owner_side = new_owner
+	update_icon_appearance()
 
 func get_player_owner():
 	return owner_side.player if owner_side else null
